@@ -1,0 +1,1127 @@
+[
+  {
+    "id": "role-legal-compliance-lead",
+    "name": "Legal Compliance Manager",
+    "requiredQualifications": ["qual-law-degree", "qual-compliance-certification", "qual-5y-compliance-exp"]
+  },
+  {
+    "id": "role-legal-compliance-specialist",
+    "name": "Legal Compliance Specialist",
+    "requiredQualifications": ["qual-law-degree", "qual-3y-compliance-exp"]
+  },
+  {
+    "id": "role-compliance-analyst",
+    "name": "Compliance Analyst",
+    "requiredQualifications": ["qual-business-admin", "qual-compliance-basics"]
+  },
+  {
+    "id": "role-compliance-coordinator",
+    "name": "Compliance Coordinator",
+    "requiredQualifications": ["qual-project-management", "qual-documentation-skills"]
+  },
+  {
+    "id": "role-data-protection-lead",
+    "name": "Data Protection Officer",
+    "requiredQualifications": ["qual-gdpr-certification", "qual-information-security", "qual-7y-data-protection-exp"]
+  },
+  {
+    "id": "role-data-protection-specialist",
+    "name": "Data Protection Specialist",
+    "requiredQualifications": ["qual-privacy-law-knowledge", "qual-3y-data-protection-exp"]
+  },
+  {
+    "id": "role-data-security-analyst",
+    "name": "Data Security Analyst",
+    "requiredQualifications": ["qual-it-security-cert", "qual-risk-assessment"]
+  },
+  {
+    "id": "role-privacy-compliance-officer",
+    "name": "Privacy Compliance Officer",
+    "requiredQualifications": ["qual-legal-background", "qual-documentation-skills"]
+  },
+  {
+    "id": "role-regulatory-audit-lead",
+    "name": "Regulatory Audit Manager",
+    "requiredQualifications": ["qual-cpa", "qual-regulatory-framework-knowledge", "qual-8y-audit-exp"]
+  },
+  {
+    "id": "role-regulatory-auditor",
+    "name": "Regulatory Auditor",
+    "requiredQualifications": ["qual-accounting-degree", "qual-auditing-cert"]
+  },
+  {
+    "id": "role-compliance-reviewer",
+    "name": "Compliance Reviewer",
+    "requiredQualifications": ["qual-regulatory-knowledge", "qual-analytical-skills"]
+  },
+  {
+    "id": "role-audit-documentation-specialist",
+    "name": "Audit Documentation Specialist",
+    "requiredQualifications": ["qual-documentation-management", "qual-audit-knowledge"]
+  },
+  {
+    "id": "role-corporate-strategy-lead",
+    "name": "Head of Corporate Strategy",
+    "requiredQualifications": ["qual-mba", "qual-strategic-management", "qual-10y-strategy-exp"]
+  },
+  {
+    "id": "role-strategy-consultant",
+    "name": "Strategy Consultant",
+    "requiredQualifications": ["qual-business-degree", "qual-5y-consulting-exp"]
+  },
+  {
+    "id": "role-business-analyst",
+    "name": "Business Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-business-intelligence"]
+  },
+  {
+    "id": "role-portfolio-manager",
+    "name": "Portfolio Manager",
+    "requiredQualifications": ["qual-investment-analysis", "qual-project-portfolio-management"]
+  },
+  {
+    "id": "role-market-analysis-lead",
+    "name": "Market Analysis Director",
+    "requiredQualifications": ["qual-economics-degree", "qual-market-research-cert", "qual-8y-analysis-exp"]
+  },
+  {
+    "id": "role-market-researcher",
+    "name": "Market Researcher",
+    "requiredQualifications": ["qual-research-methods", "qual-statistical-analysis"]
+  },
+  {
+    "id": "role-competitive-analyst",
+    "name": "Competitive Intelligence Analyst",
+    "requiredQualifications": ["qual-business-intelligence", "qual-industry-knowledge"]
+  },
+  {
+    "id": "role-data-scientist",
+    "name": "Market Data Scientist",
+    "requiredQualifications": ["qual-data-science-degree", "qual-advanced-statistics"]
+  },
+  {
+    "id": "role-innovation-lead",
+    "name": "Innovation Director",
+    "requiredQualifications": ["qual-innovation-management", "qual-design-thinking", "qual-7y-innovation-exp"]
+  },
+  {
+    "id": "role-product-innovator",
+    "name": "Product Innovation Specialist",
+    "requiredQualifications": ["qual-product-development", "qual-creative-problem-solving"]
+  },
+  {
+    "id": "role-growth-strategist",
+    "name": "Growth Strategist",
+    "requiredQualifications": ["qual-business-development", "qual-market-expansion"]
+  },
+  {
+    "id": "role-innovation-researcher",
+    "name": "Innovation Researcher",
+    "requiredQualifications": ["qual-research-methods", "qual-trend-analysis"]
+  },
+  {
+    "id": "role-financial-audit-lead",
+    "name": "Financial Audit Manager",
+    "requiredQualifications": ["qual-cpa", "qual-financial-reporting", "qual-8y-audit-exp"]
+  },
+  {
+    "id": "role-senior-auditor",
+    "name": "Senior Financial Auditor",
+    "requiredQualifications": ["qual-accounting-degree", "qual-5y-audit-exp"]
+  },
+  {
+    "id": "role-junior-auditor",
+    "name": "Junior Financial Auditor",
+    "requiredQualifications": ["qual-accounting-degree", "qual-audit-basics"]
+  },
+  {
+    "id": "role-audit-data-analyst",
+    "name": "Audit Data Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-financial-software"]
+  },
+  {
+    "id": "role-process-audit-lead",
+    "name": "Process Audit Manager",
+    "requiredQualifications": ["qual-process-management", "qual-six-sigma-black-belt", "qual-7y-audit-exp"]
+  },
+  {
+    "id": "role-process-auditor",
+    "name": "Process Auditor",
+    "requiredQualifications": ["qual-business-process-analysis", "qual-lean-management"]
+  },
+  {
+    "id": "role-efficiency-analyst",
+    "name": "Efficiency Analyst",
+    "requiredQualifications": ["qual-operations-research", "qual-process-optimization"]
+  },
+  {
+    "id": "role-workflow-specialist",
+    "name": "Workflow Documentation Specialist",
+    "requiredQualifications": ["qual-process-modeling", "qual-documentation-skills"]
+  },
+  {
+    "id": "role-risk-assessment-lead",
+    "name": "Risk Assessment Manager",
+    "requiredQualifications": ["qual-risk-management-cert", "qual-finance-degree", "qual-8y-risk-management-exp"]
+  },
+  {
+    "id": "role-risk-analyst",
+    "name": "Risk Analyst",
+    "requiredQualifications": ["qual-risk-analysis", "qual-statistical-methods"]
+  },
+  {
+    "id": "role-compliance-risk-specialist",
+    "name": "Compliance Risk Specialist",
+    "requiredQualifications": ["qual-compliance-knowledge", "qual-regulatory-framework"]
+  },
+  {
+    "id": "role-risk-modeling-expert",
+    "name": "Risk Modeling Expert",
+    "requiredQualifications": ["qual-financial-modeling", "qual-quantitative-analysis"]
+  },
+  {
+    "id": "role-general-ledger-lead",
+    "name": "General Ledger Manager",
+    "requiredQualifications": ["qual-accounting-degree", "qual-ifrs-knowledge", "qual-7y-accounting-exp"]
+  },
+  {
+    "id": "role-senior-accountant",
+    "name": "Senior Accountant",
+    "requiredQualifications": ["qual-accounting-degree", "qual-5y-accounting-exp"]
+  },
+  {
+    "id": "role-junior-accountant",
+    "name": "Junior Accountant",
+    "requiredQualifications": ["qual-accounting-basics", "qual-excel-skills"]
+  },
+  {
+    "id": "role-reconciliation-specialist",
+    "name": "Reconciliation Specialist",
+    "requiredQualifications": ["qual-accounting-knowledge", "qual-attention-to-detail"]
+  },
+  {
+    "id": "role-accounts-payable-lead",
+    "name": "Accounts Payable Manager",
+    "requiredQualifications": ["qual-accounting-degree", "qual-ap-process-knowledge", "qual-5y-ap-exp"]
+  },
+  {
+    "id": "role-ap-specialist",
+    "name": "Accounts Payable Specialist",
+    "requiredQualifications": ["qual-accounting-knowledge", "qual-erp-systems"]
+  },
+  {
+    "id": "role-vendor-coordinator",
+    "name": "Vendor Coordinator",
+    "requiredQualifications": ["qual-vendor-management", "qual-negotiation-skills"]
+  },
+  {
+    "id": "role-payment-processor",
+    "name": "Payment Processor",
+    "requiredQualifications": ["qual-payment-systems", "qual-data-entry-accuracy"]
+  },
+  {
+    "id": "role-accounts-receivable-lead",
+    "name": "Accounts Receivable Manager",
+    "requiredQualifications": ["qual-accounting-degree", "qual-ar-process-knowledge", "qual-5y-ar-exp"]
+  },
+  {
+    "id": "role-ar-specialist",
+    "name": "Accounts Receivable Specialist",
+    "requiredQualifications": ["qual-accounting-knowledge", "qual-billing-systems"]
+  },
+  {
+    "id": "role-credit-controller",
+    "name": "Credit Controller",
+    "requiredQualifications": ["qual-credit-management", "qual-customer-communication"]
+  },
+  {
+    "id": "role-billing-coordinator",
+    "name": "Billing Coordinator",
+    "requiredQualifications": ["qual-invoicing-knowledge", "qual-attention-to-detail"]
+  },
+  {
+    "id": "role-internal-logistics-lead",
+    "name": "Internal Logistics Manager",
+    "requiredQualifications": ["qual-logistics-management", "qual-supply-chain-cert", "qual-6y-logistics-exp"]
+  },
+  {
+    "id": "role-warehouse-coordinator",
+    "name": "Warehouse Coordinator",
+    "requiredQualifications": ["qual-warehouse-management", "qual-inventory-control"]
+  },
+  {
+    "id": "role-material-handler",
+    "name": "Material Handler",
+    "requiredQualifications": ["qual-forklift-license", "qual-safety-training"]
+  },
+  {
+    "id": "role-inventory-specialist",
+    "name": "Inventory Specialist",
+    "requiredQualifications": ["qual-inventory-systems", "qual-data-accuracy"]
+  },
+  {
+    "id": "role-equipment-dispatch-lead",
+    "name": "Equipment Dispatch Manager",
+    "requiredQualifications": ["qual-fleet-management", "qual-resource-planning", "qual-5y-dispatch-exp"]
+  },
+  {
+    "id": "role-dispatcher",
+    "name": "Equipment Dispatcher",
+    "requiredQualifications": ["qual-dispatch-systems", "qual-coordination-skills"]
+  },
+  {
+    "id": "role-equipment-tracker",
+    "name": "Equipment Tracking Specialist",
+    "requiredQualifications": ["qual-asset-tracking", "qual-database-management"]
+  },
+  {
+    "id": "role-fleet-coordinator",
+    "name": "Fleet Coordinator",
+    "requiredQualifications": ["qual-fleet-maintenance", "qual-scheduling-skills"]
+  },
+  {
+    "id": "role-logistics-planning-lead",
+    "name": "Logistics Planning Manager",
+    "requiredQualifications": ["qual-logistics-degree", "qual-advanced-planning", "qual-7y-planning-exp"]
+  },
+  {
+    "id": "role-logistics-analyst",
+    "name": "Logistics Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-supply-chain-knowledge"]
+  },
+  {
+    "id": "role-route-planner",
+    "name": "Route Planning Specialist",
+    "requiredQualifications": ["qual-routing-software", "qual-geographical-knowledge"]
+  },
+  {
+    "id": "role-capacity-planner",
+    "name": "Capacity Planning Specialist",
+    "requiredQualifications": ["qual-resource-planning", "qual-forecasting"]
+  },
+  {
+    "id": "role-cost-controlling-lead",
+    "name": "Cost Controlling Manager",
+    "requiredQualifications": ["qual-finance-degree", "qual-cost-accounting", "qual-7y-controlling-exp"]
+  },
+  {
+    "id": "role-cost-analyst",
+    "name": "Cost Analyst",
+    "requiredQualifications": ["qual-cost-analysis", "qual-financial-modeling"]
+  },
+  {
+    "id": "role-variance-analyst",
+    "name": "Variance Analyst",
+    "requiredQualifications": ["qual-variance-analysis", "qual-forecasting"]
+  },
+  {
+    "id": "role-cost-reporting-specialist",
+    "name": "Cost Reporting Specialist",
+    "requiredQualifications": ["qual-reporting-tools", "qual-data-visualization"]
+  },
+  {
+    "id": "role-budget-analysis-lead",
+    "name": "Budget Analysis Manager",
+    "requiredQualifications": ["qual-finance-degree", "qual-budget-management", "qual-6y-budgeting-exp"]
+  },
+  {
+    "id": "role-budget-analyst",
+    "name": "Budget Analyst",
+    "requiredQualifications": ["qual-financial-analysis", "qual-budgeting-tools"]
+  },
+  {
+    "id": "role-forecast-specialist",
+    "name": "Forecast Specialist",
+    "requiredQualifications": ["qual-forecasting-methods", "qual-statistical-analysis"]
+  },
+  {
+    "id": "role-financial-planner",
+    "name": "Financial Planning Analyst",
+    "requiredQualifications": ["qual-financial-planning", "qual-scenario-modeling"]
+  },
+  {
+    "id": "role-kpi-monitoring-lead",
+    "name": "KPI Monitoring Manager",
+    "requiredQualifications": ["qual-business-intelligence", "qual-performance-management", "qual-6y-kpi-exp"]
+  },
+  {
+    "id": "role-kpi-analyst",
+    "name": "KPI Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-dashboard-development"]
+  },
+  {
+    "id": "role-performance-specialist",
+    "name": "Performance Metrics Specialist",
+    "requiredQualifications": ["qual-metrics-design", "qual-statistical-methods"]
+  },
+  {
+    "id": "role-reporting-expert",
+    "name": "Reporting Expert",
+    "requiredQualifications": ["qual-reporting-tools", "qual-data-visualization"]
+  },
+  {
+    "id": "role-candidate-sourcing-lead",
+    "name": "Candidate Sourcing Manager",
+    "requiredQualifications": ["qual-hr-degree", "qual-talent-acquisition", "qual-6y-recruiting-exp"]
+  },
+  {
+    "id": "role-talent-scout",
+    "name": "Talent Scout",
+    "requiredQualifications": ["qual-networking-skills", "qual-candidate-assessment"]
+  },
+  {
+    "id": "role-social-media-recruiter",
+    "name": "Social Media Recruiter",
+    "requiredQualifications": ["qual-social-media-recruiting", "qual-employer-branding"]
+  },
+  {
+    "id": "role-search-specialist",
+    "name": "Candidate Search Specialist",
+    "requiredQualifications": ["qual-database-management", "qual-boolean-search"]
+  },
+  {
+    "id": "role-application-management-lead",
+    "name": "Application Management Manager",
+    "requiredQualifications": ["qual-hr-degree", "qual-recruiting-processes", "qual-5y-application-exp"]
+  },
+  {
+    "id": "role-application-processor",
+    "name": "Application Processor",
+    "requiredQualifications": ["qual-ats-systems", "qual-documentation-skills"]
+  },
+  {
+    "id": "role-interview-coordinator",
+    "name": "Interview Coordinator",
+    "requiredQualifications": ["qual-scheduling", "qual-communication-skills"]
+  },
+  {
+    "id": "role-candidate-experience-specialist",
+    "name": "Candidate Experience Specialist",
+    "requiredQualifications": ["qual-customer-service", "qual-employer-branding"]
+  },
+  {
+    "id": "role-training-programs-lead",
+    "name": "Training Programs Manager",
+    "requiredQualifications": ["qual-learning-development", "qual-instructional-design", "qual-7y-training-exp"]
+  },
+  {
+    "id": "role-training-developer",
+    "name": "Training Developer",
+    "requiredQualifications": ["qual-curriculum-design", "qual-e-learning"]
+  },
+  {
+    "id": "role-training-coordinator",
+    "name": "Training Coordinator",
+    "requiredQualifications": ["qual-event-management", "qual-scheduling"]
+  },
+  {
+    "id": "role-training-evaluator",
+    "name": "Training Evaluation Specialist",
+    "requiredQualifications": ["qual-evaluation-methods", "qual-data-analysis"]
+  },
+  {
+    "id": "role-leadership-development-lead",
+    "name": "Leadership Development Manager",
+    "requiredQualifications": ["qual-management-development", "qual-coaching-cert", "qual-8y-leadership-exp"]
+  },
+  {
+    "id": "role-leadership-coach",
+    "name": "Leadership Coach",
+    "requiredQualifications": ["qual-coaching-cert", "qual-leadership-theory"]
+  },
+  {
+    "id": "role-talent-developer",
+    "name": "Talent Development Specialist",
+    "requiredQualifications": ["qual-talent-management", "qual-succession-planning"]
+  },
+  {
+    "id": "role-management-trainer",
+    "name": "Management Trainer",
+    "requiredQualifications": ["qual-training-skills", "qual-management-knowledge"]
+  },
+  {
+    "id": "role-performance-evaluation-lead",
+    "name": "Performance Evaluation Manager",
+    "requiredQualifications": ["qual-hr-degree", "qual-performance-management", "qual-6y-evaluation-exp"]
+  },
+  {
+    "id": "role-evaluation-specialist",
+    "name": "Evaluation System Specialist",
+    "requiredQualifications": ["qual-assessment-design", "qual-hr-software"]
+  },
+  {
+    "id": "role-feedback-facilitator",
+    "name": "Feedback Process Facilitator",
+    "requiredQualifications": ["qual-feedback-methods", "qual-communication-skills"]
+  },
+  {
+    "id": "role-performance-analyst",
+    "name": "Performance Data Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-hr-metrics"]
+  },
+  {
+    "id": "role-salary-processing-lead",
+    "name": "Salary Processing Manager",
+    "requiredQualifications": ["qual-payroll-certification", "qual-accounting-knowledge", "qual-6y-payroll-exp"]
+  },
+  {
+    "id": "role-payroll-specialist",
+    "name": "Payroll Specialist",
+    "requiredQualifications": ["qual-payroll-systems", "qual-calculation-skills"]
+  },
+  {
+    "id": "role-benefits-administrator",
+    "name": "Benefits Administrator",
+    "requiredQualifications": ["qual-benefits-management", "qual-hr-regulations"]
+  },
+  {
+    "id": "role-compensation-analyst",
+    "name": "Compensation Analyst",
+    "requiredQualifications": ["qual-compensation-structures", "qual-market-analysis"]
+  },
+  {
+    "id": "role-tax-compliance-lead",
+    "name": "Payroll Tax Compliance Manager",
+    "requiredQualifications": ["qual-tax-certification", "qual-payroll-law", "qual-7y-tax-exp"]
+  },
+  {
+    "id": "role-tax-specialist",
+    "name": "Payroll Tax Specialist",
+    "requiredQualifications": ["qual-tax-regulations", "qual-accounting-knowledge"]
+  },
+  {
+    "id": "role-tax-filing-coordinator",
+    "name": "Tax Filing Coordinator",
+    "requiredQualifications": ["qual-tax-filing", "qual-deadline-management"]
+  },
+  {
+    "id": "role-tax-auditor",
+    "name": "Payroll Tax Auditor",
+    "requiredQualifications": ["qual-auditing-skills", "qual-tax-law"]
+  },
+  {
+    "id": "role-hr-documentation-lead",
+    "name": "HR Documentation Manager",
+    "requiredQualifications": ["qual-records-management", "qual-hr-compliance", "qual-5y-documentation-exp"]
+  },
+  {
+    "id": "role-document-specialist",
+    "name": "HR Document Specialist",
+    "requiredQualifications": ["qual-document-processing", "qual-data-entry"]
+  },
+  {
+    "id": "role-archive-coordinator",
+    "name": "HR Archive Coordinator",
+    "requiredQualifications": ["qual-archiving-systems", "qual-information-management"]
+  },
+  {
+    "id": "role-compliance-documenter",
+    "name": "HR Compliance Documentation Specialist",
+    "requiredQualifications": ["qual-hr-compliance", "qual-legal-knowledge"]
+  },
+  {
+    "id": "role-onboarding-lead",
+    "name": "Onboarding Manager",
+    "requiredQualifications": ["qual-hr-degree", "qual-onboarding-processes", "qual-5y-hr-exp"]
+  },
+  {
+    "id": "role-onboarding-coordinator",
+    "name": "Onboarding Coordinator",
+    "requiredQualifications": ["qual-process-management", "qual-communication-skills"]
+  },
+  {
+    "id": "role-orientation-specialist",
+    "name": "New Employee Orientation Specialist",
+    "requiredQualifications": ["qual-training-skills", "qual-presentation-abilities"]
+  },
+  {
+    "id": "role-integration-facilitator",
+    "name": "Employee Integration Facilitator",
+    "requiredQualifications": ["qual-hr-knowledge", "qual-interpersonal-skills"]
+  },
+  {
+    "id": "role-employee-data-lead",
+    "name": "Employee Data Management Manager",
+    "requiredQualifications": ["qual-hr-data-management", "qual-hr-systems", "qual-6y-data-management-exp"]
+  },
+  {
+    "id": "role-hris-specialist",
+    "name": "HRIS Specialist",
+    "requiredQualifications": ["qual-hris-systems", "qual-data-integrity"]
+  },
+  {
+    "id": "role-data-entry-coordinator",
+    "name": "HR Data Entry Coordinator",
+    "requiredQualifications": ["qual-data-entry", "qual-attention-to-detail"]
+  },
+  {
+    "id": "role-hr-reporting-analyst",
+    "name": "HR Reporting Analyst",
+    "requiredQualifications": ["qual-data-analysis", "qual-reporting-tools"]
+  },
+  {
+    "id": "role-network-admin-lead",
+    "name": "Network Administration Manager",
+    "requiredQualifications": ["qual-ccnp", "qual-network-architecture", "qual-8y-network-exp"]
+  },
+  {
+    "id": "role-network-engineer",
+    "name": "Network Engineer",
+    "requiredQualifications": ["qual-ccna", "qual-network-protocols"]
+  },
+  {
+    "id": "role-network-technician",
+    "name": "Network Technician",
+    "requiredQualifications": ["qual-network-troubleshooting", "qual-hardware-knowledge"]
+  },
+  {
+    "id": "role-connectivity-specialist",
+    "name": "Connectivity Specialist",
+    "requiredQualifications": ["qual-wan-technologies", "qual-vpn-configuration"]
+  },
+  {
+    "id": "role-server-ops-lead",
+    "name": "Server Operations Manager",
+    "requiredQualifications": ["qual-server-administration", "qual-data-center-management", "qual-7y-server-exp"]
+  },
+  {
+    "id": "role-systems-administrator",
+    "name": "Systems Administrator",
+    "requiredQualifications": ["qual-windows-server", "qual-linux-administration"]
+  },
+  {
+    "id": "role-storage-administrator",
+    "name": "Storage Administrator",
+    "requiredQualifications": ["qual-storage-technologies", "qual-backup-systems"]
+  },
+  {
+    "id": "role-virtualization-specialist",
+    "name": "Virtualization Specialist",
+    "requiredQualifications": ["qual-vmware-cert", "qual-hypervisor-management"]
+  },
+  {
+    "id": "role-cloud-services-lead",
+    "name": "Cloud Services Manager",
+    "requiredQualifications": ["qual-aws-certification", "qual-cloud-architecture", "qual-6y-cloud-exp"]
+  },
+  {
+    "id": "role-cloud-architect",
+    "name": "Cloud Architect",
+    "requiredQualifications": ["qual-multi-cloud", "qual-iaas-paas-saas"]
+  },
+  {
+    "id": "role-cloud-administrator",
+    "name": "Cloud Administrator",
+    "requiredQualifications": ["qual-cloud-management", "qual-automation-tools"]
+  },
+  {
+    "id": "role-cloud-security-specialist",
+    "name": "Cloud Security Specialist",
+    "requiredQualifications": ["qual-cloud-security", "qual-security-frameworks"]
+  },
+  {
+    "id": "role-frontend-lead",
+    "name": "Frontend Development Manager",
+    "requiredQualifications": ["qual-computer-science", "qual-ui-ux-design", "qual-7y-frontend-exp"]
+  },
+  {
+    "id": "role-senior-frontend",
+    "name": "Senior Frontend Developer",
+    "requiredQualifications": ["qual-javascript-expert", "qual-react-angular", "qual-5y-frontend-exp"]
+  },
+  {
+    "id": "role-ui-developer",
+    "name": "UI Developer",
+    "requiredQualifications": ["qual-html-css", "qual-responsive-design"]
+  },
+  {
+    "id": "role-frontend-tester",
+    "name": "Frontend Test Engineer",
+    "requiredQualifications": ["qual-test-automation", "qual-browser-compatibility"]
+  },
+  {
+    "id": "role-backend-lead",
+    "name": "Backend Development Manager",
+    "requiredQualifications": ["qual-computer-science", "qual-server-architecture", "qual-7y-backend-exp"]
+  },
+  {
+    "id": "role-senior-backend",
+    "name": "Senior Backend Developer",
+    "requiredQualifications": ["qual-java-csharp", "qual-api-design", "qual-5y-backend-exp"]
+  },
+  {
+    "id": "role-database-developer",
+    "name": "Database Developer",
+    "requiredQualifications": ["qual-sql-nosql", "qual-database-optimization"]
+  },
+  {
+    "id": "role-backend-tester",
+    "name": "Backend Test Engineer",
+    "requiredQualifications": ["qual-api-testing", "qual-automated-testing"]
+  },
+  {
+    "id": "role-fullstack-lead",
+    "name": "Fullstack Development Manager",
+    "requiredQualifications": ["qual-computer-science", "qual-full-development-cycle", "qual-8y-dev-exp"]
+  },
+  {
+    "id": "role-senior-fullstack",
+    "name": "Senior Fullstack Developer",
+    "requiredQualifications": ["qual-frontend-backend", "qual-system-design", "qual-5y-fullstack-exp"]
+  },
+  {
+    "id": "role-fullstack-developer",
+    "name": "Fullstack Developer",
+    "requiredQualifications": ["qual-javascript-typescript", "qual-backend-language"]
+  },
+  {
+    "id": "role-integration-specialist",
+    "name": "Integration Specialist",
+    "requiredQualifications": ["qual-api-integration", "qual-microservices"]
+  },
+  {
+    "id": "role-devops-lead",
+    "name": "DevOps Engineering Manager",
+    "requiredQualifications": ["qual-devops-cert", "qual-ci-cd-pipelines", "qual-7y-devops-exp"]
+  },
+  {
+    "id": "role-devops-engineer",
+    "name": "DevOps Engineer",
+    "requiredQualifications": ["qual-infrastructure-as-code", "qual-containerization"]
+  },
+  {
+    "id": "role-ci-cd-specialist",
+    "name": "CI/CD Specialist",
+    "requiredQualifications": ["qual-jenkins-gitlab", "qual-automated-deployment"]
+  },
+  {
+    "id": "role-platform-engineer",
+    "name": "Platform Engineer",
+    "requiredQualifications": ["qual-kubernetes", "qual-cloud-platforms"]
+  },
+  {
+    "id": "role-helpdesk-lead",
+    "name": "IT Helpdesk Manager",
+    "requiredQualifications": ["qual-itil-certification", "qual-service-management", "qual-5y-helpdesk-exp"]
+  },
+  {
+    "id": "role-senior-support",
+    "name": "Senior Support Technician",
+    "requiredQualifications": ["qual-technical-troubleshooting", "qual-3y-support-exp"]
+  },
+  {
+    "id": "role-helpdesk-technician",
+    "name": "Helpdesk Technician",
+    "requiredQualifications": ["qual-hardware-software-support", "qual-customer-service"]
+  },
+  {
+    "id": "role-support-coordinator",
+    "name": "Support Ticket Coordinator",
+    "requiredQualifications": ["qual-ticket-systems", "qual-prioritization-skills"]
+  },
+  {
+    "id": "role-client-support-lead",
+    "name": "Client Support Manager",
+    "requiredQualifications": ["qual-customer-relations", "qual-technical-knowledge", "qual-6y-client-support-exp"]
+  },
+  {
+    "id": "role-client-support-specialist",
+    "name": "Client Support Specialist",
+    "requiredQualifications": ["qual-application-support", "qual-communication-skills"]
+  },
+  {
+    "id": "role-onsite-technician",
+    "name": "Onsite Support Technician",
+    "requiredQualifications": ["qual-hardware-troubleshooting", "qual-client-interaction"]
+  },
+  {
+    "id": "role-technical-trainer",
+    "name": "Client Technical Trainer",
+    "requiredQualifications": ["qual-software-training", "qual-instructional-skills"]
+  },
+  {
+    "id": "role-network-security-lead",
+    "name": "Network Security Manager",
+    "requiredQualifications": ["qual-security-certification", "qual-network-defense", "qual-7y-security-exp"]
+  },
+  {
+    "id": "role-security-engineer",
+    "name": "Security Engineer",
+    "requiredQualifications": ["qual-firewall-management", "qual-intrusion-detection"]
+  },
+  {
+    "id": "role-vulnerability-analyst",
+    "name": "Vulnerability Analyst",
+    "requiredQualifications": ["qual-penetration-testing", "qual-security-assessment"]
+  },
+  {
+    "id": "role-network-monitoring-specialist",
+    "name": "Network Monitoring Specialist",
+    "requiredQualifications": ["qual-security-monitoring", "qual-incident-response"]
+  },
+  {
+    "id": "role-it-compliance-lead",
+    "name": "IT Compliance Manager",
+    "requiredQualifications": ["qual-compliance-certification", "qual-it-governance", "qual-6y-it-compliance-exp"]
+  },
+  {
+    "id": "role-compliance-auditor",
+    "name": "IT Compliance Auditor",
+    "requiredQualifications": ["qual-audit-methods", "qual-compliance-frameworks"]
+  },
+  {
+    "id": "role-policy-specialist",
+    "name": "IT Policy Specialist",
+    "requiredQualifications": ["qual-policy-development", "qual-regulatory-knowledge"]
+  },
+  {
+    "id": "role-security-documentation-specialist",
+    "name": "Security Documentation Specialist",
+    "requiredQualifications": ["qual-documentation-skills", "qual-compliance-standards"]
+  },
+  {
+    "id": "role-cyber-defense-lead",
+    "name": "Cyber Defense Manager",
+    "requiredQualifications": ["qual-cissp", "qual-threat-intelligence", "qual-8y-cybersecurity-exp"]
+  },
+  {
+    "id": "role-security-analyst",
+    "name": "Security Operations Analyst",
+    "requiredQualifications": ["qual-siem-tools", "qual-incident-handling"]
+  },
+  {
+    "id": "role-threat-hunter",
+    "name": "Threat Hunter",
+    "requiredQualifications": ["qual-advanced-threat-detection", "qual-forensic-analysis"]
+  },
+  {
+    "id": "role-security-architect",
+    "name": "Security Architect",
+    "requiredQualifications": ["qual-security-design", "qual-defense-in-depth"]
+  },
+  {
+    "id": "role-masonry-lead",
+    "name": "Masonry Team Leader",
+    "requiredQualifications": ["qual-master-mason", "qual-blueprint-reading", "qual-10y-masonry-exp"]
+  },
+  {
+    "id": "role-brick-mason",
+    "name": "Brick Mason",
+    "requiredQualifications": ["qual-bricklaying", "qual-mortar-mixing"]
+  },
+  {
+    "id": "role-stone-mason",
+    "name": "Stone Mason",
+    "requiredQualifications": ["qual-stonework", "qual-cutting-techniques"]
+  },
+  {
+    "id": "role-masonry-apprentice",
+    "name": "Masonry Apprentice",
+    "requiredQualifications": ["qual-basic-masonry", "qual-safety-training"]
+  },
+  {
+    "id": "role-carpentry-lead",
+    "name": "Carpentry Team Leader",
+    "requiredQualifications": ["qual-master-carpenter", "qual-structural-carpentry", "qual-8y-carpentry-exp"]
+  },
+  {
+    "id": "role-finish-carpenter",
+    "name": "Finish Carpenter",
+    "requiredQualifications": ["qual-precision-woodworking", "qual-cabinet-installation"]
+  },
+  {
+    "id": "role-framing-carpenter",
+    "name": "Framing Carpenter",
+    "requiredQualifications": ["qual-structural-framing", "qual-blueprint-reading"]
+  },
+  {
+    "id": "role-carpentry-apprentice",
+    "name": "Carpentry Apprentice",
+    "requiredQualifications": ["qual-basic-woodworking", "qual-tool-usage"]
+  },
+  {
+    "id": "role-concrete-lead",
+    "name": "Concrete Works Team Leader",
+    "requiredQualifications": ["qual-concrete-specialist", "qual-formwork-design", "qual-7y-concrete-exp"]
+  },
+  {
+    "id": "role-concrete-finisher",
+    "name": "Concrete Finisher",
+    "requiredQualifications": ["qual-concrete-finishing", "qual-surface-treatments"]
+  },
+  {
+    "id": "role-form-setter",
+    "name": "Form Setter",
+    "requiredQualifications": ["qual-formwork-construction", "qual-measurement-accuracy"]
+  },
+  {
+    "id": "role-concrete-technician",
+    "name": "Concrete Mix Technician",
+    "requiredQualifications": ["qual-concrete-mix-design", "qual-quality-testing"]
+  },
+  {
+    "id": "role-site-planning-lead",
+    "name": "Site Planning Manager",
+    "requiredQualifications": ["qual-civil-engineering", "qual-construction-planning", "qual-8y-planning-exp"]
+  },
+  {
+    "id": "role-site-planner",
+    "name": "Site Planner",
+    "requiredQualifications": ["qual-site-layout", "qual-surveying-knowledge"]
+  },
+  {
+    "id": "role-cad-technician",
+    "name": "CAD Technician",
+    "requiredQualifications": ["qual-autocad", "qual-technical-drawing"]
+  },
+  {
+    "id": "role-scheduling-specialist",
+    "name": "Construction Scheduling Specialist",
+    "requiredQualifications": ["qual-project-scheduling", "qual-resource-allocation"]
+  },
+  {
+    "id": "role-quality-supervision-lead",
+    "name": "Quality Supervision Manager",
+    "requiredQualifications": ["qual-quality-management", "qual-building-codes", "qual-7y-supervision-exp"]
+  },
+  {
+    "id": "role-quality-inspector",
+    "name": "Quality Inspector",
+    "requiredQualifications": ["qual-inspection-techniques", "qual-standards-knowledge"]
+  },
+  {
+    "id": "role-safety-officer",
+    "name": "Safety Officer",
+    "requiredQualifications": ["qual-osha-certification", "qual-safety-protocols"]
+  },
+  {
+    "id": "role-documentation-specialist",
+    "name": "Construction Documentation Specialist",
+    "requiredQualifications": ["qual-documentation-management", "qual-reporting-skills"]
+  },
+  {
+    "id": "role-site-logistics-lead",
+    "name": "Site Logistics Manager",
+    "requiredQualifications": ["qual-logistics-management", "qual-construction-processes", "qual-6y-site-exp"]
+  },
+  {
+    "id": "role-material-coordinator",
+    "name": "Material Coordinator",
+    "requiredQualifications": ["qual-inventory-management", "qual-material-ordering"]
+  },
+  {
+    "id": "role-equipment-coordinator",
+    "name": "Equipment Coordinator",
+    "requiredQualifications": ["qual-heavy-equipment", "qual-maintenance-scheduling"]
+  },
+  {
+    "id": "role-site-traffic-controller",
+    "name": "Site Traffic Controller",
+    "requiredQualifications": ["qual-traffic-management", "qual-safety-procedures"]
+  },
+  {
+    "id": "role-sales-admin-lead",
+    "name": "Sales Administration Manager",
+    "requiredQualifications": ["qual-sales-operations", "qual-crm-systems", "qual-5y-sales-admin-exp"]
+  },
+  {
+    "id": "role-sales-coordinator",
+    "name": "Sales Coordinator",
+    "requiredQualifications": ["qual-sales-support", "qual-organization-skills"]
+  },
+  {
+    "id": "role-sales-data-analyst",
+    "name": "Sales Data Analyst",
+    "requiredQualifications": ["qual-sales-analytics", "qual-reporting-tools"]
+  },
+  {
+    "id": "role-sales-administrator",
+    "name": "Sales Administrator",
+    "requiredQualifications": ["qual-administrative-skills", "qual-sales-documentation"]
+  },
+  {
+    "id": "role-order-processing-lead",
+    "name": "Order Processing Manager",
+    "requiredQualifications": ["qual-order-management", "qual-erp-systems", "qual-5y-order-processing-exp"]
+  },
+  {
+    "id": "role-order-processor",
+    "name": "Order Processor",
+    "requiredQualifications": ["qual-data-entry", "qual-processing-systems"]
+  },
+  {
+    "id": "role-order-verification-specialist",
+    "name": "Order Verification Specialist",
+    "requiredQualifications": ["qual-accuracy-checking", "qual-problem-solving"]
+  },
+  {
+    "id": "role-customer-coordinator",
+    "name": "Customer Order Coordinator",
+    "requiredQualifications": ["qual-customer-communication", "qual-order-tracking"]
+  },
+  {
+    "id": "role-regional-sales-lead",
+    "name": "Regional Sales Manager",
+    "requiredQualifications": ["qual-sales-management", "qual-territory-planning", "qual-7y-sales-exp"]
+  },
+  {
+    "id": "role-sales-representative",
+    "name": "Sales Representative",
+    "requiredQualifications": ["qual-sales-techniques", "qual-negotiation-skills"]
+  },
+  {
+    "id": "role-business-developer",
+    "name": "Business Developer",
+    "requiredQualifications": ["qual-market-development", "qual-relationship-building"]
+  },
+  {
+    "id": "role-sales-consultant",
+    "name": "Sales Consultant",
+    "requiredQualifications": ["qual-product-knowledge", "qual-consultative-selling"]
+  },
+  {
+    "id": "role-product-promotion-lead",
+    "name": "Product Promotion Manager",
+    "requiredQualifications": ["qual-marketing", "qual-product-positioning", "qual-6y-promotion-exp"]
+  },
+  {
+    "id": "role-product-specialist",
+    "name": "Product Specialist",
+    "requiredQualifications": ["qual-product-demos", "qual-technical-knowledge"]
+  },
+  {
+    "id": "role-trade-show-coordinator",
+    "name": "Trade Show Coordinator",
+    "requiredQualifications": ["qual-event-planning", "qual-presentation-skills"]
+  },
+  {
+    "id": "role-promotional-content-creator",
+    "name": "Promotional Content Creator",
+    "requiredQualifications": ["qual-content-creation", "qual-product-messaging"]
+  },
+  {
+    "id": "role-key-account-east-lead",
+    "name": "Key Account Manager East",
+    "requiredQualifications": ["qual-account-management", "qual-strategic-selling", "qual-8y-key-account-exp"]
+  },
+  {
+    "id": "role-senior-account-executive",
+    "name": "Senior Account Executive",
+    "requiredQualifications": ["qual-enterprise-sales", "qual-contract-negotiation"]
+  },
+  {
+    "id": "role-account-manager",
+    "name": "Account Manager",
+    "requiredQualifications": ["qual-relationship-management", "qual-solution-selling"]
+  },
+  {
+    "id": "role-client-success-manager",
+    "name": "Client Success Manager",
+    "requiredQualifications": ["qual-customer-success", "qual-account-retention"]
+  },
+  {
+    "id": "role-key-account-west-lead",
+    "name": "Key Account Manager West",
+    "requiredQualifications": ["qual-account-management", "qual-strategic-selling", "qual-8y-key-account-exp"]
+  },
+  {
+    "id": "role-customer-service-lead",
+    "name": "Customer Service Manager",
+    "requiredQualifications": ["qual-customer-service-management", "qual-team-leadership", "qual-5y-service-exp"]
+  },
+  {
+    "id": "role-customer-service-rep",
+    "name": "Customer Service Representative",
+    "requiredQualifications": ["qual-customer-communication", "qual-problem-resolution"]
+  },
+  {
+    "id": "role-service-quality-analyst",
+    "name": "Service Quality Analyst",
+    "requiredQualifications": ["qual-quality-metrics", "qual-process-improvement"]
+  },
+  {
+    "id": "role-customer-experience-specialist",
+    "name": "Customer Experience Specialist",
+    "requiredQualifications": ["qual-customer-journey", "qual-satisfaction-surveys"]
+  },
+  {
+    "id": "role-client-complaints-lead",
+    "name": "Client Complaints Manager",
+    "requiredQualifications": ["qual-conflict-resolution", "qual-complaint-management", "qual-6y-customer-exp"]
+  },
+  {
+    "id": "role-complaint-handler",
+    "name": "Complaint Resolution Specialist",
+    "requiredQualifications": ["qual-negotiation-skills", "qual-empathetic-communication"]
+  },
+  {
+    "id": "role-escalation-specialist",
+    "name": "Escalation Specialist",
+    "requiredQualifications": ["qual-critical-problem-solving", "qual-crisis-management"]
+  },
+  {
+    "id": "role-client-retention-specialist",
+    "name": "Client Retention Specialist",
+    "requiredQualifications": ["qual-relationship-recovery", "qual-customer-loyalty"]
+  },
+  {
+    "id": "role-material-prep-lead",
+    "name": "Sales Material Preparation Manager",
+    "requiredQualifications": ["qual-marketing-communications", "qual-content-management", "qual-5y-sales-material-exp"]
+  },
+  {
+    "id": "role-content-creator",
+    "name": "Sales Content Creator",
+    "requiredQualifications": ["qual-copywriting", "qual-presentation-design"]
+  },
+  {
+    "id": "role-graphic-designer",
+    "name": "Sales Graphic Designer",
+    "requiredQualifications": ["qual-graphic-design", "qual-branding-knowledge"]
+  },
+  {
+    "id": "role-digital-asset-manager",
+    "name": "Digital Asset Manager",
+    "requiredQualifications": ["qual-asset-management", "qual-digital-libraries"]
+  },
+  {
+    "id": "role-pre-sales-lead",
+    "name": "Pre-Sales Support Manager",
+    "requiredQualifications": ["qual-technical-sales", "qual-solution-architecture", "qual-7y-presales-exp"]
+  },
+  {
+    "id": "role-solution-consultant",
+    "name": "Solution Consultant",
+    "requiredQualifications": ["qual-product-configuration", "qual-technical-demonstrations"]
+  },
+  {
+    "id": "role-technical-sales-specialist",
+    "name": "Technical Sales Specialist",
+    "requiredQualifications": ["qual-technical-knowledge", "qual-consultative-selling"]
+  },
+  {
+    "id": "role-sales-engineer",
+    "name": "Sales Engineer",
+    "requiredQualifications": ["qual-engineering-background", "qual-customer-requirements-analysis"]
+  },
+  {
+    "id": "role-bid-management-lead",
+    "name": "Bid Management Manager",
+    "requiredQualifications": ["qual-proposal-management", "qual-tender-processes", "qual-6y-bid-exp"]
+  },
+  {
+    "id": "role-bid-coordinator",
+    "name": "Bid Coordinator",
+    "requiredQualifications": ["qual-rfp-processes", "qual-project-coordination"]
+  },
+  {
+    "id": "role-pricing-specialist",
+    "name": "Pricing Specialist",
+    "requiredQualifications": ["qual-financial-modeling", "qual-competitive-pricing"]
+  },
+  {
+    "id": "role-proposal-writer",
+    "name": "Proposal Writer",
+    "requiredQualifications": ["qual-technical-writing", "qual-persuasive-communication"]
+  }
+]

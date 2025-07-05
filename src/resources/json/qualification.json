@@ -1,0 +1,38 @@
+[
+  {
+    "id": "qual-basic-bricklaying",
+    "name": "Basic Bricklaying",
+    "category": "Handwerk",
+    "description": "Grundkenntnisse im Mauern und im Umgang mit Mörtel und Ziegeln.",
+    "requirements": [],
+    "followups": ["qual-advanced-brickwork"],
+    "validityYears": null
+  },
+  {
+    "id": "qual-advanced-brickwork",
+    "name": "Advanced Brickwork",
+    "category": "Handwerk",
+    "description": "Fortgeschrittene Techniken im Ziegelbau inklusive statischer Aspekte.",
+    "requirements": ["qual-basic-bricklaying"],
+    "followups": [],
+    "validityYears": null
+  },
+  {
+    "id": "qual-safety-training-basic",
+    "name": "Grundlagenschulung Arbeitssicherheit",
+    "category": "Sicherheit",
+    "description": "Pflichtschulung für alle Baustellenmitarbeiter zur Vermeidung von Unfällen.",
+    "requirements": [],
+    "followups": ["qual-safety-training-advanced"],
+    "validityYears": 1
+  },
+  {
+    "id": "qual-leadership",
+    "name": "Führungskompetenz",
+    "category": "Management",
+    "description": "Vermittelt Fähigkeiten zur Mitarbeiterführung und Entscheidungsfindung.",
+    "requirements": [],
+    "followups": ["qual-executive-leadership"],
+    "validityYears": null
+  }
+]

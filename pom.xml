@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============================================================== -->
+    <!-- GRUNDLEGENDE PROJEKTINFORMATIONEN                                 -->
+    <!-- =============================================================== -->
+    <!-- Diese "Koordinaten" identifizieren dein Projekt eindeutig. -->
+    <groupId>de.euerprojekt</groupId>
+    <artifactId>hr-management-software</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- =============================================================== -->
+    <!-- PROJEKTEIGENSCHAFTEN                                              -->
+    <!-- =============================================================== -->
+    <!-- Hier werden globale Einstellungen wie die Java-Version festgelegt. -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <!-- =============================================================== -->
+    <!-- ABHÄNGIGKEITEN (EXTERNE BIBLIOTHEKEN)                             -->
+    <!-- =============================================================== -->
+    <!-- Hier listest du alle externen Bibliotheken auf, die dein Projekt benötigt. -->
+    <!-- Maven lädt sie automatisch herunter. -->
+    <dependencies>
+        <!-- H2-Datenbank: Eine in Java geschriebene, einbettbare SQL-Datenbank -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+        </dependency>
+
+        <!-- Google Gson: Eine einfache Bibliothek zum Lesen und Schreiben von JSON-Dateien -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+    </dependencies>
+
+    <!-- =============================================================== -->
+    <!-- BUILD-KONFIGURATION                                               -->
+    <!-- =============================================================== -->
+    <!-- Hier wird definiert, WIE das Projekt gebaut wird, insbesondere -->
+    <!-- wie die ausführbare JAR-Datei erstellt wird. -->
+    <build>
+        <plugins>
+            <!-- Maven Assembly Plugin: Bündelt das Projekt und alle seine -->
+            <!-- Abhängigkeiten in eine einzige, ausführbare "fat JAR". -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <!-- Wichtig: Gibt die Klasse mit der main()-Methode an. -->
+                                    <!-- Da du keine Pakete verwendest, ist der Name nur "Main". -->
+                                    <mainClass>
+                                        Main
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <!-- Dies erstellt eine JAR-Datei mit dem Namen "hr-management-1.0.jar" -->
+                            <!-- und packt alle Abhängigkeiten (h2, gson) mit hinein. -->
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>hr-management-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
