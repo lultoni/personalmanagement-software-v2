@@ -1,8 +1,8 @@
 package core;
 
 import core.events.Event_ChangeView;
-import core.events.Event_Notification;
-import core.exceptions.ArrayWrongSizeException;
+import core.events.Event_PopNotification;
+import core.events.Event_UpdateNotification;
 import gui.GuiManager;
 
 /**
@@ -40,8 +40,9 @@ public class EventManager {
      */
     public void callEvent(String event_id, Object[] args) {
         switch (event_id) {
-            case "notification" -> new Event_Notification(new Object[]{guiManager, notificationManager.getNotification_list()});
+            case "updateNotification" -> new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
             case "changeView" -> new Event_ChangeView(new Object[]{guiManager, args[0]});
+            case "popNotification" -> new Event_PopNotification(new Object[]{notificationManager, args[0], this});
         }
     }
 

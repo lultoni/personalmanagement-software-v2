@@ -1,5 +1,7 @@
 package gui;
 
+import core.EventManager;
+import core.Notification;
 import gui.elements.FeatureBar;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
@@ -9,6 +11,7 @@ import gui.views.View;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 /**
@@ -41,13 +44,21 @@ public class MainFrame extends JFrame {
     private TitleBar titleBar;
 
     /**
+     * Umfängt die gerade vorhandenen Benachrichtigungen.
+     */
+    private ArrayList<Notification> notifications;
+
+    private EventManager eventManager;
+
+    /**
      * Konstruktor für die MainFrame.
      * Initialisiert den currentView, die featureBar, das notificationBar und die titleBar.
      *
      * @author Elias Glauert
      */
     // TODO überarbeite diese beschreibung
-    public MainFrame() {
+    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager) {
+        this.eventManager = eventManager;
 
         setTitle("test title");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -61,7 +72,7 @@ public class MainFrame extends JFrame {
         add(featureBar, BorderLayout.WEST);
 
         titleBar = new TitleBar();
-        notificationHub = new NotificationHub();
+        notificationHub = new NotificationHub(notifications, eventManager);
 
         JPanel southBar = new JPanel(new BorderLayout());
 

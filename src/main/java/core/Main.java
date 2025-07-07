@@ -3,6 +3,7 @@ package core;
 import db.DatabaseManager;
 import gui.GuiManager;
 import gui.views.DefaultView;
+import gui.views.TestNotificationView;
 
 /**
  * Hauptklasse der HR-Management-Software.
@@ -34,8 +35,10 @@ public class Main {
         //javax.swing.SwingUtilities.invokeLater(() -> new GuiManager(eventManager));
         GuiManager guiManager = new GuiManager(eventManager);
         eventManager.setGuiManager(guiManager);
-        eventManager.callEvent("changeView", new Object[]{new DefaultView()});
+        //eventManager.callEvent("changeView", new Object[]{new DefaultView()});
 
         System.out.println("Anwendung erfolgreich gestartet.");
+
+        eventManager.callEvent("changeView", new Object[]{new TestNotificationView(eventManager)});
     }
 }

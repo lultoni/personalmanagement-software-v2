@@ -28,10 +28,10 @@ public class View extends JPanel {
      *
      * @author Elias Glauert
      */
-    public View(String view_id, String view_name) {
+    public View() {
 
-        this.view_id = view_id;
-        this.view_name = view_name;
+        this.view_id = "view_id";
+        this.view_name = "view_name";
 
     }
 

@@ -56,7 +56,7 @@ public class NotificationManager {
         notification_counter++;
         notification_list.add(notification);
 
-        eventManager.callEvent("notification", null);
+        eventManager.callEvent("updateNotification", null);
 
     }
 
@@ -75,7 +75,7 @@ public class NotificationManager {
             }
         }
 
-        eventManager.callEvent("notification", null);
+        eventManager.callEvent("updateNotification", null);
 
     }
 

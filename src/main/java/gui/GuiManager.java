@@ -44,7 +44,7 @@ public class GuiManager {
 
         view_history = new ArrayList<>();
 
-        mainFrame = new MainFrame();
+        mainFrame = new MainFrame(new ArrayList<>(), eventManager);
 
     }
 

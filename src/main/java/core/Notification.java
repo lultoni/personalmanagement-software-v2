@@ -6,7 +6,7 @@ import gui.views.View;
  * Fachklasse für Benachrichtigungen.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-07
  */
 public class Notification {
@@ -34,5 +34,17 @@ public class Notification {
 
     public int getNotification_id() {
         return notification_id;
+    }
+
+    public String getNotification_titel() {
+        return notification_titel;
+    }
+
+    public String getNotification_description() {
+        return notification_description;
+    }
+
+    public View getConnected_view() {
+        return connected_view;
     }
 }
