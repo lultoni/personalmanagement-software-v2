@@ -20,12 +20,15 @@ public class DefaultView extends View {
      * @author Elias Glauert
      */
     // TODO überarbeite diese beschreibung
-    public DefaultView(String view_id, String view_name) {
+    public DefaultView() {
+
+        String view_id = "view-default";
+        String view_name = "Default View";
 
         super(view_id, view_name);
 
         setLayout(new GridLayout());
-        add(new JLabel("Default/Error View"));
+        add(new JLabel(" (Hier könnte ihre Werbung stehen)"));
 
     }
 

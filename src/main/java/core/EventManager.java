@@ -1,5 +1,6 @@
 package core;
 
+import core.events.Event_ChangeView;
 import core.events.Event_Notification;
 import core.exceptions.ArrayWrongSizeException;
 import gui.GuiManager;
@@ -9,7 +10,7 @@ import gui.GuiManager;
  * Diese Klasse verwaltet alle Events, die im Programm stattfinden.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class EventManager {
@@ -20,10 +21,10 @@ public class EventManager {
     /**
      * Konstruktor für den EventManager.
      *
-     * @param -
+     * @param guiManager Verbindung zum GuiManager.
+     * @param notificationManager Verbindung zum Notification Manager.
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public EventManager(GuiManager guiManager, NotificationManager notificationManager) {
 
         this.guiManager = guiManager;
@@ -31,10 +32,25 @@ public class EventManager {
 
     }
 
-    public void callEvent(String event_id) {
+    /**
+     * Hauptfunktion um ein Event aufzurufen. Passt sich flexibel nach den Parametern an, was genau es macht.
+     * @param event_id Die ID vom Event, welches aufgerufen werden soll.
+     * @param args Weiterführende Einstellungen für den Event-Call, welche pro Szenario anders genutzt werden können.
+     * @author Elias Glauert
+     */
+    public void callEvent(String event_id, Object[] args) {
         switch (event_id) {
             case "notification" -> new Event_Notification(new Object[]{guiManager, notificationManager.getNotification_list()});
+            case "changeView" -> new Event_ChangeView(new Object[]{guiManager, args[0]});
         }
+    }
+
+    public void setGuiManager(GuiManager guiManager) {
+        this.guiManager = guiManager;
+    }
+
+    public void setNotificationManager(NotificationManager notificationManager) {
+        this.notificationManager = notificationManager;
     }
 
 }

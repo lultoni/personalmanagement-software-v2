@@ -6,12 +6,18 @@ import gui.GuiManager;
 
 import java.util.ArrayList;
 
+/**
+ * Event für das Aktualisieren der Benachrichtigungsliste im GUI.
+ *
+ * @author Elias Glauert
+ * @version 1.0
+ * @since 2025-07-07
+ */
 public class Event_Notification extends Event {
 
 
     /**
      * Konstruktor für Event_Notification.
-     *
      *
      * @param args Erwartet ein Array mit der Größe 2, wo das erste Objekt ein GuiManager ist und das zweite eine ArrayList der Art Notification.
      * @author Elias Glauert
