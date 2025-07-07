@@ -1,5 +1,8 @@
 package core;
 
+import db.DatabaseManager;
+import gui.GuiManager;
+
 /**
  * Hauptklasse der HR-Management-Software.
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
@@ -25,24 +28,15 @@ public class Main {
 
         System.out.println("Initialisiere Kernkomponenten...");
         EventManager eventManager = new EventManager();
-        // DatabaseManager dbManager = new DatabaseManager();
-        // NotificationManager notificationManager = new NotificationManager(eventManager);
+        DatabaseManager dbManager = new DatabaseManager();
+        NotificationManager notificationManager = new NotificationManager(eventManager); // TODO wie genau sieht jetzt der notification manager aus?
 
-
-        // 2. Grafische Benutzeroberfläche (GUI) starten
-        // Es ist wichtig, GUI-Operationen immer im Event-Dispatch-Thread auszuführen,
-        // um potenzielle Probleme mit der nebenläufigen Ausführung in Swing zu vermeiden.
-        // SwingUtilities.invokeLater stellt sicher, dass der Code im richtigen Thread läuft.
         System.out.println("Starte grafische Benutzeroberfläche...");
-        /*
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // Der GuiManager ist verantwortlich für das Erstellen und Anzeigen
-                // des Hauptfensters und der ersten Ansicht (LoginView).
-                new GuiManager(eventManager);
+                new GuiManager(eventManager); // TODO warum hat diese klasse auch den eventManager?
             }
         });
-        */
 
         System.out.println("Anwendung erfolgreich gestartet.");
     }

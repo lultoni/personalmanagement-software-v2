@@ -9,7 +9,7 @@
     <!-- =============================================================== -->
     <!-- Diese "Koordinaten" identifizieren dein Projekt eindeutig. -->
     <groupId>de.euerprojekt</groupId>
-    <artifactId>hr-management-software</artifactId>
+    <artifactId>pm-software</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <!-- =============================================================== -->
@@ -68,7 +68,7 @@
                                     <!-- Wichtig: Gibt die Klasse mit der main()-Methode an. -->
                                     <!-- Da du keine Pakete verwendest, ist der Name nur "Main". -->
                                     <mainClass>
-                                        Main
+                                        core.Main
                                     </mainClass>
                                 </manifest>
                             </archive>
@@ -77,7 +77,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                            <finalName>hr-management-${project.version}</finalName>
+                            <finalName>pm-software-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>

@@ -12,7 +12,7 @@ import java.awt.*;
  * @version 1.0
  * @since 2025-07-05
  */
-public class DefaultView extends JPanel {
+public class DefaultView extends View {
 
     /**
      * Konstruktor für den DefaultView.
@@ -20,7 +20,9 @@ public class DefaultView extends JPanel {
      * @author Elias Glauert
      */
     // TODO überarbeite diese beschreibung
-    public DefaultView() {
+    public DefaultView(String view_id, String view_name) {
+
+        super(view_id, view_name);
 
         setLayout(new GridLayout());
         add(new JLabel("Default/Error View"));
