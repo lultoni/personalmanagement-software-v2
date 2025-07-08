@@ -1,6 +1,7 @@
 package gui;
 
 import core.EventManager;
+import core.Main;
 import core.Notification;
 import gui.elements.FeatureBar;
 import gui.elements.NotificationHub;
@@ -10,6 +11,8 @@ import gui.views.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -67,8 +70,13 @@ public class MainFrame extends JFrame {
         this.notifications = notifications;
         this.eventManager = eventManager;
 
-        setTitle("Personalmanagement Software");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Personalmanagement Software");setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Main.exitProgram();
+            }
+        });
         setBounds(100, 100, 1000, 720);
         setLayout(new BorderLayout());
 

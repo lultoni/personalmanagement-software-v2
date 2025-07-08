@@ -4,29 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- =============================================================== -->
-    <!-- GRUNDLEGENDE PROJEKTINFORMATIONEN                                 -->
-    <!-- =============================================================== -->
-    <!-- Diese "Koordinaten" identifizieren dein Projekt eindeutig. -->
+    <!-- GRUNDLEGENDE PROJEKTINFORMATIONEN -->
     <groupId>de.euerprojekt</groupId>
     <artifactId>pm-software</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
-    <!-- =============================================================== -->
-    <!-- PROJEKTEIGENSCHAFTEN                                              -->
-    <!-- =============================================================== -->
-    <!-- Hier werden globale Einstellungen wie die Java-Version festgelegt. -->
+    <!-- PROJEKTEIGENSCHAFTEN -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <!-- =============================================================== -->
-    <!-- ABHÄNGIGKEITEN (EXTERNE BIBLIOTHEKEN)                             -->
-    <!-- =============================================================== -->
-    <!-- Hier listest du alle externen Bibliotheken auf, die dein Projekt benötigt. -->
-    <!-- Maven lädt sie automatisch herunter. -->
+    <!-- ABHÄNGIGKEITEN (EXTERNE BIBLIOTHEKEN) -->
     <dependencies>
         <!-- H2-Datenbank: Eine in Java geschriebene, einbettbare SQL-Datenbank -->
         <dependency>
@@ -43,11 +33,7 @@
         </dependency>
     </dependencies>
 
-    <!-- =============================================================== -->
-    <!-- BUILD-KONFIGURATION                                               -->
-    <!-- =============================================================== -->
-    <!-- Hier wird definiert, WIE das Projekt gebaut wird, insbesondere -->
-    <!-- wie die ausführbare JAR-Datei erstellt wird. -->
+    <!-- BUILD-KONFIGURATION -->
     <build>
         <plugins>
             <!-- Maven Assembly Plugin: Bündelt das Projekt und alle seine -->
@@ -65,14 +51,12 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <!-- Wichtig: Gibt die Klasse mit der main()-Methode an. -->
-                                    <!-- Da du keine Pakete verwendest, ist der Name nur "Main". -->
                                     <mainClass>
                                         core.Main
                                     </mainClass>
                                 </manifest>
                             </archive>
-                            <!-- Dies erstellt eine JAR-Datei mit dem Namen "hr-management-1.0.jar" -->
+                            <!-- Dies erstellt eine JAR-Datei mit dem Namen der unten zu sehen ist -->
                             <!-- und packt alle Abhängigkeiten (h2, gson) mit hinein. -->
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>

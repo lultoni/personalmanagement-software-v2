@@ -11,7 +11,7 @@ import java.awt.*;
  * Beinhaltet den Titel, die Beschreibung, den Knopf zum View und den Knopf zum Löschen.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-07
  */
 public class Gui_Notification extends JPanel {
@@ -22,6 +22,8 @@ public class Gui_Notification extends JPanel {
     // TODO --> maybe do both over events
     public Gui_Notification(Notification notification, EventManager eventManager) {
 
+        boolean has_connected_view = notification.getConnected_view() != null;
+
         setLayout(new GridLayout(2, 2));
 
         setBorder(new SoftBevelBorder(SoftBevelBorder.RAISED));
@@ -30,13 +32,13 @@ public class Gui_Notification extends JPanel {
         JLabel descriptionLabel = new JLabel(notification.getNotification_description());
 
         JButton viewButton = new JButton("View");
-        viewButton.addActionListener(_ -> eventManager.callEvent("changeView", new Object[]{notification.getConnected_view()}));
+        if (has_connected_view) viewButton.addActionListener(_ -> eventManager.callEvent("changeView", new Object[]{notification.getConnected_view()}));
 
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(_ -> eventManager.callEvent("popNotification", new Object[]{notification.getNotification_id()}));
 
         add(titleLabel);
-        add(viewButton);
+        if (has_connected_view) add(viewButton);
         add(descriptionLabel);
         add(deleteButton);
     }

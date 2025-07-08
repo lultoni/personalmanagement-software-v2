@@ -9,10 +9,15 @@ import gui.views.TestNotificationView;
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-05
  */
 public class Main {
+
+    /**
+     * Nur für das korrekte Schließen des Programms wird der DatabaseManager als Variable hier erstellt.
+     */
+    private static DatabaseManager dbManager;
 
     /**
      * Die main-Methode ist der Startpunkt des Programms.
@@ -26,7 +31,8 @@ public class Main {
 
         System.out.println("Initialisiere Kernkomponenten...");
         EventManager eventManager = new EventManager(null, null);
-        DatabaseManager dbManager = new DatabaseManager(); // TODO finish this setup
+        dbManager = new DatabaseManager();
+        dbManager.setupDatabase();
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
 
@@ -56,5 +62,10 @@ public class Main {
             ret_string += object.toString() + (i == args.length - 1 ? "" : ", ");
         }
         return ret_string + "]";
+    }
+
+    public static void exitProgram() {
+        dbManager.disconnect();
+        System.exit(0);
     }
 }
