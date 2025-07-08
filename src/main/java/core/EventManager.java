@@ -1,9 +1,6 @@
 package core;
 
-import core.events.Event_ChangeView;
-import core.events.Event_CreateNotification;
-import core.events.Event_PopNotification;
-import core.events.Event_UpdateNotification;
+import core.events.*;
 import gui.GuiManager;
 
 import static core.Main.argsToString;
@@ -13,7 +10,7 @@ import static core.Main.argsToString;
  * Diese Klasse verwaltet alle Events, die im Programm stattfinden.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-05
  */
 public class EventManager {
@@ -45,20 +42,24 @@ public class EventManager {
         System.out.println(" ~ db ~ callEvent('" + event_id + "', " + argsToString(args) + ")");
         switch (event_id) {
             case "updateNotification" -> {
-                System.out.println(" ~ db ~ ~ updateNotification Event Creation");
+                System.out.println("   | updateNotification Event Creation");
                 new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
             }
             case "changeView" -> {
-                System.out.println(" ~ db ~ ~ changeView Event Creation");
+                System.out.println("   | changeView Event Creation");
                 new Event_ChangeView(new Object[]{guiManager, args[0]});
             }
             case "popNotification" -> {
-                System.out.println(" ~ db ~ ~ popNotification Event Creation");
+                System.out.println("   | popNotification Event Creation");
                 new Event_PopNotification(new Object[]{notificationManager, args[0]});
             }
             case "createNotification" -> {
-                System.out.println(" ~ db ~ ~ createNotification Event Creation");
+                System.out.println("   | createNotification Event Creation");
                 new Event_CreateNotification(new Object[]{notificationManager, args[0], args[1], args[2]});
+            }
+            case "moveBackView" -> {
+                System.out.println("   | moveBackView Event Creation");
+                new Event_MoveBackView(new Object[]{guiManager});
             }
         }
     }

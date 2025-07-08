@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -47,38 +47,49 @@ public class MainFrame extends JFrame {
      */
     private ArrayList<Notification> notifications;
 
+    /**
+     * Öffnet bei Klick den da vorigen View.
+     */
+    private JButton backButton;
+
+    /**
+     * EventManager Verbindung für die MainFrame.
+     */
     private EventManager eventManager;
 
     /**
      * Konstruktor für die MainFrame.
-     * Initialisiert den currentView, die featureBar, das notificationBar und die titleBar.
+     * Initialisiert die Core Features, welche im GUI gefunden werden und immer, View-Unabhängig, angezeigt werden.
      *
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public MainFrame(ArrayList<Notification> notifications, EventManager eventManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
 
-        setTitle("test title");
+        setTitle("Personalmanagement Software");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 720);
         setLayout(new BorderLayout());
 
         currentView = new DefaultView();
-        add(currentView, BorderLayout.CENTER);
 
         featureBar = new FeatureBar();
-        add(featureBar, BorderLayout.WEST);
 
         titleBar = new TitleBar();
         notificationHub = new NotificationHub(notifications, eventManager);
+        backButton = new JButton("<-- Zurück"); // TODO move this to a separated class later on for functionality like seeing if it has to be disabled
+        backButton.addActionListener(_ -> {
+            eventManager.callEvent("moveBackView", null);
+        });
 
         JPanel southBar = new JPanel(new BorderLayout());
-
+        southBar.add(backButton, BorderLayout.WEST);
         southBar.add(titleBar, BorderLayout.CENTER);
         southBar.add(notificationHub, BorderLayout.EAST);
 
+        add(currentView, BorderLayout.CENTER);
+        add(featureBar, BorderLayout.WEST);
         add(southBar, BorderLayout.SOUTH);
 
         setVisible(true);

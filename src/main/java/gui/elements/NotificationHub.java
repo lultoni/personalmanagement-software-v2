@@ -40,8 +40,8 @@ public class NotificationHub extends JPanel {
 
         // Set icon based on number of notifications
         int notificationCount = notifications.size();
-        ImageIcon icon = new ImageIcon("icon_path"); // Replace with actual icon path
-        notificationButton.setIcon(icon);
+        // ImageIcon icon = new ImageIcon("icon_path"); // Replace with actual icon path
+        // notificationButton.setIcon(icon);
 
         // Custom label showing the count of notifications
         notificationButton.setText((notificationCount > 0 ? "(" + notificationCount + ") " : "") + "Notifications");

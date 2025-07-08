@@ -2,7 +2,6 @@ package core;
 
 import db.DatabaseManager;
 import gui.GuiManager;
-import gui.views.DefaultView;
 import gui.views.TestNotificationView;
 
 /**
@@ -40,6 +39,7 @@ public class Main {
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
 
         eventManager.callEvent("changeView", new Object[]{new TestNotificationView(eventManager)});
+        // TODO when we have a home screen / start screen we change this to the correct one (or do it before we print the message that it was started correctly)
     }
 
     /**

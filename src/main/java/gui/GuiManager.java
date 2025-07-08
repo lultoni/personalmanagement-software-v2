@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -77,9 +77,9 @@ public class GuiManager {
      * @author Elias Glauert
      */
     private void printViewHistory() {
-        System.out.println("GuiManager - View History (Newest at the bottom):");
+        System.out.println("   | GuiManager - View History (Newest at the bottom):");
         for (View view: view_history) {
-            System.out.println(" - " + view.toString());
+            System.out.println("   |  - " + view.toString());
         }
     }
 
@@ -90,9 +90,19 @@ public class GuiManager {
      * @author Elias Glauert
      */
     public void goToLastView() {
-        if (view_history.size() <= 1) return;
+
+        System.out.println(" ~ db ~ gui.GuiManager.goToLastView()");
+        System.out.println("   | view_history.size()=" + view_history.size());
+
+        if (view_history.size() <= 1) {
+            System.out.println("   | view_history.size() too small! No further back-steps possible!");
+            return;
+        }
+
         view_history.removeLast();
+        printViewHistory();
         mainFrame.changeView(view_history.getLast());
+
     }
 
 }
