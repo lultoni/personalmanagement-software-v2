@@ -1,16 +1,19 @@
 package core;
 
 import core.events.Event_ChangeView;
+import core.events.Event_CreateNotification;
 import core.events.Event_PopNotification;
 import core.events.Event_UpdateNotification;
 import gui.GuiManager;
+
+import static core.Main.argsToString;
 
 /**
  * EventManager-Klasse der HR-Management-Software.
  * Diese Klasse verwaltet alle Events, die im Programm stattfinden.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-05
  */
 public class EventManager {
@@ -39,10 +42,24 @@ public class EventManager {
      * @author Elias Glauert
      */
     public void callEvent(String event_id, Object[] args) {
+        System.out.println(" ~ db ~ callEvent('" + event_id + "', " + argsToString(args) + ")");
         switch (event_id) {
-            case "updateNotification" -> new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
-            case "changeView" -> new Event_ChangeView(new Object[]{guiManager, args[0]});
-            case "popNotification" -> new Event_PopNotification(new Object[]{notificationManager, args[0], this});
+            case "updateNotification" -> {
+                System.out.println(" ~ db ~ ~ updateNotification Event Creation");
+                new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
+            }
+            case "changeView" -> {
+                System.out.println(" ~ db ~ ~ changeView Event Creation");
+                new Event_ChangeView(new Object[]{guiManager, args[0]});
+            }
+            case "popNotification" -> {
+                System.out.println(" ~ db ~ ~ popNotification Event Creation");
+                new Event_PopNotification(new Object[]{notificationManager, args[0]});
+            }
+            case "createNotification" -> {
+                System.out.println(" ~ db ~ ~ createNotification Event Creation");
+                new Event_CreateNotification(new Object[]{notificationManager, args[0], args[1], args[2]});
+            }
         }
     }
 

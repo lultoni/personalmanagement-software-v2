@@ -10,7 +10,7 @@ import gui.views.TestNotificationView;
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class Main {
@@ -37,8 +37,24 @@ public class Main {
         eventManager.setGuiManager(guiManager);
         //eventManager.callEvent("changeView", new Object[]{new DefaultView()});
 
-        System.out.println("Anwendung erfolgreich gestartet.");
+        System.out.println("Anwendung erfolgreich gestartet.\n\n");
 
         eventManager.callEvent("changeView", new Object[]{new TestNotificationView(eventManager)});
+    }
+
+    /**
+     * Debug Methode für das Ausgeben von args in der Konsole.
+     * @param args Die Argumente aus einer Methode, welche zu einer Liste in einem String verwandelt werden sollen.
+     * @return String, welcher die Liste der args-Objekte ist.
+     * @author Elias Glauert
+     */
+    public static String argsToString(Object[] args) {
+        if (args == null) return "null";
+        String ret_string = "[";
+        for (int i = 0; i < args.length; i++) {
+            Object object = args[i];
+            ret_string += object.toString() + (i == args.length - 1 ? "" : ", ");
+        }
+        return ret_string + "]";
     }
 }

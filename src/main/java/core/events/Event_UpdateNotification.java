@@ -5,11 +5,13 @@ import gui.GuiManager;
 
 import java.util.ArrayList;
 
+import static core.Main.argsToString;
+
 /**
  * Event für das Aktualisieren der Benachrichtigungsliste im GUI.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-07
  */
 public class Event_UpdateNotification extends Event {
@@ -25,6 +27,8 @@ public class Event_UpdateNotification extends Event {
         super(args);
 
         // if (args.length != 2) throw new ArrayWrongSizeException(2, args.length);
+
+        System.out.println(" ~ db ~ Event_ChangeView Konstruktor mit args: " + argsToString(args));
 
         GuiManager guiManager = (GuiManager) args[0];
         guiManager.updateNotificationList((ArrayList<Notification>) args[1]);

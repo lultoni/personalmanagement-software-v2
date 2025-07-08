@@ -27,23 +27,27 @@ public class NotificationHub extends JPanel {
         setLayout(new BorderLayout());
 
         notificationButton = new JButton("Notifications");
-        notificationButton.addActionListener(e -> showPopupMenu());
+        notificationButton.addActionListener(_ -> showPopupMenu());
 
         updateButtonIcon();
 
         add(notificationButton, BorderLayout.NORTH);
     }
 
+    // TODO implement the non gpt-version of this function
     private void updateButtonIcon() {
+        System.out.println(" ~ db ~ gui.elements.NotificationHub.updateButtonIcon()");
+
         // Set icon based on number of notifications
         int notificationCount = notifications.size();
         ImageIcon icon = new ImageIcon("icon_path"); // Replace with actual icon path
         notificationButton.setIcon(icon);
 
         // Custom label showing the count of notifications
-        notificationButton.setText("Notifications (" + notificationCount + ")");
+        notificationButton.setText((notificationCount > 0 ? "(" + notificationCount + ") " : "") + "Notifications");
     }
 
+    // TODO implement the non gpt-version of this function
     private void showPopupMenu() {
         JPopupMenu popupMenu = new JPopupMenu();
         for (Notification notification : notifications) {
@@ -53,4 +57,9 @@ public class NotificationHub extends JPanel {
         popupMenu.show(notificationButton, notificationButton.getWidth(), notificationButton.getHeight());
     }
 
+    public void setNotifications(ArrayList<Notification> notifications) {
+        System.out.println(" ~ db ~ gui.elements.NotificationHub.setNotifications()");
+        this.notifications = notifications;
+        updateButtonIcon();
+    }
 }

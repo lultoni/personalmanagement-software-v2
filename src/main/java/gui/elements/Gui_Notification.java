@@ -2,8 +2,8 @@ package gui.elements;
 
 import core.EventManager;
 import core.Notification;
-import gui.views.View;
 import javax.swing.*;
+import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 
 /**
@@ -11,17 +11,16 @@ import java.awt.*;
  * Beinhaltet den Titel, die Beschreibung, den Knopf zum View und den Knopf zum Löschen.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-07
  */
 public class Gui_Notification extends JPanel {
 
-    private Notification notification;
-
     public Gui_Notification(Notification notification, EventManager eventManager) {
-        this.notification = notification;
 
         setLayout(new GridLayout(2, 2));
+
+        setBorder(new SoftBevelBorder(SoftBevelBorder.RAISED));
 
         JLabel titleLabel = new JLabel(notification.getNotification_titel());
         JLabel descriptionLabel = new JLabel(notification.getNotification_description());
@@ -33,8 +32,8 @@ public class Gui_Notification extends JPanel {
         deleteButton.addActionListener(_ -> eventManager.callEvent("popNotification", new Object[]{notification.getNotification_id()}));
 
         add(titleLabel);
-        add(descriptionLabel);
         add(viewButton);
+        add(descriptionLabel);
         add(deleteButton);
     }
 }

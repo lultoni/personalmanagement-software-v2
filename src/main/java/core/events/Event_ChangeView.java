@@ -1,11 +1,14 @@
 package core.events;
 
+import core.Main;
 import core.Notification;
 import core.events.Event;
 import gui.GuiManager;
 import gui.views.View;
 
 import java.util.ArrayList;
+
+import static core.Main.argsToString;
 
 /**
  * Event für das Ändern des Views im GUI.
@@ -24,6 +27,8 @@ public class Event_ChangeView extends Event {
      */
     public Event_ChangeView(Object[] args) {
         super(args);
+
+        System.out.println(" ~ db ~ Event_ChangeView Konstruktor mit args: " + argsToString(args));
 
         GuiManager guiManager = (GuiManager) args[0];
         guiManager.changeView((View) args[1]);

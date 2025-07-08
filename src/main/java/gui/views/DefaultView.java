@@ -9,7 +9,7 @@ import java.awt.*;
  * Der Inhalt umfasst ein zentriertes JLabel mit dem Text "Default/Error View".
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-05
  */
 public class DefaultView extends View {
@@ -28,6 +28,11 @@ public class DefaultView extends View {
         setLayout(new GridLayout());
         add(new JLabel("(Hier könnte ihre Werbung stehen)"));
 
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultView('" + getView_id() + "', '" + getView_name() + "')";
     }
 
 }

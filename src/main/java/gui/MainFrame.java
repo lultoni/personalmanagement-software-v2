@@ -9,7 +9,6 @@ import gui.views.DefaultView;
 import gui.views.View;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -58,6 +57,7 @@ public class MainFrame extends JFrame {
      */
     // TODO überarbeite diese beschreibung
     public MainFrame(ArrayList<Notification> notifications, EventManager eventManager) {
+        this.notifications = notifications;
         this.eventManager = eventManager;
 
         setTitle("test title");
@@ -85,8 +85,30 @@ public class MainFrame extends JFrame {
 
     }
 
+    /**
+     * Ändert den View, welcher im Center des BorderLayouts ist.
+     *
+     * @author Elias Glauert
+     */
     public void changeView(View view) {
+
+        Component activeViewComponent = ((BorderLayout) getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER);
+        if (activeViewComponent != null) {
+            remove(activeViewComponent);
+        }
+
         currentView = view;
+        add(currentView, BorderLayout.CENTER);
+
         titleBar.changeText(view.getView_name());
+
+        revalidate();
+        repaint();
+    }
+
+    public void setNotifications(ArrayList<Notification> notifications) {
+        System.out.println(" ~ db ~ gui.MainFrame.setNotifications()");
+        this.notifications = notifications;
+        notificationHub.setNotifications(notifications);
     }
 }

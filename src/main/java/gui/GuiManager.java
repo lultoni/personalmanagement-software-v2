@@ -49,13 +49,14 @@ public class GuiManager {
     }
 
     /**
-     * Konstruktor für den GuiManager.
+     * Gibt der mainFrame den Call, dass die Notifications aktualisiert werden soll.
      *
      * @param notifications Die Liste der Benachrichtigungen die angezeigt werden sollen im GUI.
      * @author Elias Glauert
      */
     public void updateNotificationList(ArrayList<Notification> notifications) {
-        // TODO call the mainframe and tell it to update the notification list based on the given notifications
+        System.out.println(" ~ db ~ gui.GuiManager.updateNotificationList()");
+        mainFrame.setNotifications(notifications);
     }
 
     /**
@@ -65,8 +66,21 @@ public class GuiManager {
      * @author Elias Glauert
      */
     public void changeView(View view) {
+        System.out.println(" ~ db ~ gui.GuiManager.changeView(" + view.toString() + ")");
         view_history.add(view);
+        printViewHistory();
         mainFrame.changeView(view);
+    }
+
+    /**
+     * Print the current View History into the console.
+     * @author Elias Glauert
+     */
+    private void printViewHistory() {
+        System.out.println("GuiManager - View History (Newest at the bottom):");
+        for (View view: view_history) {
+            System.out.println(" - " + view.toString());
+        }
     }
 
     /**
