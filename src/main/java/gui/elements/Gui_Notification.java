@@ -16,6 +16,10 @@ import java.awt.*;
  */
 public class Gui_Notification extends JPanel {
 
+    // TODO add a currentView param, so you can compare that to the connected view, disabling the view button if they are the same
+    // TODO close the pop-up menu on change view
+    // TODO update the pop-up menu on delete notification (or just delete the gui-notif?)
+    // TODO --> maybe do both over events
     public Gui_Notification(Notification notification, EventManager eventManager) {
 
         setLayout(new GridLayout(2, 2));

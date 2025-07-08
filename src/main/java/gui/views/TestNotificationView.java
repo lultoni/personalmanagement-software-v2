@@ -10,7 +10,7 @@ import java.awt.*;
  * Wurde verwendet, um das Benachrichtigungssystem zu testen.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-07
  */
 public class TestNotificationView extends View {
@@ -30,7 +30,7 @@ public class TestNotificationView extends View {
         setLayout(new GridLayout());
         JButton createNotification1 = new JButton("This view notif");
         createNotification1.addActionListener(_ -> {
-            eventManager.callEvent("createNotification", new Object[]{"Notif_This_View_" + counter, "This is a test notification", new TestNotificationView(eventManager)});
+            eventManager.callEvent("createNotification", new Object[]{"Notif_This_View_" + counter, "This is a test notification", this});
             counter++;
         });
         add(createNotification1);
@@ -46,6 +46,9 @@ public class TestNotificationView extends View {
 
     @Override
     public String toString() {
-        return "TestNotificationView('" + getView_id() + "', '" + getView_name() + "')";
+        // Get identity hash code for the current object and convert to hex
+        String idHex = Integer.toHexString(System.identityHashCode(this));
+
+        return "TestNotificationView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "', counter:" + counter + ")";
     }
 }
