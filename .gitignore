@@ -1,3 +1,4 @@
 /.idea/
 /target/
 /src/main/resources/database.mv.db
+/src/main/resources/database.trace.db

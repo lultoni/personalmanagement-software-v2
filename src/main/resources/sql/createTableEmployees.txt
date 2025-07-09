@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS Employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, 
+    permission_string VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    email VARCHAR(255),
+    phone_number VARCHAR(20),
+    date_of_birth DATE,
+    address TEXT,
+    gender CHAR(1),
+    hire_date DATE,
+    employment_status VARCHAR(50),
+    department_id VARCHAR(255),
+    team_id VARCHAR(255),
+    role_id VARCHAR(255),
+    qualifications TEXT, -- IDs der vorhandenen Qualifikationen
+    completed_trainings TEXT, -- IDs der abgeschlossenen Schulungen
+    manager_id INT,
+    FOREIGN KEY (manager_id) REFERENCES Employees(id) ON DELETE SET NULL
+);

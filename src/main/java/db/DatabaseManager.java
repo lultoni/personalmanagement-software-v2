@@ -1,9 +1,6 @@
 package db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.io.File;
+import java.sql.*;
 import java.util.Properties;
 import java.io.InputStream;
 import util.DatabaseGenerator;
@@ -12,7 +9,7 @@ import util.DatabaseGenerator;
  * Diese Klasse verwaltet die Haupt-Datenbank, auf welcher die persistenten Daten gespeichert sind.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class DatabaseManager {
@@ -50,14 +47,8 @@ public class DatabaseManager {
      * @author Elias Glauert
      */
     public void setupDatabase() {
-        File dbFile = new File(dbFilePath + ".mv.db"); // H2-Datenbank speichert Dateien mit der Endung .mv.db
-        if (!dbFile.exists()) {
-            System.out.println("Datenbankdatei nicht vorhanden. Generiere neue Datei...");
-            DatabaseGenerator.createTables();
-        } else {
-            System.out.println("Datenbankdatei vorhanden. Verbindung wird nur hergestellt...");
-        }
-        connect();
+        DatabaseGenerator.setDbManager(this);
+        DatabaseGenerator.setupDatabase();
     }
 
     /**
@@ -76,7 +67,7 @@ public class DatabaseManager {
             String password = props.getProperty("db.password");
 
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Verbindung zur Datenbank hergestellt.");
+            System.out.println("connect() - Verbindung zur Datenbank hergestellt.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +81,7 @@ public class DatabaseManager {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Verbindung zur Datenbank geschlossen.");
+                System.out.println("disconnect() - Verbindung zur Datenbank geschlossen.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -101,7 +92,76 @@ public class DatabaseManager {
      * Methode zum Abrufen der Verbindung
      * @author Elias Glauert
      */
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connect(); // Reconnect if necessary
+        }
         return connection;
+    }
+
+    /**
+     * Debug Function that prints out all the Tables in the database without the content.
+     */
+    public void printAllTables() {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            // Get the metadata of the database
+            DatabaseMetaData metaData = conn.getMetaData();
+
+            // Retrieve all tables in the current database
+            try (ResultSet tables = metaData.getTables(null, null, "%", new String[] {"TABLE"})) {
+                System.out.println("List of tables in the database:");
+                while (tables.next()) {
+                    String tableName = tables.getString("TABLE_NAME");
+                    System.out.println(" - " + tableName);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // disconnect();
+        }
+    }
+
+    /**
+     * Debug Function that print out a full Table from the Database.
+     * @param tableName Name of the Table that should be printed into the Console.
+     */
+    public void printTable(String tableName) {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            // Execute a query to fetch all content from the table
+            String query = "SELECT * FROM " + tableName;
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                // Get metadata of the result set for column-count and names
+                int columnCount = rs.getMetaData().getColumnCount();
+
+                // Print column names
+                for (int i = 1; i <= columnCount; i++) {
+                    System.out.print(rs.getMetaData().getColumnName(i) + "\t");
+                }
+                System.out.println();
+
+                // Print each row of the result set
+                while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.print(rs.getString(i) + "\t");
+                    }
+                    System.out.println();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // disconnect();
+        }
+    }
+
+    public String getDbFilePath() {
+        return dbFilePath;
     }
 }
