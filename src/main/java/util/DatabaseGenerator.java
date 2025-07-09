@@ -45,7 +45,7 @@ public class DatabaseGenerator {
     public static void setupDatabase() {
         File dbFile = new File(dbManager.getDbFilePath() + ".mv.db");
         if (!dbFile.exists()) {
-            System.out.println("Datenbankdatei nicht vorhanden. Generiere neue Datei...");
+            System.out.println("Datenbankdatei nicht vorhanden. Generiere neue Datei bei '" + dbManager.getDbFilePath() + "'...");
             DatabaseGenerator.createTables();
         } else {
             System.out.println("Datenbankdatei vorhanden. Verbindung wird nur hergestellt...");

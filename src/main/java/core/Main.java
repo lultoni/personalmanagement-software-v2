@@ -9,7 +9,7 @@ import gui.views.TestNotificationView;
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-05
  */
 public class Main {
@@ -18,6 +18,7 @@ public class Main {
      * Nur für das korrekte Schließen des Programms wird der DatabaseManager als Variable hier erstellt.
      */
     private static DatabaseManager dbManager;
+    private static DatabaseManager backupManager;
 
     /**
      * Die main-Methode ist der Startpunkt des Programms.
@@ -31,8 +32,10 @@ public class Main {
 
         System.out.println("Initialisiere Kernkomponenten...");
         EventManager eventManager = new EventManager(null, null);
-        dbManager = new DatabaseManager();
+        dbManager = new DatabaseManager(false);
         dbManager.setupDatabase();
+        backupManager = new DatabaseManager(true);
+        backupManager.setupDatabase();
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
 
@@ -45,7 +48,11 @@ public class Main {
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
 
         eventManager.callEvent("changeView", new Object[]{new TestNotificationView(eventManager)});
-        // TODO when we have a home screen / start screen we change this to the correct one (or do it before we print the message that it was started correctly)
+        // TODO when we have a home screen / start screen we change this to the correct one
+        //  (or do it before we print the message that it was started correctly)
+
+        dbManager.printAllTables();
+        backupManager.printAllTables();
     }
 
     /**
@@ -64,8 +71,13 @@ public class Main {
         return ret_string + "]";
     }
 
+    /**
+     * Beendet das Programm, nachdem die Datenbankverbindungen getrennt wurden.
+     * @author Elias Glauert
+     */
     public static void exitProgram() {
         dbManager.disconnect();
+        backupManager.disconnect();
         System.exit(0);
     }
 }

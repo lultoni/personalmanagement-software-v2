@@ -9,25 +9,29 @@ import util.DatabaseGenerator;
  * Diese Klasse verwaltet die Haupt-Datenbank, auf welcher die persistenten Daten gespeichert sind.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-05
  */
 public class DatabaseManager {
 
     private Connection connection;
     private String dbFilePath;
+    private boolean isBackup;
 
     /**
      * Konstruktor für den DatabaseManager.
      * @author Elias Glauert
      */
-    public DatabaseManager() {
+    public DatabaseManager(boolean isBackup) {
+        this.isBackup = isBackup;
         try {
             // Properties einstellen
+            String file_location_properties = fetchPropertyName();
+            System.out.println("Aufsetzen des DatabaseManagers für folgende Properties: " + file_location_properties);
             Properties props = new Properties();
-            try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream(file_location_properties)) {
                 if (input == null) {
-                    System.out.println("Fehler: konnte die database.properties nicht finden!");
+                    System.out.println("Fehler: konnte die " + file_location_properties + " nicht finden!");
                 } else {
                     props.load(input);
                     System.out.println("Properties erfolgreich geladen.");
@@ -40,6 +44,22 @@ public class DatabaseManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gives back the name of the Properties File based on if this is the backup DatabaseManager or not.
+     * @author Elias Glauert
+     */
+    private String fetchPropertyName() {
+        return isBackup ? "backup.properties" : "database.properties";
+    }
+
+    /**
+     * Gives back the name of the database based on if this is the backup DatabaseManager or not.
+     * @author Elias Glauert
+     */
+    private String fetchClearName() {
+        return fetchPropertyName().substring(0, fetchPropertyName().length() == 17 ? 6 : 8);
     }
 
     /**
@@ -58,7 +78,7 @@ public class DatabaseManager {
     public void connect() {
         try {
             Properties props = new Properties();
-            try (InputStream input = getClass().getResourceAsStream("/database.properties")) {
+            try (InputStream input = getClass().getResourceAsStream("/" + fetchPropertyName())) {
                 props.load(input);
             }
 
@@ -67,7 +87,7 @@ public class DatabaseManager {
             String password = props.getProperty("db.password");
 
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("connect() - Verbindung zur Datenbank hergestellt.");
+            System.out.println("connect() - Verbindung zu " + fetchClearName() + " hergestellt.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +101,7 @@ public class DatabaseManager {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("disconnect() - Verbindung zur Datenbank geschlossen.");
+                System.out.println("disconnect() - Verbindung zu " + fetchClearName() + " geschlossen.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -111,7 +131,7 @@ public class DatabaseManager {
 
             // Retrieve all tables in the current database
             try (ResultSet tables = metaData.getTables(null, null, "%", new String[] {"TABLE"})) {
-                System.out.println("List of tables in the database:");
+                System.out.println("List of tables in the " + fetchClearName() + ":");
                 while (tables.next()) {
                     String tableName = tables.getString("TABLE_NAME");
                     System.out.println(" - " + tableName);
@@ -120,8 +140,6 @@ public class DatabaseManager {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // disconnect();
         }
     }
 
@@ -156,8 +174,6 @@ public class DatabaseManager {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // disconnect();
         }
     }
 

@@ -77,7 +77,8 @@ public class MainFrame extends JFrame {
                 Main.exitProgram();
             }
         });
-        setBounds(100, 100, 1000, 720);
+        setSize(1000, 720);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         currentView = new DefaultView();
