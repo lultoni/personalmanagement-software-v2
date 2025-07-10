@@ -19,7 +19,7 @@ Automatisch wird Folgendes installiert (falls nicht vorhanden):
 ### CLI-Kommando
 
 - `java -jar [pfad zur jar-datei]`
-- Neuste Version: `java -jar docs/jar-history/pm-software-1.1-SNAPSHOT.jar`
+- Neuste Version: `java -jar docs/jar-history/pm-software-1.2-SNAPSHOT.jar`
 
 ## Was ist noch zu beachten?
 

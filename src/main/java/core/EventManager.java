@@ -1,6 +1,7 @@
 package core;
 
 import core.events.*;
+import db.DatabaseManager;
 import gui.GuiManager;
 
 import static core.Main.argsToString;
@@ -17,6 +18,8 @@ public class EventManager {
 
     private GuiManager guiManager;
     private NotificationManager notificationManager;
+    private DatabaseManager mainManager;
+    private DatabaseManager backupManager;
 
     /**
      * Konstruktor für den EventManager.
@@ -25,10 +28,12 @@ public class EventManager {
      * @param notificationManager Verbindung zum Notification Manager.
      * @author Elias Glauert
      */
-    public EventManager(GuiManager guiManager, NotificationManager notificationManager) {
+    public EventManager(GuiManager guiManager, NotificationManager notificationManager, DatabaseManager mainManager, DatabaseManager backupManager) {
 
         this.guiManager = guiManager;
         this.notificationManager = notificationManager;
+        this.mainManager = mainManager;
+        this.backupManager = backupManager;
 
     }
 
@@ -42,25 +47,34 @@ public class EventManager {
         System.out.println(" ~ db ~ callEvent('" + event_id + "', " + argsToString(args) + ")");
         switch (event_id) {
             case "updateNotification" -> {
-                System.out.println("   | updateNotification Event Creation");
+                System.out.println("   | " + event_id + " Event Creation");
                 new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
             }
             case "changeView" -> {
-                System.out.println("   | changeView Event Creation");
+                System.out.println("   | " + event_id + " Event Creation");
                 new Event_ChangeView(new Object[]{guiManager, args[0]});
             }
             case "popNotification" -> {
-                System.out.println("   | popNotification Event Creation");
+                System.out.println("   | " + event_id + " Event Creation");
                 new Event_PopNotification(new Object[]{notificationManager, args[0]});
             }
             case "createNotification" -> {
-                System.out.println("   | createNotification Event Creation");
+                System.out.println("   | " + event_id + " Event Creation");
                 new Event_CreateNotification(new Object[]{notificationManager, args[0], args[1], args[2]});
             }
             case "moveBackView" -> {
-                System.out.println("   | moveBackView Event Creation");
+                System.out.println("   | " + event_id + " Event Creation");
                 new Event_MoveBackView(new Object[]{guiManager});
             }
+            case "createBackup" -> {
+                System.out.println("   | " + event_id + " Event Creation");
+                new Event_CreateBackup(new Object[]{mainManager, backupManager});
+            }
+            case "loadBackup" -> {
+                System.out.println("   | " + event_id + " Event Creation");
+                new Event_LoadBackup(new Object[]{mainManager, backupManager});
+            }
+            default -> System.out.println("Unexpected event_id '" + event_id + "'.");
         }
     }
 

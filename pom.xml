@@ -7,7 +7,7 @@
     <!-- GRUNDLEGENDE PROJEKTINFORMATIONEN -->
     <groupId>de.euerprojekt</groupId>
     <artifactId>pm-software</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <!-- PROJEKTEIGENSCHAFTEN -->
     <properties>
