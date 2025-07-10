@@ -3,13 +3,17 @@ package core;
 import db.DatabaseManager;
 import gui.GuiManager;
 import gui.views.TestNotificationView;
+import model.Employee;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Hauptklasse der HR-Management-Software.
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.4
+ * @version 1.5
  * @since 2025-07-05
  */
 public class Main {
@@ -51,8 +55,60 @@ public class Main {
         // TODO when we have a home screen / start screen we change this to the correct one
         //  (or do it before we print the message that it was started correctly)
 
-        dbManager.printAllTables();
-        backupManager.printAllTables();
+        // --------- TEST AREA (REMOVE BEFORE FINAL VERSION) ----------
+//        System.out.println("\n-----State before doing anything:-----");
+//        dbManager.printAllTables();
+//        dbManager.printTable("EMPLOYEES");
+//        backupManager.printAllTables();
+//        backupManager.printTable("EMPLOYEES");
+//
+//        System.out.println("\n-----After Adding an example employee:-----");
+//        Employee employee = new Employee(
+//                "max.mustermann",
+//                "12345678",
+//                "",
+//                "Max",
+//                "Mustermann",
+//                "max.mustermann@btbc.de",
+//                "+49 1234 5678910",
+//                new Date(2007, Calendar.FEBRUARY, 9),
+//                "Musterstraße 123, 14469 Potsdam",
+//                'M',
+//                new Date(2024, Calendar.SEPTEMBER, 1),
+//                "null",
+//                "null",
+//                "null",
+//                "null",
+//                "null",
+//                "null",
+//                0,
+//                dbManager);
+//        System.out.println("normal db:");
+//        dbManager.printTable("EMPLOYEES");
+//        System.out.println("backup db:");
+//        backupManager.printTable("EMPLOYEES");
+//
+//        System.out.println("\n-----After Making a backup:-----");
+//        dbManager.copyDatabaseToOtherDbManager(backupManager);
+//        System.out.println("normal db:");
+//        dbManager.printTable("EMPLOYEES");
+//        System.out.println("backup db:");
+//        backupManager.printTable("EMPLOYEES");
+//
+//        System.out.println("\n-----After clearing normal db:-----");
+//        dbManager.clearTable("EMPLOYEES");
+//        System.out.println("normal db:");
+//        dbManager.printTable("EMPLOYEES");
+//        System.out.println("backup db:");
+//        backupManager.printTable("EMPLOYEES");
+//
+//        System.out.println("\n-----After loading the backup:-----");
+//        backupManager.copyDatabaseToOtherDbManager(dbManager);
+//        System.out.println("normal db:");
+//        dbManager.printTable("EMPLOYEES");
+//        System.out.println("backup db:");
+//        backupManager.printTable("EMPLOYEES");
+
     }
 
     /**
@@ -76,6 +132,7 @@ public class Main {
      * @author Elias Glauert
      */
     public static void exitProgram() {
+        System.out.println("\nStarting Exit Process...");
         dbManager.disconnect();
         backupManager.disconnect();
         System.exit(0);

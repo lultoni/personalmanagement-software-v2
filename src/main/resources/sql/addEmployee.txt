@@ -1,0 +1,11 @@
+INSERT INTO Employees (
+    username, password, permission_string, first_name, last_name,
+    email, phone_number, date_of_birth, address, gender, hire_date,
+    employment_status, department_id, team_id, role_id, qualifications,
+    completed_trainings, manager_id
+) VALUES (
+    '{username}', '{password}', '{permissionString}', '{firstName}', '{lastName}',
+    '{email}', '{phoneNumber}', '{dateOfBirth}', '{address}', '{gender}', '{hireDate}',
+    '{employmentStatus}', '{departmentId}', '{teamId}', '{roleId}', '{qualifications}',
+    '{completedTrainings}', {managerId}
+);

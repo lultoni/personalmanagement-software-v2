@@ -1,6 +1,8 @@
 package db;
 
 import java.sql.*;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
 import java.io.InputStream;
 import util.DatabaseGenerator;
@@ -9,7 +11,7 @@ import util.DatabaseGenerator;
  * Diese Klasse verwaltet die Haupt-Datenbank, auf welcher die persistenten Daten gespeichert sind.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-05
  */
 public class DatabaseManager {
@@ -121,6 +123,7 @@ public class DatabaseManager {
 
     /**
      * Debug Function that prints out all the Tables in the database without the content.
+     * @author Elias Glauert
      */
     public void printAllTables() {
         try (Connection conn = getConnection();
@@ -134,7 +137,7 @@ public class DatabaseManager {
                 System.out.println("List of tables in the " + fetchClearName() + ":");
                 while (tables.next()) {
                     String tableName = tables.getString("TABLE_NAME");
-                    System.out.println(" - " + tableName);
+                    System.out.println(" - " + (isSystemTable(tableName) ? "(sys) " : "") + tableName);
                 }
             }
 
@@ -144,8 +147,9 @@ public class DatabaseManager {
     }
 
     /**
-     * Debug Function that print out a full Table from the Database.
-     * @param tableName Name of the Table that should be printed into the Console.
+     * Debug function that print out a full table from the database.
+     * @param tableName Name of the table that should be printed into the console.
+     * @author Elias Glauert
      */
     public void printTable(String tableName) {
         try (Connection conn = getConnection();
@@ -174,6 +178,159 @@ public class DatabaseManager {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Clears all elements from a table.
+     * @param tableName Name of the table that should be cleared.
+     * @author Elias Glauert
+     */
+    public void clearTable(String tableName) {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            // Formulate the SQL command to delete all rows in the specified table
+            String sql = "DELETE FROM " + tableName;
+
+            // Execute the command
+            int rowsAffected = stmt.executeUpdate(sql);
+            System.out.println("clearTable() - " + rowsAffected + " rows deleted from " + tableName);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("clearTable() - Error clearing table: " + tableName);
+        }
+    }
+
+    /**
+     * Copies the own DB-Content to the DB of the other DbManager, so that the other DB's old data is lost.
+     * @param otherDatabaseManager DbManager whose DB will be overwritten.
+     * @author Elias Glauert
+     */
+    public void copyDatabaseToOtherDbManager(DatabaseManager otherDatabaseManager) {
+        try {
+            // Ensure both connections are active
+            this.connect();
+            otherDatabaseManager.connect();
+
+            // Prepare to copy data
+            Connection sourceConnection = this.getConnection();
+            Connection targetConnection = otherDatabaseManager.getConnection();
+
+            DatabaseMetaData metaData = sourceConnection.getMetaData();
+
+            // Retrieve all tables from the source database
+            try (ResultSet tables = metaData.getTables(null, null, "%", new String[]{"TABLE"})) {
+                Statement sourceStmt = sourceConnection.createStatement();
+                Statement targetStmt = targetConnection.createStatement();
+
+                while (tables.next()) {
+                    String tableName = tables.getString("TABLE_NAME");
+
+                    // Filter out system tables by checking the schema name or using specific table name checks
+                    if (!isSystemTable(tableName)) {
+                        try {
+                            // Drop the table in the target database if it exists (to clear it)
+                            targetStmt.execute("DROP TABLE IF EXISTS " + tableName);
+
+                            // Create table structure in the target database
+                            ResultSet columnInfo = metaData.getColumns(null, null, tableName, null);
+                            StringBuilder createTableSQL = new StringBuilder("CREATE TABLE " + tableName + " (");
+
+                            // Track columns to avoid duplicates
+                            HashSet<String> columnNamesSet = new HashSet<>();
+
+                            while (columnInfo.next()) {
+                                String columnName = columnInfo.getString("COLUMN_NAME");
+
+                                // Check if the column name has not been added before to avoid duplicates
+                                if (!columnNamesSet.contains(columnName)) {
+                                    columnNamesSet.add(columnName);
+                                    String columnType = columnInfo.getString("TYPE_NAME");
+                                    int columnSize = columnInfo.getInt("COLUMN_SIZE");
+
+                                    // Handle types and sizes
+                                    createTableSQL.append(columnName).append(" ").append(columnType);
+                                    if (columnType.equalsIgnoreCase("VARCHAR")) {
+                                        createTableSQL.append("(").append(columnSize).append(")");
+                                    }
+                                    createTableSQL.append(", ");
+                                }
+                            }
+                            if (createTableSQL.charAt(createTableSQL.length() - 2) == ',') {
+                                createTableSQL.deleteCharAt(createTableSQL.length() - 2); // Remove trailing comma
+                            }
+                            createTableSQL.append(")");
+
+                            targetStmt.execute(createTableSQL.toString());
+
+                            // Copy data from source table to target table
+                            try (ResultSet rs = sourceStmt.executeQuery("SELECT * FROM " + tableName)) {
+                                ResultSetMetaData rsMetaData = rs.getMetaData();
+                                int columnCount = rsMetaData.getColumnCount();
+
+                                // Prepare insert statement for target database
+                                StringBuilder insertSQL = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
+                                for (int i = 0; i < columnCount; i++) {
+                                    insertSQL.append("?");
+                                    if (i < columnCount - 1) insertSQL.append(", ");
+                                }
+                                insertSQL.append(")");
+
+                                // Insert data into the target table
+                                try (PreparedStatement insertStmt = targetConnection.prepareStatement(insertSQL.toString())) {
+                                    while (rs.next()) {
+                                        for (int i = 1; i <= columnCount; i++) {
+                                            insertStmt.setObject(i, rs.getObject(i));
+                                        }
+                                        insertStmt.executeUpdate();
+                                    }
+                                }
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();  // Log error for table creation or data copying
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // Global error logging
+        }
+    }
+
+    /**
+     * Determines if a table is a system table based on its name.
+     * Modify this method based on the actual system tables found in your environment.
+     * @param tableName the name of the table to check.
+     * @return true if the table is a system table, false otherwise.
+     */
+    private boolean isSystemTable(String tableName) {
+        // Add the names of system tables you wish to exclude
+        HashSet<String> systemTables = new HashSet<>(Arrays.asList(
+                "CONSTANTS", "ENUM_VALUES", "INDEXES", "INDEX_COLUMNS",
+                "INFORMATION_SCHEMA_CATALOG_NAME", "IN_DOUBT", "LOCKS",
+                "QUERY_STATISTICS", "RIGHTS", "ROLES", "SESSIONS",
+                "SESSION_STATE", "SETTINGS", "SYNONYMS", "USERS"));
+
+        return systemTables.contains(tableName);
+    }
+
+    /**
+     * Führt ein Update auf die Datenbank aus.
+     * @param sqlQuery SQL-Befehl, der ausgeführt werden soll. Beispiele könnten INSERT, UPDATE und DELETE sein.
+     * @author Elias Glauert
+     */
+    public void executeUpdate(String sqlQuery) {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            int rowsAffected = stmt.executeUpdate(sqlQuery);
+            System.out.println("executeUpdate() - Befehl ausgeführt, betroffene Zeilen: " + rowsAffected);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("executeUpdate() - Fehler beim Ausführen des Updates.");
         }
     }
 

@@ -17,6 +17,5 @@ CREATE TABLE IF NOT EXISTS Employees (
     role_id VARCHAR(255),
     qualifications TEXT, -- IDs der vorhandenen Qualifikationen
     completed_trainings TEXT, -- IDs der abgeschlossenen Schulungen
-    manager_id INT,
-    FOREIGN KEY (manager_id) REFERENCES Employees(id) ON DELETE SET NULL
+    manager_id INT
 );
