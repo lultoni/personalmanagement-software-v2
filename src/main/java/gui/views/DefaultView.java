@@ -9,7 +9,7 @@ import java.awt.*;
  * Der Inhalt umfasst ein zentriertes JLabel mit dem Text "Default/Error View".
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class DefaultView extends View {
@@ -30,9 +30,15 @@ public class DefaultView extends View {
 
     }
 
+    /**
+     * Gives back the View as a String.
+     * @return All describing characteristics of the object with its hex code in the form of a string.
+     * @author Elias Glauert
+     */
     @Override
     public String toString() {
-        return "DefaultView('" + getView_id() + "', '" + getView_name() + "')";
+        String idHex = Integer.toHexString(System.identityHashCode(this));
+        return "DefaultView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "')";
     }
 
 }

@@ -10,7 +10,7 @@ import java.awt.*;
  * Wurde verwendet, um das Benachrichtigungssystem zu testen.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-07
  */
 public class TestNotificationView extends View {
@@ -44,11 +44,14 @@ public class TestNotificationView extends View {
 
     }
 
+    /**
+     * Gives back the View as a String.
+     * @return All describing characteristics of the object with its hex code in the form of a string.
+     * @author Elias Glauert
+     */
     @Override
     public String toString() {
-        // Get identity hash code for the current object and convert to hex
         String idHex = Integer.toHexString(System.identityHashCode(this));
-
         return "TestNotificationView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "', counter:" + counter + ")";
     }
 }

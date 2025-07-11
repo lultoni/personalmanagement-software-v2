@@ -2,6 +2,7 @@ package core;
 
 import db.DatabaseManager;
 import gui.GuiManager;
+import gui.views.LoginView;
 import gui.views.TestNotificationView;
 
 /**
@@ -43,9 +44,7 @@ public class Main {
         GuiManager guiManager = new GuiManager(eventManager);
         eventManager.setGuiManager(guiManager);
 
-        eventManager.callEvent("changeView", new Object[]{new TestNotificationView(eventManager)});
-        // TODO when we have a home screen / start screen we change this to the correct one
-        //  (or do it before we print the message that it was started correctly)
+        eventManager.callEvent("changeView", new Object[]{new LoginView()});
 
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
 
