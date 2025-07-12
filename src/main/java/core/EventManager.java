@@ -3,6 +3,7 @@ package core;
 import core.events.*;
 import db.DatabaseManager;
 import gui.GuiManager;
+import gui.views.TestNotificationView;
 
 import static core.Main.argsToString;
 
@@ -11,7 +12,7 @@ import static core.Main.argsToString;
  * Diese Klasse verwaltet alle Events, die im Programm stattfinden.
  *
  * @author Elias Glauert
- * @version 1.4
+ * @version 1.5
  * @since 2025-07-05
  */
 public class EventManager {
@@ -73,6 +74,10 @@ public class EventManager {
             case "loadBackup" -> {
                 System.out.println("   | " + event_id + " Event Creation");
                 new Event_LoadBackup(new Object[]{mainManager, backupManager});
+            }
+            case "moveToHomeScreen" -> {
+                // TODO implement the correct home screen
+                callEvent("changeView", new Object[]{new TestNotificationView(this)});
             }
             default -> System.out.println("Unexpected event_id '" + event_id + "'.");
         }
