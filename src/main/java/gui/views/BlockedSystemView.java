@@ -7,7 +7,7 @@ import java.awt.*;
  * View, die angezeigt wird, wenn das System durch einen Administrator blockiert wurde.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-12
  */
 public class BlockedSystemView extends View {
@@ -69,5 +69,12 @@ public class BlockedSystemView extends View {
     public String toString() {
         String idHex = Integer.toHexString(System.identityHashCode(this));
         return "BlockedView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "')";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        return true;
     }
 }

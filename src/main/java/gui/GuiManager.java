@@ -4,6 +4,7 @@ package gui;
 import core.EventManager;
 import core.Notification;
 import gui.views.View;
+import util.PersistentInformationReader;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -33,11 +34,9 @@ public class GuiManager {
 
     /**
      * Konstruktor für den GuiManager.
-     *
      * @param eventManager EventManager Verbindung für den GuiManager.
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public GuiManager(EventManager eventManager) {
 
         this.eventManager = eventManager;
@@ -50,7 +49,6 @@ public class GuiManager {
 
     /**
      * Gibt der mainFrame den Call, dass die Notifications aktualisiert werden soll.
-     *
      * @param notifications Die Liste der Benachrichtigungen die angezeigt werden sollen im GUI.
      * @author Elias Glauert
      */
@@ -61,12 +59,45 @@ public class GuiManager {
 
     /**
      * Wechselt den View und fügt den neuen auf den view_history-Stapel hinzu.
-     *
      * @param view View auf den gewechselt wird.
      * @author Elias Glauert
      */
     public void changeView(View view) {
         System.out.println(" ~ db ~ gui.GuiManager.changeView(" + view.toString() + ")");
+
+        if (PersistentInformationReader.isSystemBlocked()) {
+            System.out.println("   | System is Blocked");
+            if (view.getView_id().equals("view-login")) {
+                System.out.println("   | Move to Login Screen is still allowed");
+                view_history = new ArrayList<>();
+                // Reset, weil wir 'Logged Out' sind und damit keine Views in der Session wollen
+                mainFrame.changeView(view);
+            } else if (view.getView_id().equals("view-blocked")) {
+                System.out.println("   | Move to Blocked-System Screen is still allowed");
+
+                view_history.add(view);
+                printViewHistory();
+                mainFrame.changeView(view);
+            } else {
+                System.out.println("   | System is Blocked. No other view is allowed, returning.");
+                return;
+            }
+        }
+
+        if (view.getView_id().equals("view-login")) {
+            view_history = new ArrayList<>();
+            mainFrame.changeView(view);
+            return;
+        } else if (view.getView_id().equals("view-blocked")) {
+            System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
+            return;
+        }
+
+        if (!view_history.isEmpty() && view.equals(view_history.getLast())) {
+            System.out.println("   | Call tries to change to the already shown view, returning.");
+            return;
+        }
+
         view_history.add(view);
         printViewHistory();
         mainFrame.changeView(view);
@@ -86,7 +117,6 @@ public class GuiManager {
     /**
      * Wechselt zum View vor dem aktuellen und entfernt den aktuellen aus der history.
      * Wenn die History zu klein ist, dann wird nichts getan.
-     *
      * @author Elias Glauert
      */
     public void goToLastView() {

@@ -1,10 +1,6 @@
 package util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,7 +51,21 @@ public class PersistentInformationReader {
 
     private static Properties loadProperties() {
         Properties properties = new Properties();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file_path))) {
+        File file = new File(file_path);
+
+        if (!file.exists()) {
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + file_path);
+                } else {
+                    System.err.println("Failed to create file: " + file_path);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             properties.load(reader);
         } catch (IOException e) {
             e.printStackTrace();

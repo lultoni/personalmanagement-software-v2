@@ -4,3 +4,4 @@
 /src/main/resources/database.trace.db
 /src/main/resources/backup.mv.db
 /src/main/resources/backup.trace.db
+/src/main/resources/persistent.information

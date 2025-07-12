@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * Login View für das GUI.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-11
  */
 public class LoginView extends View {
@@ -105,7 +105,7 @@ public class LoginView extends View {
     }
 
     /**
-     * Gives den View als String zurück.
+     * Gibt den View als String zurück.
      * @return All describing characteristics of the object with its hex code in the form of a string.
      * @author Elias Glauert
      */
@@ -113,5 +113,12 @@ public class LoginView extends View {
     public String toString() {
         String idHex = Integer.toHexString(System.identityHashCode(this));
         return "LoginView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "')";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        return true;
     }
 }
