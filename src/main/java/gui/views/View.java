@@ -6,7 +6,7 @@ import javax.swing.*;
  * Vorlage für Vererbung für wie Views aussehen.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-07
  */
 public class View extends JPanel {
@@ -38,6 +38,16 @@ public class View extends JPanel {
     @Override
     public String toString() {
         return "View('" + getView_id() + "', '" + getView_name() + "')";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        View view = (View) obj;
+        if (!view.getView_id().equals(this.getView_id())) return false;
+        if (!view.getView_name().equals(this.getView_name())) return false;
+        return true;
     }
 
     public String getView_id() {

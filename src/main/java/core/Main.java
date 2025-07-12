@@ -1,16 +1,17 @@
 package core;
 
 import db.DatabaseManager;
+import db.dao.EmployeeDao;
 import gui.GuiManager;
 import gui.views.LoginView;
-import gui.views.TestNotificationView;
+import util.EmployeeGenerator;
 
 /**
  * Hauptklasse der HR-Management-Software.
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.5
+ * @version 1.6
  * @since 2025-07-05
  */
 public class Main {
@@ -28,23 +29,38 @@ public class Main {
      * @param args Kommandozeilenargumente (werden in dieser Anwendung nicht verwendet).
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public static void main(String[] args) {
 
         System.out.println("Initialisiere Kernkomponenten...");
+
         dbManager = new DatabaseManager(false);
         dbManager.setupDatabase();
         backupManager = new DatabaseManager(true);
         backupManager.setupDatabase();
+
+        EmployeeManager employeeManager = new EmployeeManager(null);
+        EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
+        employeeManager.setEmployeeDao(employeeDao);
+        employeeManager.setUpEmployees();
+
         EventManager eventManager = new EventManager(null, null, dbManager, backupManager);
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
+
+        if (!employeeManager.hasEmployeesGenerated()) {
+            EmployeeGenerator.generateEmployees(dbManager, employeeManager, employeeDao);
+            eventManager.callEvent("createBackup", null);
+            dbManager.printTable("EMPLOYEES");
+            backupManager.printTable("EMPLOYEES");
+        }
+
+        LoginManager loginManager = new LoginManager(employeeManager, eventManager);
 
         System.out.println("Starte grafische Benutzeroberfläche...");
         GuiManager guiManager = new GuiManager(eventManager);
         eventManager.setGuiManager(guiManager);
 
-        eventManager.callEvent("changeView", new Object[]{new LoginView()});
+        eventManager.callEvent("changeView", new Object[]{new LoginView(loginManager)});
 
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
 

@@ -54,4 +54,17 @@ public class TestNotificationView extends View {
         String idHex = Integer.toHexString(System.identityHashCode(this));
         return "TestNotificationView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "', counter:" + counter + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        TestNotificationView view = (TestNotificationView) obj;
+        if (view.getCounter() != this.counter) return false;
+        return true;
+    }
+
+    private int getCounter() {
+        return counter;
+    }
 }

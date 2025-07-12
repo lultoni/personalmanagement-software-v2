@@ -1,34 +1,33 @@
 package db.dao;
 
+import core.EmployeeManager;
 import db.DatabaseManager;
 import model.Employee;
 import util.SqlReader;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Mitarbeiter-Datenbank-Zugriffsklasse.
  * Zwischenschicht zwischen Mitarbeiter und Datenbank.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-09
  */
 public class EmployeeDao {
 
     private DatabaseManager dbManager;
-    private Employee employee;
+    private EmployeeManager employeeManager;
 
     /**
      * Konstruktor für EmployeeDao.
      * @author Elias Glauert
      */
-    public EmployeeDao(DatabaseManager dbManager, Employee employee) {
+    public EmployeeDao(DatabaseManager dbManager, EmployeeManager employeeManager) {
         this.dbManager = dbManager;
-        this.employee = employee;
+        this.employeeManager = employeeManager;
     }
 
     /**
@@ -37,6 +36,7 @@ public class EmployeeDao {
      * @author Elias Glauert
      */
     public void addEmployeeToDb(Employee employee) {
+        if (doesEmployeeExistInDb(employee)) return;
         try {
             String sqlCommand = SqlReader.giveCommand("addEmployee");
 
@@ -66,13 +66,20 @@ public class EmployeeDao {
         }
     }
 
+    private boolean doesEmployeeExistInDb(Employee employee) {
+        for (Employee list_emp: getAllEmployeesFromDb()) {
+            if (employee.equals(list_emp)) return true;
+        }
+        return false;
+    }
+
     /**
      * Gibt den Wert des angefragten Fields zurück.
      * @param field Feld, von welchem der Wert zurückgegeben werden soll.
      * @return Der Wert des angefragten Feldes.
      * @author Elias Glauert
      */
-    public String fetchFieldValue(String field) {
+    public String fetchFieldValue(String field, Employee employee) {
         String fieldValue = null;
         try {
             String sqlQuery;
@@ -103,5 +110,57 @@ public class EmployeeDao {
             throw new RuntimeException("Error fetching field value", e);
         }
         return fieldValue;
+    }
+
+    public ArrayList<Employee> getAllEmployeesFromDb() {
+        System.out.println(" ~ getAllEmployeesFromDb()");
+        ArrayList<Employee> ret_list = new ArrayList<>();
+        String query = "SELECT * FROM Employees";
+
+        try (Connection conn = dbManager.getConnection()) {
+            System.out.println("Connection established: " + !conn.isClosed());
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    // Debugging data collection
+                    System.out.println("Creating Employee object for: " + rs.getString("username"));
+
+                    Employee employee = new Employee(
+                            false,
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("permission_string"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getString("email"),
+                            rs.getString("phone_number"),
+                            rs.getDate("date_of_birth"),
+                            rs.getString("address"),
+                            rs.getString("gender").charAt(0),
+                            rs.getDate("hire_date"),
+                            rs.getString("employment_status"),
+                            rs.getString("department_id"),
+                            rs.getString("team_id"),
+                            rs.getString("role_id"),
+                            rs.getString("qualifications"),
+                            rs.getString("completed_trainings"),
+                            rs.getInt("manager_id"),
+                            employeeManager,
+                            this
+                    );
+                    System.out.println("Employee object created successfully.");
+                    ret_list.add(employee);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Proper error handling for connections.
+        }
+
+        return ret_list;
+    }
+
+    public void setEmployeeManager(EmployeeManager employeeManager) {
+        this.employeeManager = employeeManager;
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import core.EmployeeManager;
 import db.DatabaseManager;
 import db.dao.EmployeeDao;
 
@@ -10,7 +11,7 @@ import java.util.Date;
  * Spiegelt die Datenbankobjekte wieder mit erweiterter Funktionalität.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-09
  */
 public class Employee {
@@ -36,10 +37,10 @@ public class Employee {
     private int managerId;
 
     private EmployeeDao employeeDao;
+    private EmployeeManager employeeManager;
 
     /**
      * Konstruktor von der Employee Klasse.
-     * @param id
      * @param username
      * @param password
      * @param permissionString
@@ -60,11 +61,11 @@ public class Employee {
      * @param managerId
      * @author Elias Glauert
      */
-    public Employee(String username, String password, String permissionString, String firstName,
+    public Employee(boolean addEmployeeToDb, String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    int managerId, DatabaseManager dbManager) {
+                    int managerId, EmployeeManager employeeManager, EmployeeDao employeeDao) {
         this.username = username;
         this.password = password;
         this.permissionString = permissionString;
@@ -83,10 +84,12 @@ public class Employee {
         this.qualifications = qualifications;
         this.completedTrainings = completedTrainings;
         this.managerId = managerId;
+        this.employeeManager = employeeManager;
 
-        employeeDao = new EmployeeDao(dbManager, this);
-        employeeDao.addEmployeeToDb(this);
-        id = Integer.valueOf(employeeDao.fetchFieldValue("id"));
+        if (addEmployeeToDb) employeeDao.addEmployeeToDb(this);
+        id = Integer.parseInt(employeeDao.fetchFieldValue("id", this));
+
+        if (addEmployeeToDb) employeeManager.addEmployee(this);
     }
 
     // Getters and Setters
@@ -254,5 +257,32 @@ public class Employee {
                 ", departmentId='" + departmentId + "'" +
                 ", roleId='" + roleId + "'" +
                 ")";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) return false;
+        if (object.getClass() != this.getClass()) return false;
+        Employee employee = (Employee) object;
+        if (employee.getId() != getId()) return false;
+        if (employee.getUsername() != getUsername()) return false;
+        if (employee.getPassword() != getPassword()) return false;
+        if (employee.getPermissionString() != getPermissionString()) return false;
+        if (employee.getFirstName() != getFirstName()) return false;
+        if (employee.getLastName() != getLastName()) return false;
+        if (employee.getEmail() != getEmail()) return false;
+        if (employee.getPhoneNumber() != getPhoneNumber()) return false;
+        if (employee.getDateOfBirth() != getDateOfBirth()) return false;
+        if (employee.getAddress() != getAddress()) return false;
+        if (employee.getGender() != getGender()) return false;
+        if (employee.getHireDate() != getHireDate()) return false;
+        if (employee.getEmploymentStatus() != getEmploymentStatus()) return false;
+        if (employee.getDepartmentId() != getDepartmentId()) return false;
+        if (employee.getTeamId() != getTeamId()) return false;
+        if (employee.getRoleId() != getRoleId()) return false;
+        if (employee.getQualifications() != getQualifications()) return false;
+        if (employee.getCompletedTrainings() != getCompletedTrainings()) return false;
+        if (employee.getManagerId() != getManagerId()) return false;
+        return true;
     }
 }
