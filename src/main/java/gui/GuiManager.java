@@ -71,13 +71,13 @@ public class GuiManager {
                 System.out.println("   | Move to Login Screen is still allowed");
                 view_history = new ArrayList<>();
                 // Reset, weil wir 'Logged Out' sind und damit keine Views in der Session wollen
-                mainFrame.changeView(view);
+                mainFrame.changeView(view, false);
             } else if (view.getView_id().equals("view-blocked")) {
                 System.out.println("   | Move to Blocked-System Screen is still allowed");
 
                 view_history.add(view);
                 printViewHistory();
-                mainFrame.changeView(view);
+                mainFrame.changeView(view, false);
             } else {
                 System.out.println("   | System is Blocked. No other view is allowed, returning.");
                 return;
@@ -86,7 +86,7 @@ public class GuiManager {
 
         if (view.getView_id().equals("view-login")) {
             view_history = new ArrayList<>();
-            mainFrame.changeView(view);
+            mainFrame.changeView(view, false);
             return;
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
@@ -100,7 +100,7 @@ public class GuiManager {
 
         view_history.add(view);
         printViewHistory();
-        mainFrame.changeView(view);
+        mainFrame.changeView(view, view_history.size() > 1);
     }
 
     /**
@@ -131,7 +131,7 @@ public class GuiManager {
 
         view_history.removeLast();
         printViewHistory();
-        mainFrame.changeView(view_history.getLast());
+        mainFrame.changeView(view_history.getLast(), view_history.size() > 1);
 
     }
 

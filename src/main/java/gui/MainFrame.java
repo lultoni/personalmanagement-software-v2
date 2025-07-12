@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
      *
      * @author Elias Glauert
      */
-    public void changeView(View view) {
+    public void changeView(View view, boolean backButtonEnabled) {
 
         Component activeViewComponent = ((BorderLayout) getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER);
         if (activeViewComponent != null) {
@@ -121,6 +121,8 @@ public class MainFrame extends JFrame {
         add(currentView, BorderLayout.CENTER);
 
         titleBar.changeText(view.getView_name());
+
+        backButton.setEnabled(backButtonEnabled);
 
         revalidate();
         repaint();
