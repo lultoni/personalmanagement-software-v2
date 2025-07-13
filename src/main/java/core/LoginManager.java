@@ -29,11 +29,13 @@ public class LoginManager {
 
     /**
      * Anmeldeversuch Funktion, welche überprüft, ob die Request Valide ist.
+     *
      * @param username Nutzername, welcher überprüft werden soll
      * @param password Passwort, welches überprüft werden soll
+     * @return
      * @author Elias Glauert
      */
-    public void attemptLogin(String username, String password) {
+    public boolean attemptLogin(String username, String password) {
         System.out.println("Anmeldeversuch mit Daten:");
         System.out.println(" - username=" + username);
         System.out.println(" - password=" + password);
@@ -41,8 +43,13 @@ public class LoginManager {
         if (employee != null) {
             System.out.println("Anmeldedaten sind Valide");
             PersistentInformationReader.setUserLoggedIn(true);
-            eventManager.callEvent("moveToHomeScreen", null);
+            return true;
         }
+        return false;
+    }
+
+    public void proceedToSoftware() {
+        eventManager.callEvent("moveToHomeScreen", null);
     }
 
     /**

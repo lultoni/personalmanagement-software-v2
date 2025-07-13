@@ -1,21 +1,23 @@
 package gui.views;
 
 import core.LoginManager;
+import util.PersistentInformationReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 /**
  * Login View für das GUI.
- *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-11
  */
 public class LoginView extends View {
 
-    private LoginManager loginManager;
+    private final LoginManager loginManager;
+    private JLabel feedbackLabel;
 
     /**
      * Konstruktor für die LoginView Klasse.
@@ -32,6 +34,19 @@ public class LoginView extends View {
         // Hauptpanel mit zentriertem Layout
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(240, 248, 255)); // Hintergrundfarbe
+
+        if (PersistentInformationReader.isSystemBlocked()) {
+            JLabel blockedLabel = new JLabel("<html><div style='text-align: center;'>"
+                    + "Das System befindet sich derzeit im Wartungsmodus.<br>"
+                    + "Anmeldungen sind vorübergehend deaktiviert."
+                    + "</div></html>", SwingConstants.CENTER);
+            blockedLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+            blockedLabel.setForeground(Color.RED);
+            mainPanel.add(blockedLabel);
+            setLayout(new BorderLayout());
+            add(mainPanel, BorderLayout.CENTER);
+            return;
+        }
 
         // Login-Box
         JPanel loginPanel = new JPanel();
@@ -72,6 +87,13 @@ public class LoginView extends View {
         passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordField.setBorder(BorderFactory.createTitledBorder("Passwort"));
 
+        // Feedback-Label
+        feedbackLabel = new JLabel(" ");
+        feedbackLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+        feedbackLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        feedbackLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        feedbackLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
         // Login Button
         JButton loginButton = new JButton("Anmelden");
         loginButton.setMaximumSize(new Dimension(280, 40));
@@ -82,10 +104,24 @@ public class LoginView extends View {
         ActionListener loginAction = _ -> {
             String username = usernameField.getText().trim();
             String password = new String(passwordField.getPassword());
-            loginManager.attemptLogin(username, password);
+
+            boolean loginSuccess = loginManager.attemptLogin(username, password);
+
+            if (loginSuccess) {
+                showFeedback("Anmeldung erfolgreich.", new Color(0, 128, 0));
+
+                // Leichte Verzögerung um mehr User Feedback zu zeigen
+                new Timer(1000, _ -> loginManager.proceedToSoftware()) {{
+                    setRepeats(false);
+                }}.start();
+
+            } else {
+                String variation_1 = "Benutzername oder Passwort ist falsch.";
+                String variation_2 = "Eingaben waren erneut falsch.";
+                showFeedback((feedbackLabel.getText().equals(variation_1)) ? variation_2 : variation_1, Color.RED);
+            }
         };
 
-        // Login beim Buttonklick oder Enter-Taste
         loginButton.addActionListener(loginAction);
         passwordField.addActionListener(loginAction);
 
@@ -97,6 +133,8 @@ public class LoginView extends View {
         loginPanel.add(passwordField);
         loginPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         loginPanel.add(loginButton);
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        loginPanel.add(feedbackLabel);
 
         mainPanel.add(loginPanel);
 
@@ -105,10 +143,13 @@ public class LoginView extends View {
     }
 
     /**
-     * Gibt den View als String zurück.
-     * @return All describing characteristics of the object with its hex code in the form of a string.
-     * @author Elias Glauert
+     * Zeigt eine Feedback-Nachricht im Label an.
      */
+    private void showFeedback(String message, Color color) {
+        feedbackLabel.setText(message);
+        feedbackLabel.setForeground(color);
+    }
+
     @Override
     public String toString() {
         String idHex = Integer.toHexString(System.identityHashCode(this));
@@ -118,7 +159,6 @@ public class LoginView extends View {
     @Override
     public boolean equals(Object obj) {
         if (!super.equals(obj)) return false;
-        if (obj.getClass() != this.getClass()) return false;
-        return true;
+        return obj.getClass() == this.getClass();
     }
 }
