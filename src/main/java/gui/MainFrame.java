@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.4
+ * @version 1.5
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -128,9 +128,25 @@ public class MainFrame extends JFrame {
         repaint();
     }
 
-    public void setNotifications(ArrayList<Notification> notifications) {
+    /**
+     * Setzt die Benachrichtigungen auf die übergebene Liste.
+     * @param notifications
+     * @param closePopUp
+     * @author Elias Glauert
+     */
+    public void setNotifications(ArrayList<Notification> notifications, boolean closePopUp) {
         System.out.println(" ~ db ~ gui.MainFrame.setNotifications()");
+        System.out.println("   | closePopUp: " + closePopUp);
         this.notifications = notifications;
-        notificationHub.setNotifications(notifications);
+        notificationHub.setNotifications(notifications, closePopUp);
+    }
+
+    /**
+     * Aktualisiert die Benachrichtigungen.
+     * @author Elias Glauert
+     */
+    public void updateNotifications() {
+        System.out.println(" ~ db ~ gui.MainFrame.updateNotifications()");
+        setNotifications(notifications, true);
     }
 }

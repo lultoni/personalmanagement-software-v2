@@ -1,12 +1,7 @@
 package core.events;
 
-import core.Main;
-import core.Notification;
-import core.events.Event;
 import gui.GuiManager;
 import gui.views.View;
-
-import java.util.ArrayList;
 
 import static core.Main.argsToString;
 

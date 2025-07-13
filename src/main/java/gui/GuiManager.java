@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -52,9 +52,19 @@ public class GuiManager {
      * @param notifications Die Liste der Benachrichtigungen die angezeigt werden sollen im GUI.
      * @author Elias Glauert
      */
-    public void updateNotificationList(ArrayList<Notification> notifications) {
+    public void updateNotificationList(ArrayList<Notification> notifications, boolean closePopUp) {
         System.out.println(" ~ db ~ gui.GuiManager.updateNotificationList()");
-        mainFrame.setNotifications(notifications);
+        System.out.println("   | closePopUp: " + closePopUp);
+        mainFrame.setNotifications(notifications, closePopUp);
+    }
+
+    /**
+     * Gibt der mainFrame den Call, dass die Notifications aktualisiert werden soll.
+     * @author Elias Glauert
+     */
+    public void updateNotifications() {
+        System.out.println(" ~ db ~ gui.GuiManager.updateNotifications()");
+        mainFrame.updateNotifications();
     }
 
     /**
@@ -134,5 +144,4 @@ public class GuiManager {
         mainFrame.changeView(view_history.getLast(), view_history.size() > 1);
 
     }
-
 }

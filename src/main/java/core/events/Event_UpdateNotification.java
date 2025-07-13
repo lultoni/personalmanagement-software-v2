@@ -31,7 +31,7 @@ public class Event_UpdateNotification extends Event {
         System.out.println(" ~ db ~ Event_ChangeView Konstruktor mit args: " + argsToString(args));
 
         GuiManager guiManager = (GuiManager) args[0];
-        guiManager.updateNotificationList((ArrayList<Notification>) args[1]);
+        guiManager.updateNotificationList((ArrayList<Notification>) args[1], (boolean) args[2]);
     }
 
 }

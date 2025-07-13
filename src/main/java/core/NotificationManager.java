@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet die Benachrichtigungen, die der Benutzer erhält.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-05
  */
 public class NotificationManager {
@@ -56,7 +56,7 @@ public class NotificationManager {
         notification_counter++;
         notification_list.add(notification);
 
-        eventManager.callEvent("updateNotification", null);
+        eventManager.callEvent("updateNotification", new Object[]{true});
 
     }
 
@@ -75,7 +75,7 @@ public class NotificationManager {
             }
         }
 
-        eventManager.callEvent("updateNotification", null);
+        eventManager.callEvent("updateNotification", new Object[]{false});
 
     }
 

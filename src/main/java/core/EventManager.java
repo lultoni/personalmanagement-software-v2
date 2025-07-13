@@ -49,7 +49,7 @@ public class EventManager {
         switch (event_id) {
             case "updateNotification" -> {
                 System.out.println("   | " + event_id + " Event Creation");
-                new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list()});
+                new Event_UpdateNotification(new Object[]{guiManager, notificationManager.getNotification_list(), args[0]});
             }
             case "changeView" -> {
                 System.out.println("   | " + event_id + " Event Creation");
