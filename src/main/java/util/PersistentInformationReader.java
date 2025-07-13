@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * Statische Klasse, welche die Informationen aus der Datei 'persistent.information' liest und schreibt.
- * @version 1.0
+ * @version 1.1
  * @author Elias Glauert
  * @since 2025-07-12
  */
@@ -37,6 +37,12 @@ public class PersistentInformationReader {
         return Boolean.parseBoolean(blockedStr);
     }
 
+    public static boolean isUserLoggedIn() {
+        Properties properties = loadProperties();
+        String loggedInStr = properties.getProperty("user.logged.in", "False");
+        return Boolean.parseBoolean(loggedInStr);
+    }
+
     public static void setBackupDate(String backupDate) {
         Properties properties = loadProperties();
         properties.setProperty("backup.date", backupDate);
@@ -46,6 +52,12 @@ public class PersistentInformationReader {
     public static void setSystemBlocked(boolean isSystemBlocked) {
         Properties properties = loadProperties();
         properties.setProperty("system.blocked", Boolean.toString(isSystemBlocked));
+        saveProperties(properties);
+    }
+
+    public static void setUserLoggedIn(boolean isLoggedIn) {
+        Properties properties = loadProperties();
+        properties.setProperty("user.logged.in", Boolean.toString(isLoggedIn));
         saveProperties(properties);
     }
 

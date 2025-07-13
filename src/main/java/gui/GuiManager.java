@@ -2,6 +2,7 @@ package gui;
 
 
 import core.EventManager;
+import core.LoginManager;
 import core.Notification;
 import gui.views.View;
 import util.PersistentInformationReader;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.4
+ * @version 1.5
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -37,13 +38,13 @@ public class GuiManager {
      * @param eventManager EventManager Verbindung für den GuiManager.
      * @author Elias Glauert
      */
-    public GuiManager(EventManager eventManager) {
+    public GuiManager(EventManager eventManager, LoginManager loginManager) {
 
         this.eventManager = eventManager;
 
         view_history = new ArrayList<>();
 
-        mainFrame = new MainFrame(new ArrayList<>(), eventManager);
+        mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager);
 
     }
 
@@ -78,16 +79,16 @@ public class GuiManager {
         if (PersistentInformationReader.isSystemBlocked()) {
             System.out.println("   | System is Blocked");
             if (view.getView_id().equals("view-login")) {
-                System.out.println("   | Move to Login Screen is still allowed");
+                System.out.println("   | Move to Login Screen is still allowed, resetting the View Tree.");
                 view_history = new ArrayList<>();
                 // Reset, weil wir 'Logged Out' sind und damit keine Views in der Session wollen
-                mainFrame.changeView(view, false);
+                mainFrame.changeView(view, shouldBackButtonBeEnabled());
             } else if (view.getView_id().equals("view-blocked")) {
-                System.out.println("   | Move to Blocked-System Screen is still allowed");
+                System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
 
                 view_history.add(view);
                 printViewHistory();
-                mainFrame.changeView(view, false);
+                mainFrame.changeView(view, shouldBackButtonBeEnabled());
             } else {
                 System.out.println("   | System is Blocked. No other view is allowed, returning.");
                 return;
@@ -95,8 +96,9 @@ public class GuiManager {
         }
 
         if (view.getView_id().equals("view-login")) {
+            System.out.println("   | Going to Login Screen, resetting the View Tree.");
             view_history = new ArrayList<>();
-            mainFrame.changeView(view, false);
+            mainFrame.changeView(view, shouldBackButtonBeEnabled());
             return;
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
@@ -108,9 +110,18 @@ public class GuiManager {
             return;
         }
 
+        System.out.println("   | Usual Case, working as intended.");
         view_history.add(view);
         printViewHistory();
-        mainFrame.changeView(view, view_history.size() > 1);
+        mainFrame.changeView(view, shouldBackButtonBeEnabled());
+    }
+
+    /**
+     * Private Function to see if the BackButton should be enabled. Only used for better readability.
+     * @author Elias Glauert
+     */
+    private boolean shouldBackButtonBeEnabled() {
+        return view_history.size() > 1;
     }
 
     /**

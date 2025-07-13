@@ -31,7 +31,7 @@ public class EmployeeGenerator {
                 true,
                 "max.mustermann",
                 "12345678",
-                "",
+                PermissionChecker.getEmployeePermissionString("null", "null"),
                 "Max",
                 "Mustermann",
                 "max.mustermann@btbc.de",

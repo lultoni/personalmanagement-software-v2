@@ -1,6 +1,7 @@
 package gui;
 
 import core.EventManager;
+import core.LoginManager;
 import core.Main;
 import core.Notification;
 import gui.elements.FeatureBar;
@@ -8,6 +9,7 @@ import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
 import gui.views.DefaultView;
 import gui.views.View;
+import util.PersistentInformationReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +68,7 @@ public class MainFrame extends JFrame {
      *
      * @author Elias Glauert
      */
-    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager) {
+    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
 
@@ -83,7 +85,7 @@ public class MainFrame extends JFrame {
 
         currentView = new DefaultView();
 
-        featureBar = new FeatureBar();
+        featureBar = new FeatureBar(loginManager, eventManager);
 
         titleBar = new TitleBar();
         notificationHub = new NotificationHub(notifications, eventManager);
@@ -123,6 +125,8 @@ public class MainFrame extends JFrame {
         titleBar.changeText(view.getView_name());
 
         backButton.setEnabled(backButtonEnabled);
+
+        featureBar.updateButtonEnabled();
 
         revalidate();
         repaint();
