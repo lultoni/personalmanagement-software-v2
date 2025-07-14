@@ -2,7 +2,7 @@ package gui.elements;
 
 import core.EventManager;
 import core.LoginManager;
-import gui.views.DefaultView;
+import gui.views.EmployeeDataView;
 import util.PersistentInformationReader;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import java.awt.*;
  * Die FeatureBar beinhaltet alle Features, die dem User zur verfügung stehen.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-07
  */
 public class FeatureBar extends JPanel {
@@ -44,7 +44,7 @@ public class FeatureBar extends JPanel {
         myProfile_button = new JButton("MyProfile");
         myProfile_button.addActionListener(_ -> {
             System.out.println("MyProfile Button Pressed");
-            eventManager.callEvent("changeView", new Object[]{new DefaultView()}); // TODO change this to be the correct screen later on
+            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
         });
         core_features_panel.add(myProfile_button);
         core_features_panel.add(logout_button);

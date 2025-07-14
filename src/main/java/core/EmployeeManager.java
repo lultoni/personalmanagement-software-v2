@@ -10,7 +10,7 @@ import java.util.Objects;
  * Mitarbeiter Verwaltung Klasse.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-11
  */
 public class EmployeeManager {
@@ -73,6 +73,31 @@ public class EmployeeManager {
     public Employee findEmployee(String field1, String content1, String field2, String content2) {
         for (Employee employee: employees) {
             if (Objects.equals(getValueOfField(employee, field1), content1) && Objects.equals(getValueOfField(employee, field2), content2)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Findet einen Mitarbeiter in der Datenbank mit den passenden Daten in den Feldern.
+     * @return Gibt entweder gefunden Mitarbeiter zurück, sonst null.
+     * @author Elias Glauert
+     */
+    public Employee findEmployee(String field, String content) {
+        System.out.println("EmployeeManager.employees.size() = " + employees.size());
+        for (Employee employee: employees) {
+            if (Objects.equals(getValueOfField(employee, field), content)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    public Employee getEmployeeById(int id) {
+        System.out.println("EmployeeManager.employees.size() = " + employees.size());
+        for (Employee employee: employees) {
+            if (employee.getId() == id) {
                 return employee;
             }
         }

@@ -8,7 +8,7 @@ import util.PersistentInformationReader;
  * LoginManager der den Login-Prozess verwaltet.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-11
  */
 public class LoginManager {
@@ -43,6 +43,7 @@ public class LoginManager {
         if (employee != null) {
             System.out.println("Anmeldedaten sind Valide");
             PersistentInformationReader.setUserLoggedIn(true);
+            PersistentInformationReader.setLoggedInUserId(employee.getId());
             return true;
         }
         return false;
@@ -60,5 +61,15 @@ public class LoginManager {
         System.out.println("Logging the User out");
         PersistentInformationReader.setUserLoggedIn(false);
         eventManager.callEvent("changeView", new Object[]{new LoginView(this)});
+    }
+
+    /**
+     * Gibt den eingeloggten Mitarbeiter zurück.
+     * @return
+     * @author Elias Glauert
+     */
+    public Employee getLoggedInUser() {
+        System.out.println(" ~ db ~ LoginManager.getLoggedInUser()");
+        return employeeManager.getEmployeeById(PersistentInformationReader.getLoggedInUserId());
     }
 }

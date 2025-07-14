@@ -1,7 +1,6 @@
 package model;
 
 import core.EmployeeManager;
-import db.DatabaseManager;
 import db.dao.EmployeeDao;
 
 import java.util.Date;
@@ -11,7 +10,7 @@ import java.util.Date;
  * Spiegelt die Datenbankobjekte wieder mit erweiterter Funktionalität.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-09
  */
 public class Employee {
@@ -284,5 +283,24 @@ public class Employee {
         if (employee.getCompletedTrainings() != getCompletedTrainings()) return false;
         if (employee.getManagerId() != getManagerId()) return false;
         return true;
+    }
+
+    public boolean isHR() {
+        // TODO create this function after the company structure is made
+        return false;
+    }
+
+    public boolean isAdmin() {
+        // TODO create this function after the company structure is made
+        return false;
+    }
+
+    /**
+     * Gibt den Manager des Mitarbeiters zurück.
+     * @return Objekt des Typs Employee, welches den Manager beinhaltet
+     * @author Elias Glauert
+     */
+    public Employee getManager() {
+        return employeeManager.findEmployee("id", String.valueOf(getManagerId()));
     }
 }
