@@ -1,0 +1,105 @@
+[
+  {
+    "department-id": "dept-construction",
+    "name": "Bauausführung",
+    "teams": [
+      "team-construction-lead",
+      "team-masonry",
+      "team-concrete",
+      "team-steelwork"
+    ]
+  },
+  {
+    "department-id": "dept-site-operations",
+    "name": "Baustellenbetrieb",
+    "teams": [
+      "team-site-operations-lead",
+      "team-site-logistics",
+      "team-safety",
+      "team-site-management"
+    ]
+  },
+  {
+    "department-id": "dept-equipment",
+    "name": "Geräte & Fuhrpark",
+    "teams": [
+      "team-equipment-lead",
+      "team-machinery",
+      "team-fleet-maintenance"
+    ]
+  },
+  {
+    "department-id": "dept-project-management",
+    "name": "Projektmanagement",
+    "teams": [
+      "team-project-management-lead",
+      "team-project-administration",
+      "team-resource-coordination"
+    ]
+  },
+  {
+    "department-id": "dept-planning",
+    "name": "Planung & Kalkulation",
+    "teams": [
+      "team-planning-lead",
+      "team-scheduling",
+      "team-cost-estimation"
+    ]
+  },
+  {
+    "department-id": "dept-procurement",
+    "name": "Einkauf",
+    "teams": [
+      "team-procurement-lead",
+      "team-supplier-management",
+      "team-material-orders"
+    ]
+  },
+  {
+    "department-id": "dept-it",
+    "name": "IT",
+    "teams": [
+      "team-it-lead",
+      "team-it-infrastructure",
+      "team-it-support",
+      "team-it-dev"
+    ]
+  },
+  {
+    "department-id": "dept-hr",
+    "name": "Human Resources",
+    "teams": [
+      "team-hr-lead",
+      "team-recruiting",
+      "team-payroll",
+      "team-employee-services"
+    ]
+  },
+  {
+    "department-id": "dept-finance",
+    "name": "Finanzen",
+    "teams": [
+      "team-finance-lead",
+      "team-controlling",
+      "team-accounting"
+    ]
+  },
+  {
+    "department-id": "dept-compliance",
+    "name": "Compliance & Recht",
+    "teams": [
+      "team-compliance-lead",
+      "team-legal",
+      "team-data-protection"
+    ]
+  },
+  {
+    "department-id": "dept-sales",
+    "name": "Vertrieb",
+    "teams": [
+      "team-sales-lead",
+      "team-b2b-sales",
+      "team-customer-service"
+    ]
+  }
+]

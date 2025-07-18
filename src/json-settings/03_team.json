@@ -1,0 +1,291 @@
+[
+  {
+    "team-id": "team-construction-lead",
+    "name": "Bauausführung Leitung",
+    "roles": [
+      "role-construction-head"
+    ]
+  },
+  {
+    "team-id": "team-masonry",
+    "name": "Masonry Team",
+    "roles": [
+      "role-mason-foreman",
+      "role-skilled-mason",
+      "role-mason-helper"
+    ]
+  },
+  {
+    "team-id": "team-concrete",
+    "name": "Concrete Team",
+    "roles": [
+      "role-concrete-foreman",
+      "role-concrete-specialist",
+      "role-concrete-laborer"
+    ]
+  },
+  {
+    "team-id": "team-steelwork",
+    "name": "Steelwork Team",
+    "roles": [
+      "role-steel-construction-analyst",
+      "role-steelworker",
+      "role-metalworker"
+    ]
+  },
+  {
+    "team-id": "team-site-operations-lead",
+    "name": "Baustellenbetrieb Leitung",
+    "roles": [
+      "role-site-ops-head"
+    ]
+  },
+  {
+    "team-id": "team-site-logistics",
+    "name": "Site Logistics Team",
+    "roles": [
+      "role-logistics-planner",
+      "role-site-mover"
+    ]
+  },
+  {
+    "team-id": "team-safety",
+    "name": "Safety Team",
+    "roles": [
+      "role-safety-officer",
+      "role-site-inspector"
+    ]
+  },
+  {
+    "team-id": "team-site-management",
+    "name": "Site Management Team",
+    "roles": [
+      "role-site-coordinator",
+      "role-site-supervisor"
+    ]
+  },
+  {
+    "team-id": "team-equipment-lead",
+    "name": "Geräte & Fuhrpark Leitung",
+    "roles": [
+      "role-equipment-head"
+    ]
+  },
+  {
+    "team-id": "team-machinery",
+    "name": "Machinery Team",
+    "roles": [
+      "role-excavator-driver",
+      "role-equipment-technician"
+    ]
+  },
+  {
+    "team-id": "team-fleet-maintenance",
+    "name": "Fleet Maintenance Team",
+    "roles": [
+      "role-fleet-maintenance-specialist",
+      "role-vehicle-mechanic"
+    ]
+  },
+  {
+    "team-id": "team-project-management-lead",
+    "name": "Projektmanagement Leitung",
+    "roles": [
+      "role-project-head"
+    ]
+  },
+  {
+    "team-id": "team-project-administration",
+    "name": "Projektadministration",
+    "roles": [
+      "role-project-admin",
+      "role-documentation-specialist",
+      "role-project-assistant"
+    ]
+  },
+  {
+    "team-id": "team-resource-coordination",
+    "name": "Resource Coordination Team",
+    "roles": [
+      "role-resource-planner",
+      "role-scheduling-assistant"
+    ]
+  },
+  {
+    "team-id": "team-planning-lead",
+    "name": "Planung & Kalkulation Leitung",
+    "roles": [
+      "role-planning-head"
+    ]
+  },
+  {
+    "team-id": "team-scheduling",
+    "name": "Scheduling Team",
+    "roles": [
+      "role-schedule-manager",
+      "role-timeplanner"
+    ]
+  },
+  {
+    "team-id": "team-cost-estimation",
+    "name": "Cost Estimation Team",
+    "roles": [
+      "role-cost-estimator",
+      "role-project-calculator"
+    ]
+  },
+  {
+    "team-id": "team-procurement-lead",
+    "name": "Einkauf Leitung",
+    "roles": [
+      "role-procurement-head"
+    ]
+  },
+  {
+    "team-id": "team-supplier-management",
+    "name": "Supplier Management Team",
+    "roles": [
+      "role-supplier-coordinator",
+      "role-material-buyer"
+    ]
+  },
+  {
+    "team-id": "team-material-orders",
+    "name": "Material Orders Team",
+    "roles": [
+      "role-order-clerk",
+      "role-stock-controller"
+    ]
+  },
+  {
+    "team-id": "team-it-lead",
+    "name": "IT Leitung",
+    "roles": [
+      "role-it-head"
+    ]
+  },
+  {
+    "team-id": "team-it-infrastructure",
+    "name": "IT Infrastructure Team",
+    "roles": [
+      "role-it-systems-admin",
+      "role-network-technician"
+    ]
+  },
+  {
+    "team-id": "team-it-support",
+    "name": "IT Support Team",
+    "roles": [
+      "role-support-specialist",
+      "role-helpdesk-agent"
+    ]
+  },
+  {
+    "team-id": "team-it-dev",
+    "name": "IT Development Team",
+    "roles": [
+      "role-software-dev",
+      "role-system-integrator"
+    ]
+  },
+  {
+    "team-id": "team-hr-lead",
+    "name": "HR Leitung",
+    "roles": [
+      "role-hr-head"
+    ]
+  },
+  {
+    "team-id": "team-recruiting",
+    "name": "Recruiting Team",
+    "roles": [
+      "role-recruiter",
+      "role-talent-sourcer"
+    ]
+  },
+  {
+    "team-id": "team-payroll",
+    "name": "Payroll Team",
+    "roles": [
+      "role-payroll-admin",
+      "role-benefits-officer"
+    ]
+  },
+  {
+    "team-id": "team-employee-services",
+    "name": "Employee Services Team",
+    "roles": [
+      "role-hr-advisor",
+      "role-personnel-consultant"
+    ]
+  },
+  {
+    "team-id": "team-finance-lead",
+    "name": "Finanzen Leitung",
+    "roles": [
+      "role-finance-head"
+    ]
+  },
+  {
+    "team-id": "team-controlling",
+    "name": "Controlling Team",
+    "roles": [
+      "role-controlling-specialist",
+      "role-cost-controller"
+    ]
+  },
+  {
+    "team-id": "team-accounting",
+    "name": "Accounting Team",
+    "roles": [
+      "role-financial-bookkeeper",
+      "role-invoice-specialist"
+    ]
+  },
+  {
+    "team-id": "team-compliance-lead",
+    "name": "Compliance & Recht Leitung",
+    "roles": [
+      "role-compliance-head"
+    ]
+  },
+  {
+    "team-id": "team-legal",
+    "name": "Legal Team",
+    "roles": [
+      "role-legal-consultant",
+      "role-compliance-consultant"
+    ]
+  },
+  {
+    "team-id": "team-data-protection",
+    "name": "Data Protection Team",
+    "roles": [
+      "role-data-privacy-officer",
+      "role-information-security-analyst"
+    ]
+  },
+  {
+    "team-id": "team-sales-lead",
+    "name": "Vertrieb Leitung",
+    "roles": [
+      "role-sales-head"
+    ]
+  },
+  {
+    "team-id": "team-b2b-sales",
+    "name": "B2B Sales Team",
+    "roles": [
+      "role-b2b-account-manager",
+      "role-sales-strategist"
+    ]
+  },
+  {
+    "team-id": "team-customer-service",
+    "name": "Customer Service Team",
+    "roles": [
+      "role-customer-support",
+      "role-client-care-specialist"
+    ]
+  }
+]

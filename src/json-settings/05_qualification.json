@@ -1,0 +1,1202 @@
+[
+  {
+    "department-id": "dept-construction",
+    "qualifications": [
+      {
+        "role-id": "qual-role-construction-head",
+        "description": "Qualifikation für die Rolle Construction Head",
+        "requiredSkills": [
+          "role-construction-head Skill A",
+          "role-construction-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-construction-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-mason-foreman",
+        "description": "Qualifikation für die Rolle Mason Foreman",
+        "requiredSkills": [
+          "role-mason-foreman Skill A",
+          "role-mason-foreman Skill B"
+        ],
+        "certifications": [
+          "role-mason-foreman Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-helper",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-skilled-mason",
+        "description": "Qualifikation für die Rolle Skilled Mason",
+        "requiredSkills": [
+          "role-skilled-mason Skill A",
+          "role-skilled-mason Skill B"
+        ],
+        "certifications": [
+          "role-skilled-mason Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-mason-helper"
+        ]
+      },
+      {
+        "role-id": "qual-role-mason-helper",
+        "description": "Qualifikation für die Rolle Mason Helper",
+        "requiredSkills": [
+          "role-mason-helper Skill A",
+          "role-mason-helper Skill B"
+        ],
+        "certifications": [
+          "role-mason-helper Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-concrete-foreman",
+        "description": "Qualifikation für die Rolle Concrete Foreman",
+        "requiredSkills": [
+          "role-concrete-foreman Skill A",
+          "role-concrete-foreman Skill B"
+        ],
+        "certifications": [
+          "role-concrete-foreman Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-concrete-specialist",
+        "description": "Qualifikation für die Rolle Concrete Specialist",
+        "requiredSkills": [
+          "role-concrete-specialist Skill A",
+          "role-concrete-specialist Skill B"
+        ],
+        "certifications": [
+          "role-concrete-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-concrete-laborer",
+        "description": "Qualifikation für die Rolle Concrete Laborer",
+        "requiredSkills": [
+          "role-concrete-laborer Skill A",
+          "role-concrete-laborer Skill B"
+        ],
+        "certifications": [
+          "role-concrete-laborer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-steel-construction-analyst",
+        "description": "Qualifikation für die Rolle Steel Construction Analyst",
+        "requiredSkills": [
+          "role-steel-construction-analyst Skill A",
+          "role-steel-construction-analyst Skill B"
+        ],
+        "certifications": [
+          "role-steel-construction-analyst Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      },
+      {
+        "role-id": "qual-role-steelworker",
+        "description": "Qualifikation für die Rolle Steelworker",
+        "requiredSkills": [
+          "role-steelworker Skill A",
+          "role-steelworker Skill B"
+        ],
+        "certifications": [
+          "role-steelworker Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-mason-foreman",
+          "qual-role-skilled-mason"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-site-operations",
+    "qualifications": [
+      {
+        "role-id": "qual-role-site-ops-head",
+        "description": "Qualifikation für die Rolle Site Ops Head",
+        "requiredSkills": [
+          "role-site-ops-head Skill A",
+          "role-site-ops-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-site-ops-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-site-inspector",
+          "qual-role-site-mover"
+        ]
+      },
+      {
+        "role-id": "qual-role-site-mover",
+        "description": "Qualifikation für die Rolle Site Mover",
+        "requiredSkills": [
+          "role-site-mover Skill A",
+          "role-site-mover Skill B"
+        ],
+        "certifications": [
+          "role-site-mover Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-site-coordinator",
+          "qual-role-site-inspector"
+        ]
+      },
+      {
+        "role-id": "qual-role-site-inspector",
+        "description": "Qualifikation für die Rolle Site Inspector",
+        "requiredSkills": [
+          "role-site-inspector Skill A",
+          "role-site-inspector Skill B"
+        ],
+        "certifications": [
+          "role-site-inspector Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-site-coordinator",
+          "qual-role-site-mover"
+        ]
+      },
+      {
+        "role-id": "qual-role-site-coordinator",
+        "description": "Qualifikation für die Rolle Site Coordinator",
+        "requiredSkills": [
+          "role-site-coordinator Skill A",
+          "role-site-coordinator Skill B"
+        ],
+        "certifications": [
+          "role-site-coordinator Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-site-inspector",
+          "qual-role-site-mover"
+        ]
+      },
+      {
+        "role-id": "qual-role-site-supervisor",
+        "description": "Qualifikation für die Rolle Site Supervisor",
+        "requiredSkills": [
+          "role-site-supervisor Skill A",
+          "role-site-supervisor Skill B"
+        ],
+        "certifications": [
+          "role-site-supervisor Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-site-inspector",
+          "qual-role-site-mover"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-equipment",
+    "qualifications": [
+      {
+        "role-id": "qual-role-equipment-head",
+        "description": "Qualifikation für die Rolle Equipment Head",
+        "requiredSkills": [
+          "role-equipment-head Skill A",
+          "role-equipment-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-equipment-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-equipment-technician",
+          "qual-role-fleet-maintenance-specialist"
+        ]
+      },
+      {
+        "role-id": "qual-role-equipment-technician",
+        "description": "Qualifikation für die Rolle Equipment Technician",
+        "requiredSkills": [
+          "role-equipment-technician Skill A",
+          "role-equipment-technician Skill B"
+        ],
+        "certifications": [
+          "role-equipment-technician Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-fleet-maintenance-specialist"
+        ]
+      },
+      {
+        "role-id": "qual-role-fleet-maintenance-specialist",
+        "description": "Qualifikation für die Rolle Fleet Maintenance Specialist",
+        "requiredSkills": [
+          "role-fleet-maintenance-specialist Skill A",
+          "role-fleet-maintenance-specialist Skill B"
+        ],
+        "certifications": [
+          "role-fleet-maintenance-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-equipment-technician"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-project-management",
+    "qualifications": [
+      {
+        "role-id": "qual-role-project-head",
+        "description": "Qualifikation für die Rolle Project Head",
+        "requiredSkills": [
+          "role-project-head Skill A",
+          "role-project-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-project-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-resource-planner",
+          "qual-role-schedule-manager"
+        ]
+      },
+      {
+        "role-id": "qual-role-resource-planner",
+        "description": "Qualifikation für die Rolle Resource Planner",
+        "requiredSkills": [
+          "role-resource-planner Skill A",
+          "role-resource-planner Skill B"
+        ],
+        "certifications": [
+          "role-resource-planner Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-project-calculator",
+          "qual-role-schedule-manager"
+        ]
+      },
+      {
+        "role-id": "qual-role-schedule-manager",
+        "description": "Qualifikation für die Rolle Schedule Manager",
+        "requiredSkills": [
+          "role-schedule-manager Skill A",
+          "role-schedule-manager Skill B"
+        ],
+        "certifications": [
+          "role-schedule-manager Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-project-calculator",
+          "qual-role-resource-planner"
+        ]
+      },
+      {
+        "role-id": "qual-role-project-calculator",
+        "description": "Qualifikation für die Rolle Project Calculator",
+        "requiredSkills": [
+          "role-project-calculator Skill A",
+          "role-project-calculator Skill B"
+        ],
+        "certifications": [
+          "role-project-calculator Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-resource-planner",
+          "qual-role-schedule-manager"
+        ]
+      },
+      {
+        "role-id": "qual-role-project-admin",
+        "description": "Verantwortlich für administrative Koordination im Projektverlauf",
+        "requiredSkills": [
+          "Projektkoordination",
+          "Dokumentenmanagement"
+        ],
+        "certifications": [
+          "Grundlagen Projektmanagement"
+        ],
+        "experience": "2+ Jahre in Projektumfeld",
+        "followups": [
+          "qual-role-resource-planner",
+          "qual-role-schedule-manager"
+        ]
+      },
+      {
+        "role-id": "qual-role-project-assistant",
+        "description": "Unterstützung der Projektleitung in organisatorischen Aufgaben",
+        "requiredSkills": [
+          "Organisation",
+          "Zeitmanagement"
+        ],
+        "certifications": [
+          "Büromanagement oder vergleichbar"
+        ],
+        "experience": "1-2 Jahre Assistenz",
+        "followups": [
+          "qual-role-resource-planner",
+          "qual-role-schedule-manager"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-planning",
+    "qualifications": [
+      {
+        "role-id": "qual-role-planning-head",
+        "description": "Qualifikation für die Rolle Planning Head",
+        "requiredSkills": [
+          "role-planning-head Skill A",
+          "role-planning-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-planning-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-cost-controller",
+          "qual-role-cost-estimator"
+        ]
+      },
+      {
+        "role-id": "qual-role-cost-estimator",
+        "description": "Qualifikation für die Rolle Cost Estimator",
+        "requiredSkills": [
+          "role-cost-estimator Skill A",
+          "role-cost-estimator Skill B"
+        ],
+        "certifications": [
+          "role-cost-estimator Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-cost-controller"
+        ]
+      },
+      {
+        "role-id": "qual-role-cost-controller",
+        "description": "Qualifikation für die Rolle Cost Controller",
+        "requiredSkills": [
+          "role-cost-controller Skill A",
+          "role-cost-controller Skill B"
+        ],
+        "certifications": [
+          "role-cost-controller Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-cost-estimator"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-procurement",
+    "qualifications": [
+      {
+        "role-id": "qual-role-procurement-head",
+        "description": "Qualifikation für die Rolle Procurement Head",
+        "requiredSkills": [
+          "role-procurement-head Skill A",
+          "role-procurement-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-procurement-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-order-clerk",
+          "qual-role-supplier-coordinator"
+        ]
+      },
+      {
+        "role-id": "qual-role-supplier-coordinator",
+        "description": "Qualifikation für die Rolle Supplier Coordinator",
+        "requiredSkills": [
+          "role-supplier-coordinator Skill A",
+          "role-supplier-coordinator Skill B"
+        ],
+        "certifications": [
+          "role-supplier-coordinator Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-order-clerk"
+        ]
+      },
+      {
+        "role-id": "qual-role-order-clerk",
+        "description": "Qualifikation für die Rolle Order Clerk",
+        "requiredSkills": [
+          "role-order-clerk Skill A",
+          "role-order-clerk Skill B"
+        ],
+        "certifications": [
+          "role-order-clerk Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-supplier-coordinator"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-it",
+    "qualifications": [
+      {
+        "role-id": "qual-role-it-head",
+        "description": "Qualifikation für die Rolle It Head",
+        "requiredSkills": [
+          "role-it-head Skill A",
+          "role-it-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-it-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-network-technician"
+        ]
+      },
+      {
+        "role-id": "qual-role-it-systems-admin",
+        "description": "Qualifikation für die Rolle It Systems Admin",
+        "requiredSkills": [
+          "role-it-systems-admin Skill A",
+          "role-it-systems-admin Skill B"
+        ],
+        "certifications": [
+          "role-it-systems-admin Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-network-technician",
+          "qual-role-software-dev"
+        ]
+      },
+      {
+        "role-id": "qual-role-network-technician",
+        "description": "Qualifikation für die Rolle Network Technician",
+        "requiredSkills": [
+          "role-network-technician Skill A",
+          "role-network-technician Skill B"
+        ],
+        "certifications": [
+          "role-network-technician Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-software-dev"
+        ]
+      },
+      {
+        "role-id": "qual-role-software-dev",
+        "description": "Qualifikation für die Rolle Software Dev",
+        "requiredSkills": [
+          "role-software-dev Skill A",
+          "role-software-dev Skill B"
+        ],
+        "certifications": [
+          "role-software-dev Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-network-technician"
+        ]
+      },
+      {
+        "role-id": "qual-role-recruiter",
+        "description": "Qualifikation für die Rolle Recruiter",
+        "requiredSkills": [
+          "role-recruiter Skill A",
+          "role-recruiter Skill B"
+        ],
+        "certifications": [
+          "role-recruiter Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-network-technician"
+        ]
+      },
+      {
+        "role-id": "qual-role-benefits-officer",
+        "description": "Qualifikation für die Rolle Benefits Officer",
+        "requiredSkills": [
+          "role-benefits-officer Skill A",
+          "role-benefits-officer Skill B"
+        ],
+        "certifications": [
+          "role-benefits-officer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-network-technician"
+        ]
+      },
+      {
+        "role-id": "qual-role-information-security-analyst",
+        "description": "Qualifikation für die Rolle Information Security Analyst",
+        "requiredSkills": [
+          "role-information-security-analyst Skill A",
+          "role-information-security-analyst Skill B"
+        ],
+        "certifications": [
+          "role-information-security-analyst Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-it-systems-admin",
+          "qual-role-network-technician"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-hr",
+    "qualifications": [
+      {
+        "role-id": "qual-role-hr-head",
+        "description": "Qualifikation für die Rolle Hr Head",
+        "requiredSkills": [
+          "role-hr-head Skill A",
+          "role-hr-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-hr-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-hr-advisor",
+          "qual-role-payroll-admin"
+        ]
+      },
+      {
+        "role-id": "qual-role-payroll-admin",
+        "description": "Qualifikation für die Rolle Payroll Admin",
+        "requiredSkills": [
+          "role-payroll-admin Skill A",
+          "role-payroll-admin Skill B"
+        ],
+        "certifications": [
+          "role-payroll-admin Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-hr-advisor"
+        ]
+      },
+      {
+        "role-id": "qual-role-hr-advisor",
+        "description": "Qualifikation für die Rolle Hr Advisor",
+        "requiredSkills": [
+          "role-hr-advisor Skill A",
+          "role-hr-advisor Skill B"
+        ],
+        "certifications": [
+          "role-hr-advisor Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-payroll-admin"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-finance",
+    "qualifications": [
+      {
+        "role-id": "qual-role-finance-head",
+        "description": "Qualifikation für die Rolle Finance Head",
+        "requiredSkills": [
+          "role-finance-head Skill A",
+          "role-finance-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-finance-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-b2b-account-manager",
+          "qual-role-controlling-specialist"
+        ]
+      },
+      {
+        "role-id": "qual-role-controlling-specialist",
+        "description": "Qualifikation für die Rolle Controlling Specialist",
+        "requiredSkills": [
+          "role-controlling-specialist Skill A",
+          "role-controlling-specialist Skill B"
+        ],
+        "certifications": [
+          "role-controlling-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-b2b-account-manager"
+        ]
+      },
+      {
+        "role-id": "qual-role-b2b-account-manager",
+        "description": "Qualifikation für die Rolle B2B Account Manager",
+        "requiredSkills": [
+          "role-b2b-account-manager Skill A",
+          "role-b2b-account-manager Skill B"
+        ],
+        "certifications": [
+          "role-b2b-account-manager Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-controlling-specialist"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-compliance",
+    "qualifications": [
+      {
+        "role-id": "qual-role-compliance-head",
+        "description": "Qualifikation für die Rolle Compliance Head",
+        "requiredSkills": [
+          "role-compliance-head Skill A",
+          "role-compliance-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-compliance-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-compliance-consultant",
+          "qual-role-legal-consultant"
+        ]
+      },
+      {
+        "role-id": "qual-role-legal-consultant",
+        "description": "Qualifikation für die Rolle Legal Consultant",
+        "requiredSkills": [
+          "role-legal-consultant Skill A",
+          "role-legal-consultant Skill B"
+        ],
+        "certifications": [
+          "role-legal-consultant Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-compliance-consultant",
+          "qual-role-data-privacy-officer"
+        ]
+      },
+      {
+        "role-id": "qual-role-compliance-consultant",
+        "description": "Qualifikation für die Rolle Compliance Consultant",
+        "requiredSkills": [
+          "role-compliance-consultant Skill A",
+          "role-compliance-consultant Skill B"
+        ],
+        "certifications": [
+          "role-compliance-consultant Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-data-privacy-officer",
+          "qual-role-legal-consultant"
+        ]
+      },
+      {
+        "role-id": "qual-role-data-privacy-officer",
+        "description": "Qualifikation für die Rolle Data Privacy Officer",
+        "requiredSkills": [
+          "role-data-privacy-officer Skill A",
+          "role-data-privacy-officer Skill B"
+        ],
+        "certifications": [
+          "role-data-privacy-officer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-compliance-consultant",
+          "qual-role-legal-consultant"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-sales",
+    "qualifications": [
+      {
+        "role-id": "qual-role-sales-head",
+        "description": "Qualifikation für die Rolle Sales Head",
+        "requiredSkills": [
+          "role-sales-head Skill A",
+          "role-sales-head Skill B",
+          "Führungskompetenz",
+          "Projektmanagement",
+          "Kommunikation",
+          "Strategisches Denken"
+        ],
+        "certifications": [
+          "role-sales-head Zertifikat",
+          "Leadership-Zertifikat",
+          "PM-Zertifikat (z. B. PMP)",
+          "Scrum Master (optional)"
+        ],
+        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
+        "followups": [
+          "qual-role-customer-support",
+          "qual-role-sales-strategist"
+        ]
+      },
+      {
+        "role-id": "qual-role-sales-strategist",
+        "description": "Qualifikation für die Rolle Sales Strategist",
+        "requiredSkills": [
+          "role-sales-strategist Skill A",
+          "role-sales-strategist Skill B"
+        ],
+        "certifications": [
+          "role-sales-strategist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-client-care-specialist",
+          "qual-role-customer-support"
+        ]
+      },
+      {
+        "role-id": "qual-role-customer-support",
+        "description": "Qualifikation für die Rolle Customer Support",
+        "requiredSkills": [
+          "role-customer-support Skill A",
+          "role-customer-support Skill B"
+        ],
+        "certifications": [
+          "role-customer-support Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-client-care-specialist",
+          "qual-role-sales-strategist"
+        ]
+      },
+      {
+        "role-id": "qual-role-client-care-specialist",
+        "description": "Qualifikation für die Rolle Client Care Specialist",
+        "requiredSkills": [
+          "role-client-care-specialist Skill A",
+          "role-client-care-specialist Skill B"
+        ],
+        "certifications": [
+          "role-client-care-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-customer-support",
+          "qual-role-sales-strategist"
+        ]
+      }
+    ]
+  },
+  {
+    "department-id": "dept-misc",
+    "qualifications": [
+      {
+        "role-id": "qual-role-metalworker",
+        "description": "Qualifikation für die Rolle Metalworker",
+        "requiredSkills": [
+          "role-metalworker Skill A",
+          "role-metalworker Skill B"
+        ],
+        "certifications": [
+          "role-metalworker Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-safety-officer"
+        ]
+      },
+      {
+        "role-id": "qual-role-logistics-planner",
+        "description": "Qualifikation für die Rolle Logistics Planner",
+        "requiredSkills": [
+          "role-logistics-planner Skill A",
+          "role-logistics-planner Skill B"
+        ],
+        "certifications": [
+          "role-logistics-planner Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-metalworker",
+          "qual-role-safety-officer"
+        ]
+      },
+      {
+        "role-id": "qual-role-safety-officer",
+        "description": "Qualifikation für die Rolle Safety Officer",
+        "requiredSkills": [
+          "role-safety-officer Skill A",
+          "role-safety-officer Skill B"
+        ],
+        "certifications": [
+          "role-safety-officer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-excavator-driver",
+        "description": "Qualifikation für die Rolle Excavator Driver",
+        "requiredSkills": [
+          "role-excavator-driver Skill A",
+          "role-excavator-driver Skill B"
+        ],
+        "certifications": [
+          "role-excavator-driver Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-vehicle-mechanic",
+        "description": "Qualifikation für die Rolle Vehicle Mechanic",
+        "requiredSkills": [
+          "role-vehicle-mechanic Skill A",
+          "role-vehicle-mechanic Skill B"
+        ],
+        "certifications": [
+          "role-vehicle-mechanic Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-scheduling-assistant",
+        "description": "Qualifikation für die Rolle Scheduling Assistant",
+        "requiredSkills": [
+          "role-scheduling-assistant Skill A",
+          "role-scheduling-assistant Skill B"
+        ],
+        "certifications": [
+          "role-scheduling-assistant Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-timeplanner",
+        "description": "Qualifikation für die Rolle Timeplanner",
+        "requiredSkills": [
+          "role-timeplanner Skill A",
+          "role-timeplanner Skill B"
+        ],
+        "certifications": [
+          "role-timeplanner Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-material-buyer",
+        "description": "Qualifikation für die Rolle Material Buyer",
+        "requiredSkills": [
+          "role-material-buyer Skill A",
+          "role-material-buyer Skill B"
+        ],
+        "certifications": [
+          "role-material-buyer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-stock-controller",
+        "description": "Qualifikation für die Rolle Stock Controller",
+        "requiredSkills": [
+          "role-stock-controller Skill A",
+          "role-stock-controller Skill B"
+        ],
+        "certifications": [
+          "role-stock-controller Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-support-specialist",
+        "description": "Qualifikation für die Rolle Support Specialist",
+        "requiredSkills": [
+          "role-support-specialist Skill A",
+          "role-support-specialist Skill B"
+        ],
+        "certifications": [
+          "role-support-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-helpdesk-agent",
+        "description": "Qualifikation für die Rolle Helpdesk Agent",
+        "requiredSkills": [
+          "role-helpdesk-agent Skill A",
+          "role-helpdesk-agent Skill B"
+        ],
+        "certifications": [
+          "role-helpdesk-agent Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-system-integrator",
+        "description": "Qualifikation für die Rolle System Integrator",
+        "requiredSkills": [
+          "role-system-integrator Skill A",
+          "role-system-integrator Skill B"
+        ],
+        "certifications": [
+          "role-system-integrator Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-talent-sourcer",
+        "description": "Qualifikation für die Rolle Talent Sourcer",
+        "requiredSkills": [
+          "role-talent-sourcer Skill A",
+          "role-talent-sourcer Skill B"
+        ],
+        "certifications": [
+          "role-talent-sourcer Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-personnel-consultant",
+        "description": "Qualifikation für die Rolle Personnel Consultant",
+        "requiredSkills": [
+          "role-personnel-consultant Skill A",
+          "role-personnel-consultant Skill B"
+        ],
+        "certifications": [
+          "role-personnel-consultant Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-financial-bookkeeper",
+        "description": "Qualifikation für die Rolle Financial Bookkeeper",
+        "requiredSkills": [
+          "role-financial-bookkeeper Skill A",
+          "role-financial-bookkeeper Skill B"
+        ],
+        "certifications": [
+          "role-financial-bookkeeper Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-invoice-specialist",
+        "description": "Qualifikation für die Rolle Invoice Specialist",
+        "requiredSkills": [
+          "role-invoice-specialist Skill A",
+          "role-invoice-specialist Skill B"
+        ],
+        "certifications": [
+          "role-invoice-specialist Zertifikat"
+        ],
+        "experience": "2+ Jahre Berufserfahrung",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      },
+      {
+        "role-id": "qual-role-documentation-specialist",
+        "description": "Pflege und Standardisierung der Projektdokumentation",
+        "requiredSkills": [
+          "Dokumentationstechniken",
+          "Office-Kenntnisse"
+        ],
+        "certifications": [
+          "DIN 9001 Schulung",
+          "DMS-Erfahrung"
+        ],
+        "experience": "1-3 Jahre",
+        "followups": [
+          "qual-role-logistics-planner",
+          "qual-role-metalworker"
+        ]
+      }
+    ]
+  }
+]
