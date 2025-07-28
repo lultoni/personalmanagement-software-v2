@@ -1,743 +1,544 @@
 [
   {
-    "team-id": "team-construction-lead",
-    "roles": [
-      {
-        "role-id": "role-construction-head",
-        "name": "Bauleiter",
-        "requiredQualifications": [
-          "Meisterbrief im Bauwesen",
-          "5 Jahre Erfahrung auf Baustellen",
-          "Kenntnisse in Bauleitung und -organisation"
-        ]
-      }
+    "role-id": "role-construction-head",
+    "name": "Bauleiter",
+    "requiredQualifications": [
+      "Meisterbrief im Bauwesen",
+      "5 Jahre Erfahrung auf Baustellen",
+      "Kenntnisse in Bauleitung und -organisation"
     ]
   },
   {
-    "team-id": "team-masonry",
-    "roles": [
-      {
-        "role-id": "role-mason-foreman",
-        "name": "Vorarbeiter Maurer",
-        "requiredQualifications": [
-          "Meisterbrief im Maurerhandwerk",
-          "Erfahrung in Personalführung"
-        ]
-      },
-      {
-        "role-id": "role-skilled-mason",
-        "name": "Facharbeiter Maurer",
-        "requiredQualifications": [
-          "Abgeschlossene Berufsausbildung als Maurer"
-        ]
-      },
-      {
-        "role-id": "role-mason-helper",
-        "name": "Maurerhelfer",
-        "requiredQualifications": [
-          "Grundkenntnisse Bauwesen",
-          "Körperliche Belastbarkeit"
-        ]
-      }
+    "role-id": "role-mason-foreman",
+    "name": "Vorarbeiter Maurer",
+    "requiredQualifications": [
+      "Meisterbrief im Maurerhandwerk",
+      "Erfahrung in Personalführung"
     ]
   },
   {
-    "team-id": "team-concrete",
-    "roles": [
-      {
-        "role-id": "role-concrete-foreman",
-        "name": "Vorarbeiter Betonbau",
-        "requiredQualifications": [
-          "Meisterbrief im Betonbau",
-          "Kenntnisse im Schalungsbau"
-        ]
-      },
-      {
-        "role-id": "role-concrete-specialist",
-        "name": "Betonbauer",
-        "requiredQualifications": [
-          "Berufsausbildung Betonbauer",
-          "Erfahrung im Stahlbetonbau"
-        ]
-      },
-      {
-        "role-id": "role-concrete-laborer",
-        "name": "Betonbauhelfer",
-        "requiredQualifications": [
-          "Erste Erfahrung auf Baustellen"
-        ]
-      }
+    "role-id": "role-skilled-mason",
+    "name": "Facharbeiter Maurer",
+    "requiredQualifications": [
+      "Abgeschlossene Berufsausbildung als Maurer"
     ]
   },
   {
-    "team-id": "team-steelwork",
-    "roles": [
-      {
-        "role-id": "role-steel-construction-analyst",
-        "name": "Stahlbauplaner",
-        "requiredQualifications": [
-          "Studium Bauingenieurwesen",
-          "Kenntnisse in Statik & Stahlbau"
-        ]
-      },
-      {
-        "role-id": "role-steelworker",
-        "name": "Stahlbauer",
-        "requiredQualifications": [
-          "Berufsausbildung Stahlbauer",
-          "Schweißschein"
-        ]
-      },
-      {
-        "role-id": "role-metalworker",
-        "name": "Metallbauer",
-        "requiredQualifications": [
-          "Ausbildung Metallbau",
-          "Technisches Verständnis"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-site-operations-lead",
-    "roles": [
-      {
-        "role-id": "role-site-ops-head",
-        "name": "Leiter Baustellenbetrieb",
-        "requiredQualifications": [
-          "Techniker- oder Meisterausbildung",
-          "Projektleitungserfahrung",
-          "Kenntnisse in Arbeitssicherheit"
-        ]
-      }
+    "role-id": "role-mason-helper",
+    "name": "Maurerhelfer",
+    "requiredQualifications": [
+      "Grundkenntnisse Bauwesen",
+      "Körperliche Belastbarkeit"
     ]
   },
   {
-    "team-id": "team-site-logistics",
-    "roles": [
-      {
-        "role-id": "role-logistics-planner",
-        "name": "Logistikplaner",
-        "requiredQualifications": [
-          "Studium oder Ausbildung Logistik",
-          "Organisationstalent"
-        ]
-      },
-      {
-        "role-id": "role-site-mover",
-        "name": "Baustellenlogistiker",
-        "requiredQualifications": [
-          "Gabelstaplerschein",
-          "Teamfähigkeit"
-        ]
-      }
+    "role-id": "role-concrete-foreman",
+    "name": "Vorarbeiter Betonbau",
+    "requiredQualifications": [
+      "Meisterbrief im Betonbau",
+      "Kenntnisse im Schalungsbau"
     ]
   },
   {
-    "team-id": "team-safety",
-    "roles": [
-      {
-        "role-id": "role-safety-officer",
-        "name": "Sicherheitsbeauftragter",
-        "requiredQualifications": [
-          "SiGeKo-Zertifizierung",
-          "Kenntnisse Arbeitsschutz"
-        ]
-      },
-      {
-        "role-id": "role-site-inspector",
-        "name": "Baukontrolleur",
-        "requiredQualifications": [
-          "Technische Ausbildung",
-          "Erfahrung in Bauüberwachung"
-        ]
-      }
+    "role-id": "role-concrete-specialist",
+    "name": "Betonbauer",
+    "requiredQualifications": [
+      "Berufsausbildung Betonbauer",
+      "Erfahrung im Stahlbetonbau"
     ]
   },
   {
-    "team-id": "team-site-management",
-    "roles": [
-      {
-        "role-id": "role-site-coordinator",
-        "name": "Baukoordinator",
-        "requiredQualifications": [
-          "Bauingenieurwesen Studium",
-          "Kommunikationsfähigkeit"
-        ]
-      },
-      {
-        "role-id": "role-site-supervisor",
-        "name": "Bauleiterassistent",
-        "requiredQualifications": [
-          "Technische Ausbildung",
-          "Baustellenerfahrung"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-equipment-lead",
-    "roles": [
-      {
-        "role-id": "role-equipment-head",
-        "name": "Leiter Geräte & Fuhrpark",
-        "requiredQualifications": [
-          "Technisches Studium oder Ausbildung",
-          "Kenntnisse in Fuhrparkmanagement",
-          "Führerschein Klasse C"
-        ]
-      }
+    "role-id": "role-concrete-laborer",
+    "name": "Betonbauhelfer",
+    "requiredQualifications": [
+      "Erste Erfahrung auf Baustellen"
     ]
   },
   {
-    "team-id": "team-machinery",
-    "roles": [
-      {
-        "role-id": "role-excavator-driver",
-        "name": "Baggerfahrer",
-        "requiredQualifications": [
-          "Führerschein Baumaschinen",
-          "Praxiserfahrung"
-        ]
-      },
-      {
-        "role-id": "role-equipment-technician",
-        "name": "Maschinentechniker",
-        "requiredQualifications": [
-          "Mechatronik-Ausbildung",
-          "Fehlerdiagnosekenntnisse"
-        ]
-      }
+    "role-id": "role-steel-construction-analyst",
+    "name": "Stahlbauplaner",
+    "requiredQualifications": [
+      "Studium Bauingenieurwesen",
+      "Kenntnisse in Statik & Stahlbau"
     ]
   },
   {
-    "team-id": "team-fleet-maintenance",
-    "roles": [
-      {
-        "role-id": "role-fleet-maintenance-specialist",
-        "name": "Fuhrparktechniker",
-        "requiredQualifications": [
-          "KFZ-Mechatroniker",
-          "Fuhrparkerfahrung"
-        ]
-      },
-      {
-        "role-id": "role-vehicle-mechanic",
-        "name": "Fahrzeugmechaniker",
-        "requiredQualifications": [
-          "KFZ-Ausbildung",
-          "Hydraulikkenntnisse"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-project-management-lead",
-    "roles": [
-      {
-        "role-id": "role-project-head",
-        "name": "Projektleiter Bau",
-        "requiredQualifications": [
-          "Bauingenieurwesen Studium",
-          "Erfahrung im Projektmanagement",
-          "MS Project Kenntnisse"
-        ]
-      }
+    "role-id": "role-steelworker",
+    "name": "Stahlbauer",
+    "requiredQualifications": [
+      "Berufsausbildung Stahlbauer",
+      "Schweißschein"
     ]
   },
   {
-    "team-id": "team-project-administration",
-    "roles": [
-      {
-        "role-id": "role-project-admin",
-        "name": "Projektadministrator",
-        "requiredQualifications": ["qual-role-project-admin"]
-      },
-      {
-        "role-id": "role-documentation-specialist",
-        "name": "Dokumentationsspezialist",
-        "requiredQualifications": ["qual-role-documentation-specialist"]
-      },
-      {
-        "role-id": "role-project-assistant",
-        "name": "Projektassistent",
-        "requiredQualifications": ["qual-role-project-assistant"]
-      }
+    "role-id": "role-metalworker",
+    "name": "Metallbauer",
+    "requiredQualifications": [
+      "Ausbildung Metallbau",
+      "Technisches Verständnis"
     ]
   },
   {
-    "team-id": "team-resource-coordination",
-    "roles": [
-      {
-        "role-id": "role-resource-planner",
-        "name": "Ressourcenplaner",
-        "requiredQualifications": [
-          "Excel-Kenntnisse",
-          "Planungsfähigkeiten"
-        ]
-      },
-      {
-        "role-id": "role-scheduling-assistant",
-        "name": "Terminplanungsassistent",
-        "requiredQualifications": [
-          "Organisationstalent",
-          "Grundkenntnisse Bauprozesse"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-planning-lead",
-    "roles": [
-      {
-        "role-id": "role-planning-head",
-        "name": "Leiter Planung & Kalkulation",
-        "requiredQualifications": [
-          "Ausbildung im Bauwesen",
-          "Erfahrung in Baukalkulation",
-          "Kenntnisse in CAD & AVA"
-        ]
-      }
+    "role-id": "role-site-ops-head",
+    "name": "Leiter Baustellenbetrieb",
+    "requiredQualifications": [
+      "Techniker- oder Meisterausbildung",
+      "Projektleitungserfahrung",
+      "Kenntnisse in Arbeitssicherheit"
     ]
   },
   {
-    "team-id": "team-scheduling",
-    "roles": [
-      {
-        "role-id": "role-schedule-manager",
-        "name": "Terminplaner",
-        "requiredQualifications": [
-          "MS Project",
-          "Erfahrung in Bauzeitplanung"
-        ]
-      },
-      {
-        "role-id": "role-timeplanner",
-        "name": "Zeitplaner",
-        "requiredQualifications": [
-          "Kenntnisse Lean Construction",
-          "Analysefähigkeit"
-        ]
-      }
+    "role-id": "role-logistics-planner",
+    "name": "Logistikplaner",
+    "requiredQualifications": [
+      "Studium oder Ausbildung Logistik",
+      "Organisationstalent"
     ]
   },
   {
-    "team-id": "team-cost-estimation",
-    "roles": [
-      {
-        "role-id": "role-cost-estimator",
-        "name": "Kostenkalkulator",
-        "requiredQualifications": [
-          "Erfahrung in Baukalkulation",
-          "Excel-Kenntnisse"
-        ]
-      },
-      {
-        "role-id": "role-project-calculator",
-        "name": "Projektkalkulator",
-        "requiredQualifications": [
-          "Kenntnisse AVA",
-          "Projektverständnis"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-procurement-lead",
-    "roles": [
-      {
-        "role-id": "role-procurement-head",
-        "name": "Leiter Einkauf",
-        "requiredQualifications": [
-          "Einkäuferzertifikat",
-          "Verhandlungsgeschick",
-          "Kenntnisse im Vertragsrecht"
-        ]
-      }
+    "role-id": "role-site-mover",
+    "name": "Baustellenlogistiker",
+    "requiredQualifications": [
+      "Gabelstaplerschein",
+      "Teamfähigkeit"
     ]
   },
   {
-    "team-id": "team-supplier-management",
-    "roles": [
-      {
-        "role-id": "role-supplier-coordinator",
-        "name": "Lieferantenkoordinator",
-        "requiredQualifications": [
-          "Kommunikationsfähigkeit",
-          "Vertragskenntnisse"
-        ]
-      },
-      {
-        "role-id": "role-material-buyer",
-        "name": "Materialeinkäufer",
-        "requiredQualifications": [
-          "Einkaufserfahrung",
-          "Technisches Verständnis"
-        ]
-      }
+    "role-id": "role-safety-officer",
+    "name": "Sicherheitsbeauftragter",
+    "requiredQualifications": [
+      "SiGeKo-Zertifizierung",
+      "Kenntnisse Arbeitsschutz"
     ]
   },
   {
-    "team-id": "team-material-orders",
-    "roles": [
-      {
-        "role-id": "role-order-clerk",
-        "name": "Bestellsachbearbeiter",
-        "requiredQualifications": [
-          "Erfahrung mit ERP",
-          "Zuverlässigkeit"
-        ]
-      },
-      {
-        "role-id": "role-stock-controller",
-        "name": "Lagerverwalter",
-        "requiredQualifications": [
-          "Lagerwirtschaftsausbildung",
-          "Sorgfalt"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-it-lead",
-    "roles": [
-      {
-        "role-id": "role-it-head",
-        "name": "Leiter IT",
-        "requiredQualifications": [
-          "Studium Informatik",
-          "Erfahrung in IT-Strategie",
-          "Führungskompetenz"
-        ]
-      }
+    "role-id": "role-site-inspector",
+    "name": "Baukontrolleur",
+    "requiredQualifications": [
+      "Technische Ausbildung",
+      "Erfahrung in Bauüberwachung"
     ]
   },
   {
-    "team-id": "team-it-infrastructure",
-    "roles": [
-      {
-        "role-id": "role-it-systems-admin",
-        "name": "Systemadministrator",
-        "requiredQualifications": [
-          "Windows/Linux-Kenntnisse",
-          "Netzwerkverständnis"
-        ]
-      },
-      {
-        "role-id": "role-network-technician",
-        "name": "Netzwerktechniker",
-        "requiredQualifications": [
-          "Cisco-Kenntnisse",
-          "Netzwerkinfrastrukturwissen"
-        ]
-      }
+    "role-id": "role-site-coordinator",
+    "name": "Baukoordinator",
+    "requiredQualifications": [
+      "Bauingenieurwesen Studium",
+      "Kommunikationsfähigkeit"
     ]
   },
   {
-    "team-id": "team-it-support",
-    "roles": [
-      {
-        "role-id": "role-support-specialist",
-        "name": "IT-Support Spezialist",
-        "requiredQualifications": [
-          "Helpdesk-Erfahrung",
-          "Geduld & Kundenorientierung"
-        ]
-      },
-      {
-        "role-id": "role-helpdesk-agent",
-        "name": "Helpdesk-Mitarbeiter",
-        "requiredQualifications": [
-          "Ticket-System Erfahrung",
-          "Technisches Grundwissen"
-        ]
-      }
+    "role-id": "role-site-supervisor",
+    "name": "Bauleiterassistent",
+    "requiredQualifications": [
+      "Technische Ausbildung",
+      "Baustellenerfahrung"
     ]
   },
   {
-    "team-id": "team-it-dev",
-    "roles": [
-      {
-        "role-id": "role-software-dev",
-        "name": "Softwareentwickler",
-        "requiredQualifications": [
-          "Kenntnisse in C#, Python o.Ä.",
-          "Git & CI/CD"
-        ]
-      },
-      {
-        "role-id": "role-system-integrator",
-        "name": "Systemintegrator",
-        "requiredQualifications": [
-          "Systemlandschaft-Verständnis",
-          "IT-Projektmitarbeit"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-hr-lead",
-    "roles": [
-      {
-        "role-id": "role-hr-head",
-        "name": "Leiter Personal",
-        "requiredQualifications": [
-          "Studium HR oder BWL",
-          "Kenntnisse Arbeitsrecht",
-          "Führungserfahrung"
-        ]
-      }
+    "role-id": "role-equipment-head",
+    "name": "Leiter Geräte & Fuhrpark",
+    "requiredQualifications": [
+      "Technisches Studium oder Ausbildung",
+      "Kenntnisse in Fuhrparkmanagement",
+      "Führerschein Klasse C"
     ]
   },
   {
-    "team-id": "team-recruiting",
-    "roles": [
-      {
-        "role-id": "role-recruiter",
-        "name": "Recruiter",
-        "requiredQualifications": [
-          "Interviewtechniken",
-          "ATS-Kenntnisse"
-        ]
-      },
-      {
-        "role-id": "role-talent-sourcer",
-        "name": "Talentsucher",
-        "requiredQualifications": [
-          "LinkedIn-Sourcing",
-          "Kommunikationsgeschick"
-        ]
-      }
+    "role-id": "role-excavator-driver",
+    "name": "Baggerfahrer",
+    "requiredQualifications": [
+      "Führerschein Baumaschinen",
+      "Praxiserfahrung"
     ]
   },
   {
-    "team-id": "team-payroll",
-    "roles": [
-      {
-        "role-id": "role-payroll-admin",
-        "name": "Lohnbuchhalter",
-        "requiredQualifications": [
-          "DATEV-Kenntnisse",
-          "Kenntnisse Lohnsteuer"
-        ]
-      },
-      {
-        "role-id": "role-benefits-officer",
-        "name": "Sozialleistungsbeauftragter",
-        "requiredQualifications": [
-          "Kenntnisse Sozialversicherung",
-          "Sorgfalt"
-        ]
-      }
+    "role-id": "role-equipment-technician",
+    "name": "Maschinentechniker",
+    "requiredQualifications": [
+      "Mechatronik-Ausbildung",
+      "Fehlerdiagnosekenntnisse"
     ]
   },
   {
-    "team-id": "team-employee-services",
-    "roles": [
-      {
-        "role-id": "role-hr-advisor",
-        "name": "Personalberater",
-        "requiredQualifications": [
-          "Arbeitsrecht",
-          "Beratungskompetenz"
-        ]
-      },
-      {
-        "role-id": "role-personnel-consultant",
-        "name": "Personalreferent",
-        "requiredQualifications": [
-          "Personalentwicklung",
-          "Mitarbeitergespräche"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-finance-lead",
-    "roles": [
-      {
-        "role-id": "role-finance-head",
-        "name": "Leiter Finanzen",
-        "requiredQualifications": [
-          "BWL Studium",
-          "Kenntnisse HGB & IFRS",
-          "Controlling-Erfahrung"
-        ]
-      }
+    "role-id": "role-fleet-maintenance-specialist",
+    "name": "Fuhrparktechniker",
+    "requiredQualifications": [
+      "KFZ-Mechatroniker",
+      "Fuhrparkerfahrung"
     ]
   },
   {
-    "team-id": "team-controlling",
-    "roles": [
-      {
-        "role-id": "role-controlling-specialist",
-        "name": "Controlling Spezialist",
-        "requiredQualifications": [
-          "Kostenrechnung",
-          "Excel Pivot"
-        ]
-      },
-      {
-        "role-id": "role-cost-controller",
-        "name": "Kostencontroller",
-        "requiredQualifications": [
-          "Projektcontrolling",
-          "Kennzahlenanalyse"
-        ]
-      }
+    "role-id": "role-vehicle-mechanic",
+    "name": "Fahrzeugmechaniker",
+    "requiredQualifications": [
+      "KFZ-Ausbildung",
+      "Hydraulikkenntnisse"
     ]
   },
   {
-    "team-id": "team-accounting",
-    "roles": [
-      {
-        "role-id": "role-financial-bookkeeper",
-        "name": "Finanzbuchhalter",
-        "requiredQualifications": [
-          "HGB-Kenntnisse",
-          "DATEV"
-        ]
-      },
-      {
-        "role-id": "role-invoice-specialist",
-        "name": "Rechnungsprüfer",
-        "requiredQualifications": [
-          "Rechnungswesen-Ausbildung",
-          "Sorgfältige Arbeitsweise"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-compliance-lead",
-    "roles": [
-      {
-        "role-id": "role-compliance-head",
-        "name": "Leiter Compliance & Recht",
-        "requiredQualifications": [
-          "Jurastudium",
-          "Kenntnisse Datenschutz",
-          "Verständnis regulatorischer Anforderungen"
-        ]
-      }
+    "role-id": "role-project-head",
+    "name": "Projektleiter Bau",
+    "requiredQualifications": [
+      "Bauingenieurwesen Studium",
+      "Erfahrung im Projektmanagement",
+      "MS Project Kenntnisse"
     ]
   },
   {
-    "team-id": "team-legal",
-    "roles": [
-      {
-        "role-id": "role-legal-consultant",
-        "name": "Rechtsberater",
-        "requiredQualifications": [
-          "Juristische Ausbildung",
-          "Beratungserfahrung"
-        ]
-      },
-      {
-        "role-id": "role-compliance-consultant",
-        "name": "Complianceberater",
-        "requiredQualifications": [
-          "Compliance-Richtlinien",
-          "Detailgenauigkeit"
-        ]
-      }
+    "role-id": "role-project-admin",
+    "name": "Projektadministrator",
+    "requiredQualifications": [
+      "qual-role-project-admin"
     ]
   },
   {
-    "team-id": "team-data-protection",
-    "roles": [
-      {
-        "role-id": "role-data-privacy-officer",
-        "name": "Datenschutzbeauftragter",
-        "requiredQualifications": [
-          "DSGVO-Kenntnisse",
-          "Zertifikat Datenschutz"
-        ]
-      },
-      {
-        "role-id": "role-information-security-analyst",
-        "name": "IT-Sicherheitsanalyst",
-        "requiredQualifications": [
-          "ISO 27001",
-          "IT-Risikoanalyse"
-        ]
-      }
-    ]
-  },
-
-
-  {
-    "team-id": "team-sales-lead",
-    "roles": [
-      {
-        "role-id": "role-sales-head",
-        "name": "Leiter Vertrieb",
-        "requiredQualifications": [
-          "BWL Studium",
-          "Vertriebserfahrung",
-          "CRM-Kenntnisse"
-        ]
-      }
+    "role-id": "role-documentation-specialist",
+    "name": "Dokumentationsspezialist",
+    "requiredQualifications": [
+      "qual-role-documentation-specialist"
     ]
   },
   {
-    "team-id": "team-b2b-sales",
-    "roles": [
-      {
-        "role-id": "role-b2b-account-manager",
-        "name": "B2B Key Account Manager",
-        "requiredQualifications": [
-          "Kundenbeziehungsmanagement",
-          "Vertriebserfahrung"
-        ]
-      },
-      {
-        "role-id": "role-sales-strategist",
-        "name": "Vertriebsstratege",
-        "requiredQualifications": [
-          "Vertriebsstrategie",
-          "Marktanalyse"
-        ]
-      }
+    "role-id": "role-project-assistant",
+    "name": "Projektassistent",
+    "requiredQualifications": [
+      "qual-role-project-assistant"
     ]
   },
   {
-    "team-id": "team-customer-service",
-    "roles": [
-      {
-        "role-id": "role-customer-support",
-        "name": "Kundendienstmitarbeiter",
-        "requiredQualifications": [
-          "Kommunikationsfähigkeit",
-          "CRM-Kenntnisse"
-        ]
-      },
-      {
-        "role-id": "role-client-care-specialist",
-        "name": "Kundenbetreuer",
-        "requiredQualifications": [
-          "Serviceorientierung",
-          "Problemlösungskompetenz"
-        ]
-      }
+    "role-id": "role-resource-planner",
+    "name": "Ressourcenplaner",
+    "requiredQualifications": [
+      "Excel-Kenntnisse",
+      "Planungsfähigkeiten"
+    ]
+  },
+  {
+    "role-id": "role-scheduling-assistant",
+    "name": "Terminplanungsassistent",
+    "requiredQualifications": [
+      "Organisationstalent",
+      "Grundkenntnisse Bauprozesse"
+    ]
+  },
+  {
+    "role-id": "role-planning-head",
+    "name": "Leiter Planung & Kalkulation",
+    "requiredQualifications": [
+      "Ausbildung im Bauwesen",
+      "Erfahrung in Baukalkulation",
+      "Kenntnisse in CAD & AVA"
+    ]
+  },
+  {
+    "role-id": "role-schedule-manager",
+    "name": "Terminplaner",
+    "requiredQualifications": [
+      "MS Project",
+      "Erfahrung in Bauzeitplanung"
+    ]
+  },
+  {
+    "role-id": "role-timeplanner",
+    "name": "Zeitplaner",
+    "requiredQualifications": [
+      "Kenntnisse Lean Construction",
+      "Analysefähigkeit"
+    ]
+  },
+  {
+    "role-id": "role-cost-estimator",
+    "name": "Kostenkalkulator",
+    "requiredQualifications": [
+      "Erfahrung in Baukalkulation",
+      "Excel-Kenntnisse"
+    ]
+  },
+  {
+    "role-id": "role-project-calculator",
+    "name": "Projektkalkulator",
+    "requiredQualifications": [
+      "Kenntnisse AVA",
+      "Projektverständnis"
+    ]
+  },
+  {
+    "role-id": "role-procurement-head",
+    "name": "Leiter Einkauf",
+    "requiredQualifications": [
+      "Einkäuferzertifikat",
+      "Verhandlungsgeschick",
+      "Kenntnisse im Vertragsrecht"
+    ]
+  },
+  {
+    "role-id": "role-supplier-coordinator",
+    "name": "Lieferantenkoordinator",
+    "requiredQualifications": [
+      "Kommunikationsfähigkeit",
+      "Vertragskenntnisse"
+    ]
+  },
+  {
+    "role-id": "role-material-buyer",
+    "name": "Materialeinkäufer",
+    "requiredQualifications": [
+      "Einkaufserfahrung",
+      "Technisches Verständnis"
+    ]
+  },
+  {
+    "role-id": "role-order-clerk",
+    "name": "Bestellsachbearbeiter",
+    "requiredQualifications": [
+      "Erfahrung mit ERP",
+      "Zuverlässigkeit"
+    ]
+  },
+  {
+    "role-id": "role-stock-controller",
+    "name": "Lagerverwalter",
+    "requiredQualifications": [
+      "Lagerwirtschaftsausbildung",
+      "Sorgfalt"
+    ]
+  },
+  {
+    "role-id": "role-it-head",
+    "name": "Leiter IT",
+    "requiredQualifications": [
+      "Studium Informatik",
+      "Erfahrung in IT-Strategie",
+      "Führungskompetenz"
+    ]
+  },
+  {
+    "role-id": "role-it-systems-admin",
+    "name": "Systemadministrator",
+    "requiredQualifications": [
+      "Windows/Linux-Kenntnisse",
+      "Netzwerkverständnis"
+    ]
+  },
+  {
+    "role-id": "role-network-technician",
+    "name": "Netzwerktechniker",
+    "requiredQualifications": [
+      "Cisco-Kenntnisse",
+      "Netzwerkinfrastrukturwissen"
+    ]
+  },
+  {
+    "role-id": "role-support-specialist",
+    "name": "IT-Support Spezialist",
+    "requiredQualifications": [
+      "Helpdesk-Erfahrung",
+      "Geduld & Kundenorientierung"
+    ]
+  },
+  {
+    "role-id": "role-helpdesk-agent",
+    "name": "Helpdesk-Mitarbeiter",
+    "requiredQualifications": [
+      "Ticket-System Erfahrung",
+      "Technisches Grundwissen"
+    ]
+  },
+  {
+    "role-id": "role-software-dev",
+    "name": "Softwareentwickler",
+    "requiredQualifications": [
+      "Kenntnisse in C#, Python o.Ä.",
+      "Git & CI/CD"
+    ]
+  },
+  {
+    "role-id": "role-system-integrator",
+    "name": "Systemintegrator",
+    "requiredQualifications": [
+      "Systemlandschaft-Verständnis",
+      "IT-Projektmitarbeit"
+    ]
+  },
+  {
+    "role-id": "role-hr-head",
+    "name": "Leiter Personal",
+    "requiredQualifications": [
+      "Studium HR oder BWL",
+      "Kenntnisse Arbeitsrecht",
+      "Führungserfahrung"
+    ]
+  },
+  {
+    "role-id": "role-recruiter",
+    "name": "Recruiter",
+    "requiredQualifications": [
+      "Interviewtechniken",
+      "ATS-Kenntnisse"
+    ]
+  },
+  {
+    "role-id": "role-talent-sourcer",
+    "name": "Talentsucher",
+    "requiredQualifications": [
+      "LinkedIn-Sourcing",
+      "Kommunikationsgeschick"
+    ]
+  },
+  {
+    "role-id": "role-payroll-admin",
+    "name": "Lohnbuchhalter",
+    "requiredQualifications": [
+      "DATEV-Kenntnisse",
+      "Kenntnisse Lohnsteuer"
+    ]
+  },
+  {
+    "role-id": "role-benefits-officer",
+    "name": "Sozialleistungsbeauftragter",
+    "requiredQualifications": [
+      "Kenntnisse Sozialversicherung",
+      "Sorgfalt"
+    ]
+  },
+  {
+    "role-id": "role-hr-advisor",
+    "name": "Personalberater",
+    "requiredQualifications": [
+      "Arbeitsrecht",
+      "Beratungskompetenz"
+    ]
+  },
+  {
+    "role-id": "role-personnel-consultant",
+    "name": "Personalreferent",
+    "requiredQualifications": [
+      "Personalentwicklung",
+      "Mitarbeitergespräche"
+    ]
+  },
+  {
+    "role-id": "role-finance-head",
+    "name": "Leiter Finanzen",
+    "requiredQualifications": [
+      "BWL Studium",
+      "Kenntnisse HGB & IFRS",
+      "Controlling-Erfahrung"
+    ]
+  },
+  {
+    "role-id": "role-controlling-specialist",
+    "name": "Controlling Spezialist",
+    "requiredQualifications": [
+      "Kostenrechnung",
+      "Excel Pivot"
+    ]
+  },
+  {
+    "role-id": "role-cost-controller",
+    "name": "Kostencontroller",
+    "requiredQualifications": [
+      "Projektcontrolling",
+      "Kennzahlenanalyse"
+    ]
+  },
+  {
+    "role-id": "role-financial-bookkeeper",
+    "name": "Finanzbuchhalter",
+    "requiredQualifications": [
+      "HGB-Kenntnisse",
+      "DATEV"
+    ]
+  },
+  {
+    "role-id": "role-invoice-specialist",
+    "name": "Rechnungsprüfer",
+    "requiredQualifications": [
+      "Rechnungswesen-Ausbildung",
+      "Sorgfältige Arbeitsweise"
+    ]
+  },
+  {
+    "role-id": "role-compliance-head",
+    "name": "Leiter Compliance & Recht",
+    "requiredQualifications": [
+      "Jurastudium",
+      "Kenntnisse Datenschutz",
+      "Verständnis regulatorischer Anforderungen"
+    ]
+  },
+  {
+    "role-id": "role-legal-consultant",
+    "name": "Rechtsberater",
+    "requiredQualifications": [
+      "Juristische Ausbildung",
+      "Beratungserfahrung"
+    ]
+  },
+  {
+    "role-id": "role-compliance-consultant",
+    "name": "Complianceberater",
+    "requiredQualifications": [
+      "Compliance-Richtlinien",
+      "Detailgenauigkeit"
+    ]
+  },
+  {
+    "role-id": "role-data-privacy-officer",
+    "name": "Datenschutzbeauftragter",
+    "requiredQualifications": [
+      "DSGVO-Kenntnisse",
+      "Zertifikat Datenschutz"
+    ]
+  },
+  {
+    "role-id": "role-information-security-analyst",
+    "name": "IT-Sicherheitsanalyst",
+    "requiredQualifications": [
+      "ISO 27001",
+      "IT-Risikoanalyse"
+    ]
+  },
+  {
+    "role-id": "role-sales-head",
+    "name": "Leiter Vertrieb",
+    "requiredQualifications": [
+      "BWL Studium",
+      "Vertriebserfahrung",
+      "CRM-Kenntnisse"
+    ]
+  },
+  {
+    "role-id": "role-b2b-account-manager",
+    "name": "B2B Key Account Manager",
+    "requiredQualifications": [
+      "Kundenbeziehungsmanagement",
+      "Vertriebserfahrung"
+    ]
+  },
+  {
+    "role-id": "role-sales-strategist",
+    "name": "Vertriebsstratege",
+    "requiredQualifications": [
+      "Vertriebsstrategie",
+      "Marktanalyse"
+    ]
+  },
+  {
+    "role-id": "role-customer-support",
+    "name": "Kundendienstmitarbeiter",
+    "requiredQualifications": [
+      "Kommunikationsfähigkeit",
+      "CRM-Kenntnisse"
+    ]
+  },
+  {
+    "role-id": "role-client-care-specialist",
+    "name": "Kundenbetreuer",
+    "requiredQualifications": [
+      "Serviceorientierung",
+      "Problemlösungskompetenz"
     ]
   }
 ]
