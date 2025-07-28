@@ -1,6 +1,6 @@
 package gui.views;
 
-import model.Employee;
+import model.db.Employee;
 
 import javax.swing.*;
 import java.util.List;

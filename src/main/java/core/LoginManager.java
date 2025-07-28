@@ -1,7 +1,7 @@
 package core;
 
 import gui.views.LoginView;
-import model.Employee;
+import model.db.Employee;
 import util.PersistentInformationReader;
 
 import java.util.ArrayList;

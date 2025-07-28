@@ -2,7 +2,7 @@ package db.dao;
 
 import core.EmployeeManager;
 import db.DatabaseManager;
-import model.Employee;
+import model.db.Employee;
 import util.SqlReader;
 
 import java.sql.*;

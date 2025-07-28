@@ -1,4 +1,4 @@
-package model;
+package model.db;
 
 import core.EmployeeManager;
 import db.dao.EmployeeDao;

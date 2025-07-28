@@ -1,8 +1,17 @@
-package core.jsonReading;
+package model.json;
 
 import java.util.List;
 
+/**
+ * Qualification Klasse.
+ * Spiegelt das json-Objekt wider.
+ *
+ * @author Dorian Gläske
+ * @version 1.0
+ * @since 2025-07-28
+ */
 public class Qualification {
+
     private String roleId;
     private int requiredYears;
     private List<String> certifications;
@@ -10,7 +19,10 @@ public class Qualification {
     private List<String> followupSkills;
     private List<String> requiredSkills;
 
-    // Getter & Setter
+    public Qualification() {
+        // TODO write this constructor
+    }
+
     public String getRoleId() {
         return roleId;
     }

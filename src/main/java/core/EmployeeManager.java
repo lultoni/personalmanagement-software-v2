@@ -1,7 +1,7 @@
 package core;
 
 import db.dao.EmployeeDao;
-import model.Employee;
+import model.db.Employee;
 
 import java.util.ArrayList;
 import java.util.Objects;

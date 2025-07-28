@@ -3,7 +3,7 @@ package util;
 import core.EmployeeManager;
 import db.DatabaseManager;
 import db.dao.EmployeeDao;
-import model.Employee;
+import model.db.Employee;
 
 import java.util.Calendar;
 import java.util.Date;
