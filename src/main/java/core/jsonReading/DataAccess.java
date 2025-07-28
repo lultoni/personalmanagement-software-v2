@@ -11,5 +11,9 @@ public class DataAccess {
     private Map<String, Qualification> qualificationMap=new HashMap<>();
     private Map<String, Team> teamMap=new HashMap<>();
 
+    public void showDataForOnePerson(){
+
+    }
+
 
 }
