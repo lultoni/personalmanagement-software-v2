@@ -1,6 +1,6 @@
 [
   {
-    "department-id": "dept-construction",
+    "departmentId": "dept-construction",
     "name": "Bauausführung",
     "teams": [
       "team-construction-lead",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "department-id": "dept-site-operations",
+    "departmentId": "dept-site-operations",
     "name": "Baustellenbetrieb",
     "teams": [
       "team-site-operations-lead",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "department-id": "dept-equipment",
+    "departmentId": "dept-equipment",
     "name": "Geräte & Fuhrpark",
     "teams": [
       "team-equipment-lead",
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "department-id": "dept-project-management",
+    "departmentId": "dept-project-management",
     "name": "Projektmanagement",
     "teams": [
       "team-project-management-lead",
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "department-id": "dept-planning",
+    "departmentId": "dept-planning",
     "name": "Planung & Kalkulation",
     "teams": [
       "team-planning-lead",
@@ -47,7 +47,7 @@
     ]
   },
   {
-    "department-id": "dept-procurement",
+    "departmentId": "dept-procurement",
     "name": "Einkauf",
     "teams": [
       "team-procurement-lead",
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "department-id": "dept-it",
+    "departmentId": "dept-it",
     "name": "IT",
     "teams": [
       "team-it-lead",
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "department-id": "dept-hr",
+    "departmentId": "dept-hr",
     "name": "Human Resources",
     "teams": [
       "team-hr-lead",
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "department-id": "dept-finance",
+    "departmentId": "dept-finance",
     "name": "Finanzen",
     "teams": [
       "team-finance-lead",
@@ -85,7 +85,7 @@
     ]
   },
   {
-    "department-id": "dept-compliance",
+    "departmentId": "dept-compliance",
     "name": "Compliance & Recht",
     "teams": [
       "team-compliance-lead",
@@ -94,7 +94,7 @@
     ]
   },
   {
-    "department-id": "dept-sales",
+    "departmentId": "dept-sales",
     "name": "Vertrieb",
     "teams": [
       "team-sales-lead",
