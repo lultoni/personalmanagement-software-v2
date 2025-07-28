@@ -8,7 +8,7 @@ Hochschulprojekt für das Modul 'Objektorientiertes Programmieren'.
 
 Hier sind nur alle Abhängigkeiten genannt, welche sich nicht automatisch installieren:
 
-- Java OpenJDK 23
+- Java OpenJDK 24
 
 ### CLI-Kommando
 

@@ -24,13 +24,6 @@
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
         </dependency>
-
-        <!-- Google Gson: Eine einfache Bibliothek zum Lesen und Schreiben von JSON-Dateien -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
     </dependencies>
 
     <!-- BUILD-KONFIGURATION -->
@@ -71,8 +64,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>23</source>
-                    <target>23</target>
+                    <source>24</source>
+                    <target>24</target>
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
