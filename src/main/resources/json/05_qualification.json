@@ -1,6 +1,5 @@
 [
   {
-    "department-id": "dept-construction",
     "qualifications": [
       {
         "role-id": "qual-role-construction-head",
@@ -13,14 +12,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-construction-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "qual-role-skilled-mason",
           "Kommunikation im Baukontext",
@@ -29,8 +28,7 @@
           "Konfliktlösung am Bau",
           "qual-role-mason-foreman",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-mason-foreman",
@@ -39,11 +37,11 @@
           "role-mason-foreman Skill A",
           "role-mason-foreman Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-mason-foreman Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "qual-role-mason-helper",
           "Lean Construction Training",
@@ -52,8 +50,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-skilled-mason",
@@ -62,11 +59,11 @@
           "role-skilled-mason Skill A",
           "role-skilled-mason Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-skilled-mason Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "qual-role-mason-helper",
           "Lean Construction Training",
@@ -75,8 +72,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-mason-helper",
@@ -85,11 +81,11 @@
           "role-mason-helper Skill A",
           "role-mason-helper Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-mason-helper Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -98,8 +94,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-concrete-foreman",
@@ -108,11 +103,11 @@
           "role-concrete-foreman Skill A",
           "role-concrete-foreman Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-concrete-foreman Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -121,8 +116,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-concrete-specialist",
@@ -131,11 +125,11 @@
           "role-concrete-specialist Skill A",
           "role-concrete-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-concrete-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -144,8 +138,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-concrete-laborer",
@@ -154,11 +147,11 @@
           "role-concrete-laborer Skill A",
           "role-concrete-laborer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-concrete-laborer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -167,8 +160,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-steel-construction-analyst",
@@ -177,11 +169,11 @@
           "role-steel-construction-analyst Skill A",
           "role-steel-construction-analyst Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-steel-construction-analyst Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -190,8 +182,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-steelworker",
@@ -200,11 +191,11 @@
           "role-steelworker Skill A",
           "role-steelworker Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-steelworker Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-skilled-mason",
@@ -213,13 +204,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-site-operations",
     "qualifications": [
       {
         "role-id": "qual-role-site-ops-head",
@@ -232,14 +221,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-site-ops-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "qual-role-site-inspector",
           "Leadership Development Program",
           "Kommunikation im Baukontext",
@@ -248,8 +237,7 @@
           "Konfliktlösung am Bau",
           "qual-role-site-mover",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-site-mover",
@@ -258,11 +246,11 @@
           "role-site-mover Skill A",
           "role-site-mover Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-site-mover Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-site-inspector",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -271,8 +259,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-site-inspector",
@@ -281,11 +268,11 @@
           "role-site-inspector Skill A",
           "role-site-inspector Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-site-inspector Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-site-mover",
@@ -294,8 +281,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-site-coordinator",
@@ -304,11 +290,11 @@
           "role-site-coordinator Skill A",
           "role-site-coordinator Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-site-coordinator Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-site-inspector",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -317,8 +303,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-site-supervisor",
@@ -327,11 +312,11 @@
           "role-site-supervisor Skill A",
           "role-site-supervisor Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-site-supervisor Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-site-inspector",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -340,13 +325,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-equipment",
     "qualifications": [
       {
         "role-id": "qual-role-equipment-head",
@@ -359,14 +342,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-equipment-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "Kommunikation im Baukontext",
           "Strategisches Projektmanagement",
@@ -375,8 +358,7 @@
           "Konfliktlösung am Bau",
           "qual-role-fleet-maintenance-specialist",
           "qual-role-equipment-technician"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-equipment-technician",
@@ -385,11 +367,11 @@
           "role-equipment-technician Skill A",
           "role-equipment-technician Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-equipment-technician Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -397,8 +379,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-fleet-maintenance-specialist",
@@ -407,11 +388,11 @@
           "role-fleet-maintenance-specialist Skill A",
           "role-fleet-maintenance-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-fleet-maintenance-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -419,13 +400,11 @@
           "BIM-Zertifikat",
           "qual-role-equipment-technician",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-project-management",
     "qualifications": [
       {
         "role-id": "qual-role-project-head",
@@ -438,14 +417,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-project-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "Kommunikation im Baukontext",
           "Strategisches Projektmanagement",
@@ -454,8 +433,7 @@
           "Konfliktlösung am Bau",
           "Teamführung Intensivkurs",
           "qual-role-resource-planner"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-resource-planner",
@@ -464,11 +442,11 @@
           "role-resource-planner Skill A",
           "role-resource-planner Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-resource-planner Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-schedule-manager",
@@ -477,8 +455,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-schedule-manager",
@@ -487,11 +464,11 @@
           "role-schedule-manager Skill A",
           "role-schedule-manager Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-schedule-manager Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -500,8 +477,7 @@
           "BIM-Zertifikat",
           "qual-role-resource-planner",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-project-calculator",
@@ -510,11 +486,11 @@
           "role-project-calculator Skill A",
           "role-project-calculator Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-project-calculator Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-schedule-manager",
@@ -523,8 +499,7 @@
           "BIM-Zertifikat",
           "qual-role-resource-planner",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-project-admin",
@@ -533,11 +508,11 @@
           "Projektkoordination",
           "Dokumentenmanagement"
         ],
+        "requiredYears": 2,
         "certifications": [
           "Grundlagen Projektmanagement"
         ],
-        "experience": "2+ Jahre in Projektumfeld",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-schedule-manager",
@@ -546,8 +521,7 @@
           "BIM-Zertifikat",
           "qual-role-resource-planner",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-project-assistant",
@@ -556,11 +530,11 @@
           "Organisation",
           "Zeitmanagement"
         ],
+        "requiredYears": 1,
         "certifications": [
           "Büromanagement oder vergleichbar"
         ],
-        "experience": "1-2 Jahre Assistenz",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-schedule-manager",
@@ -569,13 +543,11 @@
           "BIM-Zertifikat",
           "qual-role-resource-planner",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 1
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-planning",
     "qualifications": [
       {
         "role-id": "qual-role-planning-head",
@@ -588,14 +560,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-planning-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "qual-role-cost-controller",
           "Leadership Development Program",
           "Kommunikation im Baukontext",
@@ -604,8 +576,7 @@
           "Konfliktlösung am Bau",
           "Teamführung Intensivkurs",
           "qual-role-cost-estimator"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-cost-estimator",
@@ -614,11 +585,11 @@
           "role-cost-estimator Skill A",
           "role-cost-estimator Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-cost-estimator Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-cost-controller",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -626,8 +597,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-cost-controller",
@@ -636,11 +606,11 @@
           "role-cost-controller Skill A",
           "role-cost-controller Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-cost-controller Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -648,13 +618,11 @@
           "BIM-Zertifikat",
           "qual-role-cost-estimator",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-procurement",
     "qualifications": [
       {
         "role-id": "qual-role-procurement-head",
@@ -667,14 +635,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-procurement-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "qual-role-supplier-coordinator",
           "Kommunikation im Baukontext",
@@ -683,8 +651,7 @@
           "Konfliktlösung am Bau",
           "qual-role-order-clerk",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-supplier-coordinator",
@@ -693,11 +660,11 @@
           "role-supplier-coordinator Skill A",
           "role-supplier-coordinator Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-supplier-coordinator Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-order-clerk",
@@ -705,8 +672,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-order-clerk",
@@ -715,11 +681,11 @@
           "role-order-clerk Skill A",
           "role-order-clerk Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-order-clerk Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "qual-role-supplier-coordinator",
           "Lean Construction Training",
@@ -727,13 +693,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-it",
     "qualifications": [
       {
         "role-id": "qual-role-it-head",
@@ -746,14 +710,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-it-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "qual-role-it-systems-admin",
           "Kommunikation im Baukontext",
@@ -762,8 +726,7 @@
           "Konfliktlösung am Bau",
           "qual-role-network-technician",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-it-systems-admin",
@@ -772,11 +735,11 @@
           "role-it-systems-admin Skill A",
           "role-it-systems-admin Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-it-systems-admin Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-software-dev",
@@ -785,8 +748,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-network-technician",
@@ -795,11 +757,11 @@
           "role-network-technician Skill A",
           "role-network-technician Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-network-technician Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-software-dev",
@@ -808,8 +770,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-software-dev",
@@ -818,11 +779,11 @@
           "role-software-dev Skill A",
           "role-software-dev Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-software-dev Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-it-systems-admin",
@@ -831,8 +792,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-recruiter",
@@ -841,11 +801,11 @@
           "role-recruiter Skill A",
           "role-recruiter Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-recruiter Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-it-systems-admin",
@@ -854,8 +814,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-benefits-officer",
@@ -864,11 +823,11 @@
           "role-benefits-officer Skill A",
           "role-benefits-officer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-benefits-officer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-it-systems-admin",
@@ -877,8 +836,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-information-security-analyst",
@@ -887,11 +845,11 @@
           "role-information-security-analyst Skill A",
           "role-information-security-analyst Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-information-security-analyst Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-it-systems-admin",
@@ -900,13 +858,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-hr",
     "qualifications": [
       {
         "role-id": "qual-role-hr-head",
@@ -919,14 +875,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-hr-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "qual-role-payroll-admin",
           "Leadership Development Program",
           "Kommunikation im Baukontext",
@@ -935,8 +891,7 @@
           "Konfliktlösung am Bau",
           "qual-role-hr-advisor",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-payroll-admin",
@@ -945,11 +900,11 @@
           "role-payroll-admin Skill A",
           "role-payroll-admin Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-payroll-admin Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -957,8 +912,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-hr-advisor",
@@ -967,11 +921,11 @@
           "role-hr-advisor Skill A",
           "role-hr-advisor Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-hr-advisor Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-payroll-admin",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -979,13 +933,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-finance",
     "qualifications": [
       {
         "role-id": "qual-role-finance-head",
@@ -998,14 +950,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-finance-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "qual-role-controlling-specialist",
           "qual-role-b2b-account-manager",
           "Leadership Development Program",
@@ -1014,8 +966,7 @@
           "Agiles Führen im Bauwesen",
           "Konfliktlösung am Bau",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-controlling-specialist",
@@ -1024,11 +975,11 @@
           "role-controlling-specialist Skill A",
           "role-controlling-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-controlling-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-b2b-account-manager",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -1036,8 +987,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-b2b-account-manager",
@@ -1046,11 +996,11 @@
           "role-b2b-account-manager Skill A",
           "role-b2b-account-manager Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-b2b-account-manager Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-controlling-specialist",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -1058,13 +1008,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-compliance",
     "qualifications": [
       {
         "role-id": "qual-role-compliance-head",
@@ -1077,14 +1025,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-compliance-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "Kommunikation im Baukontext",
           "Strategisches Projektmanagement",
@@ -1093,8 +1041,7 @@
           "Konfliktlösung am Bau",
           "qual-role-compliance-consultant",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-legal-consultant",
@@ -1103,11 +1050,11 @@
           "role-legal-consultant Skill A",
           "role-legal-consultant Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-legal-consultant Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -1116,8 +1063,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-compliance-consultant",
@@ -1126,11 +1072,11 @@
           "role-compliance-consultant Skill A",
           "role-compliance-consultant Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-compliance-consultant Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-legal-consultant",
@@ -1139,8 +1085,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-data-privacy-officer",
@@ -1149,11 +1094,11 @@
           "role-data-privacy-officer Skill A",
           "role-data-privacy-officer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-data-privacy-officer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-legal-consultant",
@@ -1162,13 +1107,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-sales",
     "qualifications": [
       {
         "role-id": "qual-role-sales-head",
@@ -1181,14 +1124,14 @@
           "Kommunikation",
           "Strategisches Denken"
         ],
+        "requiredYears": 5,
         "certifications": [
           "role-sales-head Zertifikat",
           "Leadership-Zertifikat",
           "PM-Zertifikat (z. B. PMP)",
           "Scrum Master (optional)"
         ],
-        "experience": "5+ Jahre Erfahrung, davon mind. 2 Jahre in Führungsposition",
-        "followups": [
+        "followupSkills": [
           "Leadership Development Program",
           "Kommunikation im Baukontext",
           "Strategisches Projektmanagement",
@@ -1197,8 +1140,7 @@
           "qual-role-customer-support",
           "qual-role-sales-strategist",
           "Teamführung Intensivkurs"
-        ],
-        "requiredYears": 5
+        ]
       },
       {
         "role-id": "qual-role-sales-strategist",
@@ -1207,11 +1149,11 @@
           "role-sales-strategist Skill A",
           "role-sales-strategist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-sales-strategist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "CAD-Vertiefung",
@@ -1220,8 +1162,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-customer-support",
@@ -1230,11 +1171,11 @@
           "role-customer-support Skill A",
           "role-customer-support Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-customer-support Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "BIM-Zertifikat",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -1243,8 +1184,7 @@
           "Aufbaukurs Projektmanagement",
           "qual-role-sales-strategist",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-client-care-specialist",
@@ -1253,11 +1193,11 @@
           "role-client-care-specialist Skill A",
           "role-client-care-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-client-care-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-sales-strategist",
@@ -1266,13 +1206,11 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       }
     ]
   },
   {
-    "department-id": "dept-misc",
     "qualifications": [
       {
         "role-id": "qual-role-metalworker",
@@ -1281,11 +1219,11 @@
           "role-metalworker Skill A",
           "role-metalworker Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-metalworker Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-safety-officer",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -1294,8 +1232,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-logistics-planner",
@@ -1304,11 +1241,11 @@
           "role-logistics-planner Skill A",
           "role-logistics-planner Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-logistics-planner Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "qual-role-safety-officer",
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
@@ -1317,8 +1254,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-safety-officer",
@@ -1327,11 +1263,11 @@
           "role-safety-officer Skill A",
           "role-safety-officer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-safety-officer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1340,8 +1276,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-excavator-driver",
@@ -1350,11 +1285,11 @@
           "role-excavator-driver Skill A",
           "role-excavator-driver Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-excavator-driver Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1363,8 +1298,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-vehicle-mechanic",
@@ -1373,11 +1307,11 @@
           "role-vehicle-mechanic Skill A",
           "role-vehicle-mechanic Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-vehicle-mechanic Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1386,8 +1320,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-scheduling-assistant",
@@ -1396,11 +1329,11 @@
           "role-scheduling-assistant Skill A",
           "role-scheduling-assistant Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-scheduling-assistant Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1409,8 +1342,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-timeplanner",
@@ -1419,11 +1351,11 @@
           "role-timeplanner Skill A",
           "role-timeplanner Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-timeplanner Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1432,8 +1364,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-material-buyer",
@@ -1442,11 +1373,11 @@
           "role-material-buyer Skill A",
           "role-material-buyer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-material-buyer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1455,8 +1386,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-stock-controller",
@@ -1465,11 +1395,11 @@
           "role-stock-controller Skill A",
           "role-stock-controller Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-stock-controller Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1478,8 +1408,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-support-specialist",
@@ -1488,11 +1417,11 @@
           "role-support-specialist Skill A",
           "role-support-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-support-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1501,8 +1430,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-helpdesk-agent",
@@ -1511,11 +1439,11 @@
           "role-helpdesk-agent Skill A",
           "role-helpdesk-agent Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-helpdesk-agent Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1524,8 +1452,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-system-integrator",
@@ -1534,11 +1461,11 @@
           "role-system-integrator Skill A",
           "role-system-integrator Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-system-integrator Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1547,8 +1474,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-talent-sourcer",
@@ -1557,11 +1483,11 @@
           "role-talent-sourcer Skill A",
           "role-talent-sourcer Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-talent-sourcer Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1570,8 +1496,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-personnel-consultant",
@@ -1580,11 +1505,11 @@
           "role-personnel-consultant Skill A",
           "role-personnel-consultant Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-personnel-consultant Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1593,8 +1518,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-financial-bookkeeper",
@@ -1603,11 +1527,11 @@
           "role-financial-bookkeeper Skill A",
           "role-financial-bookkeeper Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-financial-bookkeeper Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1616,8 +1540,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-invoice-specialist",
@@ -1626,11 +1549,11 @@
           "role-invoice-specialist Skill A",
           "role-invoice-specialist Skill B"
         ],
+        "requiredYears": 2,
         "certifications": [
           "role-invoice-specialist Zertifikat"
         ],
-        "experience": "2+ Jahre Berufserfahrung",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1639,8 +1562,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 2
+        ]
       },
       {
         "role-id": "qual-role-documentation-specialist",
@@ -1649,12 +1571,12 @@
           "Dokumentationstechniken",
           "Office-Kenntnisse"
         ],
+        "requiredYears": 1,
         "certifications": [
           "DIN 9001 Schulung",
           "DMS-Erfahrung"
         ],
-        "experience": "1-3 Jahre",
-        "followups": [
+        "followupSkills": [
           "Schalungsbau-Spezialisierung",
           "Lean Construction Training",
           "qual-role-metalworker",
@@ -1663,8 +1585,7 @@
           "Aufbaukurs Projektmanagement",
           "BIM-Zertifikat",
           "Fortbildung Arbeitssicherheit"
-        ],
-        "requiredYears": 1
+        ]
       }
     ]
   }
