@@ -2,6 +2,8 @@ package gui.elements;
 
 import core.EventManager;
 import core.Notification;
+import gui.GuiManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * Öffnet ein Pop-Up-Menü, wenn der Knopf gedrückt wird.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-07
  */
 public class NotificationHub extends JPanel {
@@ -20,10 +22,19 @@ public class NotificationHub extends JPanel {
     private ArrayList<Notification> notifications;
     private EventManager eventManager;
     private JPopupMenu popupMenu;
+    private GuiManager guiManager;
 
-    public NotificationHub(ArrayList<Notification> notifications, EventManager eventManager) {
+    /**
+     * Konstruktor für das NotificationHub.
+     * @param notifications
+     * @param eventManager
+     * @param guiManager
+     * @author Elias Glauert
+     */
+    public NotificationHub(ArrayList<Notification> notifications, EventManager eventManager, GuiManager guiManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
+        this.guiManager = guiManager;
 
         setLayout(new BorderLayout());
 
@@ -45,7 +56,7 @@ public class NotificationHub extends JPanel {
     private void showPopupMenu() {
         popupMenu = new JPopupMenu();
         for (Notification notification : notifications) {
-            Gui_Notification notificationPanel = new Gui_Notification(notification, eventManager);
+            Gui_Notification notificationPanel = new Gui_Notification(notification, eventManager, guiManager.getActiveView());
             popupMenu.add(notificationPanel);
         }
         popupMenu.show(notificationButton, notificationButton.getWidth(), notificationButton.getHeight());
@@ -56,7 +67,7 @@ public class NotificationHub extends JPanel {
             boolean wasPopUpOpen = popupMenu.isVisible();
             popupMenu.removeAll();
             for (Notification notification : notifications) {
-                Gui_Notification notificationPanel = new Gui_Notification(notification, eventManager);
+                Gui_Notification notificationPanel = new Gui_Notification(notification, eventManager, guiManager.getActiveView());
                 popupMenu.add(notificationPanel);
             }
 

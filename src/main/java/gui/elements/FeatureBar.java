@@ -33,6 +33,7 @@ public class FeatureBar extends JPanel {
         JPanel main_button_panel = new JPanel(new GridLayout());
         main_button_panel.add(new JLabel("Feature Bar WIP"));
         // TODO nutze für die features PermissionChecker.hasPermission(char permission) ob es angezeigt werden soll
+        //  also muss nicht ausgeblendet werden, aber es geht darum, dass die function genutzt werden soll
 
         // Logout Button und MyProfile Button (Immer sichtbar)
         JPanel core_features_panel = new JPanel(new GridLayout(0, 1));

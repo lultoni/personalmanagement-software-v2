@@ -3,6 +3,7 @@ package model;
 import core.EmployeeManager;
 import db.dao.EmployeeDao;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -40,24 +41,6 @@ public class Employee {
 
     /**
      * Konstruktor von der Employee Klasse.
-     * @param username
-     * @param password
-     * @param permissionString
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param phoneNumber
-     * @param dateOfBirth
-     * @param address
-     * @param gender
-     * @param hireDate
-     * @param employmentStatus
-     * @param departmentId
-     * @param teamId
-     * @param roleId
-     * @param qualifications
-     * @param completedTrainings
-     * @param managerId
      * @author Elias Glauert
      */
     public Employee(boolean addEmployeeToDb, String username, String password, String permissionString, String firstName,
@@ -245,7 +228,7 @@ public class Employee {
     }
 
     @Override
-    public String toString() { // TODO maybe mehr daten noch hinzufügen
+    public String toString() {
         return "Employee(" +
                 "id=" + id +
                 ", username='" + username + "'" +
@@ -301,6 +284,10 @@ public class Employee {
      * @author Elias Glauert
      */
     public Employee getManager() {
-        return employeeManager.findEmployee("id", String.valueOf(getManagerId()));
+        ArrayList<String> fields = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
+        fields.add("id");
+        contents.add(String.valueOf(getManagerId()));
+        return employeeManager.findEmployees(fields, contents).getFirst();
     }
 }

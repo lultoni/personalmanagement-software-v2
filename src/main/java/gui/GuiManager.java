@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.5
+ * @version 1.6
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -44,7 +44,7 @@ public class GuiManager {
 
         view_history = new ArrayList<>();
 
-        mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager);
+        mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager, this);
 
     }
 
@@ -154,5 +154,9 @@ public class GuiManager {
         printViewHistory();
         mainFrame.changeView(view_history.getLast(), view_history.size() > 1);
 
+    }
+
+    public View getActiveView() {
+        return view_history.getLast();
     }
 }

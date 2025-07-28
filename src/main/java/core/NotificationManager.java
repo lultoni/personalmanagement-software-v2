@@ -36,7 +36,6 @@ public class NotificationManager {
      * @param eventManager EventManager Verbindung für den NotificationManager.
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public NotificationManager(EventManager eventManager) {
 
         this.eventManager = eventManager;

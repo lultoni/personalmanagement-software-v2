@@ -19,7 +19,6 @@ public class DefaultView extends View {
      *
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public DefaultView() {
 
         setView_id("view-default");

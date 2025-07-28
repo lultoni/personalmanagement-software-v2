@@ -19,7 +19,7 @@ public class Event_UnblockSystem extends Event {
     public Event_UnblockSystem(Object[] args) {
         super(args);
 
-        // TODO do we want to do anything else?
+        // TODO do we want to do anything else? be in sync with the BlockSystem Event
         PersistentInformationReader.setSystemBlocked(false);
     }
 

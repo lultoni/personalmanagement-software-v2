@@ -22,7 +22,6 @@ public class Notification {
      * @param -
      * @author Elias Glauert
      */
-    // TODO überarbeite diese beschreibung
     public Notification(String notification_titel, String notification_description, View connected_view, int notification_id) {
 
         this.notification_titel = notification_titel;

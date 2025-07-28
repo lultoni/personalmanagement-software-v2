@@ -77,6 +77,11 @@ public class EventManager {
             }
             case "moveToHomeScreen" -> {
                 // TODO implement the correct home screen
+                //  es muss ja per se keinen expliziten home screen geben, es kann auch einfach
+                //   - view von den eigenen mitarbeiterdaten
+                //   - search view
+                //   - etc.
+                //  sein
                 callEvent("changeView", new Object[]{new TestNotificationView(this)});
             }
             default -> System.out.println("Unexpected event_id '" + event_id + "'.");

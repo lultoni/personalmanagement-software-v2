@@ -2,6 +2,8 @@ package gui.elements;
 
 import core.EventManager;
 import core.Notification;
+import gui.views.View;
+
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
@@ -11,12 +13,12 @@ import java.awt.*;
  * Beinhaltet den Titel, die Beschreibung, den Knopf zum View und den Knopf zum Löschen.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-07
  */
 public class Gui_Notification extends JPanel {
 
-    public Gui_Notification(Notification notification, EventManager eventManager) {
+    public Gui_Notification(Notification notification, EventManager eventManager, View activeView) {
 
         boolean has_connected_view = notification.getConnected_view() != null;
 
@@ -27,7 +29,11 @@ public class Gui_Notification extends JPanel {
         JLabel titleLabel = new JLabel(notification.getNotification_titel());
         JLabel descriptionLabel = new JLabel(notification.getNotification_description());
 
-        JButton viewButton = new JButton("View");
+        JButton viewButton = new JButton("Zu Ansicht wechseln");
+        if (activeView.equals(notification.getConnected_view())) {
+            viewButton.setEnabled(false);
+            viewButton.setText("Bereits auf Ansicht");
+        }
         if (has_connected_view) {
             viewButton.addActionListener(_ -> {
                 System.out.println("CHANGE VIEW BUTTON CLICKED");
@@ -36,7 +42,7 @@ public class Gui_Notification extends JPanel {
             });
         }
 
-        JButton deleteButton = new JButton("Delete");
+        JButton deleteButton = new JButton("Löschen");
         deleteButton.addActionListener(_ -> {
             System.out.println("DELETE BUTTON CLICKED");
             eventManager.callEvent("popNotification", new Object[]{notification.getNotification_id()});

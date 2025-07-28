@@ -10,7 +10,7 @@ import java.util.Objects;
  * Mitarbeiter Verwaltung Klasse.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-11
  */
 public class EmployeeManager {
@@ -64,34 +64,43 @@ public class EmployeeManager {
     }
 
     /**
-     * Findet einen Mitarbeiter in der Datenbank mit den passenden Daten in den Feldern.
-     * @return Gibt entweder gefunden Mitarbeiter zurück, sonst null.
+     * Findet alle Mitarbeiter in der Datenbank mit den passenden Daten in den Feldern.
+     * Kann gleich gesehen werden wie ein SELECT Command bei SQL.
+     * @param fields Eine Liste von Feldnamen, die geprüft werden sollen.
+     * @param contents Eine Liste von Inhalten, die mit den Feldern verglichen werden sollen.
+     * @return Gibt eine Liste von gefundenen Mitarbeitern zurück.
      * @author Elias Glauert
      */
-    // TODO änder diese Methode zu einem "SELECT * WHERE"-äquivalent ab mit listen für fields und content und dann wird
-    //  auch eine liste zurückgegeben
-    public Employee findEmployee(String field1, String content1, String field2, String content2) {
-        for (Employee employee: employees) {
-            if (Objects.equals(getValueOfField(employee, field1), content1) && Objects.equals(getValueOfField(employee, field2), content2)) {
-                return employee;
-            }
-        }
-        return null;
-    }
+    public ArrayList<Employee> findEmployees(ArrayList<String> fields, ArrayList<String> contents) {
+        ArrayList<Employee> matchingEmployees = new ArrayList<>();
 
-    /**
-     * Findet einen Mitarbeiter in der Datenbank mit den passenden Daten in den Feldern.
-     * @return Gibt entweder gefunden Mitarbeiter zurück, sonst null.
-     * @author Elias Glauert
-     */
-    public Employee findEmployee(String field, String content) {
-        System.out.println("EmployeeManager.employees.size() = " + employees.size());
-        for (Employee employee: employees) {
-            if (Objects.equals(getValueOfField(employee, field), content)) {
-                return employee;
+        // fields und contents müssen natürlich die gleiche Größe haben
+        if (fields.size() != contents.size()) {
+            throw new IllegalArgumentException("Fields and contents lists must be of the same size.");
+        }
+
+        // geht jeden mitarbeiter durch
+        for (Employee employee : employees) {
+            boolean match = true;
+
+            // überprüft jedes einzelne feld und den wert
+            for (int i = 0; i < fields.size(); i++) {
+                String field = fields.get(i);
+                String content = contents.get(i);
+
+                if (!Objects.equals(getValueOfField(employee, field), content)) {
+                    match = false;
+                    break; // es wurde ein feld gefunden was nicht übereinstimmt
+                }
+            }
+
+            // wenn immer noch ein match besteht, wird der mitarbeiter in die return liste hinzugefügt
+            if (match) {
+                matchingEmployees.add(employee);
             }
         }
-        return null;
+
+        return matchingEmployees;
     }
 
     public Employee getEmployeeById(int id) {
@@ -109,14 +118,64 @@ public class EmployeeManager {
      * @return Wert wird als String zurückgegeben.
      * @author Elias Glauert
      */
-    // TODO finish this class
     private String getValueOfField(Employee employee, String fieldName) {
         switch (fieldName) {
+            case "id" -> {
+                return String.valueOf(employee.getId());
+            }
             case "username" -> {
                 return employee.getUsername();
             }
             case "password" -> {
                 return employee.getPassword();
+            }
+            case "permissionString" -> {
+                return employee.getPermissionString();
+            }
+            case "firstName" -> {
+                return employee.getFirstName();
+            }
+            case "lastName" -> {
+                return employee.getLastName();
+            }
+            case "email" -> {
+                return employee.getEmail();
+            }
+            case "phoneNumber" -> {
+                return employee.getPhoneNumber();
+            }
+            case "dateOfBirth" -> {
+                return employee.getDateOfBirth().toString();
+            }
+            case "address" -> {
+                return employee.getAddress();
+            }
+            case "gender" -> {
+                return String.valueOf(employee.getGender());
+            }
+            case "hireDate" -> {
+                return employee.getHireDate().toString();
+            }
+            case "employmentStatus" -> {
+                return employee.getEmploymentStatus();
+            }
+            case "departmentId" -> {
+                return employee.getDepartmentId();
+            }
+            case "teamId" -> {
+                return employee.getTeamId();
+            }
+            case "roleId" -> {
+                return employee.getRoleId();
+            }
+            case "qualifications" -> {
+                return employee.getQualifications();
+            }
+            case "completedTrainings" -> {
+                return employee.getCompletedTrainings();
+            }
+            case "managerId" -> {
+                return String.valueOf(employee.getManager().getId());
             }
         }
         return "UNEXPECTED_FIELD_VALUE";

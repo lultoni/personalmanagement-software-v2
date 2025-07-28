@@ -5,6 +5,7 @@ import core.LoginManager;
 import core.Main;
 import core.Notification;
 import gui.elements.FeatureBar;
+import gui.elements.Gui_Notification;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
 import gui.views.DefaultView;
@@ -16,6 +17,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -68,19 +70,27 @@ public class MainFrame extends JFrame {
      *
      * @author Elias Glauert
      */
-    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager) {
+    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager, GuiManager guiManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
 
-        setTitle("Personalmanagement Software");setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setTitle("Personalmanagement Software");
+
+        ImageIcon rawIcon = new ImageIcon("src/main/resources/icons/softwareIcon.png");
+        Image scaledImage = rawIcon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+        setIconImage(scaledImage);
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 Main.exitProgram();
             }
         });
+
         setSize(1000, 720);
         setLocationRelativeTo(null);
+
         setLayout(new BorderLayout());
 
         currentView = new DefaultView();
@@ -88,8 +98,8 @@ public class MainFrame extends JFrame {
         featureBar = new FeatureBar(loginManager, eventManager);
 
         titleBar = new TitleBar();
-        notificationHub = new NotificationHub(notifications, eventManager);
-        backButton = new JButton("<-- Zurück"); // TODO move this to a separated class later on for functionality like seeing if it has to be disabled
+        notificationHub = new NotificationHub(notifications, eventManager, guiManager);
+        backButton = new JButton("<-- Zurück");
         backButton.addActionListener(_ -> {
             eventManager.callEvent("moveBackView", null);
         });

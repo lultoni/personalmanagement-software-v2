@@ -4,6 +4,8 @@ import gui.views.LoginView;
 import model.Employee;
 import util.PersistentInformationReader;
 
+import java.util.ArrayList;
+
 /**
  * LoginManager der den Login-Prozess verwaltet.
  *
@@ -32,14 +34,22 @@ public class LoginManager {
      *
      * @param username Nutzername, welcher überprüft werden soll
      * @param password Passwort, welches überprüft werden soll
-     * @return
+     * @return Ob der Anmeldeversuch akzeptiert wurde oder nicht
      * @author Elias Glauert
      */
     public boolean attemptLogin(String username, String password) {
         System.out.println("Anmeldeversuch mit Daten:");
         System.out.println(" - username=" + username);
         System.out.println(" - password=" + password);
-        Employee employee = employeeManager.findEmployee("username", username, "password", password);
+
+        ArrayList<String> fields = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
+        fields.add("username");
+        contents.add(username);
+        fields.add("password");
+        contents.add(password);
+
+        Employee employee = employeeManager.findEmployees(fields, contents).getFirst();
         if (employee != null) {
             System.out.println("Anmeldedaten sind Valide");
             PersistentInformationReader.setUserLoggedIn(true);
