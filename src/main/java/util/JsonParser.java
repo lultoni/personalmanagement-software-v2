@@ -73,7 +73,7 @@ public class JsonParser {
                 new TypeReference<>() {});
         departmentMap = new HashMap<>();
         for (Department d : departments) {
-            departmentMap.put(d.getdepartmentId(), d);
+            departmentMap.put(d.getDepartmentId(), d);
         }
     }
 
