@@ -12,6 +12,7 @@ import model.json.Team;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map; // Für Map als Rückgabetyp
 import java.util.HashMap;
 import java.util.List; // Für List<QualificationsContainer>
 
@@ -133,5 +134,32 @@ public class JsonParser {
         } else {
             System.out.println("Warnung: 'Qualification.json' ist leer oder enthält keine Container.");
         }
+    }
+    public static Map<String, Department> getDepartmentMap() throws IOException {
+        if (departmentMap == null) {
+            ladeDepartments();
+        }
+        return departmentMap;
+    }
+
+    public static Map<String, Qualification> getQualificationMap() throws IOException {
+        if (qualificationMap == null) {
+            ladeQualifications();
+        }
+        return qualificationMap;
+    }
+
+    public static Map<String, Role> getRoleMap() throws IOException {
+        if (roleMap == null) {
+            ladeRoles();
+        }
+        return roleMap;
+    }
+
+    public static Map<String, Team> getTeamMap() throws IOException {
+        if (teamMap == null) {
+            ladeTeams();
+        }
+        return teamMap;
     }
 }
