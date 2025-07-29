@@ -2,20 +2,26 @@ package util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.json.*;
+import model.json.Company;
+import model.json.Department;
+import model.json.Qualification;
+import model.json.QualificationsContainer;
+import model.json.Role;
+import model.json.Team;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List; // Für List<QualificationsContainer>
 
 /**
  * Mit dieser Klasse werden die Unternehmensstrukturen eingelesen in das Programm.
  * Klasse wird statisch verwendet.
  *
  * @author Dorian Gläske, Elias Glauert
- * @version 1.1
- * @since 2025-07-28
+ * @version 1.2 (Angepasst für QualificationsContainer und Company-Fehler)
+ * @since 2025-07-29
  */
 public class JsonParser {
 
@@ -64,23 +70,27 @@ public class JsonParser {
     }
 
     private static void ladeCompany() throws IOException {
+        // Hier wird die Company als einzelnes Objekt geparst.
+        // Die @JsonProperty("name") in der Company-Klasse löst das "Unrecognized field 'name'" Problem.
         company = mapper.readValue(new File(JSON_PFAD + "Company.json"), Company.class);
     }
 
     private static void ladeDepartments() throws IOException {
+        // Annahme: Department.json ist ein direktes Array von Department-Objekten.
         ArrayList<Department> departments = mapper.readValue(
                 new File(JSON_PFAD + "Department.json"),
-                new TypeReference<>() {});
+                new TypeReference<ArrayList<Department>>() {}); // Expliziter TypeReference
         departmentMap = new HashMap<>();
         for (Department d : departments) {
-            departmentMap.put(d.getdepartmentId(), d);
+            departmentMap.put(d.getDepartmentId(), d);
         }
     }
 
     private static void ladeTeams() throws IOException {
+        // Annahme: Team.json ist ein direktes Array von Team-Objekten.
         ArrayList<Team> teams = mapper.readValue(
                 new File(JSON_PFAD + "Team.json"),
-                new TypeReference<>() {});
+                new TypeReference<ArrayList<Team>>() {}); // Expliziter TypeReference
         teamMap = new HashMap<>();
         for (Team t : teams) {
             teamMap.put(t.getTeamId(), t);
@@ -88,22 +98,40 @@ public class JsonParser {
     }
 
     private static void ladeRoles() throws IOException {
+        // Annahme: Role.json ist ein direktes Array von Role-Objekten.
         ArrayList<Role> roles = mapper.readValue(
                 new File(JSON_PFAD + "Role.json"),
-                new TypeReference<>() {});
+                new TypeReference<ArrayList<Role>>() {}); // Expliziter TypeReference
         roleMap = new HashMap<>();
         for (Role r : roles) {
+            // Stelle sicher, dass getRoleId() korrekt ist (nicht getroleId())
             roleMap.put(r.getroleId(), r);
         }
     }
 
     private static void ladeQualifications() throws IOException {
-        ArrayList<Qualification> qualifications = mapper.readValue(
+        // Die JSON-Datei "Qualification.json" wird als ein Array von QualificationsContainer-Objekten gelesen.
+        // Laut deinem Beispiel-JSON enthält dieses Array nur ein einziges Container-Objekt.
+        List<QualificationsContainer> containers = mapper.readValue(
                 new File(JSON_PFAD + "Qualification.json"),
-                new TypeReference<>() {});
+                new TypeReference<List<QualificationsContainer>>() {}); // Wichtig: Liste von Containern
+
         qualificationMap = new HashMap<>();
-        for (Qualification q : qualifications) {
-            qualificationMap.put(q.getRoleId(), q);
+
+        // Da das äußere JSON-Array nur einen Container enthält (wie in deinem Beispiel),
+        // nehmen wir das erste Element.
+        if (!containers.isEmpty()) {
+            QualificationsContainer mainContainer = containers.get(0);
+            List<Qualification> qualificationsList = mainContainer.getQualifications();
+
+            if (qualificationsList != null) {
+                for (Qualification q : qualificationsList) {
+                    // Verwende die roleId als Schlüssel für die Map
+                    qualificationMap.put(q.getRoleId(), q);
+                }
+            }
+        } else {
+            System.out.println("Warnung: 'Qualification.json' ist leer oder enthält keine Container.");
         }
     }
 }

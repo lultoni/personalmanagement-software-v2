@@ -18,7 +18,6 @@ public class Skills {
     private List<String> Skills;
 
     public Skills() {
-        this.Skills = new ArrayList<>();
     }
     public Skills(List<String> Skills) {
         this.Skills = Skills;
