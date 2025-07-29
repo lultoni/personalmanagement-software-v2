@@ -16,6 +16,7 @@ public class Test_JsonParser {
         System.out.println("Firma: " + JsonParser.getCompany().getName());
         System.out.println("Department: " + JsonParser.findeDepartment("dept-compliance"));
         System.out.println("Qualifikation: " + JsonParser.findeQualification("qual-advanced-brickwork"));
+        System.out.println("Role: " + JsonParser.findeRole("role-cost-controller"));
 
     }
 

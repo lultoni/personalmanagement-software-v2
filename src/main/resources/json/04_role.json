@@ -1,6 +1,6 @@
 [
   {
-    "role-id": "role-construction-head",
+    "roleId": "role-construction-head",
     "name": "Bauleiter",
     "requiredQualifications": [
       "Meisterbrief im Bauwesen",
@@ -9,7 +9,7 @@
     ]
   },
   {
-    "role-id": "role-mason-foreman",
+    "roleId": "role-mason-foreman",
     "name": "Vorarbeiter Maurer",
     "requiredQualifications": [
       "Meisterbrief im Maurerhandwerk",
@@ -17,14 +17,14 @@
     ]
   },
   {
-    "role-id": "role-skilled-mason",
+    "roleId": "role-skilled-mason",
     "name": "Facharbeiter Maurer",
     "requiredQualifications": [
       "Abgeschlossene Berufsausbildung als Maurer"
     ]
   },
   {
-    "role-id": "role-mason-helper",
+    "roleId": "role-mason-helper",
     "name": "Maurerhelfer",
     "requiredQualifications": [
       "Grundkenntnisse Bauwesen",
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "role-id": "role-concrete-foreman",
+    "roleId": "role-concrete-foreman",
     "name": "Vorarbeiter Betonbau",
     "requiredQualifications": [
       "Meisterbrief im Betonbau",
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "role-id": "role-concrete-specialist",
+    "roleId": "role-concrete-specialist",
     "name": "Betonbauer",
     "requiredQualifications": [
       "Berufsausbildung Betonbauer",
@@ -48,14 +48,14 @@
     ]
   },
   {
-    "role-id": "role-concrete-laborer",
+    "roleId": "role-concrete-laborer",
     "name": "Betonbauhelfer",
     "requiredQualifications": [
       "Erste Erfahrung auf Baustellen"
     ]
   },
   {
-    "role-id": "role-steel-construction-analyst",
+    "roleId": "role-steel-construction-analyst",
     "name": "Stahlbauplaner",
     "requiredQualifications": [
       "Studium Bauingenieurwesen",
@@ -63,7 +63,7 @@
     ]
   },
   {
-    "role-id": "role-steelworker",
+    "roleId": "role-steelworker",
     "name": "Stahlbauer",
     "requiredQualifications": [
       "Berufsausbildung Stahlbauer",
@@ -71,7 +71,7 @@
     ]
   },
   {
-    "role-id": "role-metalworker",
+    "roleId": "role-metalworker",
     "name": "Metallbauer",
     "requiredQualifications": [
       "Ausbildung Metallbau",
@@ -79,7 +79,7 @@
     ]
   },
   {
-    "role-id": "role-site-ops-head",
+    "roleId": "role-site-ops-head",
     "name": "Leiter Baustellenbetrieb",
     "requiredQualifications": [
       "Techniker- oder Meisterausbildung",
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "role-id": "role-logistics-planner",
+    "roleId": "role-logistics-planner",
     "name": "Logistikplaner",
     "requiredQualifications": [
       "Studium oder Ausbildung Logistik",
@@ -96,7 +96,7 @@
     ]
   },
   {
-    "role-id": "role-site-mover",
+    "roleId": "role-site-mover",
     "name": "Baustellenlogistiker",
     "requiredQualifications": [
       "Gabelstaplerschein",
@@ -104,7 +104,7 @@
     ]
   },
   {
-    "role-id": "role-safety-officer",
+    "roleId": "role-safety-officer",
     "name": "Sicherheitsbeauftragter",
     "requiredQualifications": [
       "SiGeKo-Zertifizierung",
@@ -112,7 +112,7 @@
     ]
   },
   {
-    "role-id": "role-site-inspector",
+    "roleId": "role-site-inspector",
     "name": "Baukontrolleur",
     "requiredQualifications": [
       "Technische Ausbildung",
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "role-id": "role-site-coordinator",
+    "roleId": "role-site-coordinator",
     "name": "Baukoordinator",
     "requiredQualifications": [
       "Bauingenieurwesen Studium",
@@ -128,7 +128,7 @@
     ]
   },
   {
-    "role-id": "role-site-supervisor",
+    "roleId": "role-site-supervisor",
     "name": "Bauleiterassistent",
     "requiredQualifications": [
       "Technische Ausbildung",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "role-id": "role-equipment-head",
+    "roleId": "role-equipment-head",
     "name": "Leiter Geräte & Fuhrpark",
     "requiredQualifications": [
       "Technisches Studium oder Ausbildung",
@@ -145,7 +145,7 @@
     ]
   },
   {
-    "role-id": "role-excavator-driver",
+    "roleId": "role-excavator-driver",
     "name": "Baggerfahrer",
     "requiredQualifications": [
       "Führerschein Baumaschinen",
@@ -153,7 +153,7 @@
     ]
   },
   {
-    "role-id": "role-equipment-technician",
+    "roleId": "role-equipment-technician",
     "name": "Maschinentechniker",
     "requiredQualifications": [
       "Mechatronik-Ausbildung",
@@ -161,7 +161,7 @@
     ]
   },
   {
-    "role-id": "role-fleet-maintenance-specialist",
+    "roleId": "role-fleet-maintenance-specialist",
     "name": "Fuhrparktechniker",
     "requiredQualifications": [
       "KFZ-Mechatroniker",
@@ -169,7 +169,7 @@
     ]
   },
   {
-    "role-id": "role-vehicle-mechanic",
+    "roleId": "role-vehicle-mechanic",
     "name": "Fahrzeugmechaniker",
     "requiredQualifications": [
       "KFZ-Ausbildung",
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "role-id": "role-project-head",
+    "roleId": "role-project-head",
     "name": "Projektleiter Bau",
     "requiredQualifications": [
       "Bauingenieurwesen Studium",
@@ -186,28 +186,28 @@
     ]
   },
   {
-    "role-id": "role-project-admin",
+    "roleId": "role-project-admin",
     "name": "Projektadministrator",
     "requiredQualifications": [
       "qual-role-project-admin"
     ]
   },
   {
-    "role-id": "role-documentation-specialist",
+    "roleId": "role-documentation-specialist",
     "name": "Dokumentationsspezialist",
     "requiredQualifications": [
       "qual-role-documentation-specialist"
     ]
   },
   {
-    "role-id": "role-project-assistant",
+    "roleId": "role-project-assistant",
     "name": "Projektassistent",
     "requiredQualifications": [
       "qual-role-project-assistant"
     ]
   },
   {
-    "role-id": "role-resource-planner",
+    "roled": "role-resource-planner",
     "name": "Ressourcenplaner",
     "requiredQualifications": [
       "Excel-Kenntnisse",
@@ -215,7 +215,7 @@
     ]
   },
   {
-    "role-id": "role-scheduling-assistant",
+    "rolIid": "role-scheduling-assistant",
     "name": "Terminplanungsassistent",
     "requiredQualifications": [
       "Organisationstalent",

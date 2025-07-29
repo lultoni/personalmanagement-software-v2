@@ -2,7 +2,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-construction-head",
+        "roleId": "qual-role-construction-head",
         "description": "Qualifikation für die Rolle Construction Head",
         "requiredSkills": [
           "role-construction-head Skill A",
@@ -31,7 +31,7 @@
         ]
       },
       {
-        "role-id": "qual-role-mason-foreman",
+        "roleId": "qual-role-mason-foreman",
         "description": "Qualifikation für die Rolle Mason Foreman",
         "requiredSkills": [
           "role-mason-foreman Skill A",
@@ -53,7 +53,7 @@
         ]
       },
       {
-        "role-id": "qual-role-skilled-mason",
+        "roleId": "qual-role-skilled-mason",
         "description": "Qualifikation für die Rolle Skilled Mason",
         "requiredSkills": [
           "role-skilled-mason Skill A",
@@ -75,7 +75,7 @@
         ]
       },
       {
-        "role-id": "qual-role-mason-helper",
+        "roleId": "qual-role-mason-helper",
         "description": "Qualifikation für die Rolle Mason Helper",
         "requiredSkills": [
           "role-mason-helper Skill A",
@@ -97,7 +97,7 @@
         ]
       },
       {
-        "role-id": "qual-role-concrete-foreman",
+        "roleId": "qual-role-concrete-foreman",
         "description": "Qualifikation für die Rolle Concrete Foreman",
         "requiredSkills": [
           "role-concrete-foreman Skill A",
@@ -119,7 +119,7 @@
         ]
       },
       {
-        "role-id": "qual-role-concrete-specialist",
+        "roleId": "qual-role-concrete-specialist",
         "description": "Qualifikation für die Rolle Concrete Specialist",
         "requiredSkills": [
           "role-concrete-specialist Skill A",
@@ -141,7 +141,7 @@
         ]
       },
       {
-        "role-id": "qual-role-concrete-laborer",
+        "roleId": "qual-role-concrete-laborer",
         "description": "Qualifikation für die Rolle Concrete Laborer",
         "requiredSkills": [
           "role-concrete-laborer Skill A",
@@ -163,7 +163,7 @@
         ]
       },
       {
-        "role-id": "qual-role-steel-construction-analyst",
+        "roleId": "qual-role-steel-construction-analyst",
         "description": "Qualifikation für die Rolle Steel Construction Analyst",
         "requiredSkills": [
           "role-steel-construction-analyst Skill A",
@@ -185,7 +185,7 @@
         ]
       },
       {
-        "role-id": "qual-role-steelworker",
+        "roleId": "qual-role-steelworker",
         "description": "Qualifikation für die Rolle Steelworker",
         "requiredSkills": [
           "role-steelworker Skill A",
@@ -211,7 +211,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-site-ops-head",
+        "roleId": "qual-role-site-ops-head",
         "description": "Qualifikation für die Rolle Site Ops Head",
         "requiredSkills": [
           "role-site-ops-head Skill A",
@@ -240,7 +240,7 @@
         ]
       },
       {
-        "role-id": "qual-role-site-mover",
+        "roleId": "qual-role-site-mover",
         "description": "Qualifikation für die Rolle Site Mover",
         "requiredSkills": [
           "role-site-mover Skill A",
@@ -262,7 +262,7 @@
         ]
       },
       {
-        "role-id": "qual-role-site-inspector",
+        "roleId": "qual-role-site-inspector",
         "description": "Qualifikation für die Rolle Site Inspector",
         "requiredSkills": [
           "role-site-inspector Skill A",
@@ -284,7 +284,7 @@
         ]
       },
       {
-        "role-id": "qual-role-site-coordinator",
+        "roleId": "qual-role-site-coordinator",
         "description": "Qualifikation für die Rolle Site Coordinator",
         "requiredSkills": [
           "role-site-coordinator Skill A",
@@ -306,7 +306,7 @@
         ]
       },
       {
-        "role-id": "qual-role-site-supervisor",
+        "roleId": "qual-role-site-supervisor",
         "description": "Qualifikation für die Rolle Site Supervisor",
         "requiredSkills": [
           "role-site-supervisor Skill A",
@@ -332,7 +332,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-equipment-head",
+        "roleId": "qual-role-equipment-head",
         "description": "Qualifikation für die Rolle Equipment Head",
         "requiredSkills": [
           "role-equipment-head Skill A",
@@ -361,7 +361,7 @@
         ]
       },
       {
-        "role-id": "qual-role-equipment-technician",
+        "roleId": "qual-role-equipment-technician",
         "description": "Qualifikation für die Rolle Equipment Technician",
         "requiredSkills": [
           "role-equipment-technician Skill A",
@@ -382,7 +382,7 @@
         ]
       },
       {
-        "role-id": "qual-role-fleet-maintenance-specialist",
+        "roleId": "qual-role-fleet-maintenance-specialist",
         "description": "Qualifikation für die Rolle Fleet Maintenance Specialist",
         "requiredSkills": [
           "role-fleet-maintenance-specialist Skill A",
@@ -407,7 +407,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-project-head",
+        "roleId": "qual-role-project-head",
         "description": "Qualifikation für die Rolle Project Head",
         "requiredSkills": [
           "role-project-head Skill A",
@@ -436,7 +436,7 @@
         ]
       },
       {
-        "role-id": "qual-role-resource-planner",
+        "roleId": "qual-role-resource-planner",
         "description": "Qualifikation für die Rolle Resource Planner",
         "requiredSkills": [
           "role-resource-planner Skill A",
@@ -458,7 +458,7 @@
         ]
       },
       {
-        "role-id": "qual-role-schedule-manager",
+        "roleId": "qual-role-schedule-manager",
         "description": "Qualifikation für die Rolle Schedule Manager",
         "requiredSkills": [
           "role-schedule-manager Skill A",
@@ -480,7 +480,7 @@
         ]
       },
       {
-        "role-id": "qual-role-project-calculator",
+        "roleId": "qual-role-project-calculator",
         "description": "Qualifikation für die Rolle Project Calculator",
         "requiredSkills": [
           "role-project-calculator Skill A",
@@ -502,7 +502,7 @@
         ]
       },
       {
-        "role-id": "qual-role-project-admin",
+        "roleId": "qual-role-project-admin",
         "description": "Verantwortlich für administrative Koordination im Projektverlauf",
         "requiredSkills": [
           "Projektkoordination",
@@ -524,7 +524,7 @@
         ]
       },
       {
-        "role-id": "qual-role-project-assistant",
+        "roleId": "qual-role-project-assistant",
         "description": "Unterstützung der Projektleitung in organisatorischen Aufgaben",
         "requiredSkills": [
           "Organisation",
@@ -550,7 +550,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-planning-head",
+        "roleId": "qual-role-planning-head",
         "description": "Qualifikation für die Rolle Planning Head",
         "requiredSkills": [
           "role-planning-head Skill A",
@@ -579,7 +579,7 @@
         ]
       },
       {
-        "role-id": "qual-role-cost-estimator",
+        "roleId": "qual-role-cost-estimator",
         "description": "Qualifikation für die Rolle Cost Estimator",
         "requiredSkills": [
           "role-cost-estimator Skill A",
@@ -600,7 +600,7 @@
         ]
       },
       {
-        "role-id": "qual-role-cost-controller",
+        "roleId": "qual-role-cost-controller",
         "description": "Qualifikation für die Rolle Cost Controller",
         "requiredSkills": [
           "role-cost-controller Skill A",
@@ -625,7 +625,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-procurement-head",
+        "roleId": "qual-role-procurement-head",
         "description": "Qualifikation für die Rolle Procurement Head",
         "requiredSkills": [
           "role-procurement-head Skill A",
@@ -654,7 +654,7 @@
         ]
       },
       {
-        "role-id": "qual-role-supplier-coordinator",
+        "roleId": "qual-role-supplier-coordinator",
         "description": "Qualifikation für die Rolle Supplier Coordinator",
         "requiredSkills": [
           "role-supplier-coordinator Skill A",
@@ -675,7 +675,7 @@
         ]
       },
       {
-        "role-id": "qual-role-order-clerk",
+        "roleId": "qual-role-order-clerk",
         "description": "Qualifikation für die Rolle Order Clerk",
         "requiredSkills": [
           "role-order-clerk Skill A",
@@ -700,7 +700,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-it-head",
+        "roleId": "qual-role-it-head",
         "description": "Qualifikation für die Rolle It Head",
         "requiredSkills": [
           "role-it-head Skill A",
@@ -729,7 +729,7 @@
         ]
       },
       {
-        "role-id": "qual-role-it-systems-admin",
+        "roleId": "qual-role-it-systems-admin",
         "description": "Qualifikation für die Rolle It Systems Admin",
         "requiredSkills": [
           "role-it-systems-admin Skill A",
@@ -751,7 +751,7 @@
         ]
       },
       {
-        "role-id": "qual-role-network-technician",
+        "roleId": "qual-role-network-technician",
         "description": "Qualifikation für die Rolle Network Technician",
         "requiredSkills": [
           "role-network-technician Skill A",
@@ -773,7 +773,7 @@
         ]
       },
       {
-        "role-id": "qual-role-software-dev",
+        "roleId": "qual-role-software-dev",
         "description": "Qualifikation für die Rolle Software Dev",
         "requiredSkills": [
           "role-software-dev Skill A",
@@ -795,7 +795,7 @@
         ]
       },
       {
-        "role-id": "qual-role-recruiter",
+        "roleId": "qual-role-recruiter",
         "description": "Qualifikation für die Rolle Recruiter",
         "requiredSkills": [
           "role-recruiter Skill A",
@@ -817,7 +817,7 @@
         ]
       },
       {
-        "role-id": "qual-role-benefits-officer",
+        "roleId": "qual-role-benefits-officer",
         "description": "Qualifikation für die Rolle Benefits Officer",
         "requiredSkills": [
           "role-benefits-officer Skill A",
@@ -839,7 +839,7 @@
         ]
       },
       {
-        "role-id": "qual-role-information-security-analyst",
+        "roleId": "qual-role-information-security-analyst",
         "description": "Qualifikation für die Rolle Information Security Analyst",
         "requiredSkills": [
           "role-information-security-analyst Skill A",
@@ -865,7 +865,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-hr-head",
+        "roleId": "qual-role-hr-head",
         "description": "Qualifikation für die Rolle Hr Head",
         "requiredSkills": [
           "role-hr-head Skill A",
@@ -894,7 +894,7 @@
         ]
       },
       {
-        "role-id": "qual-role-payroll-admin",
+        "roleId": "qual-role-payroll-admin",
         "description": "Qualifikation für die Rolle Payroll Admin",
         "requiredSkills": [
           "role-payroll-admin Skill A",
@@ -915,7 +915,7 @@
         ]
       },
       {
-        "role-id": "qual-role-hr-advisor",
+        "roleId": "qual-role-hr-advisor",
         "description": "Qualifikation für die Rolle Hr Advisor",
         "requiredSkills": [
           "role-hr-advisor Skill A",
@@ -940,7 +940,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-finance-head",
+        "roleId": "qual-role-finance-head",
         "description": "Qualifikation für die Rolle Finance Head",
         "requiredSkills": [
           "role-finance-head Skill A",
@@ -969,7 +969,7 @@
         ]
       },
       {
-        "role-id": "qual-role-controlling-specialist",
+        "roleId": "qual-role-controlling-specialist",
         "description": "Qualifikation für die Rolle Controlling Specialist",
         "requiredSkills": [
           "role-controlling-specialist Skill A",
@@ -990,7 +990,7 @@
         ]
       },
       {
-        "role-id": "qual-role-b2b-account-manager",
+        "roleId": "qual-role-b2b-account-manager",
         "description": "Qualifikation für die Rolle B2B Account Manager",
         "requiredSkills": [
           "role-b2b-account-manager Skill A",
@@ -1015,7 +1015,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-compliance-head",
+        "roleId": "qual-role-compliance-head",
         "description": "Qualifikation für die Rolle Compliance Head",
         "requiredSkills": [
           "role-compliance-head Skill A",
@@ -1044,7 +1044,7 @@
         ]
       },
       {
-        "role-id": "qual-role-legal-consultant",
+        "roleId": "qual-role-legal-consultant",
         "description": "Qualifikation für die Rolle Legal Consultant",
         "requiredSkills": [
           "role-legal-consultant Skill A",
@@ -1066,7 +1066,7 @@
         ]
       },
       {
-        "role-id": "qual-role-compliance-consultant",
+        "roleId": "qual-role-compliance-consultant",
         "description": "Qualifikation für die Rolle Compliance Consultant",
         "requiredSkills": [
           "role-compliance-consultant Skill A",
@@ -1088,7 +1088,7 @@
         ]
       },
       {
-        "role-id": "qual-role-data-privacy-officer",
+        "roleId": "qual-role-data-privacy-officer",
         "description": "Qualifikation für die Rolle Data Privacy Officer",
         "requiredSkills": [
           "role-data-privacy-officer Skill A",
@@ -1114,7 +1114,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-sales-head",
+        "roleId": "qual-role-sales-head",
         "description": "Qualifikation für die Rolle Sales Head",
         "requiredSkills": [
           "role-sales-head Skill A",
@@ -1143,7 +1143,7 @@
         ]
       },
       {
-        "role-id": "qual-role-sales-strategist",
+        "roleId": "qual-role-sales-strategist",
         "description": "Qualifikation für die Rolle Sales Strategist",
         "requiredSkills": [
           "role-sales-strategist Skill A",
@@ -1165,7 +1165,7 @@
         ]
       },
       {
-        "role-id": "qual-role-customer-support",
+        "roleId": "qual-role-customer-support",
         "description": "Qualifikation für die Rolle Customer Support",
         "requiredSkills": [
           "role-customer-support Skill A",
@@ -1187,7 +1187,7 @@
         ]
       },
       {
-        "role-id": "qual-role-client-care-specialist",
+        "roleId": "qual-role-client-care-specialist",
         "description": "Qualifikation für die Rolle Client Care Specialist",
         "requiredSkills": [
           "role-client-care-specialist Skill A",
@@ -1213,7 +1213,7 @@
   {
     "qualifications": [
       {
-        "role-id": "qual-role-metalworker",
+        "roleId": "qual-role-metalworker",
         "description": "Qualifikation für die Rolle Metalworker",
         "requiredSkills": [
           "role-metalworker Skill A",
@@ -1235,7 +1235,7 @@
         ]
       },
       {
-        "role-id": "qual-role-logistics-planner",
+        "roleId": "qual-role-logistics-planner",
         "description": "Qualifikation für die Rolle Logistics Planner",
         "requiredSkills": [
           "role-logistics-planner Skill A",
@@ -1257,7 +1257,7 @@
         ]
       },
       {
-        "role-id": "qual-role-safety-officer",
+        "roleId": "qual-role-safety-officer",
         "description": "Qualifikation für die Rolle Safety Officer",
         "requiredSkills": [
           "role-safety-officer Skill A",
@@ -1279,7 +1279,7 @@
         ]
       },
       {
-        "role-id": "qual-role-excavator-driver",
+        "roleId": "qual-role-excavator-driver",
         "description": "Qualifikation für die Rolle Excavator Driver",
         "requiredSkills": [
           "role-excavator-driver Skill A",
@@ -1301,7 +1301,7 @@
         ]
       },
       {
-        "role-id": "qual-role-vehicle-mechanic",
+        "roleId": "qual-role-vehicle-mechanic",
         "description": "Qualifikation für die Rolle Vehicle Mechanic",
         "requiredSkills": [
           "role-vehicle-mechanic Skill A",
@@ -1323,7 +1323,7 @@
         ]
       },
       {
-        "role-id": "qual-role-scheduling-assistant",
+        "roleId": "qual-role-scheduling-assistant",
         "description": "Qualifikation für die Rolle Scheduling Assistant",
         "requiredSkills": [
           "role-scheduling-assistant Skill A",
@@ -1345,7 +1345,7 @@
         ]
       },
       {
-        "role-id": "qual-role-timeplanner",
+        "roleId": "qual-role-timeplanner",
         "description": "Qualifikation für die Rolle Timeplanner",
         "requiredSkills": [
           "role-timeplanner Skill A",
@@ -1367,7 +1367,7 @@
         ]
       },
       {
-        "role-id": "qual-role-material-buyer",
+        "roleId": "qual-role-material-buyer",
         "description": "Qualifikation für die Rolle Material Buyer",
         "requiredSkills": [
           "role-material-buyer Skill A",
@@ -1389,7 +1389,7 @@
         ]
       },
       {
-        "role-id": "qual-role-stock-controller",
+        "roleId": "qual-role-stock-controller",
         "description": "Qualifikation für die Rolle Stock Controller",
         "requiredSkills": [
           "role-stock-controller Skill A",
@@ -1411,7 +1411,7 @@
         ]
       },
       {
-        "role-id": "qual-role-support-specialist",
+        "roleId": "qual-role-support-specialist",
         "description": "Qualifikation für die Rolle Support Specialist",
         "requiredSkills": [
           "role-support-specialist Skill A",
@@ -1433,7 +1433,7 @@
         ]
       },
       {
-        "role-id": "qual-role-helpdesk-agent",
+        "roleId": "qual-role-helpdesk-agent",
         "description": "Qualifikation für die Rolle Helpdesk Agent",
         "requiredSkills": [
           "role-helpdesk-agent Skill A",
@@ -1455,7 +1455,7 @@
         ]
       },
       {
-        "role-id": "qual-role-system-integrator",
+        "roleId": "qual-role-system-integrator",
         "description": "Qualifikation für die Rolle System Integrator",
         "requiredSkills": [
           "role-system-integrator Skill A",
@@ -1477,7 +1477,7 @@
         ]
       },
       {
-        "role-id": "qual-role-talent-sourcer",
+        "roleId": "qual-role-talent-sourcer",
         "description": "Qualifikation für die Rolle Talent Sourcer",
         "requiredSkills": [
           "role-talent-sourcer Skill A",
@@ -1499,7 +1499,7 @@
         ]
       },
       {
-        "role-id": "qual-role-personnel-consultant",
+        "roleId": "qual-role-personnel-consultant",
         "description": "Qualifikation für die Rolle Personnel Consultant",
         "requiredSkills": [
           "role-personnel-consultant Skill A",
@@ -1521,7 +1521,7 @@
         ]
       },
       {
-        "role-id": "qual-role-financial-bookkeeper",
+        "roleId": "qual-role-financial-bookkeeper",
         "description": "Qualifikation für die Rolle Financial Bookkeeper",
         "requiredSkills": [
           "role-financial-bookkeeper Skill A",
@@ -1543,7 +1543,7 @@
         ]
       },
       {
-        "role-id": "qual-role-invoice-specialist",
+        "roleId": "qual-role-invoice-specialist",
         "description": "Qualifikation für die Rolle Invoice Specialist",
         "requiredSkills": [
           "role-invoice-specialist Skill A",
@@ -1565,7 +1565,7 @@
         ]
       },
       {
-        "role-id": "qual-role-documentation-specialist",
+        "roleId": "qual-role-documentation-specialist",
         "description": "Pflege und Standardisierung der Projektdokumentation",
         "requiredSkills": [
           "Dokumentationstechniken",
