@@ -1,6 +1,5 @@
 package gui;
 
-
 import core.EventManager;
 import core.LoginManager;
 import core.Notification;
@@ -13,150 +12,143 @@ import java.util.ArrayList;
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.6
+ * @version 1.7
  * @since 2025-07-05
  */
 public class GuiManager {
 
-    /**
-     * Enthält den View-Stack der Session. Wird für den Zurück-Knopf genutzt.
-     */
     private ArrayList<View> view_history;
+    private int currentViewIndex;
+    private final int fallbackCurrentViewIndex = -1;
 
-    /**
-     * Das Haupt JFrame, in welches alle GUI Elemente angezeigt werden.
-     */
     private MainFrame mainFrame;
-
-    /**
-     * EventManager Verbindung des GuiManagers.
-     */
     private EventManager eventManager;
 
-    /**
-     * Konstruktor für den GuiManager.
-     * @param eventManager EventManager Verbindung für den GuiManager.
-     * @author Elias Glauert
-     */
     public GuiManager(EventManager eventManager, LoginManager loginManager) {
-
         this.eventManager = eventManager;
-
-        view_history = new ArrayList<>();
+        this.view_history = new ArrayList<>();
+        this.currentViewIndex = fallbackCurrentViewIndex;
 
         mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager, this);
-
     }
 
-    /**
-     * Gibt der mainFrame den Call, dass die Notifications aktualisiert werden soll.
-     * @param notifications Die Liste der Benachrichtigungen die angezeigt werden sollen im GUI.
-     * @author Elias Glauert
-     */
     public void updateNotificationList(ArrayList<Notification> notifications, boolean closePopUp) {
         System.out.println(" ~ db ~ gui.GuiManager.updateNotificationList()");
         System.out.println("   | closePopUp: " + closePopUp);
         mainFrame.setNotifications(notifications, closePopUp);
     }
 
-    /**
-     * Gibt der mainFrame den Call, dass die Notifications aktualisiert werden soll.
-     * @author Elias Glauert
-     */
     public void updateNotifications() {
         System.out.println(" ~ db ~ gui.GuiManager.updateNotifications()");
         mainFrame.updateNotifications();
     }
 
-    /**
-     * Wechselt den View und fügt den neuen auf den view_history-Stapel hinzu.
-     * @param view View auf den gewechselt wird.
-     * @author Elias Glauert
-     */
     public void changeView(View view) {
         System.out.println(" ~ db ~ gui.GuiManager.changeView(" + view.toString() + ")");
 
         if (PersistentInformationReader.isSystemBlocked()) {
             System.out.println("   | System is Blocked");
-            if (view.getView_id().equals("view-login")) {
-                System.out.println("   | Move to Login Screen is still allowed, resetting the View Tree.");
-                view_history = new ArrayList<>();
-                // Reset, weil wir 'Logged Out' sind und damit keine Views in der Session wollen
-                mainFrame.changeView(view, shouldBackButtonBeEnabled());
-            } else if (view.getView_id().equals("view-blocked")) {
-                System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
-
-                view_history.add(view);
-                printViewHistory();
-                mainFrame.changeView(view, shouldBackButtonBeEnabled());
-            } else {
-                System.out.println("   | System is Blocked. No other view is allowed, returning.");
-                return;
-            }
+            handleBlockedStates(view);
+            return;
         }
 
         if (view.getView_id().equals("view-login")) {
-            System.out.println("   | Going to Login Screen, resetting the View Tree.");
-            view_history = new ArrayList<>();
-            mainFrame.changeView(view, shouldBackButtonBeEnabled());
+            loginViewChangeLogic(view);
             return;
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
             return;
         }
 
-        if (!view_history.isEmpty() && view.equals(view_history.getLast())) {
+        if (!isCurrentView(view)) {
+            System.out.println("   | Usual Case, working as intended.");
+            viewChangeLogic(view);
+        } else {
             System.out.println("   | Call tries to change to the already shown view, returning.");
-            return;
+        }
+    }
+
+    private void handleBlockedStates(View view) {
+        if (view.getView_id().equals("view-login")) {
+            loginViewChangeLogic(view);
+        } else if (view.getView_id().equals("view-blocked")) {
+            System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
+            viewChangeLogic(view);
+        } else {
+            System.out.println("   | System is Blocked. No other view is allowed, returning.");
+        }
+    }
+
+    private void loginViewChangeLogic(View view) {
+        System.out.println("   | Going to Login Screen, resetting the View Tree.");
+        view_history.clear();
+        view_history.add(view); // fühle ich nicht, wenn man durch die back buttons zum login screen wieder kommt …
+        currentViewIndex = 0;
+        mainFrame.changeView(view, shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+    }
+
+    private boolean isCurrentView(View view) {
+        return currentViewIndex >= 0 && view.equals(getActiveView());
+    }
+
+    private void viewChangeLogic(View view) {
+        // da hier zu einem neuen view gegangen wird, werden alle 'zukünftigen' views entfernt
+        while (view_history.size() > currentViewIndex + 1) {
+            view_history.removeLast();
         }
 
-        System.out.println("   | Usual Case, working as intended.");
         view_history.add(view);
+        currentViewIndex = view_history.size() - 1;
         printViewHistory();
-        mainFrame.changeView(view, shouldBackButtonBeEnabled());
+        mainFrame.changeView(view, shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
     }
 
-    /**
-     * Private Function to see if the BackButton should be enabled. Only used for better readability.
-     * @author Elias Glauert
-     */
+    private boolean shouldForwardButtonBeEnabled() {
+        return currentViewIndex < view_history.size() - 1;
+    }
+
     private boolean shouldBackButtonBeEnabled() {
-        return view_history.size() > 1;
+        return currentViewIndex > 0;
     }
 
-    /**
-     * Print the current View History into the console.
-     * @author Elias Glauert
-     */
     private void printViewHistory() {
         System.out.println("   | GuiManager - View History (Newest at the bottom):");
-        for (View view: view_history) {
-            System.out.println("   |  - " + view.toString());
+        for (int i = 0; i < view_history.size(); i++) {
+            View view = view_history.get(i);
+            String indicator = (i == currentViewIndex) ? " * " : "   ";
+            System.out.println("      |" + indicator + view.toString());
         }
     }
 
-    /**
-     * Wechselt zum View vor dem aktuellen und entfernt den aktuellen aus der history.
-     * Wenn die History zu klein ist, dann wird nichts getan.
-     * @author Elias Glauert
-     */
     public void goToLastView() {
-
         System.out.println(" ~ db ~ gui.GuiManager.goToLastView()");
         System.out.println("   | view_history.size()=" + view_history.size());
 
-        if (view_history.size() <= 1) {
+        if (currentViewIndex <= 0) {
             System.out.println("   | view_history.size() too small! No further back-steps possible!");
             return;
         }
 
-        view_history.removeLast();
+        currentViewIndex--;
         printViewHistory();
-        mainFrame.changeView(view_history.getLast(), view_history.size() > 1);
+        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+    }
 
+    public void goToNextView() {
+        System.out.println(" ~ db ~ gui.GuiManager.goToNextView()");
+        System.out.println("   | view_history.size()=" + view_history.size());
+
+        if (currentViewIndex >= view_history.size() - 1) {
+            System.out.println("   | Already on the most recent view, no forward steps possible.");
+            return;
+        }
+
+        currentViewIndex++;
+        printViewHistory();
+        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
     }
 
     public View getActiveView() {
-        return view_history.getLast();
+        return view_history.get(currentViewIndex);
     }
 }

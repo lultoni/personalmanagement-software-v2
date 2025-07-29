@@ -24,7 +24,7 @@ import java.util.Objects;
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.5
+ * @version 1.6
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -58,6 +58,11 @@ public class MainFrame extends JFrame {
      * Öffnet bei Klick den da vorigen View.
      */
     private JButton backButton;
+
+    /**
+     * Öffnet bei Klick den nächsten View.
+     */
+    private JButton forwardButton;
 
     /**
      * EventManager Verbindung für die MainFrame.
@@ -99,13 +104,28 @@ public class MainFrame extends JFrame {
 
         titleBar = new TitleBar();
         notificationHub = new NotificationHub(notifications, eventManager, guiManager);
-        backButton = new JButton("<-- Zurück");
+
+        JPanel viewChangeButtonPanel = new JPanel(new GridLayout(1, 0));
+
+        rawIcon = new ImageIcon("src/main/resources/icons/backButton.png");
+        scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        backButton = new JButton(new ImageIcon(scaledImage));
         backButton.addActionListener(_ -> {
             eventManager.callEvent("moveBackView", null);
         });
 
+        rawIcon = new ImageIcon("src/main/resources/icons/forwardButton.png");
+        scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        forwardButton = new JButton(new ImageIcon(scaledImage));
+        forwardButton.addActionListener(_ -> {
+            eventManager.callEvent("moveForwardView", null);
+        });
+
+        viewChangeButtonPanel.add(backButton);
+        viewChangeButtonPanel.add(forwardButton);
+
         JPanel southBar = new JPanel(new BorderLayout());
-        southBar.add(backButton, BorderLayout.WEST);
+        southBar.add(viewChangeButtonPanel, BorderLayout.WEST);
         southBar.add(titleBar, BorderLayout.CENTER);
         southBar.add(notificationHub, BorderLayout.EAST);
 
@@ -122,7 +142,7 @@ public class MainFrame extends JFrame {
      *
      * @author Elias Glauert
      */
-    public void changeView(View view, boolean backButtonEnabled) {
+    public void changeView(View view, boolean backButtonEnabled, boolean forwardButtonEnabled) {
 
         Component activeViewComponent = ((BorderLayout) getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER);
         if (activeViewComponent != null) {
@@ -135,6 +155,14 @@ public class MainFrame extends JFrame {
         titleBar.changeText(view.getView_name());
 
         backButton.setEnabled(backButtonEnabled);
+        ImageIcon rawIcon = new ImageIcon("src/main/resources/icons/backButton" + (backButtonEnabled ? ".png" : "Disabled.png"));
+        Image scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        backButton.setIcon(new ImageIcon(scaledImage));
+
+        forwardButton.setEnabled(forwardButtonEnabled);
+        rawIcon = new ImageIcon("src/main/resources/icons/forwardButton" + (forwardButtonEnabled ? ".png" : "Disabled.png"));
+        scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        forwardButton.setIcon(new ImageIcon(scaledImage));
 
         featureBar.updateButtonEnabled();
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Öffnet ein Pop-Up-Menü, wenn der Knopf gedrückt wird.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-07
  */
 public class NotificationHub extends JPanel {
@@ -23,6 +23,12 @@ public class NotificationHub extends JPanel {
     private EventManager eventManager;
     private JPopupMenu popupMenu;
     private GuiManager guiManager;
+
+    private static final String iconBasePath = "src/main/resources/icons/notif/";
+    private static final String notificationButtonBasePath = iconBasePath + "notificationButtonBase.png";
+    private static final String notificationButtonMaxPath = iconBasePath + "notificationButtonMax.png";
+    private static final int preferredWidth = 48;
+    private static final int preferredHeight = 48;
 
     /**
      * Konstruktor für das NotificationHub.
@@ -38,7 +44,7 @@ public class NotificationHub extends JPanel {
 
         setLayout(new BorderLayout());
 
-        notificationButton = new JButton("Notifications");
+        notificationButton = new JButton();
         notificationButton.addActionListener(_ -> showPopupMenu());
 
         updateButtonIcon();
@@ -50,7 +56,19 @@ public class NotificationHub extends JPanel {
         System.out.println(" ~ db ~ gui.elements.NotificationHub.updateButtonIcon()");
 
         int notificationCount = notifications.size();
-        notificationButton.setText((notificationCount > 0 ? "(" + notificationCount + ") " : "") + "Notifications");
+
+        String iconPath = notificationButtonBasePath;
+        if (notificationCount >= 1 && notificationCount <= 9) {
+            iconPath = iconBasePath + "notificationButton" + notificationCount + ".png";
+        } else if (notificationCount > 9) {
+            iconPath = notificationButtonMaxPath;
+        }
+
+        ImageIcon rawIcon = new ImageIcon(iconPath);
+        Image scaledImage = rawIcon.getImage().getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        notificationButton.setIcon(scaledIcon);
     }
 
     private void showPopupMenu() {

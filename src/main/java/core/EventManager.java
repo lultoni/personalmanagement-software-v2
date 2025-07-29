@@ -12,7 +12,7 @@ import static core.Main.argsToString;
  * Diese Klasse verwaltet alle Events, die im Programm stattfinden.
  *
  * @author Elias Glauert
- * @version 1.5
+ * @version 1.6
  * @since 2025-07-05
  */
 public class EventManager {
@@ -67,6 +67,10 @@ public class EventManager {
                 System.out.println("   | " + event_id + " Event Creation");
                 new Event_MoveBackView(new Object[]{guiManager});
             }
+            case "moveForwardView" -> {
+                System.out.println("   | " + event_id + " Event Creation");
+                new Event_MoveForwardView(new Object[]{guiManager});
+            }
             case "createBackup" -> {
                 System.out.println("   | " + event_id + " Event Creation");
                 new Event_CreateBackup(new Object[]{mainManager, backupManager});
@@ -84,7 +88,7 @@ public class EventManager {
                 //  sein
                 callEvent("changeView", new Object[]{new TestNotificationView(this)});
             }
-            default -> System.out.println("Unexpected event_id '" + event_id + "'.");
+            default -> System.out.println("   | Unexpected event_id '" + event_id + "'.");
         }
     }
 
