@@ -177,7 +177,7 @@ public class CompanyStructureManager {
      */
     public void printLoadedDataSummary() {
         System.out.println("\n--- Geladene Unternehmensstruktur-Zusammenfassung ---");
-        System.out.println("Firma: " + (company != null ? company.getCompanyName() : "N/A"));
+        System.out.println("Firma: " + (company != null ? company.getName() : "N/A"));
         System.out.println("Anzahl Departments: " + departmentMap.size());
         System.out.println("Anzahl Roles: " + roleMap.size());
         System.out.println("Anzahl Teams: " + teamMap.size());
