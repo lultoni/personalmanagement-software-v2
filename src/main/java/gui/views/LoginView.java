@@ -31,7 +31,7 @@ public class LoginView extends View {
         setView_id("view-login");
         setView_name("Login Fenster");
 
-        // Hauptpanel mit zentriertem Layout
+        // MainPanel
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(240, 248, 255)); // Hintergrundfarbe
 
@@ -105,24 +105,32 @@ public class LoginView extends View {
             String username = usernameField.getText().trim();
             String password = new String(passwordField.getPassword());
 
-            boolean loginSuccess = loginManager.attemptLogin(username, password);
+            int loginStatus = loginManager.attemptLogin(username, password);
 
-            if (loginSuccess) {
-                showFeedback("Anmeldung erfolgreich.", new Color(0, 128, 0));
+            switch (loginStatus) {
+                case LoginManager.LOGIN_SUCCESS -> {
+                    showFeedback("Anmeldung erfolgreich.", new Color(0, 128, 0));
 
-                // Leichte Verzögerung um mehr User Feedback zu zeigen
-                new Timer(1000, _ -> loginManager.proceedToSoftware()) {{
-                    setRepeats(false);
-                }}.start();
-
-            } else {
-                String variation_1 = "Benutzername oder Passwort ist falsch.";
-                String variation_2 = "Eingaben waren erneut falsch.";
-                showFeedback((feedbackLabel.getText().equals(variation_1)) ? variation_2 : variation_1, Color.RED);
+                    // Leichte Verzögerung um User Feedback zu maximieren
+                    new Timer(1000, _ -> loginManager.proceedToSoftware()) {{
+                        setRepeats(false);
+                    }}.start();
+                }
+                case LoginManager.USERNAME_NOT_FOUND -> {
+                    String variation_1 = "Benutzername ist nicht korrekt.";
+                    String variation_2 = "Benutzername war erneut inkorrekt.";
+                    showFeedback((!feedbackLabel.getText().equals(variation_1)) ? variation_1 : variation_2, Color.RED);
+                }
+                case LoginManager.PASSWORD_INCORRECT -> {
+                    String variation_1 = "Passwort ist falsch.";
+                    String variation_2 = "Passwort war erneut falsch.";
+                    showFeedback((!feedbackLabel.getText().equals(variation_1)) ? variation_1 : variation_2, Color.RED);
+                }
             }
         };
 
         loginButton.addActionListener(loginAction);
+        usernameField.addActionListener(loginAction);
         passwordField.addActionListener(loginAction);
 
         // Aufbau
