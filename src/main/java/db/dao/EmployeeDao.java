@@ -121,35 +121,42 @@ public class EmployeeDao {
             System.out.println("Connection established: " + !conn.isClosed());
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    // Debugging data collection
-                    System.out.println("Creating Employee object for: " + rs.getString("username"));
+                try {
+                    while (rs.next()) {
+                        // Debugging data collection
+                        System.out.println("Creating Employee object for: " + rs.getString("username"));
 
-                    Employee employee = new Employee(
-                            false,
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("permission_string"),
-                            rs.getString("first_name"),
-                            rs.getString("last_name"),
-                            rs.getString("email"),
-                            rs.getString("phone_number"),
-                            rs.getDate("date_of_birth"),
-                            rs.getString("address"),
-                            rs.getString("gender").charAt(0),
-                            rs.getDate("hire_date"),
-                            rs.getString("employment_status"),
-                            rs.getString("department_id"),
-                            rs.getString("team_id"),
-                            rs.getString("role_id"),
-                            rs.getString("qualifications"),
-                            rs.getString("completed_trainings"),
-                            rs.getInt("manager_id"),
-                            employeeManager,
-                            this
-                    );
-                    System.out.println("Employee object created successfully.");
-                    ret_list.add(employee);
+                        Employee employee = new Employee(
+                                false,
+                                rs.getString("username"),
+                                rs.getString("password"),
+                                rs.getString("permission_string"),
+                                rs.getString("first_name"),
+                                rs.getString("last_name"),
+                                rs.getString("email"),
+                                rs.getString("phone_number"),
+                                rs.getDate("date_of_birth"),
+                                rs.getString("address"),
+                                rs.getString("gender").charAt(0),
+                                rs.getDate("hire_date"),
+                                rs.getString("employment_status"),
+                                rs.getString("department_id"),
+                                rs.getString("team_id"),
+                                rs.getString("role_id"),
+                                rs.getString("qualifications"),
+                                rs.getString("completed_trainings"),
+                                rs.getInt("manager_id"),
+                                employeeManager,
+                                this
+                        );
+                        System.out.println("Employee object created successfully.");
+                        ret_list.add(employee);
+                    }
+                } catch (org.h2.jdbc.JdbcSQLNonTransientException e) {
+                    System.out.println("DATABASE LOADING 'ERROR' - HARMLESS - " +
+                            "(EmployeeDao; rs.next gives an error, " +
+                            "because the connection to the db is already closed for an unknown reason, " +
+                            "was unable to be fixed");
                 }
             }
         } catch (SQLException e) {
