@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Was angezeigt wird verändert sich dynamisch auf dem eingeloggten User.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.2
  * @since 2025-07-14
  */
 public class EmployeeDataView extends View {
@@ -155,5 +155,23 @@ public class EmployeeDataView extends View {
      */
     private boolean canEditData() {
         return loggedInUser.equals(employee) || loggedInUser.isHR() || loggedInUser.isAdmin();
+    }
+
+    @Override
+    public String toString() {
+        String idHex = Integer.toHexString(System.identityHashCode(this));
+        return "EmployeeDataView@" + idHex + "('" + getView_id() + "', '" + getView_name() + "', loggedInUser:" + loggedInUser.toString() + ", employee:" + employee.toString() + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        EmployeeDataView view = (EmployeeDataView) obj;
+        if (!view.getView_id().equals(this.getView_id())) return false;
+        if (!view.getView_name().equals(this.getView_name())) return false;
+        if (!view.employee.equals(this.employee)) return false;
+        if (!view.loggedInUser.equals(this.loggedInUser)) return false;
+        return true;
     }
 }

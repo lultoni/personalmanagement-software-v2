@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * Statische Klasse, welche die Informationen aus der Datei 'persistent.information' liest und schreibt.
- * @version 1.3
+ * @version 1.4
  * @author Elias Glauert
  * @since 2025-07-12
  */
@@ -16,6 +16,7 @@ public class PersistentInformationReader {
 
     private static final String file_path = "src/main/resources/persistent.information";
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final int fallback_employee_id = -1;
 
     private static Properties loadProperties() {
         Properties properties = new Properties();
@@ -80,12 +81,12 @@ public class PersistentInformationReader {
 
     public static int getLoggedInUserId() {
         Properties properties = loadProperties();
-        String userIdStr = properties.getProperty("user.id", "-1");
+        String userIdStr = properties.getProperty("user.id", String.valueOf(fallback_employee_id));
         try {
             return Integer.parseInt(userIdStr);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            return -1;
+            return fallback_employee_id;
         }
     }
 
@@ -115,10 +116,10 @@ public class PersistentInformationReader {
         Properties properties = loadProperties();
         properties.setProperty("user.id", Integer.toString(userId));
         saveProperties(properties);
-        setUserLoggedIn(userId != -1);
+        setUserLoggedIn(userId != fallback_employee_id);
     }
 
     public static void clearLoggedInUser() {
-        setLoggedInUserId(-1);
+        setLoggedInUserId(fallback_employee_id);
     }
 }
