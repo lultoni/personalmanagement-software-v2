@@ -11,8 +11,6 @@ import java.util.ArrayList;
  * @since 2025-07-28
  */
 public class Team {
-
-    // TODO erkläre was die ganzen variablen sind maybe (könnte bei allen json klassen sein
     private String teamId;
     private String name;
     private ArrayList<String> roles;

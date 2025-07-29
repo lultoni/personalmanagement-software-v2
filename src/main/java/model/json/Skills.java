@@ -1,5 +1,8 @@
 package model.json;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Skills Klasse.
  * Spiegelt das json-Objekt wider.
@@ -10,7 +13,22 @@ package model.json;
  */
 // TODO soll das wirklich "skills" und nicht "skill" heißen?
 //  Was ist die funktionalität der klasse?
+    // GUTE FRAGE HERR GLAUERT ICH HABE KEIN PLAN
 public class Skills {
-    private String skill;
+    private List<String> Skills;
+
+    public Skills() {
+        this.Skills = new ArrayList<>();
+    }
+    public Skills(List<String> Skills) {
+        this.Skills = Skills;
+    }
+
+    public List<String> getSkills() {
+        return Skills;
+    }
+    public void setSkills(List<String> Skills) {
+        this.Skills = Skills;
+    }
 
 }

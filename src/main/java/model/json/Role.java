@@ -1,23 +1,33 @@
 package model.json;
 
 import java.util.List;
+import java.util.ArrayList; // Notwendig, um die Listen zu initialisieren
 
 /**
- * Role Klasse.
- * Spiegelt das json-Objekt wider.
- *
- * @author Dorian Gläske
- * @version 1.0
- * @since 2025-07-28
- */
+        * Role Klasse.
+        * Spiegelt das json-Objekt wider.
+        *
+        * @author Dorian Gläske
+ * @version 1.1
+        * @since 2025-07-29
+        */
+
 public class Role {
 
     private String roleId;
     private String name;
     private List<String> requiredQualifications;
 
+    // Standardkonstruktor (No-Arg Constructor)
     public Role() {
-        // TODO write this constructor
+        this.requiredQualifications = new ArrayList<>();
+    }
+
+    // Parametrisierter Konstruktor
+    public Role(String roleId, String name, List<String> requiredQualifications) {
+        this.roleId = roleId;
+        this.name = name;
+        this.requiredQualifications = (requiredQualifications != null) ? new ArrayList<>(requiredQualifications) : new ArrayList<>();
     }
 
     public String getroleId() {
@@ -41,8 +51,8 @@ public class Role {
     }
 
     public void setRequiredQualifications(List<String> requiredQualifications) {
-        this.requiredQualifications = requiredQualifications;
+        // Auch hier: Sicherstellen, dass die Liste kopiert wird und nicht nur eine Referenz gesetzt wird.
+        this.requiredQualifications = (requiredQualifications != null) ? new ArrayList<>(requiredQualifications) : new ArrayList<>();
     }
 
 }
-

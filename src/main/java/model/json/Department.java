@@ -7,26 +7,33 @@ import java.util.ArrayList;
  * Spiegelt das json-Objekt wider.
  *
  * @author Dorian Gläske
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-28
  */
+
 public class Department {
 
     private String departmentId;
     private String name;
     private ArrayList<String> teams;
 
+    // Standardkonstruktor (No-Arg Constructor)
+    public Department() {
+        this.teams = new ArrayList<>();
+    }
+
+    // Parametrisierter Konstruktor
     public Department(String departmentId, String name, ArrayList<String> teams) {
         this.departmentId = departmentId;
         this.name = name;
-        this.teams = teams;
+        this.teams = (teams != null) ? new ArrayList<>(teams) : new ArrayList<>();
     }
 
-    public String getdepartmentId() {
+    public String getDepartmentId() {
         return departmentId;
     }
 
-    public void setdepartmentId(String departmentId) {
+    public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -43,7 +50,7 @@ public class Department {
     }
 
     public void setTeams(ArrayList<String> teams) {
-        this.teams = teams;
+        // Auch hier: Sicherstellen, dass die Liste kopiert wird und nicht nur eine Referenz gesetzt wird.
+        this.teams = (teams != null) ? new ArrayList<>(teams) : new ArrayList<>();
     }
-
 }

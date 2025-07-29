@@ -64,12 +64,12 @@ public class JsonParser {
     }
 
     private static void ladeCompany() throws IOException {
-        company = mapper.readValue(new File(JSON_PFAD + "01_company.json"), Company.class);
+        company = mapper.readValue(new File(JSON_PFAD + "Company.json"), Company.class);
     }
 
     private static void ladeDepartments() throws IOException {
         ArrayList<Department> departments = mapper.readValue(
-                new File(JSON_PFAD + "02_department.json"),
+                new File(JSON_PFAD + "Department.json"),
                 new TypeReference<>() {});
         departmentMap = new HashMap<>();
         for (Department d : departments) {
@@ -79,7 +79,7 @@ public class JsonParser {
 
     private static void ladeTeams() throws IOException {
         ArrayList<Team> teams = mapper.readValue(
-                new File(JSON_PFAD + "03_team.json"),
+                new File(JSON_PFAD + "Team.json"),
                 new TypeReference<>() {});
         teamMap = new HashMap<>();
         for (Team t : teams) {
@@ -89,7 +89,7 @@ public class JsonParser {
 
     private static void ladeRoles() throws IOException {
         ArrayList<Role> roles = mapper.readValue(
-                new File(JSON_PFAD + "04_role.json"),
+                new File(JSON_PFAD + "Role.json"),
                 new TypeReference<>() {});
         roleMap = new HashMap<>();
         for (Role r : roles) {
@@ -99,7 +99,7 @@ public class JsonParser {
 
     private static void ladeQualifications() throws IOException {
         ArrayList<Qualification> qualifications = mapper.readValue(
-                new File(JSON_PFAD + "05_qualification.json"),
+                new File(JSON_PFAD + "Qualification.json"),
                 new TypeReference<>() {});
         qualificationMap = new HashMap<>();
         for (Qualification q : qualifications) {

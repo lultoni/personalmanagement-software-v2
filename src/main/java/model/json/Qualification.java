@@ -1,15 +1,17 @@
 package model.json;
 
 import java.util.List;
+import java.util.ArrayList; // Empfohlen für die Initialisierung von Listen
 
 /**
  * Qualification Klasse.
  * Spiegelt das json-Objekt wider.
  *
  * @author Dorian Gläske
- * @version 1.0
- * @since 2025-07-28
+ * @version 1.2
+ * @since 2025-07-29
  */
+
 public class Qualification {
 
     private String roleId;
@@ -19,8 +21,23 @@ public class Qualification {
     private List<String> followupSkills;
     private List<String> requiredSkills;
 
+    // Standardkonstruktor (No-Arg Constructor)
     public Qualification() {
-        // TODO write this constructor
+        // Optional: Initialisierung der Listen, um NullPointerExceptions zu vermeiden
+        this.certifications = new ArrayList<>();
+        this.followupSkills = new ArrayList<>();
+        this.requiredSkills = new ArrayList<>();
+    }
+
+    // Parametrisierter Konstruktor
+    public Qualification(String roleId, int requiredYears, List<String> certifications,
+                         String description, List<String> followupSkills, List<String> requiredSkills) {
+        this.roleId = roleId;
+        this.requiredYears = requiredYears;
+        this.certifications = (certifications != null) ? new ArrayList<>(certifications) : new ArrayList<>();
+        this.description = description;
+        this.followupSkills = (followupSkills != null) ? new ArrayList<>(followupSkills) : new ArrayList<>();
+        this.requiredSkills = (requiredSkills != null) ? new ArrayList<>(requiredSkills) : new ArrayList<>();
     }
 
     public String getRoleId() {
@@ -29,22 +46,6 @@ public class Qualification {
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<String> getRequiredSkills() {
-        return requiredSkills;
-    }
-
-    public void setRequiredSkills(List<String> requiredSkills) {
-        this.requiredSkills = requiredSkills;
     }
 
     public int getRequiredYears() {
@@ -60,7 +61,15 @@ public class Qualification {
     }
 
     public void setCertifications(List<String> certifications) {
-        this.certifications = certifications;
+        this.certifications = (certifications != null) ? new ArrayList<>(certifications) : new ArrayList<>();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<String> getFollowupSkills() {
@@ -68,6 +77,14 @@ public class Qualification {
     }
 
     public void setFollowupSkills(List<String> followupSkills) {
-        this.followupSkills = followupSkills;
+        this.followupSkills = (followupSkills != null) ? new ArrayList<>(followupSkills) : new ArrayList<>();
+    }
+
+    public List<String> getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public void setRequiredSkills(List<String> requiredSkills) {
+        this.requiredSkills = (requiredSkills != null) ? new ArrayList<>(requiredSkills) : new ArrayList<>();
     }
 }
