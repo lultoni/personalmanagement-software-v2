@@ -5,26 +5,22 @@ import core.LoginManager;
 import core.Main;
 import core.Notification;
 import gui.elements.FeatureBar;
-import gui.elements.Gui_Notification;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
 import gui.views.DefaultView;
 import gui.views.View;
-import util.PersistentInformationReader;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
  * Diese Klasse ist das Hauptfenster für das GUI.
  *
  * @author Elias Glauert
- * @version 1.6
+ * @version 1.7
  * @since 2025-07-05
  */
 public class MainFrame extends JFrame {
@@ -70,15 +66,29 @@ public class MainFrame extends JFrame {
     private EventManager eventManager;
 
     /**
+     * GuiManager Verbindung für die MainFrame.
+     */
+    private GuiManager guiManager;
+
+    /**
      * Konstruktor für die MainFrame.
-     * Initialisiert die Core Features, welche im GUI gefunden werden und immer, View-Unabhängig, angezeigt werden.
-     *
      * @author Elias Glauert
      */
     public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager, GuiManager guiManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
+        this.guiManager = guiManager;
 
+        initFrameSettings();
+        initComponents(loginManager, guiManager);
+        setVisible(true);
+    }
+
+    /**
+     * Passt die JFrame Variablen passend an.
+     * @author Elias Glauert
+     */
+    private void initFrameSettings() {
         setTitle("Personalmanagement Software");
 
         ImageIcon rawIcon = new ImageIcon("src/main/resources/icons/softwareIcon.png");
@@ -95,51 +105,77 @@ public class MainFrame extends JFrame {
 
         setSize(1000, 720);
         setLocationRelativeTo(null);
-
         setLayout(new BorderLayout());
+    }
 
+    /**
+     * Initialisiert die Komponenten, welche in die JFrame kommen.
+     * @author Elias Glauert
+     */
+    private void initComponents(LoginManager loginManager, GuiManager guiManager) {
         currentView = new DefaultView();
-
         featureBar = new FeatureBar(loginManager, eventManager);
-
-        titleBar = new TitleBar();
+        titleBar = new TitleBar(guiManager);
         notificationHub = new NotificationHub(notifications, eventManager, guiManager);
 
+        backButton = createNavigationButton("src/main/resources/icons/backButton.png", () ->
+                eventManager.callEvent("moveBackView", null)
+        );
+
+        forwardButton = createNavigationButton("src/main/resources/icons/forwardButton.png", () ->
+                eventManager.callEvent("moveForwardView", null)
+        );
+
         JPanel viewChangeButtonPanel = new JPanel(new GridLayout(1, 0));
-
-        rawIcon = new ImageIcon("src/main/resources/icons/backButton.png");
-        scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
-        backButton = new JButton(new ImageIcon(scaledImage));
-        backButton.addActionListener(_ -> {
-            eventManager.callEvent("moveBackView", null);
-        });
-
-        rawIcon = new ImageIcon("src/main/resources/icons/forwardButton.png");
-        scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
-        forwardButton = new JButton(new ImageIcon(scaledImage));
-        forwardButton.addActionListener(_ -> {
-            eventManager.callEvent("moveForwardView", null);
-        });
-
         viewChangeButtonPanel.add(backButton);
         viewChangeButtonPanel.add(forwardButton);
 
         JPanel southBar = new JPanel(new BorderLayout());
+        southBar.setBackground(Color.WHITE);
         southBar.add(viewChangeButtonPanel, BorderLayout.WEST);
         southBar.add(titleBar, BorderLayout.CENTER);
         southBar.add(notificationHub, BorderLayout.EAST);
+        // JPanel colorBorderPanel = new JPanel();
+        // colorBorderPanel.setBackground(new Color(89, 88, 88));
+        // southBar.add(colorBorderPanel, BorderLayout.NORTH);
+
+        viewChangeButtonPanel.setOpaque(false);
+        southBar.setOpaque(true);
 
         add(currentView, BorderLayout.CENTER);
         add(featureBar, BorderLayout.WEST);
         add(southBar, BorderLayout.SOUTH);
+    }
 
-        setVisible(true);
+    /**
+     * Erstellt die Forward- und Back-Buttons.
+     * @author Elias Glauert
+     */
+    private JButton createNavigationButton(String iconPath, Runnable onClick) {
+        ImageIcon rawIcon = new ImageIcon(iconPath);
+        Image scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        JButton button = new JButton(new ImageIcon(scaledImage));
 
+        button.setText(null);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
+        button.setFocusPainted(false);
+
+        // Hier: Hintergrund explizit auf transparent setzen um sicherzustellen, dass die Umgebung nicht überschrieben wird
+        button.setBackground(new Color(0, 0, 0, 0)); // Setzt den Hintergrund auf transparent
+
+        button.addActionListener(_ -> onClick.run());
+
+        button.setPreferredSize(new Dimension(56, 56));
+
+        guiManager.applyHoverEffect(button);
+
+        return button;
     }
 
     /**
      * Ändert den View, welcher im Center des BorderLayouts ist.
-     *
      * @author Elias Glauert
      */
     public void changeView(View view, boolean backButtonEnabled, boolean forwardButtonEnabled) {
@@ -152,7 +188,7 @@ public class MainFrame extends JFrame {
         currentView = view;
         add(currentView, BorderLayout.CENTER);
 
-        titleBar.changeText(view.getView_name());
+        titleBar.updateTitleBar();
 
         backButton.setEnabled(backButtonEnabled);
         ImageIcon rawIcon = new ImageIcon("src/main/resources/icons/backButton" + (backButtonEnabled ? ".png" : "Disabled.png"));
@@ -172,8 +208,6 @@ public class MainFrame extends JFrame {
 
     /**
      * Setzt die Benachrichtigungen auf die übergebene Liste.
-     * @param notifications
-     * @param closePopUp
      * @author Elias Glauert
      */
     public void setNotifications(ArrayList<Notification> notifications, boolean closePopUp) {

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Öffnet ein Pop-Up-Menü, wenn der Knopf gedrückt wird.
  *
  * @author Elias Glauert
- * @version 1.4
+ * @version 1.5
  * @since 2025-07-07
  */
 public class NotificationHub extends JPanel {
@@ -43,6 +43,7 @@ public class NotificationHub extends JPanel {
         this.guiManager = guiManager;
 
         setLayout(new BorderLayout());
+        setOpaque(false);
 
         notificationButton = new JButton();
         notificationButton.addActionListener(_ -> showPopupMenu());
@@ -69,6 +70,16 @@ public class NotificationHub extends JPanel {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         notificationButton.setIcon(scaledIcon);
+
+        notificationButton.setPreferredSize(new Dimension(preferredWidth + 8, preferredHeight + 8));
+
+        notificationButton.setText(null);
+        notificationButton.setBorderPainted(false);
+        notificationButton.setContentAreaFilled(false);
+        notificationButton.setOpaque(false);
+        notificationButton.setFocusPainted(false);
+
+        guiManager.applyHoverEffect(notificationButton);
     }
 
     private void showPopupMenu() {

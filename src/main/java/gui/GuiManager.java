@@ -6,13 +6,17 @@ import core.Notification;
 import gui.views.View;
 import util.PersistentInformationReader;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
  * Diese Klasse verwaltet das GUI.
  *
  * @author Elias Glauert
- * @version 1.7
+ * @version 1.8
  * @since 2025-07-05
  */
 public class GuiManager {
@@ -151,4 +155,36 @@ public class GuiManager {
         }
         return null;
     }
+
+    public ArrayList<View> getView_history() {
+        return view_history;
+    }
+
+    public int getCurrentViewIndex() {
+        return currentViewIndex;
+    }
+
+    /**
+     * Fügt dem angegebenen JButton einen Hover Effect hinzu.
+     * @author Elias Glauert
+     */
+    public void applyHoverEffect(JButton button) {
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (!button.isEnabled()) return;
+                button.setBorderPainted(true);
+                button.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                button.setContentAreaFilled(true);
+                button.setBackground(new Color(220, 220, 220, 100));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBorderPainted(false);
+                button.setContentAreaFilled(false);
+            }
+        });
+    }
+
 }
