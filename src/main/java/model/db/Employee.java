@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * Mitarbeiter Klasse.
- * Spiegelt die Datenbankobjekte wieder mit erweiterter Funktionalität.
+ * Spiegelt die Datenbankobjekte wider, mit erweiterter Funktionalität.
  *
  * @author Elias Glauert
  * @version 1.2
