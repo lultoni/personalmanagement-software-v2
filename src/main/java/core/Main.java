@@ -11,7 +11,7 @@ import util.EmployeeGenerator;
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
  * @author Elias Glauert
- * @version 1.6
+ * @version 1.7
  * @since 2025-07-05
  */
 public class Main {
@@ -21,6 +21,7 @@ public class Main {
      */
     private static DatabaseManager dbManager;
     private static DatabaseManager backupManager;
+    private static LoginManager loginManager;
 
     /**
      * Die main-Methode ist der Startpunkt des Programms.
@@ -54,7 +55,7 @@ public class Main {
             backupManager.printTable("EMPLOYEES");
         }
 
-        LoginManager loginManager = new LoginManager(employeeManager, eventManager);
+        loginManager = new LoginManager(employeeManager, eventManager);
 
         System.out.println("Starte grafische Benutzeroberfläche...");
         GuiManager guiManager = new GuiManager(eventManager, loginManager);
@@ -83,13 +84,14 @@ public class Main {
     }
 
     /**
-     * Beendet das Programm, nachdem die Datenbankverbindungen getrennt wurden.
+     * Beendet das Programm, nachdem die Datenbankverbindungen getrennt wurden und der User ausgeloggt wurde.
      * @author Elias Glauert
      */
     public static void exitProgram() {
         System.out.println("\nStarting Exit Process...");
         dbManager.disconnect();
         backupManager.disconnect();
+        loginManager.logout();
         System.exit(0);
     }
 }

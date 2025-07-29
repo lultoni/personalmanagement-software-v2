@@ -5,13 +5,14 @@ import db.dao.EmployeeDao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Mitarbeiter Klasse.
  * Spiegelt die Datenbankobjekte wider, mit erweiterter Funktionalität.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-09
  */
 public class Employee {
@@ -247,24 +248,24 @@ public class Employee {
         if (object.getClass() != this.getClass()) return false;
         Employee employee = (Employee) object;
         if (employee.getId() != getId()) return false;
-        if (employee.getUsername() != getUsername()) return false;
-        if (employee.getPassword() != getPassword()) return false;
-        if (employee.getPermissionString() != getPermissionString()) return false;
-        if (employee.getFirstName() != getFirstName()) return false;
-        if (employee.getLastName() != getLastName()) return false;
-        if (employee.getEmail() != getEmail()) return false;
-        if (employee.getPhoneNumber() != getPhoneNumber()) return false;
+        if (!Objects.equals(employee.getUsername(), getUsername())) return false;
+        if (!Objects.equals(employee.getPassword(), getPassword())) return false;
+        if (!Objects.equals(employee.getPermissionString(), getPermissionString())) return false;
+        if (!Objects.equals(employee.getFirstName(), getFirstName())) return false;
+        if (!Objects.equals(employee.getLastName(), getLastName())) return false;
+        if (!Objects.equals(employee.getEmail(), getEmail())) return false;
+        if (!Objects.equals(employee.getPhoneNumber(), getPhoneNumber())) return false;
         if (employee.getDateOfBirth() != getDateOfBirth()) return false;
-        if (employee.getAddress() != getAddress()) return false;
+        if (!Objects.equals(employee.getAddress(), getAddress())) return false;
         if (employee.getGender() != getGender()) return false;
         if (employee.getHireDate() != getHireDate()) return false;
-        if (employee.getEmploymentStatus() != getEmploymentStatus()) return false;
-        if (employee.getDepartmentId() != getDepartmentId()) return false;
-        if (employee.getTeamId() != getTeamId()) return false;
-        if (employee.getRoleId() != getRoleId()) return false;
-        if (employee.getQualifications() != getQualifications()) return false;
-        if (employee.getCompletedTrainings() != getCompletedTrainings()) return false;
-        if (employee.getManagerId() != getManagerId()) return false;
+        if (!Objects.equals(employee.getEmploymentStatus(), getEmploymentStatus())) return false;
+        if (!Objects.equals(employee.getDepartmentId(), getDepartmentId())) return false;
+        if (!Objects.equals(employee.getTeamId(), getTeamId())) return false;
+        if (!Objects.equals(employee.getRoleId(), getRoleId())) return false;
+        if (!Objects.equals(employee.getQualifications(), getQualifications())) return false;
+        if (!Objects.equals(employee.getCompletedTrainings(), getCompletedTrainings())) return false;
+        if (!Objects.equals(employee.getManagerId(), getManagerId())) return false;
         return true;
     }
 

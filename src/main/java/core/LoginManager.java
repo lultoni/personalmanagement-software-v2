@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * LoginManager der den Login-Prozess verwaltet.
  *
  * @author Elias Glauert
- * @version 1.3
+ * @version 1.4
  * @since 2025-07-11
  */
 public class LoginManager {
@@ -26,6 +26,7 @@ public class LoginManager {
 
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
+        PersistentInformationReader.clearLoggedInUser();
 
     }
 
@@ -52,7 +53,6 @@ public class LoginManager {
         Employee employee = employeeManager.findEmployees(fields, contents).getFirst();
         if (employee != null) {
             System.out.println("Anmeldedaten sind Valide");
-            PersistentInformationReader.setUserLoggedIn(true);
             PersistentInformationReader.setLoggedInUserId(employee.getId());
             return true;
         }
@@ -69,7 +69,7 @@ public class LoginManager {
      */
     public void logout() {
         System.out.println("Logging the User out");
-        PersistentInformationReader.setUserLoggedIn(false);
+        PersistentInformationReader.clearLoggedInUser();
         eventManager.callEvent("changeView", new Object[]{new LoginView(this)});
     }
 

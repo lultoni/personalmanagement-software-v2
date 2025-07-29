@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * Statische Klasse, welche die Informationen aus der Datei 'persistent.information' liest und schreibt.
- * @version 1.2
+ * @version 1.4
  * @author Elias Glauert
  * @since 2025-07-12
  */
@@ -16,6 +16,42 @@ public class PersistentInformationReader {
 
     private static final String file_path = "src/main/resources/persistent.information";
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final int fallback_employee_id = -1;
+
+    private static Properties loadProperties() {
+        Properties properties = new Properties();
+        File file = new File(file_path);
+
+        if (!file.exists()) {
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + file_path);
+                } else {
+                    System.err.println("Failed to create file: " + file_path);
+                }
+            } catch (IOException e) {
+                System.err.println("Error creating file: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            properties.load(reader);
+        } catch (IOException e) {
+            System.err.println("Error loading properties: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return properties;
+    }
+
+    private static void saveProperties(Properties properties) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file_path))) {
+            properties.store(writer, null);
+        } catch (IOException e) {
+            System.err.println("Error saving properties: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public static Date getBackupDate() {
         Properties properties = loadProperties();
@@ -45,13 +81,17 @@ public class PersistentInformationReader {
 
     public static int getLoggedInUserId() {
         Properties properties = loadProperties();
-        String userIdStr = properties.getProperty("user.id", "-1");
+        String userIdStr = properties.getProperty("user.id", String.valueOf(fallback_employee_id));
         try {
             return Integer.parseInt(userIdStr);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            return -1; // Rückgabe -1 bei Fehler
+            return fallback_employee_id;
         }
+    }
+
+    public static String getDatePattern() {
+        return date_format.toPattern();
     }
 
     public static void setBackupDate(String backupDate) {
@@ -66,7 +106,7 @@ public class PersistentInformationReader {
         saveProperties(properties);
     }
 
-    public static void setUserLoggedIn(boolean isLoggedIn) {
+    private static void setUserLoggedIn(boolean isLoggedIn) {
         Properties properties = loadProperties();
         properties.setProperty("user.logged.in", Boolean.toString(isLoggedIn));
         saveProperties(properties);
@@ -76,41 +116,10 @@ public class PersistentInformationReader {
         Properties properties = loadProperties();
         properties.setProperty("user.id", Integer.toString(userId));
         saveProperties(properties);
+        setUserLoggedIn(userId != fallback_employee_id);
     }
 
-    private static Properties loadProperties() {
-        Properties properties = new Properties();
-        File file = new File(file_path);
-
-        if (!file.exists()) {
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("File created: " + file_path);
-                } else {
-                    System.err.println("Failed to create file: " + file_path);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            properties.load(reader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
-
-    private static void saveProperties(Properties properties) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file_path))) {
-            properties.store(writer, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String getDatePattern() {
-        return date_format.toPattern();
+    public static void clearLoggedInUser() {
+        setLoggedInUserId(fallback_employee_id);
     }
 }
