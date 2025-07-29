@@ -22,10 +22,8 @@ public class GuiManager {
     private final int fallbackCurrentViewIndex = -1;
 
     private MainFrame mainFrame;
-    private EventManager eventManager;
 
     public GuiManager(EventManager eventManager, LoginManager loginManager) {
-        this.eventManager = eventManager;
         this.view_history = new ArrayList<>();
         this.currentViewIndex = fallbackCurrentViewIndex;
 
@@ -53,7 +51,8 @@ public class GuiManager {
         }
 
         if (view.getView_id().equals("view-login")) {
-            loginViewChangeLogic(view);
+            resetViewHistory();
+            mainFrame.changeView(view, false, false);
             return;
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
@@ -62,7 +61,7 @@ public class GuiManager {
 
         if (!isCurrentView(view)) {
             System.out.println("   | Usual Case, working as intended.");
-            viewChangeLogic(view);
+            logicOfViewChange(view);
         } else {
             System.out.println("   | Call tries to change to the already shown view, returning.");
         }
@@ -70,29 +69,27 @@ public class GuiManager {
 
     private void handleBlockedStates(View view) {
         if (view.getView_id().equals("view-login")) {
-            loginViewChangeLogic(view);
+            resetViewHistory();
+            mainFrame.changeView(view, false, false);
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
-            viewChangeLogic(view);
+            logicOfViewChange(view);
         } else {
             System.out.println("   | System is Blocked. No other view is allowed, returning.");
         }
     }
 
-    private void loginViewChangeLogic(View view) {
-        System.out.println("   | Going to Login Screen, resetting the View Tree.");
+    private void resetViewHistory() {
+        System.out.println("   | Resetting the View History.");
         view_history.clear();
-        view_history.add(view); // fühle ich nicht, wenn man durch die back buttons zum login screen wieder kommt …
-        currentViewIndex = 0;
-        mainFrame.changeView(view, shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+        currentViewIndex = fallbackCurrentViewIndex;  // Kein aktueller View, da history geleert
     }
 
     private boolean isCurrentView(View view) {
         return currentViewIndex >= 0 && view.equals(getActiveView());
     }
 
-    private void viewChangeLogic(View view) {
-        // da hier zu einem neuen view gegangen wird, werden alle 'zukünftigen' views entfernt
+    private void logicOfViewChange(View view) {
         while (view_history.size() > currentViewIndex + 1) {
             view_history.removeLast();
         }
@@ -149,6 +146,9 @@ public class GuiManager {
     }
 
     public View getActiveView() {
-        return view_history.get(currentViewIndex);
+        if (currentViewIndex >= 0 && currentViewIndex < view_history.size()) {
+            return view_history.get(currentViewIndex);
+        }
+        return null;
     }
 }
