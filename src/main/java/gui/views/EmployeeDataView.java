@@ -3,7 +3,6 @@ package gui.views;
 import model.db.Employee;
 
 import javax.swing.*;
-import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +10,7 @@ import java.util.ArrayList;
  * Was angezeigt wird verändert sich dynamisch auf dem eingeloggten User.
  *
  * @author Elias Glauert
- * @version 1.0
+ * @version 1.1
  * @since 2025-07-14
  */
 public class EmployeeDataView extends View {
@@ -29,8 +28,9 @@ public class EmployeeDataView extends View {
     /**
      * Konstruktor für den EmployeeDataView.
      *
-     * @param loggedInUser Der aktuell eingeloggte User
-     * @param employee Der Mitarbeiter, der angezeigt wird
+     * @param loggedInUser Der aktuell eingeloggte User.
+     * @param employee Der Mitarbeiter, der angezeigt werden soll.
+     * @author Elias Glauert
      */
     public EmployeeDataView(Employee loggedInUser, Employee employee) {
         this.loggedInUser = loggedInUser;
@@ -42,30 +42,35 @@ public class EmployeeDataView extends View {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createTitledBorder("Mitarbeiter Ansicht: " + employee.getFirstName() + " " + employee.getLastName()));
 
-        List<String> visibleFields = getVisibleFieldsForUser();
+        ArrayList<String> visibleFields = getVisibleFieldsForUser();
 
-        // Hinzufügen der relevanten Felder als JLabel
+        // TODO hier ist ein placeholder way wie alle felder angezeigt werden
         for (String field : visibleFields) {
             String labelText = getFieldDisplayText(field);
             JLabel label = new JLabel(labelText);
             add(label);
         }
 
-        // Hinzufügen der Bearbeiten-Schaltfläche, wenn der User die Berechtigung hat
+        // TODO hier auch, wie/wo soll der Button angezeigt werden?
         if (canEditData()) {
             JButton editButton = new JButton("Bearbeiten");
-            // füge ActionListener hinzu, falls notwendig
+            editButton.addActionListener(_ -> {
+                // TODO füge richtigen ActionListener-Code hinzu
+                System.out.println(" ~ db ~ EDIT BUTTON PRESSED - no action yet defined");
+            });
             add(editButton);
         }
     }
 
     /**
      * Bestimmt, welche Felder für den aktuellen eingeloggten User sichtbar sind.
+     * @author Elias Glauert
      */
-    private List<String> getVisibleFieldsForUser() {
-        List<String> fields = new ArrayList<>();
+    private ArrayList<String> getVisibleFieldsForUser() {
+        ArrayList<String> fields = new ArrayList<>();
         fields.add("firstName");
         fields.add("lastName");
+        fields.add("username");
 
         if (loggedInUser.equals(employee)) {
             fields.add("email");
@@ -81,47 +86,60 @@ public class EmployeeDataView extends View {
 
         if (loggedInUser.isHR() || loggedInUser.isAdmin()) {
             fields.add("fullAccess");
+            // TODO das field gibt nur "Vollzugriff gewährt" zurück
         }
+
+        /*
+        Alle fields die noch möglicherweise hinzugefügt werden können
+        (oder mit denen was anderes gemacht werden kann noch):
+        fields.add("hireDate");
+        fields.add("employmentStatus"); // actually keinen plan was hier überhaupt genau drin steht :D
+        fields.add("teamId");
+        fields.add("qualifications");
+        fields.add("completedTrainings");
+        fields.add("managerId");
+         */
 
         return fields;
     }
 
     /**
      * Gibt den ausgegebenen Text für ein Sichtbarkeitsfeld zurück.
+     * Umfasst alle Felder, die ein Mitarbeiter hat.
+     * @author Elias Glauert
      */
+    // TODO könnte noch erweitert werden mit mehr sachen
     private String getFieldDisplayText(String fieldName) {
-        switch (fieldName) {
-            case "firstName":
-                return "Vorname: " + employee.getFirstName();
-            case "lastName":
-                return "Nachname: " + employee.getLastName();
-            case "email":
-                return "Email: " + employee.getEmail();
-            case "phoneNumber":
-                return "Telefonnummer: " + employee.getPhoneNumber();
-            case "dateOfBirth":
-                return "Geburtsdatum: " + employee.getDateOfBirth();
-            case "address":
-                return "Adresse: " + employee.getAddress();
-            case "gender":
-                return "Geschlecht: " + employee.getGender();
-            case "departmentId":
-                return "Abteilungs-ID: " + employee.getDepartmentId();
-            case "roleId":
-                return "Rollen-ID: " + employee.getRoleId();
-            case "fullAccess":
-                return "Vollzugriff gewährt";
-            default:
-                return fieldName; // Fallback, falls kein Text definiert ist
-        }
+        return switch (fieldName) {
+            case "firstName" -> "Vorname: " + employee.getFirstName();
+            case "lastName" -> "Nachname: " + employee.getLastName();
+            case "email" -> "Email: " + employee.getEmail();
+            case "phoneNumber" -> "Telefonnummer: " + employee.getPhoneNumber();
+            case "dateOfBirth" -> "Geburtsdatum: " + employee.getDateOfBirth();
+            case "address" -> "Adresse: " + employee.getAddress();
+            case "gender" -> "Geschlecht: " + employee.getGender();
+            case "departmentId" -> "Abteilungs-ID: " + employee.getDepartmentId();
+            case "roleId" -> "Rollen-ID: " + employee.getRoleId();
+            case "fullAccess" -> "Vollzugriff gewährt";
+            case "username" -> "asdf: " + employee.getUsername();
+            case "hireDate" -> "asdf: " + employee.getHireDate();
+            case "employmentStatus" -> "asdf: " + employee.getEmploymentStatus();
+            case "teamId" -> "asdf: " + employee.getTeamId();
+            case "qualifications" -> "asdf: " + employee.getQualifications();
+            case "completedTrainings" -> "asdf: " + employee.getCompletedTrainings();
+            case "managerId" -> "asdf: " + employee.getManagerId();
+            default -> fieldName; // Fallback, falls kein Text definiert ist
+        };
     }
 
     /**
      * Überprüft, ob der angeschaute Mitarbeiter unter dem eingeloggten User in der Hierarchie ist.
+     * @author Elias Glauert
      */
     private boolean isUserInHierarchyBelow(Employee loggedInUser, Employee employee) {
         int currentManagerId = employee.getManagerId();
-        while (currentManagerId != 0) {  // Assuming 0 is the CEO Id or top of the hierarchy
+        while (currentManagerId != 0) { // Assuming 0 is the CEO ID or top of the hierarchy
+            // TODO change this to correct id after employee generation has been done
             if (currentManagerId == loggedInUser.getId()) {
                 return true;
             }
@@ -133,6 +151,7 @@ public class EmployeeDataView extends View {
 
     /**
      * Entscheidet, ob der eingeloggte User die Daten bearbeiten darf.
+     * @author Elias Glauert
      */
     private boolean canEditData() {
         return loggedInUser.equals(employee) || loggedInUser.isHR() || loggedInUser.isAdmin();
