@@ -207,7 +207,7 @@
     ]
   },
   {
-    "roled": "role-resource-planner",
+    "roleId": "role-resource-planner",
     "name": "Ressourcenplaner",
     "requiredQualifications": [
       "Excel-Kenntnisse",
@@ -215,7 +215,7 @@
     ]
   },
   {
-    "rolIid": "role-scheduling-assistant",
+    "roleId": "role-scheduling-assistant",
     "name": "Terminplanungsassistent",
     "requiredQualifications": [
       "Organisationstalent",
@@ -223,7 +223,7 @@
     ]
   },
   {
-    "role-id": "role-planning-head",
+    "roleId": "role-planning-head",
     "name": "Leiter Planung & Kalkulation",
     "requiredQualifications": [
       "Ausbildung im Bauwesen",
@@ -232,7 +232,7 @@
     ]
   },
   {
-    "role-id": "role-schedule-manager",
+    "roleId": "role-schedule-manager",
     "name": "Terminplaner",
     "requiredQualifications": [
       "MS Project",
@@ -240,7 +240,7 @@
     ]
   },
   {
-    "role-id": "role-timeplanner",
+    "roleId": "role-timeplanner",
     "name": "Zeitplaner",
     "requiredQualifications": [
       "Kenntnisse Lean Construction",
@@ -248,7 +248,7 @@
     ]
   },
   {
-    "role-id": "role-cost-estimator",
+    "roleId": "role-cost-estimator",
     "name": "Kostenkalkulator",
     "requiredQualifications": [
       "Erfahrung in Baukalkulation",
@@ -256,7 +256,7 @@
     ]
   },
   {
-    "role-id": "role-project-calculator",
+    "roleId": "role-project-calculator",
     "name": "Projektkalkulator",
     "requiredQualifications": [
       "Kenntnisse AVA",
@@ -264,7 +264,7 @@
     ]
   },
   {
-    "role-id": "role-procurement-head",
+    "roleId": "role-procurement-head",
     "name": "Leiter Einkauf",
     "requiredQualifications": [
       "Einkäuferzertifikat",
@@ -273,7 +273,7 @@
     ]
   },
   {
-    "role-id": "role-supplier-coordinator",
+    "roleId": "role-supplier-coordinator",
     "name": "Lieferantenkoordinator",
     "requiredQualifications": [
       "Kommunikationsfähigkeit",
@@ -281,7 +281,7 @@
     ]
   },
   {
-    "role-id": "role-material-buyer",
+    "roleId": "role-material-buyer",
     "name": "Materialeinkäufer",
     "requiredQualifications": [
       "Einkaufserfahrung",
@@ -289,7 +289,7 @@
     ]
   },
   {
-    "role-id": "role-order-clerk",
+    "roleId": "role-order-clerk",
     "name": "Bestellsachbearbeiter",
     "requiredQualifications": [
       "Erfahrung mit ERP",
@@ -297,7 +297,7 @@
     ]
   },
   {
-    "role-id": "role-stock-controller",
+    "roleId": "role-stock-controller",
     "name": "Lagerverwalter",
     "requiredQualifications": [
       "Lagerwirtschaftsausbildung",
@@ -305,7 +305,7 @@
     ]
   },
   {
-    "role-id": "role-it-head",
+    "roleId": "role-it-head",
     "name": "Leiter IT",
     "requiredQualifications": [
       "Studium Informatik",
@@ -314,7 +314,7 @@
     ]
   },
   {
-    "role-id": "role-it-systems-admin",
+    "roleId": "role-it-systems-admin",
     "name": "Systemadministrator",
     "requiredQualifications": [
       "Windows/Linux-Kenntnisse",
@@ -322,7 +322,7 @@
     ]
   },
   {
-    "role-id": "role-network-technician",
+    "roleId": "role-network-technician",
     "name": "Netzwerktechniker",
     "requiredQualifications": [
       "Cisco-Kenntnisse",
@@ -330,7 +330,7 @@
     ]
   },
   {
-    "role-id": "role-support-specialist",
+    "roleId": "role-support-specialist",
     "name": "IT-Support Spezialist",
     "requiredQualifications": [
       "Helpdesk-Erfahrung",
@@ -338,7 +338,7 @@
     ]
   },
   {
-    "role-id": "role-helpdesk-agent",
+    "roleId": "role-helpdesk-agent",
     "name": "Helpdesk-Mitarbeiter",
     "requiredQualifications": [
       "Ticket-System Erfahrung",
@@ -346,199 +346,199 @@
     ]
   },
   {
-    "role-id": "role-software-dev",
+    "roleId": "role-software-dev",
     "name": "Softwareentwickler",
     "requiredQualifications": [
       "Kenntnisse in C#, Python o.Ä.",
       "Git & CI/CD"
     ]
   },
-  {
-    "role-id": "role-system-integrator",
-    "name": "Systemintegrator",
-    "requiredQualifications": [
-      "Systemlandschaft-Verständnis",
-      "IT-Projektmitarbeit"
-    ]
-  },
-  {
-    "role-id": "role-hr-head",
-    "name": "Leiter Personal",
-    "requiredQualifications": [
-      "Studium HR oder BWL",
-      "Kenntnisse Arbeitsrecht",
-      "Führungserfahrung"
-    ]
-  },
-  {
-    "role-id": "role-recruiter",
-    "name": "Recruiter",
-    "requiredQualifications": [
-      "Interviewtechniken",
-      "ATS-Kenntnisse"
-    ]
-  },
-  {
-    "role-id": "role-talent-sourcer",
-    "name": "Talentsucher",
-    "requiredQualifications": [
-      "LinkedIn-Sourcing",
-      "Kommunikationsgeschick"
-    ]
-  },
-  {
-    "role-id": "role-payroll-admin",
-    "name": "Lohnbuchhalter",
-    "requiredQualifications": [
-      "DATEV-Kenntnisse",
-      "Kenntnisse Lohnsteuer"
-    ]
-  },
-  {
-    "role-id": "role-benefits-officer",
-    "name": "Sozialleistungsbeauftragter",
-    "requiredQualifications": [
-      "Kenntnisse Sozialversicherung",
-      "Sorgfalt"
-    ]
-  },
-  {
-    "role-id": "role-hr-advisor",
-    "name": "Personalberater",
-    "requiredQualifications": [
-      "Arbeitsrecht",
-      "Beratungskompetenz"
-    ]
-  },
-  {
-    "role-id": "role-personnel-consultant",
-    "name": "Personalreferent",
-    "requiredQualifications": [
-      "Personalentwicklung",
-      "Mitarbeitergespräche"
-    ]
-  },
-  {
-    "role-id": "role-finance-head",
-    "name": "Leiter Finanzen",
-    "requiredQualifications": [
-      "BWL Studium",
-      "Kenntnisse HGB & IFRS",
-      "Controlling-Erfahrung"
-    ]
-  },
-  {
-    "role-id": "role-controlling-specialist",
-    "name": "Controlling Spezialist",
-    "requiredQualifications": [
-      "Kostenrechnung",
-      "Excel Pivot"
-    ]
-  },
-  {
-    "role-id": "role-cost-controller",
-    "name": "Kostencontroller",
-    "requiredQualifications": [
-      "Projektcontrolling",
-      "Kennzahlenanalyse"
-    ]
-  },
-  {
-    "role-id": "role-financial-bookkeeper",
-    "name": "Finanzbuchhalter",
-    "requiredQualifications": [
-      "HGB-Kenntnisse",
-      "DATEV"
-    ]
-  },
-  {
-    "role-id": "role-invoice-specialist",
-    "name": "Rechnungsprüfer",
-    "requiredQualifications": [
-      "Rechnungswesen-Ausbildung",
-      "Sorgfältige Arbeitsweise"
-    ]
-  },
-  {
-    "role-id": "role-compliance-head",
-    "name": "Leiter Compliance & Recht",
-    "requiredQualifications": [
-      "Jurastudium",
-      "Kenntnisse Datenschutz",
-      "Verständnis regulatorischer Anforderungen"
-    ]
-  },
-  {
-    "role-id": "role-legal-consultant",
-    "name": "Rechtsberater",
-    "requiredQualifications": [
-      "Juristische Ausbildung",
-      "Beratungserfahrung"
-    ]
-  },
-  {
-    "role-id": "role-compliance-consultant",
-    "name": "Complianceberater",
-    "requiredQualifications": [
-      "Compliance-Richtlinien",
-      "Detailgenauigkeit"
-    ]
-  },
-  {
-    "role-id": "role-data-privacy-officer",
-    "name": "Datenschutzbeauftragter",
-    "requiredQualifications": [
-      "DSGVO-Kenntnisse",
-      "Zertifikat Datenschutz"
-    ]
-  },
-  {
-    "role-id": "role-information-security-analyst",
-    "name": "IT-Sicherheitsanalyst",
-    "requiredQualifications": [
-      "ISO 27001",
-      "IT-Risikoanalyse"
-    ]
-  },
-  {
-    "role-id": "role-sales-head",
-    "name": "Leiter Vertrieb",
-    "requiredQualifications": [
-      "BWL Studium",
-      "Vertriebserfahrung",
-      "CRM-Kenntnisse"
-    ]
-  },
-  {
-    "role-id": "role-b2b-account-manager",
-    "name": "B2B Key Account Manager",
-    "requiredQualifications": [
-      "Kundenbeziehungsmanagement",
-      "Vertriebserfahrung"
-    ]
-  },
-  {
-    "role-id": "role-sales-strategist",
-    "name": "Vertriebsstratege",
-    "requiredQualifications": [
-      "Vertriebsstrategie",
-      "Marktanalyse"
-    ]
-  },
-  {
-    "role-id": "role-customer-support",
-    "name": "Kundendienstmitarbeiter",
-    "requiredQualifications": [
-      "Kommunikationsfähigkeit",
-      "CRM-Kenntnisse"
-    ]
-  },
-  {
-    "role-id": "role-client-care-specialist",
-    "name": "Kundenbetreuer",
-    "requiredQualifications": [
-      "Serviceorientierung",
-      "Problemlösungskompetenz"
-    ]
-  }
-]
+    {
+      "roleId": "role-system-integrator",
+      "name": "Systemintegrator",
+      "requiredQualifications": [
+        "Systemlandschaft-Verständnis",
+        "IT-Projektmitarbeit"
+      ]
+    },
+    {
+      "roleId": "role-hr-head",
+      "name": "Leiter Personal",
+      "requiredQualifications": [
+        "Studium HR oder BWL",
+        "Kenntnisse Arbeitsrecht",
+        "Führungserfahrung"
+      ]
+    },
+    {
+      "roleId": "role-recruiter",
+      "name": "Recruiter",
+      "requiredQualifications": [
+        "Interviewtechniken",
+        "ATS-Kenntnisse"
+      ]
+    },
+    {
+      "roleId": "role-talent-sourcer",
+      "name": "Talentsucher",
+      "requiredQualifications": [
+        "LinkedIn-Sourcing",
+        "Kommunikationsgeschick"
+      ]
+    },
+    {
+      "roleId": "role-payroll-admin",
+      "name": "Lohnbuchhalter",
+      "requiredQualifications": [
+        "DATEV-Kenntnisse",
+        "Kenntnisse Lohnsteuer"
+      ]
+    },
+    {
+      "roleId": "role-benefits-officer",
+      "name": "Sozialleistungsbeauftragter",
+      "requiredQualifications": [
+        "Kenntnisse Sozialversicherung",
+        "Sorgfalt"
+      ]
+    },
+    {
+      "roleId": "role-hr-advisor",
+      "name": "Personalberater",
+      "requiredQualifications": [
+        "Arbeitsrecht",
+        "Beratungskompetenz"
+      ]
+    },
+    {
+      "roleId": "role-personnel-consultant",
+      "name": "Personalreferent",
+      "requiredQualifications": [
+        "Personalentwicklung",
+        "Mitarbeitergespräche"
+      ]
+    },
+    {
+      "roleId": "role-finance-head",
+      "name": "Leiter Finanzen",
+      "requiredQualifications": [
+        "BWL Studium",
+        "Kenntnisse HGB & IFRS",
+        "Controlling-Erfahrung"
+      ]
+    },
+    {
+      "roleId": "role-controlling-specialist",
+      "name": "Controlling Spezialist",
+      "requiredQualifications": [
+        "Kostenrechnung",
+        "Excel Pivot"
+      ]
+    },
+    {
+      "roleId": "role-cost-controller",
+      "name": "Kostencontroller",
+      "requiredQualifications": [
+        "Projektcontrolling",
+        "Kennzahlenanalyse"
+      ]
+    },
+    {
+      "roleId": "role-financial-bookkeeper",
+      "name": "Finanzbuchhalter",
+      "requiredQualifications": [
+        "HGB-Kenntnisse",
+        "DATEV"
+      ]
+    },
+    {
+      "roleId": "role-invoice-specialist",
+      "name": "Rechnungsprüfer",
+      "requiredQualifications": [
+        "Rechnungswesen-Ausbildung",
+        "Sorgfältige Arbeitsweise"
+      ]
+    },
+    {
+      "roleId": "role-compliance-head",
+      "name": "Leiter Compliance & Recht",
+      "requiredQualifications": [
+        "Jurastudium",
+        "Kenntnisse Datenschutz",
+        "Verständnis regulatorischer Anforderungen"
+      ]
+    },
+    {
+      "roleId": "role-legal-consultant",
+      "name": "Rechtsberater",
+      "requiredQualifications": [
+        "Juristische Ausbildung",
+        "Beratungserfahrung"
+      ]
+    },
+    {
+      "roleId": "role-compliance-consultant",
+      "name": "Complianceberater",
+      "requiredQualifications": [
+        "Compliance-Richtlinien",
+        "Detailgenauigkeit"
+      ]
+    },
+    {
+      "roleId": "role-data-privacy-officer",
+      "name": "Datenschutzbeauftragter",
+      "requiredQualifications": [
+        "DSGVO-Kenntnisse",
+        "Zertifikat Datenschutz"
+      ]
+    },
+    {
+      "roleId": "role-information-security-analyst",
+      "name": "IT-Sicherheitsanalyst",
+      "requiredQualifications": [
+        "ISO 27001",
+        "IT-Risikoanalyse"
+      ]
+    },
+    {
+      "roleId": "role-sales-head",
+      "name": "Leiter Vertrieb",
+      "requiredQualifications": [
+        "BWL Studium",
+        "Vertriebserfahrung",
+        "CRM-Kenntnisse"
+      ]
+    },
+    {
+      "roleId": "role-b2b-account-manager",
+      "name": "B2B Key Account Manager",
+      "requiredQualifications": [
+        "Kundenbeziehungsmanagement",
+        "Vertriebserfahrung"
+      ]
+    },
+    {
+      "roleId": "role-sales-strategist",
+      "name": "Vertriebsstratege",
+      "requiredQualifications": [
+        "Vertriebsstrategie",
+        "Marktanalyse"
+      ]
+    },
+    {
+      "roleId": "role-customer-support",
+      "name": "Kundendienstmitarbeiter",
+      "requiredQualifications": [
+        "Kommunikationsfähigkeit",
+        "CRM-Kenntnisse"
+      ]
+    },
+    {
+      "roleId": "role-client-care-specialist",
+      "name": "Kundenbetreuer",
+      "requiredQualifications": [
+        "Serviceorientierung",
+        "Problemlösungskompetenz"
+      ]
+    }
+  ]

@@ -20,7 +20,7 @@ public class Role {
 
     // Standardkonstruktor (No-Arg Constructor)
     public Role() {
-        this.requiredQualifications = new ArrayList<>();
+
     }
 
     // Parametrisierter Konstruktor

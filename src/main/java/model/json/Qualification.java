@@ -1,6 +1,7 @@
 package model.json;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList; // Empfohlen für die Initialisierung von Listen
 
 /**
  * Qualification Klasse.
@@ -10,15 +11,17 @@ import java.util.ArrayList;
  * @version 1.2
  * @since 2025-07-29
  */
+
 public class Qualification {
 
     private String roleId;
     private int requiredYears;
-    private ArrayList<String> certifications;
+    private List<String> certifications;
     private String description;
-    private ArrayList<String> followupSkills;
-    private ArrayList<String> requiredSkills;
+    private List<String> followupSkills;
+    private List<String> requiredSkills;
 
+    // Standardkonstruktor (No-Arg Constructor)
     public Qualification() {
         // Optional: Initialisierung der Listen, um NullPointerExceptions zu vermeiden
         this.certifications = new ArrayList<>();
@@ -26,8 +29,9 @@ public class Qualification {
         this.requiredSkills = new ArrayList<>();
     }
 
-    public Qualification(String roleId, int requiredYears, ArrayList<String> certifications,
-                         String description, ArrayList<String> followupSkills, ArrayList<String> requiredSkills) {
+    // Parametrisierter Konstruktor
+    public Qualification(String roleId, int requiredYears, List<String> certifications,
+                         String description, List<String> followupSkills, List<String> requiredSkills) {
         this.roleId = roleId;
         this.requiredYears = requiredYears;
         this.certifications = (certifications != null) ? new ArrayList<>(certifications) : new ArrayList<>();
@@ -52,11 +56,11 @@ public class Qualification {
         this.requiredYears = requiredYears;
     }
 
-    public ArrayList<String> getCertifications() {
+    public List<String> getCertifications() {
         return certifications;
     }
 
-    public void setCertifications(ArrayList<String> certifications) {
+    public void setCertifications(List<String> certifications) {
         this.certifications = (certifications != null) ? new ArrayList<>(certifications) : new ArrayList<>();
     }
 
@@ -68,19 +72,19 @@ public class Qualification {
         this.description = description;
     }
 
-    public ArrayList<String> getFollowupSkills() {
+    public List<String> getFollowupSkills() {
         return followupSkills;
     }
 
-    public void setFollowupSkills(ArrayList<String> followupSkills) {
+    public void setFollowupSkills(List<String> followupSkills) {
         this.followupSkills = (followupSkills != null) ? new ArrayList<>(followupSkills) : new ArrayList<>();
     }
 
-    public ArrayList<String> getRequiredSkills() {
+    public List<String> getRequiredSkills() {
         return requiredSkills;
     }
 
-    public void setRequiredSkills(ArrayList<String> requiredSkills) {
+    public void setRequiredSkills(List<String> requiredSkills) {
         this.requiredSkills = (requiredSkills != null) ? new ArrayList<>(requiredSkills) : new ArrayList<>();
     }
 }

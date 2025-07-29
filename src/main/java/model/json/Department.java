@@ -24,9 +24,7 @@ public class Department {
 
     // Parametrisierter Konstruktor
     public Department(String departmentId, String name, ArrayList<String> teams) {
-        this.departmentId = departmentId;
-        this.name = name;
-        this.teams = (teams != null) ? new ArrayList<>(teams) : new ArrayList<>();
+
     }
 
     public String getDepartmentId() {
