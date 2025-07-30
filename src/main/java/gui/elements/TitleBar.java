@@ -110,9 +110,9 @@ public class TitleBar extends JPanel {
 
                     int fade;
                     if (Math.abs(relativeIndex) == 1) {
-                        fade = 218;
-                    } else if (Math.abs(relativeIndex) == 2) {
                         fade = 97;
+                    } else if (Math.abs(relativeIndex) == 2) {
+                        fade = 218;
                     } else {
                         fade = 0; // unreachable
                     }

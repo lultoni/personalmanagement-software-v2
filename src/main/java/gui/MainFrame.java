@@ -180,6 +180,8 @@ public class MainFrame extends JFrame {
      */
     public void changeView(View view, boolean backButtonEnabled, boolean forwardButtonEnabled) {
 
+        System.out.println("   | MainFrame.changeView(" + view.toString() + ", " + backButtonEnabled + ", " + forwardButtonEnabled + ")");
+
         Component activeViewComponent = ((BorderLayout) getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER);
         if (activeViewComponent != null) {
             remove(activeViewComponent);
@@ -200,10 +202,12 @@ public class MainFrame extends JFrame {
         scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
         forwardButton.setIcon(new ImageIcon(scaledImage));
 
-        featureBar.updateButtonEnabled();
+        featureBar.updateContent();
 
         revalidate();
         repaint();
+
+        System.out.println("   | Active View Now: " + getCurrentView().toString());
     }
 
     /**
@@ -224,5 +228,9 @@ public class MainFrame extends JFrame {
     public void updateNotifications() {
         System.out.println(" ~ db ~ gui.MainFrame.updateNotifications()");
         setNotifications(notifications, true);
+    }
+
+    public View getCurrentView() {
+        return currentView;
     }
 }

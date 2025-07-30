@@ -56,6 +56,7 @@ public class GuiManager {
 
         if (view.getView_id().equals("view-login")) {
             resetViewHistory();
+            System.out.println("   | Move to Login Screen");
             mainFrame.changeView(view, false, false);
             return;
         } else if (view.getView_id().equals("view-blocked")) {
@@ -74,7 +75,9 @@ public class GuiManager {
     private void handleBlockedStates(View view) {
         if (view.getView_id().equals("view-login")) {
             resetViewHistory();
+            System.out.println("   | Move to Login Screen");
             mainFrame.changeView(view, false, false);
+            printViewHistory();
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
             logicOfViewChange(view);

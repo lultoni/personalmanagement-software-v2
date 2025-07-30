@@ -136,14 +136,14 @@ public class EmployeeDataView extends View {
      * Überprüft, ob der angeschaute Mitarbeiter unter dem eingeloggten User in der Hierarchie ist.
      * @author Elias Glauert
      */
-    private boolean isUserInHierarchyBelow(Employee loggedInUser, Employee employee) {
-        int currentManagerId = employee.getManagerId();
+    private boolean isUserInHierarchyBelow(Employee potentialHigherUpEmployee, Employee potentialBelowEmployee) {
+        int currentManagerId = potentialBelowEmployee.getManagerId();
         while (currentManagerId != 0) { // Assuming 0 is the CEO ID or top of the hierarchy
             // TODO change this to correct id after employee generation has been done
-            if (currentManagerId == loggedInUser.getId()) {
+            if (currentManagerId == potentialHigherUpEmployee.getId()) {
                 return true;
             }
-            Employee manager = employee.getManager();
+            Employee manager = potentialBelowEmployee.getManager();
             currentManagerId = manager.getManagerId();
         }
         return false;
