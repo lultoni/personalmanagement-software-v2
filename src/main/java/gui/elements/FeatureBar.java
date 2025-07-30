@@ -5,6 +5,9 @@ import core.LoginManager;
 import gui.views.EmployeeDataView;
 import gui.views.SearchView;
 import util.PersistentInformationReader;
+import gui.views.WelcomeView;
+import gui.views.TrainingView;
+import gui.views.ShutdownView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +26,7 @@ public class FeatureBar extends JPanel {
     private JButton myProfile_button;
     private JPanel main_button_panel;
     private EventManager eventManager;
+    private final Dimension standardButtonSize = new Dimension(140, 40);
 
     /**
      * Konstruktor für die FeatureBar.
@@ -37,22 +41,65 @@ public class FeatureBar extends JPanel {
         main_button_panel = getFeatureButtonPanel();
 
         // Logout Button und MyProfile Button (Immer sichtbar)
-        JPanel core_features_panel = new JPanel(new GridLayout(0, 1));
-        logout_button = new JButton("Logout");
-        logout_button.addActionListener(_ -> {
-            System.out.println("Logout Button Pressed");
-            loginManager.logout();
-        });
+        JPanel core_features_panel = new JPanel();
+        core_features_panel.setLayout(new BoxLayout(core_features_panel, BoxLayout.Y_AXIS));
+        core_features_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         myProfile_button = new JButton("MyProfile");
+        myProfile_button.setPreferredSize(standardButtonSize);
+        myProfile_button.setMaximumSize(standardButtonSize);
+        myProfile_button.setMinimumSize(standardButtonSize);
+        myProfile_button.setAlignmentX(Component.CENTER_ALIGNMENT);
         myProfile_button.addActionListener(_ -> {
             System.out.println("MyProfile Button Pressed");
             eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
         });
-        core_features_panel.add(myProfile_button);
-        core_features_panel.add(logout_button);
+
+        logout_button = new JButton("Logout");
+        logout_button.setMaximumSize(standardButtonSize);
+        logout_button.setMinimumSize(standardButtonSize);
+        logout_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logout_button.addActionListener(_ -> {
+            System.out.println("Logout Button Pressed");
+            loginManager.logout();
+        });
+
+
+        logout_button.addActionListener(_ -> {
+            System.out.println("Logout Button Pressed");
+            loginManager.logout();
+        });
+        myProfile_button.addActionListener(_ -> {
+            System.out.println("MyProfile Button Pressed");
+            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
+        });
+        // Neuer Footer mit Abstand zwischen Buttons
+        JPanel footerPanel = new JPanel();
+        footerPanel.setLayout(new BoxLayout(footerPanel, BoxLayout.Y_AXIS));
+        footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        myProfile_button.setMaximumSize(standardButtonSize);
+        myProfile_button.setMinimumSize(standardButtonSize);
+        myProfile_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myProfile_button.addActionListener(_ -> {
+            System.out.println("MyProfile Button Pressed");
+            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
+        });
+
+        logout_button = new JButton("Logout");
+        logout_button.setMaximumSize(new Dimension(100, 30));
+        logout_button.setMinimumSize(new Dimension(100, 30));
+        logout_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logout_button.addActionListener(_ -> {
+            System.out.println("Logout Button Pressed");
+            loginManager.logout();
+        });
+
+        footerPanel.add(myProfile_button);
+        footerPanel.add(Box.createVerticalStrut(30));  // zusätzlicher Abstand
+        footerPanel.add(logout_button);
 
         add(main_button_panel, BorderLayout.CENTER);
-        add(core_features_panel, BorderLayout.SOUTH);
+        add(footerPanel, BorderLayout.SOUTH);
     }
 
     private JPanel getFeatureButtonPanel() {
@@ -63,17 +110,52 @@ public class FeatureBar extends JPanel {
             featureButtonPanel.add(new JLabel("Vor Login sind keine Funktionen auswählbar."));
             return featureButtonPanel;
         }
+        JButton welcomeButton = new JButton("🏠 Startseite");
+        welcomeButton.addActionListener(_ -> {
+            eventManager.callEvent("changeView", new Object[]{new WelcomeView()});
+            myProfile_button.setMaximumSize(standardButtonSize);
+            logout_button.setMaximumSize(standardButtonSize);
 
-        JButton searchFeatureButton = new JButton("Suche");
+        });
+        featureButtonPanel.add(welcomeButton);
+
+
+        JButton searchFeatureButton = new JButton("🔎 Suche");
         searchFeatureButton.addActionListener(_ -> {
             eventManager.callEvent("changeView", new Object[]{new SearchView()});
+            myProfile_button.setMaximumSize(standardButtonSize);
+            logout_button.setMaximumSize(standardButtonSize);
+
         });
         // if (PermissionChecker.hasPermission('B')) featureButtonPanel.add(searchFeatureButton); TODO dann nutzen wenn es die permission actually existiert
         featureButtonPanel.add(searchFeatureButton);
         // TODO nutze für die features PermissionChecker.hasPermission(char permission) ob es angezeigt werden soll
         //  also muss nicht ausgeblendet werden, aber es geht darum, dass die function genutzt werden soll
+
+
+        JButton trainingButton = new JButton("📚 Schulungen");
+        trainingButton.setPreferredSize(standardButtonSize);
+        trainingButton.addActionListener(_ -> {
+            eventManager.callEvent("changeView", new Object[]{new gui.views.TrainingView()});
+            myProfile_button.setMaximumSize(standardButtonSize);
+            logout_button.setMaximumSize(standardButtonSize);
+
+        });
+        featureButtonPanel.add(trainingButton);
+
+        JButton shutdownButton = new JButton("💣 Systemeinstellungen");
+        shutdownButton.setPreferredSize(standardButtonSize);
+        shutdownButton.addActionListener(_ -> {
+            eventManager.callEvent("changeView", new Object[]{new gui.views.ShutdownView()});
+            myProfile_button.setMaximumSize(standardButtonSize);
+            logout_button.setMaximumSize(standardButtonSize);
+
+        });
+        featureButtonPanel.add(shutdownButton);
+
         return featureButtonPanel;
     }
+
 
     /**
      * Aktualisiert, ob die Knöpfe en- oder disabled sind.
