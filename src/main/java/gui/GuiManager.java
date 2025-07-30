@@ -57,7 +57,7 @@ public class GuiManager {
         if (view.getView_id().equals("view-login")) {
             resetViewHistory();
             System.out.println("   | Move to Login Screen");
-            mainFrame.changeView(view, false, false);
+            mainFrame.changeView(view, false, false, true);
             return;
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | System is not Blocked. No Block Screen allowed, returning.");
@@ -76,7 +76,7 @@ public class GuiManager {
         if (view.getView_id().equals("view-login")) {
             resetViewHistory();
             System.out.println("   | Move to Login Screen");
-            mainFrame.changeView(view, false, false);
+            mainFrame.changeView(view, false, false, true);
             printViewHistory();
         } else if (view.getView_id().equals("view-blocked")) {
             System.out.println("   | Move to Blocked-System Screen is still allowed, acting as usual.");
@@ -104,7 +104,7 @@ public class GuiManager {
         view_history.add(view);
         currentViewIndex = view_history.size() - 1;
         printViewHistory();
-        mainFrame.changeView(view, shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+        mainFrame.changeView(view, shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled(), shouldHideFeatureBar(view));
     }
 
     private boolean shouldForwardButtonBeEnabled() {
@@ -113,6 +113,10 @@ public class GuiManager {
 
     private boolean shouldBackButtonBeEnabled() {
         return currentViewIndex > 0;
+    }
+
+    private boolean shouldHideFeatureBar(View view) {
+        return view.getView_id().equals("view-login");
     }
 
     private void printViewHistory() {
@@ -135,7 +139,7 @@ public class GuiManager {
 
         currentViewIndex--;
         printViewHistory();
-        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled(), shouldHideFeatureBar(getActiveView()));
     }
 
     public void goToNextView() {
@@ -149,7 +153,7 @@ public class GuiManager {
 
         currentViewIndex++;
         printViewHistory();
-        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled());
+        mainFrame.changeView(getActiveView(), shouldBackButtonBeEnabled(), shouldForwardButtonBeEnabled(), shouldHideFeatureBar(getActiveView()));
     }
 
     public View getActiveView() {

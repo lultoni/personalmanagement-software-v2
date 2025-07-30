@@ -11,6 +11,7 @@ import gui.views.ShutdownView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -41,55 +42,16 @@ public class FeatureBar extends JPanel {
         main_button_panel = getFeatureButtonPanel();
 
         // Logout Button und MyProfile Button (Immer sichtbar)
-        JPanel core_features_panel = new JPanel();
-        core_features_panel.setLayout(new BoxLayout(core_features_panel, BoxLayout.Y_AXIS));
-        core_features_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        myProfile_button = new JButton("MyProfile");
-        myProfile_button.setPreferredSize(standardButtonSize);
-        myProfile_button.setMaximumSize(standardButtonSize);
-        myProfile_button.setMinimumSize(standardButtonSize);
-        myProfile_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myProfile_button.addActionListener(_ -> {
-            System.out.println("MyProfile Button Pressed");
-            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
-        });
-
-        logout_button = new JButton("Logout");
-        logout_button.setMaximumSize(standardButtonSize);
-        logout_button.setMinimumSize(standardButtonSize);
-        logout_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        logout_button.addActionListener(_ -> {
-            System.out.println("Logout Button Pressed");
-            loginManager.logout();
-        });
-
-
-        logout_button.addActionListener(_ -> {
-            System.out.println("Logout Button Pressed");
-            loginManager.logout();
-        });
-        myProfile_button.addActionListener(_ -> {
-            System.out.println("MyProfile Button Pressed");
-            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
-        });
-        // Neuer Footer mit Abstand zwischen Buttons
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BoxLayout(footerPanel, BoxLayout.Y_AXIS));
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        myProfile_button.setMaximumSize(standardButtonSize);
-        myProfile_button.setMinimumSize(standardButtonSize);
-        myProfile_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myProfile_button.addActionListener(_ -> {
+        myProfile_button = createButton("MyProfile", standardButtonSize, _ -> {
             System.out.println("MyProfile Button Pressed");
             eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
         });
 
-        logout_button = new JButton("Logout");
-        logout_button.setMaximumSize(new Dimension(100, 30));
-        logout_button.setMinimumSize(new Dimension(100, 30));
-        logout_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        logout_button.addActionListener(_ -> {
+        logout_button = createButton("Logout", new Dimension(100, 30), _ -> {
             System.out.println("Logout Button Pressed");
             loginManager.logout();
         });
@@ -102,12 +64,22 @@ public class FeatureBar extends JPanel {
         add(footerPanel, BorderLayout.SOUTH);
     }
 
+    private JButton createButton(String text, Dimension size, ActionListener actionListener) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setMinimumSize(size);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.addActionListener(actionListener);
+        return button;
+    }
+
     private JPanel getFeatureButtonPanel() {
 
         JPanel featureButtonPanel = new JPanel(new GridLayout(0, 1)); // TODO maybe passt ein box oder flow layout besser
 
         if (!PersistentInformationReader.isUserLoggedIn()) {
-            featureButtonPanel.add(new JLabel("Vor Login sind keine Funktionen auswählbar."));
+            // featureButtonPanel.add(new JLabel("Vor Login sind keine Funktionen auswählbar."));
             return featureButtonPanel;
         }
         JButton welcomeButton = new JButton("🏠 Startseite");

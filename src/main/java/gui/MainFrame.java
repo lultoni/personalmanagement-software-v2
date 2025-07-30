@@ -10,6 +10,7 @@ import gui.elements.TitleBar;
 import gui.views.DefaultView;
 import gui.views.View;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -70,6 +71,8 @@ public class MainFrame extends JFrame {
      */
     private GuiManager guiManager;
 
+    private boolean isFeatureBarHidden; // TODO idk ob wir die hier brauchen, ich dachte wir brauchen die aber hat keinen nutzen gerade
+
     /**
      * Konstruktor für die MainFrame.
      * @author Elias Glauert
@@ -78,6 +81,7 @@ public class MainFrame extends JFrame {
         this.notifications = notifications;
         this.eventManager = eventManager;
         this.guiManager = guiManager;
+        isFeatureBarHidden = false;
 
         initFrameSettings();
         initComponents(loginManager, guiManager);
@@ -178,7 +182,7 @@ public class MainFrame extends JFrame {
      * Ändert den View, welcher im Center des BorderLayouts ist.
      * @author Elias Glauert
      */
-    public void changeView(View view, boolean backButtonEnabled, boolean forwardButtonEnabled) {
+    public void changeView(View view, boolean backButtonEnabled, boolean forwardButtonEnabled, boolean shouldHideFeatureBar) {
 
         System.out.println("   | MainFrame.changeView(" + view.toString() + ", " + backButtonEnabled + ", " + forwardButtonEnabled + ")");
 
@@ -202,12 +206,46 @@ public class MainFrame extends JFrame {
         scaledImage = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
         forwardButton.setIcon(new ImageIcon(scaledImage));
 
-        featureBar.updateContent();
+        if (shouldHideFeatureBar) {
+            hideFeatureBar();
+        } else {
+            showFeatureBar();
+        }
 
         revalidate();
         repaint();
 
         System.out.println("   | Active View Now: " + getCurrentView().toString());
+    }
+
+    /**
+     * Versteckt die FeatureBar, existiert für den LoginView.
+     * @author Elias Glauert
+     */
+    private void hideFeatureBar() {
+        Component activeViewComponent = ((BorderLayout) getContentPane().getLayout()).getLayoutComponent(BorderLayout.WEST);
+        if (activeViewComponent != null) {
+            remove(activeViewComponent);
+        }
+
+        isFeatureBarHidden = true;
+
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Zeigt die FeatureBar, existiert für den LoginView.
+     * @author Elias Glauert
+     */
+    private void showFeatureBar() {
+        featureBar.updateContent();
+        add(featureBar, BorderLayout.WEST);
+
+        isFeatureBarHidden = false;
+
+        revalidate();
+        repaint();
     }
 
     /**
