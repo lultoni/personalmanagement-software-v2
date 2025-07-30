@@ -63,7 +63,7 @@ public class LoginView extends View {
         iconLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
         // Titel
-        JLabel titleLabel = new JLabel("Anmeldung mit Benutzername und Passwort");
+        JLabel titleLabel = new JLabel("Anmeldung");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 10));
