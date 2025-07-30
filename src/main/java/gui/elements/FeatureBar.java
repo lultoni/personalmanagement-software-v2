@@ -6,8 +6,6 @@ import gui.views.EmployeeDataView;
 import gui.views.SearchView;
 import util.PersistentInformationReader;
 import gui.views.WelcomeView;
-import gui.views.TrainingView;
-import gui.views.ShutdownView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +16,7 @@ import java.awt.event.ActionListener;
  * Die FeatureBar beinhaltet alle Features, die dem User zur verfügung stehen.
  *
  * @author Elias Glauert
- * @version 1.2
+ * @version 1.3
  * @since 2025-07-07
  */
 public class FeatureBar extends JPanel {
@@ -31,7 +29,7 @@ public class FeatureBar extends JPanel {
 
     /**
      * Konstruktor für die FeatureBar.
-     * @author Elias Glauert
+     * @author Elias Glauert, Joshua Sperber
      */
     public FeatureBar(LoginManager loginManager, EventManager eventManager) {
 
@@ -64,6 +62,14 @@ public class FeatureBar extends JPanel {
         add(footerPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Helfer-Methode für das Erstellen von Buttons.
+     * @param text
+     * @param size
+     * @param actionListener
+     * @return
+     * @author Joshua Sperber
+     */
     private JButton createButton(String text, Dimension size, ActionListener actionListener) {
         JButton button = new JButton(text);
         button.setPreferredSize(size);
@@ -74,6 +80,10 @@ public class FeatureBar extends JPanel {
         return button;
     }
 
+    /**
+     * Gibt alle Feature Knöpfe in einem JPanel zurück.
+     * @author Elias Glauert, Joshua Sperber
+     */
     private JPanel getFeatureButtonPanel() {
 
         JPanel featureButtonPanel = new JPanel(new GridLayout(0, 1)); // TODO maybe passt ein box oder flow layout besser

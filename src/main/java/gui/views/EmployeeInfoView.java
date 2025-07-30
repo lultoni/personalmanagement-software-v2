@@ -5,10 +5,15 @@ import javax.swing.*;
 
 /**
  * Ansicht für persönliche Informationen des Mitarbeiters.
+ * @author Joshua Sperber
  */
-public class EmployeeInfoView extends JPanel {
+public class EmployeeInfoView extends View {
 
     public EmployeeInfoView() {
+
+        setView_id("view-employee_info_view");
+        setView_name("Mitarbeiter Informationen");
+
         setLayout(new BorderLayout(10, 10));
 
         JLabel titleLabel = new JLabel("Persönliche Informationen", SwingConstants.CENTER);
@@ -37,6 +42,18 @@ public class EmployeeInfoView extends JPanel {
         infoPanel.add(new JTextField());
 
         add(infoPanel, BorderLayout.CENTER);
+    }
+
+    @Override
+    public String toString() {
+        // TODO write this function
+        return super.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // TODO write this function
+        return super.equals(obj);
     }
 }
 
