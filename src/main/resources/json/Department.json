@@ -2,7 +2,7 @@
   {
     "departmentId": "dept-construction",
     "name": "Bauausführung",
-    "teams": [
+    "teamId": [
       "team-construction-lead",
       "team-masonry",
       "team-concrete",
@@ -12,7 +12,7 @@
   {
     "departmentId": "dept-site-operations",
     "name": "Baustellenbetrieb",
-    "teams": [
+    "teamId": [
       "team-site-operations-lead",
       "team-site-logistics",
       "team-safety",
@@ -22,7 +22,7 @@
   {
     "departmentId": "dept-equipment",
     "name": "Geräte & Fuhrpark",
-    "teams": [
+    "teamId": [
       "team-equipment-lead",
       "team-machinery",
       "team-fleet-maintenance"
@@ -31,7 +31,7 @@
   {
     "departmentId": "dept-project-management",
     "name": "Projektmanagement",
-    "teams": [
+    "teamId": [
       "team-project-management-lead",
       "team-project-administration",
       "team-resource-coordination"
@@ -40,7 +40,7 @@
   {
     "departmentId": "dept-planning",
     "name": "Planung & Kalkulation",
-    "teams": [
+    "teamId": [
       "team-planning-lead",
       "team-scheduling",
       "team-cost-estimation"
@@ -49,7 +49,7 @@
   {
     "departmentId": "dept-procurement",
     "name": "Einkauf",
-    "teams": [
+    "teamId": [
       "team-procurement-lead",
       "team-supplier-management",
       "team-material-orders"
@@ -58,7 +58,7 @@
   {
     "departmentId": "dept-it",
     "name": "IT",
-    "teams": [
+    "teamId": [
       "team-it-lead",
       "team-it-infrastructure",
       "team-it-support",
@@ -68,7 +68,7 @@
   {
     "departmentId": "dept-hr",
     "name": "Human Resources",
-    "teams": [
+    "teamId": [
       "team-hr-lead",
       "team-recruiting",
       "team-payroll",
@@ -78,7 +78,7 @@
   {
     "departmentId": "dept-finance",
     "name": "Finanzen",
-    "teams": [
+    "teamId": [
       "team-finance-lead",
       "team-controlling",
       "team-accounting"
@@ -87,7 +87,7 @@
   {
     "departmentId": "dept-compliance",
     "name": "Compliance & Recht",
-    "teams": [
+    "teamId": [
       "team-compliance-lead",
       "team-legal",
       "team-data-protection"
@@ -96,7 +96,7 @@
   {
     "departmentId": "dept-sales",
     "name": "Vertrieb",
-    "teams": [
+    "teamId": [
       "team-sales-lead",
       "team-b2b-sales",
       "team-customer-service"
