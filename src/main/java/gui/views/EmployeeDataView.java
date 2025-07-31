@@ -143,8 +143,7 @@ public class EmployeeDataView extends View {
             if (currentManagerId == potentialHigherUpEmployee.getId()) {
                 return true;
             }
-            Employee manager = potentialBelowEmployee.getManager();
-            currentManagerId = manager.getManagerId();
+            currentManagerId = potentialBelowEmployee.getManagerId();
         }
         return false;
     }

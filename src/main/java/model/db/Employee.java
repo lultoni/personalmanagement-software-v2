@@ -1,14 +1,9 @@
 package model.db;
 
-// Entferne imports für core.EmployeeManager und db.dao.EmployeeDao
-// import core.EmployeeManager; // <-- DIESE ZEILE ENTFERNEN
-// import db.dao.EmployeeDao;   // <-- DIESE ZEILE ENTFERNEN
-
-import core.EmployeeManager;
 import db.dao.EmployeeDao;
 
 import java.util.Date;
-import java.util.List; // Wird für getManager() benötigt, falls List zurückgegeben wird
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,15 +37,10 @@ public class Employee {
     private String completedTrainings;  // JSON-String
     private Integer managerId;          // Nutze Integer, damit es auch 'null' sein kann, falls kein Manager zugewiesen
 
-    // Diese Felder wurden entfernt, da sie nicht Teil des reinen Datenmodells sein sollten:
-    // private EmployeeDao employeeDao;
-    // private EmployeeManager employeeManager;
-
     /**
      * Konstruktor für die Erstellung eines NEUEN Employee-Objekts,
      * dessen ID noch von der Datenbank vergeben wird.
      *
-     * @param b
      * @param username           Benutzername des Mitarbeiters.
      * @param password           Passwort des Mitarbeiters.
      * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
@@ -69,15 +59,13 @@ public class Employee {
      * @param qualifications     Qualifikationen als JSON-String.
      * @param completedTrainings Abgeschlossene Trainings als JSON-String.
      * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
-     * @param employeeManager
-     * @param employeeDao
      * @author Elias Glauert
      */
-    public Employee(boolean b, String username, String password, String permissionString, String firstName,
+    public Employee(String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId, EmployeeManager employeeManager, EmployeeDao employeeDao) { // managerId ist jetzt Integer für null
+                    Integer managerId) {
         // Die 'id' wird hier NICHT initialisiert. Sie wird NACH dem DB-Insert über setId() gesetzt.
         this.username = username;
         this.password = password;
@@ -103,37 +91,36 @@ public class Employee {
      * Konstruktor für das Laden eines Employee-Objekts AUS der Datenbank,
      * bei dem die ID bereits bekannt ist.
      *
-     * @param id               Die eindeutige ID des Mitarbeiters aus der Datenbank.
-     * @param username         Benutzername des Mitarbeiters.
-     * @param password         Passwort des Mitarbeiters.
-     * @param permissionString Berechtigungs-String (z.B. "admin,hr").
-     * @param firstName        Vorname.
-     * @param lastName         Nachname.
-     * @param email            E-Mail-Adresse.
-     * @param phoneNumber      Telefonnummer.
-     * @param dateOfBirth      Geburtsdatum.
-     * @param address          Adresse.
-     * @param gender           Geschlecht ('M' oder 'F').
-     * @param hireDate         Einstellungsdatum.
-     * @param employmentStatus Beschäftigungsstatus (z.B. "Active", "On Leave").
-     * @param departmentId     ID der Abteilung.
-     * @param teamId           ID des Teams (kann null sein, wenn kein Team zugewiesen).
-     * @param roleId           ID der Rolle.
-     * @param qualifications   Qualifikationen als JSON-String.
+     * @param id                 Die eindeutige ID des Mitarbeiters aus der Datenbank.
+     * @param username           Benutzername des Mitarbeiters.
+     * @param password           Passwort des Mitarbeiters.
+     * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
+     * @param firstName          Vorname.
+     * @param lastName           Nachname.
+     * @param email              E-Mail-Adresse.
+     * @param phoneNumber        Telefonnummer.
+     * @param dateOfBirth        Geburtsdatum.
+     * @param address            Adresse.
+     * @param gender             Geschlecht ('M' oder 'F').
+     * @param hireDate           Einstellungsdatum.
+     * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
+     * @param departmentId       ID der Abteilung.
+     * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
+     * @param roleId             ID der Rolle.
+     * @param qualifications     Qualifikationen als JSON-String.
      * @param completedTrainings Abgeschlossene Trainings als JSON-String.
-     * @param managerId        ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param employeeDao
      */
     public Employee(int id, String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId) { // managerId ist jetzt Integer
-        this(false, username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
-                gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId, employeeManager, this);
+                    Integer managerId, EmployeeDao employeeDao) {
+        // Rufe den Hauptkonstruktor auf, um die Felder zu initialisieren
+        this(username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
+                gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId);
         this.id = id; // Setze die ID, die aus der DB kam
-    }
-
-    public Employee(boolean b, String username, String password, String permissionString, String firstName, String lastName, String email, String phoneNumber, java.sql.Date dateOfBirth, String address, char gender, java.sql.Date hireDate, String employmentStatus, String departmentId, String teamId, String roleId, String qualifications, String completedTrainings, int managerId, String employeeManager, EmployeeDao employeeDao) {
     }
 
 
@@ -220,33 +207,6 @@ public class Employee {
         // Wenn die ID eindeutig ist und die primäre Identifikation, ist dieser Vergleich ausreichend.
         // Andernfalls, wenn alle Felder für Gleichheit wichtig sind, erweitere den Vergleich.
         return id == employee.id;
-        /*
-        // Für einen strengeren Vergleich aller relevanten Felder (wenn ID allein nicht reicht):
-        return id == employee.id &&
-               Objects.equals(username, employee.username) &&
-               Objects.equals(password, employee.password) &&
-               Objects.equals(permissionString, employee.permissionString) &&
-               Objects.equals(firstName, employee.firstName) &&
-               Objects.equals(lastName, employee.lastName) &&
-               Objects.equals(email, employee.email) &&
-               Objects.equals(phoneNumber, employee.phoneNumber) &&
-               Objects.equals(dateOfBirth, employee.dateOfBirth) && // Achtung bei Date-Vergleich (siehe unten)
-               Objects.equals(address, employee.address) &&
-               gender == employee.gender &&
-               Objects.equals(hireDate, employee.hireDate) && // Achtung bei Date-Vergleich (siehe unten)
-               Objects.equals(employmentStatus, employee.employmentStatus) &&
-               Objects.equals(departmentId, employee.departmentId) &&
-               Objects.equals(teamId, employee.teamId) &&
-               Objects.equals(roleId, employee.roleId) &&
-               Objects.equals(qualifications, employee.qualifications) &&
-               Objects.equals(completedTrainings, employee.completedTrainings) &&
-               Objects.equals(managerId, employee.managerId);
-        */
-        // Hinweis zu Date-Vergleichen:
-        // `java.util.Date` Objekte repräsentieren einen Zeitpunkt.
-        // `Objects.equals(date1, date2)` vergleicht die getTime()-Werte (Millisekunden seit Epoch),
-        // was in der Regel korrekt ist, solange die Objekte nicht unterschiedliche Zeitstempel-Präzisionen haben.
-        // Für LocalDate/LocalDateTime wäre Objects.equals() direkter.
     }
 
     @Override
@@ -279,22 +239,15 @@ public class Employee {
      * @return Objekt des Typs Employee, welches den Manager beinhaltet, oder null wenn kein Manager zugewiesen oder gefunden wurde.
      * @author Elias Glauert
      */
-    public Employee getManager(core.EmployeeManager employeeManager) { // EmployeeManager wird als Parameter übergeben
+    public Employee getManager(core.EmployeeManager employeeManager) {
         if (employeeManager == null) {
             System.err.println("Fehler: EmployeeManager für getManager() ist null.");
             return null;
         }
         if (this.managerId != null && this.managerId > 0) {
-            // Dies ist ein Beispielaufruf. employeeManager muss eine Methode haben,
-            // die einen Employee anhand seiner ID finden kann (z.B. findEmployeeById).
-            // Die Logik des findEmployees (List<String> fields, List<String> contents) ist nicht ideal für ID-Suche.
-            // Angenommen, employeeManager.findEmployeeById(int id) existiert:
-            // return employeeManager.findEmployeeById(this.managerId);
-
-            // Oder, falls nur findEmployees vorhanden ist, mit Anpassung:
             List<model.db.Employee> results = employeeManager.findEmployees(
-                    (java.util.ArrayList<String>) List.of("id"), // Feldname
-                    (java.util.ArrayList<String>) List.of(String.valueOf(this.managerId)) // Wert als String
+                    new java.util.ArrayList<>(List.of("id")), // Feldname
+                    new java.util.ArrayList<>(List.of(String.valueOf(this.managerId))) // Wert als String
             );
             return results.isEmpty() ? null : results.getFirst();
         }

@@ -1,6 +1,7 @@
 package util;
 
 import core.CompanyStructureManager;
+import db.dao.EmployeeDao; // Keep this for inheritance
 import model.db.Employee;
 import model.json.Company;
 import model.json.Department;
@@ -8,13 +9,13 @@ import model.json.Qualification;
 import model.json.Role;
 import model.json.Team;
 
-import com.github.javafaker.Faker; // <-- Direkter Import für Faker
+import com.github.javafaker.Faker;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper; // <-- Direkter Import für ObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.time.LocalDate; // Für modernes Datum
-import java.time.ZoneId;    // Für LocalDate zu Date Konvertierung
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -27,18 +28,18 @@ import java.util.*;
  * @version 2.0 (Faker und ObjectMapper direkt integriert)
  * @since 2025-07-30
  */
-public class EmployeeGenerator {
+public class EmployeeGenerator extends EmployeeDao {
 
     private static final Random RANDOM = new Random();
-    private final Faker faker; // Faker-Instanz direkt hier
-    private final ObjectMapper objectMapper; // ObjectMapper-Instanz direkt hier
+    private final Faker faker;
+    private final ObjectMapper objectMapper;
 
     // Private Referenzen für die Unternehmensstruktur, die nur einmalig geladen werden
     private final Company mainCompany;
-    private final List<Department> allDepartments;
-    private final List<Role> allRoles;
-    private final List<Qualification> allQualifications;
-    private final List<Team> allTeams;
+    private final List<Department> allDepartmentsIDs;
+    private final List<Role> allRolesIDs;
+    private final List<Qualification> allQualificationsIDs;
+    private final List<Team> allTeamsIDs;
 
     /**
      * Konstruktor des EmployeeDataGenerators.
@@ -48,6 +49,7 @@ public class EmployeeGenerator {
      * @throws IOException Wenn beim Laden der Unternehmensstruktur ein Fehler auftritt.
      */
     public EmployeeGenerator() throws IOException {
+        super(); // Calls the no-arg constructor of EmployeeDao
         // Initialisiere Faker und ObjectMapper direkt im Konstruktor
         this.faker = new Faker(new Locale("de", "DE")); // Faker mit deutscher Lokalisierung
         this.objectMapper = new ObjectMapper(); // Standard ObjectMapper
@@ -55,12 +57,12 @@ public class EmployeeGenerator {
         // Lade Unternehmensstruktur
         CompanyStructureManager manager = CompanyStructureManager.getInstance();
         this.mainCompany = manager.getCompany();
-        this.allDepartments = new ArrayList<>(manager.getAllDepartments());
-        this.allRoles = new ArrayList<>(manager.getAllRoles());
-        this.allQualifications = new ArrayList<>(manager.getAllQualifications());
-        this.allTeams = new ArrayList<>(manager.getAllTeams());
+        this.allDepartmentsIDs = new ArrayList<>(manager.getAllDepartments());
+        this.allRolesIDs = new ArrayList<>(manager.getAllRoles());
+        this.allQualificationsIDs = new ArrayList<>(manager.getAllQualifications());
+        this.allTeamsIDs = new ArrayList<>(manager.getAllTeams());
 
-        if (mainCompany == null || allDepartments.isEmpty() || allRoles.isEmpty()) {
+        if (mainCompany == null || allDepartmentsIDs.isEmpty() || allRolesIDs.isEmpty()) {
             throw new IllegalStateException("Unternehmensstruktur unvollständig geladen. Kann keine Mitarbeiter generieren.");
         }
     }
@@ -70,15 +72,22 @@ public class EmployeeGenerator {
      * Die generierte ID für den Mitarbeiter ist 0, da diese von der Datenbank vergeben wird.
      *
      * @param index Ein optionaler Index, der für die Generierung von eindeutigen Benutzernamen verwendet werden kann.
-     * @param availableFirstNames Eine Liste von verfügbaren Vornamen.
-     * @param availableLastNames Eine Liste von verfügbaren Nachnamen.
      * @return Ein fertig befülltes Employee-Objekt.
      */
-    public Employee generateSingleEmployee(int index, List<String> availableFirstNames, List<String> availableLastNames) {
-        if (availableFirstNames == null || availableFirstNames.isEmpty() || availableLastNames == null || availableLastNames.isEmpty()) {
-            throw new IllegalArgumentException("Listen für Vornamen und/oder Nachnamen dürfen nicht leer sein.");
-        }
+    public Employee generateSingleEmployee(int index) {
+        List<String> availableFirstNames = Arrays.asList(
+                "Lukas", "Emma", "Mia", "Noah", "Leon", "Lina", "Elias", "Paul", "Ben", "Anna",
+                "Luis", "Clara", "Felix", "Marie", "Jonas", "Laura", "Max", "Mila", "Tim", "Sophie",
+                "Julian", "Hannah", "David", "Lea", "Finn", "Emily", "Moritz", "Lilly", "Tom", "Nina"
+        );
 
+        List<String> availableLastNames = Arrays.asList(
+                "Müller", "Schmidt", "Schneider", "Fischer", "Weber", "Meyer", "Wagner", "Becker", "Hoffmann", "Schäfer",
+                "Koch", "Bauer", "Richter", "Klein", "Wolf", "Neumann", "Schwarz", "Zimmermann", "Braun", "Krüger",
+                "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung"
+        );
+
+        // zufällig auswähl aus den gegeben Namen
         String firstName = availableFirstNames.get(RANDOM.nextInt(availableFirstNames.size()));
         String lastName = availableLastNames.get(RANDOM.nextInt(availableLastNames.size()));
 
@@ -100,19 +109,19 @@ public class EmployeeGenerator {
 
 
         // Zufälliges Department, Role und Team auswählen
-        Department randomDepartment = allDepartments.get(RANDOM.nextInt(allDepartments.size()));
-        Role randomRole = allRoles.get(RANDOM.nextInt(allRoles.size()));
+        Department randomDepartment = allDepartmentsIDs.get(RANDOM.nextInt(allDepartmentsIDs.size()));
+        Role randomRole = allRolesIDs.get(RANDOM.nextInt(allRolesIDs.size()));
         Team randomTeam = null;
-        if (!allTeams.isEmpty()) {
-            randomTeam = allTeams.get(RANDOM.nextInt(allTeams.size()));
+        if (!allTeamsIDs.isEmpty()) {
+            randomTeam = allTeamsIDs.get(RANDOM.nextInt(allTeamsIDs.size()));
         }
 
         // Zufällige Qualifikationen für den Mitarbeiter auswählen und als JSON-String konvertieren
         List<String> employeeQualificationIds = new ArrayList<>();
         int numQualsForEmployee = RANDOM.nextInt(4); // 0 bis 3 Qualifikationen pro Mitarbeiter
         for (int q = 0; q < numQualsForEmployee; q++) {
-            if (!allQualifications.isEmpty()) {
-                employeeQualificationIds.add(allQualifications.get(RANDOM.nextInt(allQualifications.size())).getRoleId());
+            if (!allQualificationsIDs.isEmpty()) {
+                employeeQualificationIds.add(allQualificationsIDs.get(RANDOM.nextInt(allQualificationsIDs.size())).getRoleId());
             }
         }
         String qualificationsJson = "[]"; // Standardwert, falls Fehler oder keine Qualifikationen
@@ -142,9 +151,10 @@ public class EmployeeGenerator {
         // Manager-ID (Standardwert ist null, muss später aktualisiert werden, wenn Hierarchien aufgebaut werden)
         Integer managerId = null;
 
-        // Erstelle das Employee-Objekt
+
+        // Erstelle das Employee-Objekt OHNE den EmployeeDao Parameter
         return new Employee(
-                false, username,
+                username,
                 "password" + index, // Einfaches Passwort
                 PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), randomDepartment.getDepartmentId()),
                 firstName,
@@ -161,7 +171,7 @@ public class EmployeeGenerator {
                 randomRole.getroleId(),
                 qualificationsJson,
                 "[]", // Completed trainings als leerer JSON-Array
-                managerId,
-                employeeManager, this);
+                managerId
+        );
     }
 }

@@ -30,6 +30,9 @@ public class EmployeeDao {
         this.employeeManager = employeeManager;
     }
 
+    public EmployeeDao() {
+    }
+
     /**
      * Fügt einen Mitarbeiter in die Datenbank des DbManagers hinzu.
      * @param employee Mitarbeiter-Objekt, wessen Daten in die Datenbank eingefügt werden.
@@ -127,7 +130,7 @@ public class EmployeeDao {
                         System.out.println("Creating Employee object for: " + rs.getString("username"));
 
                         Employee employee = new Employee(
-                                false,
+                                rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("password"),
                                 rs.getString("permission_string"),
@@ -146,7 +149,6 @@ public class EmployeeDao {
                                 rs.getString("qualifications"),
                                 rs.getString("completed_trainings"),
                                 rs.getInt("manager_id"),
-                                rs.getString("employeeManager"),
                                 this
                         );
                         System.out.println("Employee object created successfully.");

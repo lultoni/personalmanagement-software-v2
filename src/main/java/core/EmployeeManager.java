@@ -174,9 +174,6 @@ public class EmployeeManager {
             case "completedTrainings" -> {
                 return employee.getCompletedTrainings();
             }
-            case "managerId" -> {
-                return String.valueOf(employee.getManager().getId());
-            }
         }
         return "UNEXPECTED_FIELD_VALUE";
     }
