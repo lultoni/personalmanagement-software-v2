@@ -146,7 +146,7 @@ public class EmployeeDao {
                                 rs.getString("qualifications"),
                                 rs.getString("completed_trainings"),
                                 rs.getInt("manager_id"),
-                                employeeManager,
+                                rs.getString("employeeManager"),
                                 this
                         );
                         System.out.println("Employee object created successfully.");

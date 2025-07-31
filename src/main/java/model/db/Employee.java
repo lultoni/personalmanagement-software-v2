@@ -1,23 +1,28 @@
 package model.db;
 
+// Entferne imports für core.EmployeeManager und db.dao.EmployeeDao
+// import core.EmployeeManager; // <-- DIESE ZEILE ENTFERNEN
+// import db.dao.EmployeeDao;   // <-- DIESE ZEILE ENTFERNEN
+
 import core.EmployeeManager;
 import db.dao.EmployeeDao;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List; // Wird für getManager() benötigt, falls List zurückgegeben wird
 import java.util.Objects;
 
 /**
  * Mitarbeiter Klasse.
- * Spiegelt die Datenbankobjekte wider, mit erweiterter Funktionalität.
+ * Spiegelt die Datenbankobjekte wider, ohne direkte Abhängigkeiten zu Datenbank-Zugriffsobjekten (DAOs)
+ * oder Geschäftslogik-Managern.
  *
  * @author Elias Glauert
- * @version 1.3
- * @since 2025-07-09
+ * @version 1.5 (Anpassung an die neue Generierungslogik und Abhängigkeitsentkopplung)
+ * @since 2025-07-30
  */
 public class Employee {
 
-    private int id;
+    private int id; // ID wird initial von der DB vergeben, wenn hinzugefügt
     private String username;
     private String password;
     private String permissionString;
@@ -33,22 +38,47 @@ public class Employee {
     private String departmentId;
     private String teamId;
     private String roleId;
-    private String qualifications;
-    private String completedTrainings;
-    private int managerId;
+    private String qualifications;      // JSON-String
+    private String completedTrainings;  // JSON-String
+    private Integer managerId;          // Nutze Integer, damit es auch 'null' sein kann, falls kein Manager zugewiesen
 
-    private EmployeeDao employeeDao;
-    private EmployeeManager employeeManager;
+    // Diese Felder wurden entfernt, da sie nicht Teil des reinen Datenmodells sein sollten:
+    // private EmployeeDao employeeDao;
+    // private EmployeeManager employeeManager;
 
     /**
-     * Konstruktor von der Employee Klasse.
+     * Konstruktor für die Erstellung eines NEUEN Employee-Objekts,
+     * dessen ID noch von der Datenbank vergeben wird.
+     *
+     * @param b
+     * @param username           Benutzername des Mitarbeiters.
+     * @param password           Passwort des Mitarbeiters.
+     * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
+     * @param firstName          Vorname.
+     * @param lastName           Nachname.
+     * @param email              E-Mail-Adresse.
+     * @param phoneNumber        Telefonnummer.
+     * @param dateOfBirth        Geburtsdatum.
+     * @param address            Adresse.
+     * @param gender             Geschlecht ('M' oder 'F').
+     * @param hireDate           Einstellungsdatum.
+     * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
+     * @param departmentId       ID der Abteilung.
+     * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
+     * @param roleId             ID der Rolle.
+     * @param qualifications     Qualifikationen als JSON-String.
+     * @param completedTrainings Abgeschlossene Trainings als JSON-String.
+     * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param employeeManager
+     * @param employeeDao
      * @author Elias Glauert
      */
-    public Employee(boolean addEmployeeToDb, String username, String password, String permissionString, String firstName,
+    public Employee(boolean b, String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    int managerId, EmployeeManager employeeManager, EmployeeDao employeeDao) {
+                    Integer managerId, EmployeeManager employeeManager, EmployeeDao employeeDao) { // managerId ist jetzt Integer für null
+        // Die 'id' wird hier NICHT initialisiert. Sie wird NACH dem DB-Insert über setId() gesetzt.
         this.username = username;
         this.password = password;
         this.permissionString = permissionString;
@@ -67,167 +97,105 @@ public class Employee {
         this.qualifications = qualifications;
         this.completedTrainings = completedTrainings;
         this.managerId = managerId;
-        this.employeeManager = employeeManager;
-
-        if (addEmployeeToDb) employeeDao.addEmployeeToDb(this);
-        id = Integer.parseInt(employeeDao.fetchFieldValue("id", this));
-
-        if (addEmployeeToDb) employeeManager.addEmployee(this);
     }
 
-    // Getters and Setters
-    public int getId() {
-        return id;
+    /**
+     * Konstruktor für das Laden eines Employee-Objekts AUS der Datenbank,
+     * bei dem die ID bereits bekannt ist.
+     *
+     * @param id               Die eindeutige ID des Mitarbeiters aus der Datenbank.
+     * @param username         Benutzername des Mitarbeiters.
+     * @param password         Passwort des Mitarbeiters.
+     * @param permissionString Berechtigungs-String (z.B. "admin,hr").
+     * @param firstName        Vorname.
+     * @param lastName         Nachname.
+     * @param email            E-Mail-Adresse.
+     * @param phoneNumber      Telefonnummer.
+     * @param dateOfBirth      Geburtsdatum.
+     * @param address          Adresse.
+     * @param gender           Geschlecht ('M' oder 'F').
+     * @param hireDate         Einstellungsdatum.
+     * @param employmentStatus Beschäftigungsstatus (z.B. "Active", "On Leave").
+     * @param departmentId     ID der Abteilung.
+     * @param teamId           ID des Teams (kann null sein, wenn kein Team zugewiesen).
+     * @param roleId           ID der Rolle.
+     * @param qualifications   Qualifikationen als JSON-String.
+     * @param completedTrainings Abgeschlossene Trainings als JSON-String.
+     * @param managerId        ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     */
+    public Employee(int id, String username, String password, String permissionString, String firstName,
+                    String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
+                    char gender, Date hireDate, String employmentStatus, String departmentId,
+                    String teamId, String roleId, String qualifications, String completedTrainings,
+                    Integer managerId) { // managerId ist jetzt Integer
+        this(false, username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
+                gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId, employeeManager, this);
+        this.id = id; // Setze die ID, die aus der DB kam
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Employee(boolean b, String username, String password, String permissionString, String firstName, String lastName, String email, String phoneNumber, java.sql.Date dateOfBirth, String address, char gender, java.sql.Date hireDate, String employmentStatus, String departmentId, String teamId, String roleId, String qualifications, String completedTrainings, int managerId, String employeeManager, EmployeeDao employeeDao) {
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    // --- Getter und Setter ---
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; } // WICHTIG: Wird vom DAO nach DB-Insert gesetzt
 
-    public String getPassword() {
-        return password;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getPermissionString() {
-        return permissionString;
-    }
+    public String getPermissionString() { return permissionString; }
+    public void setPermissionString(String permissionString) { this.permissionString = permissionString; }
 
-    public void setPermissionString(String permissionString) {
-        this.permissionString = permissionString;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public Date getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public char getGender() { return gender; }
+    public void setGender(char gender) { this.gender = gender; }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    public Date getHireDate() { return hireDate; }
+    public void setHireDate(Date hireDate) { this.hireDate = hireDate; }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public String getEmploymentStatus() { return employmentStatus; }
+    public void setEmploymentStatus(String employmentStatus) { this.employmentStatus = employmentStatus; }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+    public String getDepartmentId() { return departmentId; }
+    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+    public String getTeamId() { return teamId; }
+    public void setTeamId(String teamId) { this.teamId = teamId; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getRoleId() { return roleId; }
+    public void setRoleId(String roleId) { this.roleId = roleId; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public String getQualifications() { return qualifications; }
+    public void setQualifications(String qualifications) { this.qualifications = qualifications; }
 
-    public char getGender() {
-        return gender;
-    }
+    public String getCompletedTrainings() { return completedTrainings; }
+    public void setCompletedTrainings(String completedTrainings) { this.completedTrainings = completedTrainings; }
 
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
+    public Integer getManagerId() { return managerId; } // Jetzt Integer
+    public void setManagerId(Integer managerId) { this.managerId = managerId; } // Jetzt Integer
 
-    public Date getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(Date hireDate) {
-        this.hireDate = hireDate;
-    }
-
-    public String getEmploymentStatus() {
-        return employmentStatus;
-    }
-
-    public void setEmploymentStatus(String employmentStatus) {
-        this.employmentStatus = employmentStatus;
-    }
-
-    public String getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getQualifications() {
-        return qualifications;
-    }
-
-    public void setQualifications(String qualifications) {
-        this.qualifications = qualifications;
-    }
-
-    public String getCompletedTrainings() {
-        return completedTrainings;
-    }
-
-    public void setCompletedTrainings(String completedTrainings) {
-        this.completedTrainings = completedTrainings;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
-    }
-
+    // --- Standard Java Methoden ---
     @Override
     public String toString() {
         return "Employee(" +
@@ -239,56 +207,97 @@ public class Employee {
                 ", phoneNumber='" + phoneNumber + "'" +
                 ", departmentId='" + departmentId + "'" +
                 ", roleId='" + roleId + "'" +
+                ", managerId=" + managerId + // Füge managerId hinzu
                 ")";
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object == null) return false;
-        if (object.getClass() != this.getClass()) return false;
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
         Employee employee = (Employee) object;
-        if (employee.getId() != getId()) return false;
-        if (!Objects.equals(employee.getUsername(), getUsername())) return false;
-        if (!Objects.equals(employee.getPassword(), getPassword())) return false;
-        if (!Objects.equals(employee.getPermissionString(), getPermissionString())) return false;
-        if (!Objects.equals(employee.getFirstName(), getFirstName())) return false;
-        if (!Objects.equals(employee.getLastName(), getLastName())) return false;
-        if (!Objects.equals(employee.getEmail(), getEmail())) return false;
-        if (!Objects.equals(employee.getPhoneNumber(), getPhoneNumber())) return false;
-        if (employee.getDateOfBirth() != getDateOfBirth()) return false;
-        if (!Objects.equals(employee.getAddress(), getAddress())) return false;
-        if (employee.getGender() != getGender()) return false;
-        if (employee.getHireDate() != getHireDate()) return false;
-        if (!Objects.equals(employee.getEmploymentStatus(), getEmploymentStatus())) return false;
-        if (!Objects.equals(employee.getDepartmentId(), getDepartmentId())) return false;
-        if (!Objects.equals(employee.getTeamId(), getTeamId())) return false;
-        if (!Objects.equals(employee.getRoleId(), getRoleId())) return false;
-        if (!Objects.equals(employee.getQualifications(), getQualifications())) return false;
-        if (!Objects.equals(employee.getCompletedTrainings(), getCompletedTrainings())) return false;
-        if (!Objects.equals(employee.getManagerId(), getManagerId())) return false;
-        return true;
+        // Primärschlüssel-Gleichheit ist oft am wichtigsten für Datenbankobjekte
+        // Wenn die ID eindeutig ist und die primäre Identifikation, ist dieser Vergleich ausreichend.
+        // Andernfalls, wenn alle Felder für Gleichheit wichtig sind, erweitere den Vergleich.
+        return id == employee.id;
+        /*
+        // Für einen strengeren Vergleich aller relevanten Felder (wenn ID allein nicht reicht):
+        return id == employee.id &&
+               Objects.equals(username, employee.username) &&
+               Objects.equals(password, employee.password) &&
+               Objects.equals(permissionString, employee.permissionString) &&
+               Objects.equals(firstName, employee.firstName) &&
+               Objects.equals(lastName, employee.lastName) &&
+               Objects.equals(email, employee.email) &&
+               Objects.equals(phoneNumber, employee.phoneNumber) &&
+               Objects.equals(dateOfBirth, employee.dateOfBirth) && // Achtung bei Date-Vergleich (siehe unten)
+               Objects.equals(address, employee.address) &&
+               gender == employee.gender &&
+               Objects.equals(hireDate, employee.hireDate) && // Achtung bei Date-Vergleich (siehe unten)
+               Objects.equals(employmentStatus, employee.employmentStatus) &&
+               Objects.equals(departmentId, employee.departmentId) &&
+               Objects.equals(teamId, employee.teamId) &&
+               Objects.equals(roleId, employee.roleId) &&
+               Objects.equals(qualifications, employee.qualifications) &&
+               Objects.equals(completedTrainings, employee.completedTrainings) &&
+               Objects.equals(managerId, employee.managerId);
+        */
+        // Hinweis zu Date-Vergleichen:
+        // `java.util.Date` Objekte repräsentieren einen Zeitpunkt.
+        // `Objects.equals(date1, date2)` vergleicht die getTime()-Werte (Millisekunden seit Epoch),
+        // was in der Regel korrekt ist, solange die Objekte nicht unterschiedliche Zeitstempel-Präzisionen haben.
+        // Für LocalDate/LocalDateTime wäre Objects.equals() direkter.
     }
 
+    @Override
+    public int hashCode() {
+        // Generiert einen Hash-Code basierend auf allen Feldern, die in equals() verwendet werden.
+        // Wenn equals() nur auf der ID basiert, sollte hashCode() auch nur auf der ID basieren.
+        // Hier basierend auf allen Feldern für einen robusteren Hash, passend zum kommentierten equals().
+        return Objects.hash(id, username, password, permissionString, firstName, lastName, email, phoneNumber,
+                dateOfBirth, address, gender, hireDate, employmentStatus, departmentId, teamId,
+                roleId, qualifications, completedTrainings, managerId);
+    }
+
+    // --- Geschäftslogik-Methoden (TODOs bleiben bestehen) ---
     public boolean isHR() {
-        // TODO create this function after the company structure is made
+        // TODO: Implementiere diese Funktion, z.B. durch Überprüfung von permissionString oder roleId
         return false;
     }
 
     public boolean isAdmin() {
-        // TODO create this function after the company structure is made
+        // TODO: Implementiere diese Funktion, z.B. durch Überprüfung von permissionString
         return false;
     }
 
     /**
-     * Gibt den Manager des Mitarbeiters zurück.
-     * @return Objekt des Typs Employee, welches den Manager beinhaltet
+     * Gibt den Manager des Mitarbeiters zurück, indem der bereitgestellte EmployeeManager zur Suche verwendet wird.
+     * Diese Methode sollte nur aufgerufen werden, wenn eine aktive Instanz von EmployeeManager verfügbar ist,
+     * da das Employee-Objekt selbst keine Logik zum Suchen anderer Employees hat.
+     *
+     * @param employeeManager Der EmployeeManager, der für die Suche des Managers verwendet wird.
+     * @return Objekt des Typs Employee, welches den Manager beinhaltet, oder null wenn kein Manager zugewiesen oder gefunden wurde.
      * @author Elias Glauert
      */
-    public Employee getManager() {
-        ArrayList<String> fields = new ArrayList<>();
-        ArrayList<String> contents = new ArrayList<>();
-        fields.add("id");
-        contents.add(String.valueOf(getManagerId()));
-        return employeeManager.findEmployees(fields, contents).getFirst();
+    public Employee getManager(core.EmployeeManager employeeManager) { // EmployeeManager wird als Parameter übergeben
+        if (employeeManager == null) {
+            System.err.println("Fehler: EmployeeManager für getManager() ist null.");
+            return null;
+        }
+        if (this.managerId != null && this.managerId > 0) {
+            // Dies ist ein Beispielaufruf. employeeManager muss eine Methode haben,
+            // die einen Employee anhand seiner ID finden kann (z.B. findEmployeeById).
+            // Die Logik des findEmployees (List<String> fields, List<String> contents) ist nicht ideal für ID-Suche.
+            // Angenommen, employeeManager.findEmployeeById(int id) existiert:
+            // return employeeManager.findEmployeeById(this.managerId);
+
+            // Oder, falls nur findEmployees vorhanden ist, mit Anpassung:
+            List<model.db.Employee> results = employeeManager.findEmployees(
+                    (java.util.ArrayList<String>) List.of("id"), // Feldname
+                    (java.util.ArrayList<String>) List.of(String.valueOf(this.managerId)) // Wert als String
+            );
+            return results.isEmpty() ? null : results.getFirst();
+        }
+        return null; // Kein Manager zugewiesen
     }
 }

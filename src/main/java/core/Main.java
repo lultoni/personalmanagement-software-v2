@@ -48,12 +48,12 @@ public class Main {
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
 
-        if (!employeeManager.hasEmployeesGenerated()) {
-            EmployeeGenerator.generateEmployees(dbManager, employeeManager, employeeDao);
-            eventManager.callEvent("createBackup", null);
-            dbManager.printTable("EMPLOYEES");
-            backupManager.printTable("EMPLOYEES");
-        }
+//        if (!employeeManager.hasEmployeesGenerated()) {
+//            EmployeeGenerator.generateEmployees(dbManager, employeeManager, employeeDao);
+//            eventManager.callEvent("createBackup", null);
+//            dbManager.printTable("EMPLOYEES");
+//            backupManager.printTable("EMPLOYEES");
+//        }
 
         loginManager = new LoginManager(employeeManager, eventManager);
 
