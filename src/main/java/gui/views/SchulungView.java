@@ -7,9 +7,9 @@ import java.awt.*;
  * Schulungsübersicht für Mitarbeiter.
  * @author Joshua Sperber
  */
-public class TrainingView extends View {
+public class SchulungView extends View {
 
-    public TrainingView() {
+    public SchulungView() {
         setView_id("view-training");
         setView_name("Schulungsübersicht");
 

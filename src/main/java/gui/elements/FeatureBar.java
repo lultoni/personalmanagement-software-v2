@@ -3,6 +3,7 @@ package gui.elements;
 import core.EventManager;
 import core.LoginManager;
 import gui.views.EmployeeDataView;
+import gui.views.SchulungView;
 import gui.views.SearchView;
 import util.PersistentInformationReader;
 import gui.views.WelcomeView;
@@ -118,7 +119,7 @@ public class FeatureBar extends JPanel {
         JButton trainingButton = new JButton("📚 Schulungen");
         trainingButton.setPreferredSize(standardButtonSize);
         trainingButton.addActionListener(_ -> {
-            eventManager.callEvent("changeView", new Object[]{new gui.views.TrainingView()});
+            eventManager.callEvent("changeView", new Object[]{new SchulungView()});
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
 
