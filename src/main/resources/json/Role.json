@@ -1,5 +1,19 @@
 [
   {
+    "roleId": "role-ceo",
+    "name": "Chief Executive Officer",
+    "requiredQualifications": [
+      "Langjährige Erfahrung in der Bau- oder Projektleitung",
+      "Abgeschlossenes Studium im Bauingenieurwesen, Architektur oder Wirtschaftsingenieurwesen",
+      "Führungskompetenz auf oberster Leitungsebene",
+      "Strategisches Denken & Visionäre Führung",
+      "Exzellente Kommunikationsfähigkeiten",
+      "Erfahrung im Change Management und Unternehmensentwicklung",
+      "Verhandlungssicherheit und unternehmerisches Handeln",
+      "Kenntnisse in Compliance, Finanzen und Personalführung"
+    ]
+  },
+  {
     "roleId": "role-construction-head",
     "name": "Bauleiter",
     "requiredQualifications": [

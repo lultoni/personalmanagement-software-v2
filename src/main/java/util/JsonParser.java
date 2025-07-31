@@ -12,9 +12,9 @@ import model.json.Team;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map; // Für Map als Rückgabetyp
+import java.util.Map;
 import java.util.HashMap;
-import java.util.List; // Für List<QualificationsContainer>
+import java.util.List;
 
 /**
  * Mit dieser Klasse werden die Unternehmensstrukturen eingelesen in das Programm.
@@ -71,9 +71,21 @@ public class JsonParser {
     }
 
     private static void ladeCompany() throws IOException {
-        // Hier wird die Company als einzelnes Objekt geparst.
-        // Die @JsonProperty("name") in der Company-Klasse löst das "Unrecognized field 'name'" Problem.
-        company = mapper.readValue(new File(JSON_PFAD + "Company.json"), Company.class);
+        // ANPASSUNG HIER:
+        // Die Company.json ist jetzt als Array von Company-Objekten strukturiert.
+        // Wir lesen sie als Liste und nehmen das erste Element.
+        List<Company> companyList = mapper.readValue(
+                new File(JSON_PFAD + "Company.json"),
+                new TypeReference<List<Company>>() {} // Wichtig: Liest ein Array von Company-Objekten
+        );
+
+        if (!companyList.isEmpty()) {
+            company = companyList.get(0); // Nehme das erste (und hoffentlich einzige) Objekt aus der Liste
+            System.out.println("Company '" + company.getName() + "' geladen.");
+        } else {
+            System.err.println("Fehler: 'Company.json' ist leer oder enthält ein leeres Array. Keine Firma geladen.");
+            company = null; // Setze company auf null oder ein Standard-Company-Objekt
+        }
     }
 
     private static void ladeDepartments() throws IOException {

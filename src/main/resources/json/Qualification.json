@@ -2,6 +2,37 @@
   {
     "qualifications": [
       {
+        "roleId": "qual-role-ceo",
+        "description": "Qualifikation für die Rolle Chief Executive Officer",
+        "requiredSkills": [
+          "Strategisches Denken",
+          "Führungskompetenz",
+          "Change Management",
+          "Krisenmanagement",
+          "Verhandlungstechniken",
+          "Kommunikation",
+          "Business Development im Bauwesen",
+          "Agiles Führen im Bauwesen"
+        ],
+        "requiredYears": 10,
+        "certifications": [
+          "Executive Leadership Zertifikat",
+          "MBA oder gleichwertiger Abschluss",
+          "Zertifikat in Strategischem Management",
+          "Leadership Development Program"
+        ],
+        "followupSkills": [
+          "Interdisziplinäre Zusammenarbeit",
+          "Digitalisierung im Bauwesen",
+          "Nachhaltiges Bauen",
+          "Risikomanagement",
+          "Lean Construction Training",
+          "Konfliktlösung am Bau",
+          "Projektmanagement",
+          "Strategisches Projektmanagement"
+        ]
+      },
+      {
         "roleId": "qual-role-construction-head",
         "description": "Qualifikation für die Rolle Construction Head",
         "requiredSkills": [
