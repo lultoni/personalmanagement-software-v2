@@ -1,7 +1,5 @@
 package model.db;
 
-import db.dao.EmployeeDao;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +10,7 @@ import java.util.Objects;
  * oder Geschäftslogik-Managern.
  *
  * @author Elias Glauert
- * @version 1.5 (Anpassung an die neue Generierungslogik und Abhängigkeitsentkopplung)
+ * @version 1.6 (Hinzufügung von isManager)
  * @since 2025-07-30
  */
 public class Employee {
@@ -37,6 +35,12 @@ public class Employee {
     private String completedTrainings;  // JSON-String
     private Integer managerId;          // Nutze Integer, damit es auch 'null' sein kann, falls kein Manager zugewiesen
 
+    // NEUE FELDER HIER
+    private boolean itAdmin;
+    private boolean hr;
+    private boolean hrHead;
+    private boolean isManager; // NEUE VARIABLE
+
     /**
      * Konstruktor für die Erstellung eines NEUEN Employee-Objekts,
      * dessen ID noch von der Datenbank vergeben wird.
@@ -59,14 +63,17 @@ public class Employee {
      * @param qualifications     Qualifikationen als JSON-String.
      * @param completedTrainings Abgeschlossene Trainings als JSON-String.
      * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param itAdmin            Ist der Mitarbeiter IT-Admin?
+     * @param hr                 Ist der Mitarbeiter in der HR-Abteilung?
+     * @param hrHead             Ist der Mitarbeiter HR-Leiter?
+     * @param isManager          Ist der Mitarbeiter ein Manager?
      * @author Elias Glauert
      */
     public Employee(String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId) {
-        // Die 'id' wird hier NICHT initialisiert. Sie wird NACH dem DB-Insert über setId() gesetzt.
+                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) { // NEUE PARAMETER
         this.username = username;
         this.password = password;
         this.permissionString = permissionString;
@@ -85,48 +92,55 @@ public class Employee {
         this.qualifications = qualifications;
         this.completedTrainings = completedTrainings;
         this.managerId = managerId;
+        this.itAdmin = itAdmin;
+        this.hr = hr;
+        this.hrHead = hrHead;
+        this.isManager = isManager; // NEUES FELD INITIALISIEREN
     }
 
     /**
      * Konstruktor für das Laden eines Employee-Objekts AUS der Datenbank,
      * bei dem die ID bereits bekannt ist.
      *
-     * @param id                 Die eindeutige ID des Mitarbeiters aus der Datenbank.
-     * @param username           Benutzername des Mitarbeiters.
-     * @param password           Passwort des Mitarbeiters.
-     * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
-     * @param firstName          Vorname.
-     * @param lastName           Nachname.
-     * @param email              E-Mail-Adresse.
-     * @param phoneNumber        Telefonnummer.
-     * @param dateOfBirth        Geburtsdatum.
-     * @param address            Adresse.
-     * @param gender             Geschlecht ('M' oder 'F').
-     * @param hireDate           Einstellungsdatum.
-     * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
-     * @param departmentId       ID der Abteilung.
-     * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
-     * @param roleId             ID der Rolle.
-     * @param qualifications     Qualifikationen als JSON-String.
+     * @param id               Die eindeutige ID des Mitarbeiters aus der Datenbank.
+     * @param username         Benutzername des Mitarbeiters.
+     * @param password         Passwort des Mitarbeiters.
+     * @param permissionString Berechtigungs-String (z.B. "admin,hr").
+     * @param firstName        Vorname.
+     * @param lastName         Nachname.
+     * @param email            E-Mail-Adresse.
+     * @param phoneNumber      Telefonnummer.
+     * @param dateOfBirth      Geburtsdatum.
+     * @param address          Adresse.
+     * @param gender           Geschlecht ('M' oder 'F').
+     * @param hireDate         Einstellungsdatum.
+     * @param employmentStatus Beschäftigungsstatus (z.B. "Active", "On Leave").
+     * @param departmentId     ID der Abteilung.
+     * @param teamId           ID des Teams (kann null sein, wenn kein Team zugewiesen).
+     * @param roleId           ID der Rolle.
+     * @param qualifications   Qualifikationen als JSON-String.
      * @param completedTrainings Abgeschlossene Trainings als JSON-String.
-     * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
-     * @param employeeDao
+     * @param managerId        ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param itAdmin          Ist der Mitarbeiter IT-Admin?
+     * @param hr               Ist der Mitarbeiter in der HR-Abteilung?
+     * @param hrHead           Ist der Mitarbeiter HR-Leiter?
+     * @param isManager        Ist der Mitarbeiter ein Manager?
      */
     public Employee(int id, String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId, EmployeeDao employeeDao) {
-        // Rufe den Hauptkonstruktor auf, um die Felder zu initialisieren
+                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) { // NEUE PARAMETER
         this(username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
-                gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId);
+                gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId,
+                itAdmin, hr, hrHead, isManager); // WEITERGABE DER NEUEN PARAMETER
         this.id = id; // Setze die ID, die aus der DB kam
     }
 
 
     // --- Getter und Setter ---
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; } // WICHTIG: Wird vom DAO nach DB-Insert gesetzt
+    public void setId(int id) { this.id = id; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -179,10 +193,43 @@ public class Employee {
     public String getCompletedTrainings() { return completedTrainings; }
     public void setCompletedTrainings(String completedTrainings) { this.completedTrainings = completedTrainings; }
 
-    public Integer getManagerId() { return managerId; } // Jetzt Integer
-    public void setManagerId(Integer managerId) { this.managerId = managerId; } // Jetzt Integer
+    public Integer getManagerId() { return managerId; }
+    public void setManagerId(Integer managerId) { this.managerId = managerId; }
 
-    // --- Standard Java Methoden ---
+    // GETTER UND SETTER FÜR NEUE BOOLEAN-FELDER
+    public boolean isItAdmin() {
+        return itAdmin;
+    }
+
+    public void setItAdmin(boolean itAdmin) {
+        this.itAdmin = itAdmin;
+    }
+
+    public boolean isHr() {
+        return hr;
+    }
+
+    public void setHr(boolean hr) {
+        this.hr = hr;
+    }
+
+    public boolean isHrHead() {
+        return hrHead;
+    }
+
+    public void setHrHead(boolean hrHead) {
+        this.hrHead = hrHead;
+    }
+
+    public boolean isManager() { // NEUER GETTER
+        return isManager;
+    }
+
+    public void setIsManager(boolean manager) { // NEUER SETTER
+        isManager = manager;
+    }
+
+    // --- Standard Java Methoden (equals, hashCode, toString) ---
     @Override
     public String toString() {
         return "Employee(" +
@@ -194,7 +241,11 @@ public class Employee {
                 ", phoneNumber='" + phoneNumber + "'" +
                 ", departmentId='" + departmentId + "'" +
                 ", roleId='" + roleId + "'" +
-                ", managerId=" + managerId + // Füge managerId hinzu
+                ", managerId=" + managerId +
+                ", itAdmin=" + itAdmin +
+                ", hr=" + hr +
+                ", hrHead=" + hrHead +
+                ", isManager=" + isManager + // Hinzufügen
                 ")";
     }
 
@@ -204,41 +255,52 @@ public class Employee {
         if (object == null || getClass() != object.getClass()) return false;
         Employee employee = (Employee) object;
         // Primärschlüssel-Gleichheit ist oft am wichtigsten für Datenbankobjekte
-        // Wenn die ID eindeutig ist und die primäre Identifikation, ist dieser Vergleich ausreichend.
-        // Andernfalls, wenn alle Felder für Gleichheit wichtig sind, erweitere den Vergleich.
         return id == employee.id;
+        /*
+        // Für einen strengeren Vergleich aller relevanten Felder (wenn ID allein nicht reicht):
+        return id == employee.id &&
+               Objects.equals(username, employee.username) &&
+               Objects.equals(password, employee.password) &&
+               Objects.equals(permissionString, employee.permissionString) &&
+               Objects.equals(firstName, employee.firstName) &&
+               Objects.equals(lastName, employee.lastName) &&
+               Objects.equals(email, employee.email) &&
+               Objects.equals(phoneNumber, employee.phoneNumber) &&
+               Objects.equals(dateOfBirth, employee.dateOfBirth) &&
+               Objects.equals(address, employee.address) &&
+               gender == employee.gender &&
+               Objects.equals(hireDate, employee.hireDate) &&
+               Objects.equals(employmentStatus, employee.employmentStatus) &&
+               Objects.equals(departmentId, employee.departmentId) &&
+               Objects.equals(teamId, employee.teamId) &&
+               Objects.equals(roleId, employee.roleId) &&
+               Objects.equals(qualifications, employee.qualifications) &&
+               Objects.equals(completedTrainings, employee.completedTrainings) &&
+               Objects.equals(managerId, employee.managerId) &&
+               itAdmin == employee.itAdmin &&
+               hr == employee.hr &&
+               hrHead == employee.hrHead &&
+               isManager == employee.isManager; // Hinzufügen
+        */
     }
 
     @Override
     public int hashCode() {
-        // Generiert einen Hash-Code basierend auf allen Feldern, die in equals() verwendet werden.
-        // Wenn equals() nur auf der ID basiert, sollte hashCode() auch nur auf der ID basieren.
-        // Hier basierend auf allen Feldern für einen robusteren Hash, passend zum kommentierten equals().
+        // Hinzufügen der neuen Felder zum hashCode
         return Objects.hash(id, username, password, permissionString, firstName, lastName, email, phoneNumber,
                 dateOfBirth, address, gender, hireDate, employmentStatus, departmentId, teamId,
-                roleId, qualifications, completedTrainings, managerId);
+                roleId, qualifications, completedTrainings, managerId, itAdmin, hr, hrHead, isManager);
     }
 
     // --- Geschäftslogik-Methoden (TODOs bleiben bestehen) ---
     public boolean isHR() {
-        // TODO: Implementiere diese Funktion, z.B. durch Überprüfung von permissionString oder roleId
-        return false;
+        return hr;
     }
 
     public boolean isAdmin() {
-        // TODO: Implementiere diese Funktion, z.B. durch Überprüfung von permissionString
-        return false;
+        return itAdmin;
     }
 
-    /**
-     * Gibt den Manager des Mitarbeiters zurück, indem der bereitgestellte EmployeeManager zur Suche verwendet wird.
-     * Diese Methode sollte nur aufgerufen werden, wenn eine aktive Instanz von EmployeeManager verfügbar ist,
-     * da das Employee-Objekt selbst keine Logik zum Suchen anderer Employees hat.
-     *
-     * @param employeeManager Der EmployeeManager, der für die Suche des Managers verwendet wird.
-     * @return Objekt des Typs Employee, welches den Manager beinhaltet, oder null wenn kein Manager zugewiesen oder gefunden wurde.
-     * @author Elias Glauert
-     */
     public Employee getManager(core.EmployeeManager employeeManager) {
         if (employeeManager == null) {
             System.err.println("Fehler: EmployeeManager für getManager() ist null.");

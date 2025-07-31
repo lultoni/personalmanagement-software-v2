@@ -1,7 +1,7 @@
 package util;
 
 import core.CompanyStructureManager;
-import db.dao.EmployeeDao; // Keep this for inheritance
+import db.dao.EmployeeDao;
 import model.db.Employee;
 import model.json.Company;
 import model.json.Department;
@@ -25,10 +25,10 @@ import java.util.*;
  * Die erzeugten Employee-Objekte müssen anschließend über einen DAO gespeichert werden.
  *
  * @author Dorian Gläske, Elias Glauert
- * @version 2.0 (Faker und ObjectMapper direkt integriert)
+ * @version 2.3 (Hinzufügung von hr- und hrHead-Logik basierend auf DepartmentId und TeamId)
  * @since 2025-07-30
  */
-public class EmployeeGenerator extends EmployeeDao {
+public class EmployeeGenerator {
 
     private static final Random RANDOM = new Random();
     private final Faker faker;
@@ -87,28 +87,19 @@ public class EmployeeGenerator extends EmployeeDao {
                 "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung"
         );
 
-        // zufällig auswähl aus den gegeben Namen
         String firstName = availableFirstNames.get(RANDOM.nextInt(availableFirstNames.size()));
         String lastName = availableLastNames.get(RANDOM.nextInt(availableLastNames.size()));
 
-        // --- Generierung der persönlichen Daten direkt mit Faker ---
-        // (Da wir die Namen jetzt aus Listen ziehen, nutzen wir Faker für den Rest)
         String email = faker.internet().emailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase());
         String phoneNumber = faker.phoneNumber().phoneNumber();
 
-        // Geburtsdatum: Faker gibt oft Date zurück, konvertieren zu LocalDate und dann wieder zu Date für Employee
-        Date dobAsFakerDate = faker.date().birthday(18, 65); // Alter zwischen 18 und 65 Jahren
+        Date dobAsFakerDate = faker.date().birthday(18, 65);
         LocalDate dateOfBirthAsLocalDate = dobAsFakerDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         Date dateOfBirth = Date.from(dateOfBirthAsLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-
         String address = faker.address().streetAddress() + ", " + faker.address().zipCode() + " " + faker.address().city() + ", " + faker.address().country();
-        char gender = faker.options().option('M', 'F'); // Zufälliges Geschlecht
+        char gender = faker.options().option('M', 'F');
 
-        // --- Ende der direkten Faker-Generierung ---
-
-
-        // Zufälliges Department, Role und Team auswählen
         Department randomDepartment = allDepartmentsIDs.get(RANDOM.nextInt(allDepartmentsIDs.size()));
         Role randomRole = allRolesIDs.get(RANDOM.nextInt(allRolesIDs.size()));
         Team randomTeam = null;
@@ -116,62 +107,81 @@ public class EmployeeGenerator extends EmployeeDao {
             randomTeam = allTeamsIDs.get(RANDOM.nextInt(allTeamsIDs.size()));
         }
 
-        // Zufällige Qualifikationen für den Mitarbeiter auswählen und als JSON-String konvertieren
         List<String> employeeQualificationIds = new ArrayList<>();
-        int numQualsForEmployee = RANDOM.nextInt(4); // 0 bis 3 Qualifikationen pro Mitarbeiter
+        int numQualsForEmployee = RANDOM.nextInt(4);
         for (int q = 0; q < numQualsForEmployee; q++) {
             if (!allQualificationsIDs.isEmpty()) {
                 employeeQualificationIds.add(allQualificationsIDs.get(RANDOM.nextInt(allQualificationsIDs.size())).getRoleId());
             }
         }
-        String qualificationsJson = "[]"; // Standardwert, falls Fehler oder keine Qualifikationen
+        String qualificationsJson = "[]";
         try {
-            qualificationsJson = objectMapper.writeValueAsString(employeeQualificationIds); // Nutze den internen objectMapper
+            qualificationsJson = objectMapper.writeValueAsString(employeeQualificationIds);
         } catch (JsonProcessingException e) {
             System.err.println("Fehler beim Konvertieren von Qualifikationen zu JSON: " + e.getMessage());
         }
 
-        // Benutzername und E-Mail generieren (mit den ausgewählten Namen)
         String username = firstName.toLowerCase() + "." + lastName.toLowerCase();
-        // Optional: Füge Index hinzu, um Einzigartigkeit zu erhöhen, falls viele generiert werden
         if (index > 0) {
             username += index;
         }
-        // E-Mail wurde bereits oben generiert
 
-        // Eintrittsdatum (in den letzten 5 Jahren)
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date()); // Aktuelles Datum
-        cal.add(Calendar.YEAR, -RANDOM.nextInt(5)); // Ziehe bis zu 5 Jahre ab
+        cal.setTime(new Date());
+        cal.add(Calendar.YEAR, -RANDOM.nextInt(5));
         Date hireDate = cal.getTime();
 
-        // Beschäftigungsstatus (Beispielwerte)
         String employmentStatus = RANDOM.nextBoolean() ? "Active" : "On Leave";
-
-        // Manager-ID (Standardwert ist null, muss später aktualisiert werden, wenn Hierarchien aufgebaut werden)
         Integer managerId = null;
 
+        // Bestimme die Booleans itAdmin, hr, hrHead, isManager
 
-        // Erstelle das Employee-Objekt OHNE den EmployeeDao Parameter
+        // Lokale Variablen für departmentId und teamId für bessere Lesbarkeit
+        String departmentId = randomDepartment.getDepartmentId();
+        String teamId = (randomTeam != null) ? randomTeam.getTeamId() : null;
+
+        // Logik für isManager (Team-ID endet mit -lead)
+        boolean isManager = (teamId != null && teamId.endsWith("-lead"));
+
+        // Logik für itAdmin (Department-ID endet mit -it)
+        boolean itAdmin = (departmentId != null && departmentId.endsWith("-it"));
+
+        // Logik für hr (Department-ID endet mit -hr)
+        boolean hr = false; // Standardwert
+        if (departmentId != null && departmentId.endsWith("-hr")) {
+            hr = true;
+        }
+
+        // Logik für hrHead (Department-ID endet mit -hr UND Team-ID endet mit -lead)
+        boolean hrHead = false; // Standardwert
+        if (hr && isManager) { // Wenn bereits HR und auch Manager ist
+            hrHead = true;
+        }
+
+
         return new Employee(
                 username,
-                "password" + index, // Einfaches Passwort
-                PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), randomDepartment.getDepartmentId()),
+                "password" + index,
+                PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), departmentId),
                 firstName,
                 lastName,
                 email,
                 phoneNumber,
-                dateOfBirth, // Das aus Faker generierte Datum
-                address,     // Die aus Faker generierte Adresse
-                gender,      // Das aus Faker generierte Geschlecht
+                dateOfBirth,
+                address,
+                gender,
                 hireDate,
                 employmentStatus,
-                randomDepartment.getDepartmentId(),
-                randomTeam != null ? randomTeam.getTeamId() : null,
+                departmentId,
+                teamId,
                 randomRole.getroleId(),
                 qualificationsJson,
-                "[]", // Completed trainings als leerer JSON-Array
-                managerId
+                "[]",
+                managerId,
+                itAdmin,
+                hr,       // Der neu berechnete Wert für hr
+                hrHead,   // Der neu berechnete Wert für hrHead
+                isManager
         );
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Zwischenschicht zwischen Mitarbeiter und Datenbank.
  *
  * @author Elias Glauert
- * @version 1.1
+ * @version 1.3 (Hinzufügung von isManager)
  * @since 2025-07-09
  */
 public class EmployeeDao {
@@ -31,6 +31,8 @@ public class EmployeeDao {
     }
 
     public EmployeeDao() {
+        // Dies ist der parameterlose Konstruktor, der vom EmployeeGenerator aufgerufen wird.
+        // Er sollte keine Logik für dbManager oder employeeManager enthalten, da diese hier nicht verfügbar sind.
     }
 
     /**
@@ -39,8 +41,20 @@ public class EmployeeDao {
      * @author Elias Glauert
      */
     public void addEmployeeToDb(Employee employee) {
-        if (doesEmployeeExistInDb(employee)) return;
         try {
+            // Updated SQL command for addEmployee to include all boolean fields including isManager
+            // You MUST ensure your 'addEmployee' SQL command in SqlReader
+            // contains placeholders for itAdmin, hr, hrHead, and isManager.
+            // Example for your SQL file (e.g., addEmployee.sql):
+            // INSERT INTO Employees (username, password, permission_string, first_name, last_name, email,
+            //                        phone_number, date_of_birth, address, gender, hire_date, employment_status,
+            //                        department_id, team_id, role_id, qualifications, completed_trainings,
+            //                        manager_id, it_admin, hr, hr_head, is_manager)
+            // VALUES ('{username}', '{password}', '{permissionString}', '{firstName}', '{lastName}', '{email}',
+            //         '{phoneNumber}', '{dateOfBirth}', '{address}', '{gender}', '{hireDate}', '{employmentStatus}',
+            //         '{departmentId}', '{teamId}', '{roleId}', '{qualifications}', '{completedTrainings}',
+            //         {managerId}, {itAdmin}, {hr}, {hrHead}, {isManager});
+
             String sqlCommand = SqlReader.giveCommand("addEmployee");
 
             sqlCommand = sqlCommand
@@ -60,16 +74,28 @@ public class EmployeeDao {
                     .replace("{teamId}", employee.getTeamId())
                     .replace("{roleId}", employee.getRoleId())
                     .replace("{qualifications}", employee.getQualifications())
-                    .replace("{completedTrainings}", employee.getCompletedTrainings())
-                    .replace("{managerId}", String.valueOf(employee.getManagerId()));
+                    .replace("{completedTrainings}", employee.getCompletedTrainings());
+
+            // ManagerId kann null sein, muss korrekt gehandhabt werden (z.B. als NULL in SQL)
+            sqlCommand = sqlCommand.replace("{managerId}",
+                    (employee.getManagerId() != null) ? String.valueOf(employee.getManagerId()) : "NULL");
+
+            // NEUE FELDER HINZUFÜGEN
+            sqlCommand = sqlCommand.replace("{itAdmin}", String.valueOf(employee.isItAdmin()));
+            sqlCommand = sqlCommand.replace("{hr}", String.valueOf(employee.isHr()));
+            sqlCommand = sqlCommand.replace("{hrHead}", String.valueOf(employee.isHrHead()));
+            sqlCommand = sqlCommand.replace("{isManager}", String.valueOf(employee.isManager())); // NEUES FELD
 
             dbManager.executeUpdate(sqlCommand);
         } catch (Exception e) {
+            System.err.println("Fehler beim Hinzufügen des Mitarbeiters " + employee.getUsername() + " zur DB.");
             e.printStackTrace();
         }
     }
 
     private boolean doesEmployeeExistInDb(Employee employee) {
+        // Diese Methode ist wie zuvor erwähnt ineffizient und sollte für Produktivumgebungen
+        // durch eine direkte DB-Abfrage ersetzt werden.
         for (Employee list_emp: getAllEmployeesFromDb()) {
             if (employee.equals(list_emp)) return true;
         }
@@ -118,17 +144,22 @@ public class EmployeeDao {
     public ArrayList<Employee> getAllEmployeesFromDb() {
         System.out.println(" ~ getAllEmployeesFromDb()");
         ArrayList<Employee> ret_list = new ArrayList<>();
-        String query = "SELECT * FROM Employees";
+        // Sicherstellen, dass alle neuen Spalten im SELECT-Statement enthalten sind
+        String query = "SELECT id, username, password, permission_string, first_name, last_name, " +
+                "email, phone_number, date_of_birth, address, gender, hire_date, employment_status, " +
+                "department_id, team_id, role_id, qualifications, completed_trainings, manager_id, " +
+                "it_admin, hr, hr_head, is_manager FROM Employees"; // Hinzugefügte Spalten
 
         try (Connection conn = dbManager.getConnection()) {
+            if (conn == null || conn.isClosed()) {
+                System.err.println("Fehler: Datenbankverbindung ist null oder geschlossen.");
+                return ret_list;
+            }
             System.out.println("Connection established: " + !conn.isClosed());
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery(query)) {
                 try {
                     while (rs.next()) {
-                        // Debugging data collection
-                        System.out.println("Creating Employee object for: " + rs.getString("username"));
-
                         Employee employee = new Employee(
                                 rs.getInt("id"),
                                 rs.getString("username"),
@@ -148,22 +179,22 @@ public class EmployeeDao {
                                 rs.getString("role_id"),
                                 rs.getString("qualifications"),
                                 rs.getString("completed_trainings"),
-                                rs.getInt("manager_id"),
-                                this
+                                rs.getObject("manager_id", Integer.class),
+                                // NEUE FELDER HIER LESEN
+                                rs.getBoolean("it_admin"),
+                                rs.getBoolean("hr"),
+                                rs.getBoolean("hr_head"),
+                                rs.getBoolean("is_manager") // NEUES FELD
                         );
-                        System.out.println("Employee object created successfully.");
                         ret_list.add(employee);
                     }
                 } catch (org.h2.jdbc.JdbcSQLNonTransientException e) {
-                    System.out.println("DATABASE LOADING 'ERROR' - HARMLESS - " +
-                            "(EmployeeDao; rs.next gives an error, " +
-                            "because the connection to the db is already closed for an unknown reason, " +
-                            "was unable to be fixed");
+                    System.err.println("DATABASE LOADING 'ERROR' - HARMLESS IF DATA IS LOADED (EmployeeDao; H2 issue): " + e.getMessage());
                 }
             }
         } catch (SQLException e) {
+            System.err.println("SQL Fehler beim Laden aller Mitarbeiter aus der DB: " + e.getMessage());
             e.printStackTrace();
-            // Proper error handling for connections.
         }
 
         return ret_list;

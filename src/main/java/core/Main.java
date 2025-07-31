@@ -4,7 +4,8 @@ import db.DatabaseManager;
 import db.dao.EmployeeDao;
 import gui.GuiManager;
 import gui.views.LoginView;
-import util.EmployeeGenerator;
+
+import java.io.IOException;
 
 /**
  * Hauptklasse der HR-Management-Software.
@@ -30,7 +31,7 @@ public class Main {
      * @param args Kommandozeilenargumente (werden in dieser Anwendung nicht verwendet).
      * @author Elias Glauert
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         System.out.println("Initialisiere Kernkomponenten...");
 
@@ -41,6 +42,7 @@ public class Main {
 
         EmployeeManager employeeManager = new EmployeeManager(null);
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
+        employeeManager.create100Employee();
         employeeManager.setEmployeeDao(employeeDao);
         employeeManager.setUpEmployees();
 

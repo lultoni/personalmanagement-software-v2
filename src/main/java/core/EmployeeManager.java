@@ -2,7 +2,9 @@ package core;
 
 import db.dao.EmployeeDao;
 import model.db.Employee;
+import util.EmployeeCreationService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -38,6 +40,11 @@ public class EmployeeManager {
         employees.addAll(employeeDao.getAllEmployeesFromDb());
         System.out.println(" ~ db ~ all employees in EmployeeManager:");
         for (Employee employee: employees) System.out.println("   | " + employee.toString());
+    }
+
+    public void create100Employee() throws IOException {
+        EmployeeCreationService employeeCreationService = new EmployeeCreationService();
+        employeeCreationService.generate100Employees();
     }
 
     /**
