@@ -1,5 +1,6 @@
 package core.events;
 
+import gui.GuiManager;
 import util.PersistentInformationReader;
 
 /**
@@ -21,6 +22,8 @@ public class Event_BlockSystem extends Event {
 
         // TODO do we want to change the view here already, because only the administrator will be able to call this event
         PersistentInformationReader.setSystemBlocked(true);
+
+        GuiManager.getInstance().showLoginView();
     }
 
 }

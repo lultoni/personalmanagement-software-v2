@@ -59,6 +59,7 @@ public class Main {
 
         System.out.println("Starte grafische Benutzeroberfläche...");
         GuiManager guiManager = new GuiManager(eventManager, loginManager);
+        GuiManager.setInstance(guiManager);
         eventManager.setGuiManager(guiManager);
 
         eventManager.callEvent("changeView", new Object[]{new LoginView(loginManager)});

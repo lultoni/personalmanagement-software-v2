@@ -7,8 +7,9 @@ import core.Notification;
 import gui.elements.FeatureBar;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
-import gui.views.DefaultView;
+import gui.views.WelcomeView;
 import gui.views.View;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -71,6 +72,11 @@ public class MainFrame extends JFrame {
      */
     private GuiManager guiManager;
 
+    /**
+     * Login Manager um nach dem Blockieren, das Login Fenster anzuzeigen
+     */
+    private LoginManager loginManager;
+
     private boolean isFeatureBarHidden; // TODO idk ob wir die hier brauchen, ich dachte wir brauchen die aber hat keinen nutzen gerade
 
     /**
@@ -81,6 +87,7 @@ public class MainFrame extends JFrame {
         this.notifications = notifications;
         this.eventManager = eventManager;
         this.guiManager = guiManager;
+        this.loginManager = loginManager;
         isFeatureBarHidden = false;
 
         initFrameSettings();
@@ -117,7 +124,7 @@ public class MainFrame extends JFrame {
      * @author Elias Glauert
      */
     private void initComponents(LoginManager loginManager, GuiManager guiManager) {
-        currentView = new DefaultView();
+        currentView = new WelcomeView();
         featureBar = new FeatureBar(loginManager, eventManager);
         titleBar = new TitleBar(guiManager);
         notificationHub = new NotificationHub(notifications, eventManager, guiManager);
@@ -271,4 +278,9 @@ public class MainFrame extends JFrame {
     public View getCurrentView() {
         return currentView;
     }
+
+    public LoginManager getLoginManager() {
+        return loginManager;
+    }
+
 }

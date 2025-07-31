@@ -4,6 +4,7 @@ import gui.views.LoginView;
 import model.db.Employee;
 import util.PersistentInformationReader;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -18,6 +19,7 @@ public class LoginManager {
     public static final int LOGIN_SUCCESS = 101;
     public static final int USERNAME_NOT_FOUND = 401;
     public static final int PASSWORD_INCORRECT = 402;
+    public static final int STATUS_BLOCKED = 403;
 
     EmployeeManager employeeManager;
     EventManager eventManager;
@@ -72,6 +74,7 @@ public class LoginManager {
             System.out.println(" | Passwort ist falsch");
             return PASSWORD_INCORRECT;
         }
+
     }
 
     public void proceedToSoftware() {

@@ -16,7 +16,7 @@ public class SearchView extends View {
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // 🔍 Suchfeld mit Platzhaltertext
+        // Suchfeld mit Platzhaltertext
         JTextField searchField = new JTextField("Suche ...");
         searchField.setForeground(Color.GRAY);
         searchField.setMaximumSize(new Dimension(320, 30));
@@ -41,7 +41,7 @@ public class SearchView extends View {
         searchPanel.add(searchField);
         searchPanel.add(Box.createHorizontalStrut(10));
 
-        // 🏢 Abteilungs-Dropdown mit Platzhalter „Abteilung“
+        // Abteilungs-Dropdown mit Platzhalter „Abteilung“
         String[] departments = {
                 "Abteilung",  // Platzhalter
                 "Abteilung IT",
@@ -84,7 +84,7 @@ public class SearchView extends View {
         searchPanel.add(departmentDropdown);
         searchPanel.add(Box.createHorizontalStrut(10));
 
-        // ✅ Checkbox "Nur Abteilungsleiter"
+        // Checkbox "Nur Abteilungsleiter"
         JCheckBox headOnlyCheckBox = new JCheckBox("Nur Abteilungsleiter");
         headOnlyCheckBox.setMaximumSize(new Dimension(160, 30));
         searchPanel.add(headOnlyCheckBox);

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-/**
+/*
  * Diese Klasse generiert vollständig befüllte Employee-Objekte
  * basierend auf dynamischen Daten (mittels Faker) und der geladenen Unternehmensstruktur.
  * Sie kümmert sich NICHT um die Persistenz in der Datenbank.

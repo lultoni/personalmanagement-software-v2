@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import gui.views.LoginView;
+
 
 /**
  * Diese Klasse verwaltet das GUI.
@@ -26,6 +28,9 @@ public class GuiManager {
     private final int fallbackCurrentViewIndex = -1;
 
     private MainFrame mainFrame;
+
+    private static GuiManager instance;
+
 
     public GuiManager(EventManager eventManager, LoginManager loginManager) {
         this.view_history = new ArrayList<>();
@@ -171,6 +176,16 @@ public class GuiManager {
         return currentViewIndex;
     }
 
+
+    /**
+     * Zeigt den LoginView an und leert ggf. den View-Verlauf.
+     */
+    public void showLoginView() {
+        resetViewHistory();
+        System.out.println("   | Forced Move to Login Screen via showLoginView()");
+        mainFrame.changeView(new LoginView(mainFrame.getLoginManager()), false, false, true);
+
+    }
     /**
      * Fügt dem angegebenen JButton einen Hover Effect hinzu.
      * @author Elias Glauert
@@ -193,5 +208,11 @@ public class GuiManager {
             }
         });
     }
+    public static GuiManager getInstance() {
+        return instance;
+    }
 
+    public static void setInstance(GuiManager guiManager) {
+        instance = guiManager;
+    }
 }
