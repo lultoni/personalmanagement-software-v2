@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Login View für das GUI.
@@ -27,13 +30,34 @@ public class LoginView extends View {
     // TODO rewrite this constructor, so that it does not look like it was written by chatgpt
     public LoginView(LoginManager loginManager) {
         this.loginManager = loginManager;
+        BufferedImage backgroundImage;
+        try {
+            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/notif/Hintergrundbild.png"));
+        } catch (IOException e) {
+            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
+        }
+
 
         setView_id("view-login");
         setView_name("Login Fenster");
 
-        // MainPanel
+
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); // Transparenz
+                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                g2d.dispose();
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setOpaque(false);
+
+
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(new Color(240, 248, 255)); // Hintergrundfarbe
+        mainPanel.setOpaque(false); // Transparent, damit Hintergrund durchscheint
 
         if (PersistentInformationReader.isSystemBlocked()) {
             JLabel blockedLabel = new JLabel("<html><div style='text-align: center;'>"
@@ -43,8 +67,9 @@ public class LoginView extends View {
             blockedLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
             blockedLabel.setForeground(Color.RED);
             mainPanel.add(blockedLabel);
+            backgroundPanel.add(mainPanel, BorderLayout.CENTER);
             setLayout(new BorderLayout());
-            add(mainPanel, BorderLayout.CENTER);
+            add(backgroundPanel, BorderLayout.CENTER);
             return;
         }
 
@@ -146,8 +171,9 @@ public class LoginView extends View {
 
         mainPanel.add(loginPanel);
 
+        backgroundPanel.add(mainPanel, BorderLayout.CENTER);
         setLayout(new BorderLayout());
-        add(mainPanel, BorderLayout.CENTER);
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
     /**
