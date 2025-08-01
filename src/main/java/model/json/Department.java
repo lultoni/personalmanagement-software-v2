@@ -15,11 +15,11 @@ public class Department {
 
     private String departmentId;
     private String name;
-    private ArrayList<String> teams;
+    private ArrayList<String> teamId;
 
     // Standardkonstruktor (No-Arg Constructor)
     public Department() {
-        this.teams = new ArrayList<>();
+        this.teamId = new ArrayList<>();
     }
 
     // Parametrisierter Konstruktor
@@ -43,12 +43,12 @@ public class Department {
         this.name = name;
     }
 
-    public ArrayList<String> getTeams() {
-        return teams;
+    public ArrayList<String> getTeamId() {
+        return teamId;
     }
 
-    public void setTeams(ArrayList<String> teams) {
+    public void setTeamId(ArrayList<String> teams) {
         // Auch hier: Sicherstellen, dass die Liste kopiert wird und nicht nur eine Referenz gesetzt wird.
-        this.teams = (teams != null) ? new ArrayList<>(teams) : new ArrayList<>();
+        this.teamId = (teams != null) ? new ArrayList<>(teams) : new ArrayList<>();
     }
 }

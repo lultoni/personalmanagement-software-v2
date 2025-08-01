@@ -13,22 +13,23 @@ import java.util.ArrayList;
 public class Team {
     private String teamId;
     private String name;
-    private ArrayList<String> roles;
+    private ArrayList<String> roleId;
+
 
     public Team(){
 
     }
 
-    public Team(String teamId, String name, ArrayList<String> roles) {
+    public Team(String teamId, String name, ArrayList<String> roleId) {
         this.teamId = teamId;
         this.name = name;
-        this.roles = roles;
+        this.roleId = roleId;
     }
 
     public String getTeamId() { return teamId; }
     public void setTeamId(String teamId) { this.teamId = teamId; }
-    public String getTeamName() { return name; }
-    public void setTeamName(String name) { this.name = name; }
-    public ArrayList<String> getTeamRoles() { return roles; }
-    public void setTeamRoles(ArrayList<String> roles) { this.roles = roles; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public ArrayList<String> getRoleId() { return roleId; }
+    public void setRoleId(ArrayList<String> roles) { this.roleId = roles; }
 }

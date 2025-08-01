@@ -127,7 +127,7 @@
     ]
   },
   {
-    "teamIid": "team-cost-estimation",
+    "teamId": "team-cost-estimation",
     "name": "Cost Estimation Team",
     "roleId": [
       "role-cost-estimator",
