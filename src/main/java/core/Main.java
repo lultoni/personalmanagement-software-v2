@@ -40,13 +40,13 @@ public class Main {
         backupManager = new DatabaseManager(true);
         backupManager.setupDatabase();
 
-        EmployeeManager employeeManager = new EmployeeManager(null);
+        EmployeeManager employeeManager = new EmployeeManager(null, dbManager);
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
-        employeeManager.create100Employee();
         employeeManager.setEmployeeDao(employeeDao);
         employeeManager.setUpEmployees();
+        if (!employeeManager.hasEmployeesGenerated()) employeeManager.create100Employee();
 
-        EventManager eventManager = new EventManager(null, null, dbManager, backupManager);
+        EventManager eventManager = new EventManager(null, null, dbManager, backupManager, employeeManager);
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
 
@@ -60,7 +60,7 @@ public class Main {
         loginManager = new LoginManager(employeeManager, eventManager);
 
         System.out.println("Starte grafische Benutzeroberfläche...");
-        GuiManager guiManager = new GuiManager(eventManager, loginManager);
+        GuiManager guiManager = new GuiManager(eventManager, loginManager, employeeManager);
         GuiManager.setInstance(guiManager);
         eventManager.setGuiManager(guiManager);
 

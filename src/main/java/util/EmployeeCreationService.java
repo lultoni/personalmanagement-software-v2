@@ -1,9 +1,15 @@
 package util; // Dein gewähltes Paket
 
+import core.EmployeeManager;
+import db.DatabaseManager;
 import db.dao.EmployeeDao;
+import gui.views.EmployeeInfoView;
 import model.db.Employee;
+import org.h2.engine.Database;
+import org.h2.jmx.DatabaseInfoMBean;
 import util.EmployeeGenerator; // Importiere deinen EmployeeGenerator
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +27,9 @@ import java.util.List;
 public class EmployeeCreationService {
 
     private final EmployeeGenerator employeeGenerator;
+    private DatabaseManager databaseManager;
+    private EmployeeManager employeeManager;
+    private EmployeeDao employeeDao;
 
     /**
      * Konstruktor für EmployeeCreationService.
@@ -29,8 +38,10 @@ public class EmployeeCreationService {
      * @throws IOException Wenn beim Initialisieren des EmployeeGenerators ein Fehler auftritt (z.B. beim Laden der JSON-Dateien).
      * @throws IllegalStateException Wenn die Unternehmensstruktur unvollständig geladen wurde.
      */
-    public EmployeeCreationService() throws IOException, IllegalStateException {
+    public EmployeeCreationService(DatabaseManager databaseManager, EmployeeManager employeeManager, EmployeeDao employeeDao) throws IOException, IllegalStateException {
         this.employeeGenerator = new EmployeeGenerator();
+        this.databaseManager = databaseManager;
+        this.employeeDao = employeeDao;
         System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert.");
     }
 
@@ -64,11 +75,11 @@ public class EmployeeCreationService {
         return generatedEmployees;
     }
 
+    // TODO wandel diese methode dazu um, dass einfach nur die andere methode aufgerufen wird mit dem parameter 100
     public void generate100Employees() {
         try {
-            EmployeeCreationService service = new EmployeeCreationService();
             int employeesToCreate = 100; // Oder jede andere gewünschte Menge
-            List<Employee> employees = service.generateEmployees(employeesToCreate);
+            List<Employee> employees = generateEmployees(employeesToCreate);
 
             System.out.println("\n--- Zusammenfassung ---");
             System.out.println("Total generierte Mitarbeiter: " + employees.size());
@@ -81,14 +92,10 @@ public class EmployeeCreationService {
                 System.out.println("  " + emp.toString() + " | Is Manager: " + emp.isManager());
             }
 
-            EmployeeDao employeeDao = new EmployeeDao();
             for (Employee emp : employees) {
                 employeeDao.addEmployeeToDb(emp);
             }
 
-        } catch (IOException e) {
-            System.err.println("Fehler beim Initialisieren des EmployeeCreationService (JSON-Dateien oder IO-Problem): " + e.getMessage());
-            e.printStackTrace();
         } catch (IllegalStateException e) {
             System.err.println("Fehler in der Unternehmensstruktur (CompanyStructureManager): " + e.getMessage());
             e.printStackTrace();

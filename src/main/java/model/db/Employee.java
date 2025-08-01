@@ -292,15 +292,6 @@ public class Employee {
                 roleId, qualifications, completedTrainings, managerId, itAdmin, hr, hrHead, isManager);
     }
 
-    // --- Geschäftslogik-Methoden (TODOs bleiben bestehen) ---
-    public boolean isHR() {
-        return hr;
-    }
-
-    public boolean isAdmin() {
-        return itAdmin;
-    }
-
     public Employee getManager(core.EmployeeManager employeeManager) {
         if (employeeManager == null) {
             System.err.println("Fehler: EmployeeManager für getManager() ist null.");

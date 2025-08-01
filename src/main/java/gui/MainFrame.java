@@ -1,12 +1,10 @@
 package gui;
 
-import core.EventManager;
-import core.LoginManager;
-import core.Main;
-import core.Notification;
+import core.*;
 import gui.elements.FeatureBar;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
+import gui.views.DefaultView;
 import gui.views.WelcomeView;
 import gui.views.View;
 
@@ -83,7 +81,7 @@ public class MainFrame extends JFrame {
      * Konstruktor für die MainFrame.
      * @author Elias Glauert
      */
-    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager, GuiManager guiManager) {
+    public MainFrame(ArrayList<Notification> notifications, EventManager eventManager, LoginManager loginManager, GuiManager guiManager, EmployeeManager employeeManager) {
         this.notifications = notifications;
         this.eventManager = eventManager;
         this.guiManager = guiManager;
@@ -91,7 +89,7 @@ public class MainFrame extends JFrame {
         isFeatureBarHidden = false;
 
         initFrameSettings();
-        initComponents(loginManager, guiManager);
+        initComponents(loginManager, guiManager, employeeManager);
         setVisible(true);
     }
 
@@ -123,8 +121,8 @@ public class MainFrame extends JFrame {
      * Initialisiert die Komponenten, welche in die JFrame kommen.
      * @author Elias Glauert
      */
-    private void initComponents(LoginManager loginManager, GuiManager guiManager) {
-        currentView = new WelcomeView();
+    private void initComponents(LoginManager loginManager, GuiManager guiManager, EmployeeManager employeeManager) {
+        currentView = new DefaultView();
         featureBar = new FeatureBar(loginManager, eventManager);
         titleBar = new TitleBar(guiManager);
         notificationHub = new NotificationHub(notifications, eventManager, guiManager);

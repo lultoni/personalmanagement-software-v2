@@ -84,7 +84,7 @@ public class EmployeeDataView extends View {
             fields.add("roleId");
         }
 
-        if (loggedInUser.isHR() || loggedInUser.isAdmin()) {
+        if (loggedInUser.isHr() || loggedInUser.isItAdmin()) {
             fields.add("fullAccess");
             // TODO das field gibt nur "Vollzugriff gewährt" zurück
         }
@@ -153,7 +153,7 @@ public class EmployeeDataView extends View {
      * @author Elias Glauert
      */
     private boolean canEditData() {
-        return loggedInUser.equals(employee) || loggedInUser.isHR() || loggedInUser.isAdmin();
+        return loggedInUser.equals(employee) || loggedInUser.isHr() || loggedInUser.isItAdmin();
     }
 
     @Override
