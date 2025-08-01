@@ -19,7 +19,7 @@ public class SchulungView extends View {
 
         BufferedImage backgroundImage;
         try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/notif/Hintergrundbild.png"));
+            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
         } catch (IOException e) {
             throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
         }
