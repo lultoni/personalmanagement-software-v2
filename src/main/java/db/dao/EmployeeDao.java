@@ -30,31 +30,13 @@ public class EmployeeDao {
         this.employeeManager = employeeManager;
     }
 
-    public EmployeeDao() {
-        // Dies ist der parameterlose Konstruktor, der vom EmployeeGenerator aufgerufen wird.
-        // Er sollte keine Logik für dbManager oder employeeManager enthalten, da diese hier nicht verfügbar sind.
-    }
-
     /**
      * Fügt einen Mitarbeiter in die Datenbank des DbManagers hinzu.
      * @param employee Mitarbeiter-Objekt, wessen Daten in die Datenbank eingefügt werden.
-     * @author Elias Glauert
+     * @author Elias Glauert, Dorian Gläske
      */
     public void addEmployeeToDb(Employee employee) {
         try {
-            // Updated SQL command for addEmployee to include all boolean fields including isManager
-            // You MUST ensure your 'addEmployee' SQL command in SqlReader
-            // contains placeholders for itAdmin, hr, hrHead, and isManager.
-            // Example for your SQL file (e.g., addEmployee.sql):
-            // INSERT INTO Employees (username, password, permission_string, first_name, last_name, email,
-            //                        phone_number, date_of_birth, address, gender, hire_date, employment_status,
-            //                        department_id, team_id, role_id, qualifications, completed_trainings,
-            //                        manager_id, it_admin, hr, hr_head, is_manager)
-            // VALUES ('{username}', '{password}', '{permissionString}', '{firstName}', '{lastName}', '{email}',
-            //         '{phoneNumber}', '{dateOfBirth}', '{address}', '{gender}', '{hireDate}', '{employmentStatus}',
-            //         '{departmentId}', '{teamId}', '{roleId}', '{qualifications}', '{completedTrainings}',
-            //         {managerId}, {itAdmin}, {hr}, {hrHead}, {isManager});
-
             String sqlCommand = SqlReader.giveCommand("addEmployee");
 
             sqlCommand = sqlCommand
@@ -76,15 +58,15 @@ public class EmployeeDao {
                     .replace("{qualifications}", employee.getQualifications())
                     .replace("{completedTrainings}", employee.getCompletedTrainings());
 
-            // ManagerId kann null sein, muss korrekt gehandhabt werden (z.B. als NULL in SQL)
+            // ManagerId can be null, handled as NULL in SQL
             sqlCommand = sqlCommand.replace("{managerId}",
                     (employee.getManagerId() != null) ? String.valueOf(employee.getManagerId()) : "NULL");
 
-            // NEUE FELDER HINZUFÜGEN
-            sqlCommand = sqlCommand.replace("{itAdmin}", String.valueOf(employee.isItAdmin()));
-            sqlCommand = sqlCommand.replace("{hr}", String.valueOf(employee.isHr()));
-            sqlCommand = sqlCommand.replace("{hrHead}", String.valueOf(employee.isHrHead()));
-            sqlCommand = sqlCommand.replace("{isManager}", String.valueOf(employee.isManager())); // NEUES FELD
+            // Update to ensure Boolean values are formatted correctly in SQL
+            sqlCommand = sqlCommand.replace("{itAdmin}", employee.isItAdmin() ? "TRUE" : "FALSE");
+            sqlCommand = sqlCommand.replace("{hr}", employee.isHr() ? "TRUE" : "FALSE");
+            sqlCommand = sqlCommand.replace("{hrHead}", employee.isHrHead() ? "TRUE" : "FALSE");
+            sqlCommand = sqlCommand.replace("{isManager}", employee.isManager() ? "TRUE" : "FALSE");
 
             dbManager.executeUpdate(sqlCommand);
         } catch (Exception e) {

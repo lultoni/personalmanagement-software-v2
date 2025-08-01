@@ -4,6 +4,7 @@ import core.events.*;
 import db.DatabaseManager;
 import gui.GuiManager;
 import gui.views.TestNotificationView;
+import gui.views.WelcomeView;
 
 import static core.Main.argsToString;
 
@@ -21,6 +22,7 @@ public class EventManager {
     private NotificationManager notificationManager;
     private DatabaseManager mainManager;
     private DatabaseManager backupManager;
+    private EmployeeManager employeeManager;
 
     /**
      * Konstruktor für den EventManager.
@@ -29,12 +31,13 @@ public class EventManager {
      * @param notificationManager Verbindung zum Notification Manager.
      * @author Elias Glauert
      */
-    public EventManager(GuiManager guiManager, NotificationManager notificationManager, DatabaseManager mainManager, DatabaseManager backupManager) {
+    public EventManager(GuiManager guiManager, NotificationManager notificationManager, DatabaseManager mainManager, DatabaseManager backupManager, EmployeeManager employeeManager) {
 
         this.guiManager = guiManager;
         this.notificationManager = notificationManager;
         this.mainManager = mainManager;
         this.backupManager = backupManager;
+        this.employeeManager = employeeManager;
 
     }
 
@@ -80,13 +83,7 @@ public class EventManager {
                 new Event_LoadBackup(new Object[]{mainManager, backupManager});
             }
             case "moveToHomeScreen" -> {
-                // TODO implement the correct home screen
-                //  es muss ja per se keinen expliziten home screen geben, es kann auch einfach
-                //   - view von den eigenen mitarbeiterdaten
-                //   - search view
-                //   - etc.
-                //  sein
-                callEvent("changeView", new Object[]{new TestNotificationView(this)});
+                callEvent("changeView", new Object[]{new WelcomeView(employeeManager)});
             }
             default -> System.out.println("   | Unexpected event_id '" + event_id + "'.");
         }

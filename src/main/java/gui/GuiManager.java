@@ -1,5 +1,6 @@
 package gui;
 
+import core.EmployeeManager;
 import core.EventManager;
 import core.LoginManager;
 import core.Notification;
@@ -32,11 +33,11 @@ public class GuiManager {
     private static GuiManager instance;
 
 
-    public GuiManager(EventManager eventManager, LoginManager loginManager) {
+    public GuiManager(EventManager eventManager, LoginManager loginManager, EmployeeManager employeeManager) {
         this.view_history = new ArrayList<>();
         this.currentViewIndex = fallbackCurrentViewIndex;
 
-        mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager, this);
+        mainFrame = new MainFrame(new ArrayList<>(), eventManager, loginManager, this, employeeManager);
     }
 
     public void updateNotificationList(ArrayList<Notification> notifications, boolean closePopUp) {

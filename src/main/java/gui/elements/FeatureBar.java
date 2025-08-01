@@ -95,7 +95,7 @@ public class FeatureBar extends JPanel {
         }
         JButton welcomeButton = new JButton("🏠 Startseite");
         welcomeButton.addActionListener(_ -> {
-            eventManager.callEvent("changeView", new Object[]{new WelcomeView()});
+            eventManager.callEvent("moveToHomeScreen", null);
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
 
