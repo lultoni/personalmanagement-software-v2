@@ -122,9 +122,7 @@ public class EmployeeGenerator {
         }
 
         String username = firstName.toLowerCase() + "." + lastName.toLowerCase();
-        if (index > 0) {
-            username += index;
-        }
+
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -161,7 +159,7 @@ public class EmployeeGenerator {
 
         return new Employee(
                 username,
-                "password" + index,
+                "123456",
                 PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), departmentId),
                 firstName,
                 lastName,

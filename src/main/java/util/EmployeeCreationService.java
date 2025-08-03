@@ -44,6 +44,9 @@ public class EmployeeCreationService {
         this.employeeDao = employeeDao;
         System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert.");
     }
+    public EmployeeCreationService(EmployeeGenerator employeeGenerator) {
+        this.employeeGenerator = employeeGenerator;
+    }
 
     /**
      * Generiert eine spezifizierte Anzahl von Employee-Objekten.
