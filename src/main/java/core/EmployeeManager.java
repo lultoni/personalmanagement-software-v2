@@ -4,6 +4,8 @@ import db.dao.EmployeeDao;
 import model.db.Employee;
 import util.EmployeeCreationService;
 import util.EmployeeGenerator;
+import db.DatabaseManager;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,14 +25,17 @@ public class EmployeeManager {
      */
     private ArrayList<Employee> employees;
     private EmployeeDao employeeDao;
+    private DatabaseManager databaseManager;
+
 
     /**
      * Konstruktor für die EmployeeManager Klasse.
      * @author Elias Glauert
      */
-    public EmployeeManager(EmployeeDao employeeDao) {
+    public EmployeeManager(EmployeeDao employeeDao, DatabaseManager databaseManager) {
         this. employeeDao = employeeDao;
-    }
+        this.databaseManager = databaseManager;
+        }
 
     /**
      * Adds all Employees from the DB to the employees ArrayList.
@@ -44,8 +49,7 @@ public class EmployeeManager {
     }
 
     public void create100Employee() throws IOException {
-        EmployeeGenerator employeeGenerator = new EmployeeGenerator();
-        EmployeeCreationService employeeCreationService = new EmployeeCreationService(employeeGenerator);
+        EmployeeCreationService employeeCreationService = new EmployeeCreationService(databaseManager,this,employeeDao);
         employeeCreationService.generate100Employees();
     }
 

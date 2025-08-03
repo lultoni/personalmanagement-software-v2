@@ -39,13 +39,10 @@ public class EmployeeCreationService {
      * @throws IllegalStateException Wenn die Unternehmensstruktur unvollständig geladen wurde.
      */
     public EmployeeCreationService(DatabaseManager databaseManager, EmployeeManager employeeManager, EmployeeDao employeeDao) throws IOException, IllegalStateException {
-        this.employeeGenerator = new EmployeeGenerator();
+        this.employeeGenerator = new EmployeeGenerator(employeeDao);
         this.databaseManager = databaseManager;
         this.employeeDao = employeeDao;
         System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert.");
-    }
-    public EmployeeCreationService(EmployeeGenerator employeeGenerator) {
-        this.employeeGenerator = employeeGenerator;
     }
 
     /**

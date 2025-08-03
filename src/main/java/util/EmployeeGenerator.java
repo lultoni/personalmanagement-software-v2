@@ -33,6 +33,7 @@ public class EmployeeGenerator {
     private static final Random RANDOM = new Random();
     private final Faker faker;
     private final ObjectMapper objectMapper;
+    private EmployeeDao  employeeDao;
 
     // Private Referenzen für die Unternehmensstruktur, die nur einmalig geladen werden
     private final Company mainCompany;
@@ -48,8 +49,8 @@ public class EmployeeGenerator {
      *
      * @throws IOException Wenn beim Laden der Unternehmensstruktur ein Fehler auftritt.
      */
-    public EmployeeGenerator() throws IOException {
-        super(); // Calls the no-arg constructor of EmployeeDao
+    public EmployeeGenerator(EmployeeDao employeeDao) throws IOException {
+        this.employeeDao = employeeDao;
         // Initialisiere Faker und ObjectMapper direkt im Konstruktor
         this.faker = new Faker(new Locale("de", "DE")); // Faker mit deutscher Lokalisierung
         this.objectMapper = new ObjectMapper(); // Standard ObjectMapper
