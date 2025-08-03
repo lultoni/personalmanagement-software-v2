@@ -87,6 +87,7 @@ public class EmployeeGenerator {
                 "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung"
         );
 
+
         String firstName = availableFirstNames.get(RANDOM.nextInt(availableFirstNames.size()));
         String lastName = availableLastNames.get(RANDOM.nextInt(availableLastNames.size()));
 

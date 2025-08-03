@@ -68,6 +68,7 @@ public class EmployeeCreationService {
             // Rufe die generateSingleEmployee Methode des EmployeeGenerators auf.
             // Diese Methode enthält jetzt die Logik für 'isManager'.
             Employee employee = employeeGenerator.generateSingleEmployee(i);
+            employee.setId(1000000+i);
             generatedEmployees.add(employee);
             // Optional: Fortschrittsanzeige
             if ((i + 1) % 10 == 0 || (i + 1) == numberOfEmployees) {
