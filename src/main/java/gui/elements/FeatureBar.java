@@ -2,11 +2,9 @@ package gui.elements;
 
 import core.EventManager;
 import core.LoginManager;
-import gui.views.EmployeeDataView;
-import gui.views.SchulungView;
-import gui.views.SearchView;
+import gui.views.*;
+import util.PermissionChecker;
 import util.PersistentInformationReader;
-import gui.views.WelcomeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -124,6 +122,9 @@ public class FeatureBar extends JPanel {
             logout_button.setMaximumSize(standardButtonSize);
 
         });
+
+
+
         featureButtonPanel.add(trainingButton);
 
         JButton shutdownButton = new JButton("💣 Systemeinstellungen");
@@ -134,7 +135,7 @@ public class FeatureBar extends JPanel {
             logout_button.setMaximumSize(standardButtonSize);
 
         });
-        featureButtonPanel.add(shutdownButton);
+        if (PermissionChecker.hasPermission('S') && PermissionChecker.hasPermission('B') ) featureButtonPanel.add(shutdownButton);
 
         return featureButtonPanel;
     }

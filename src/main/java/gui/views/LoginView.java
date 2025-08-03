@@ -32,7 +32,7 @@ public class LoginView extends View {
         this.loginManager = loginManager;
         BufferedImage backgroundImage;
         try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/notif/Hintergrundbild.png"));
+            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
         } catch (IOException e) {
             throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
         }
