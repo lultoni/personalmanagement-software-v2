@@ -42,6 +42,7 @@ public class Main {
 
         EmployeeManager employeeManager = new EmployeeManager(null,dbManager);
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
+        employeeManager.setEmployeeDao(employeeDao);
         employeeManager.create100Employee();
         employeeManager.setEmployeeDao(employeeDao);
         employeeManager.setUpEmployees();
