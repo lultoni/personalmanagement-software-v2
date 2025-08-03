@@ -31,11 +31,9 @@ public class Employee {
     private String departmentId;
     private String teamId;
     private String roleId;
-    private String qualifications;      // JSON-String
-    private String completedTrainings;  // JSON-String
-    private Integer managerId;          // Nutze Integer, damit es auch 'null' sein kann, falls kein Manager zugewiesen
-
-    // NEUE FELDER HIER
+    private String qualifications;
+    private String completedTrainings;
+    private Integer managerId;
     private boolean itAdmin;
     private boolean hr;
     private boolean hrHead;

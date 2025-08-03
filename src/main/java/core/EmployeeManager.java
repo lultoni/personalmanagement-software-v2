@@ -8,7 +8,9 @@ import db.DatabaseManager;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -54,12 +56,41 @@ public class EmployeeManager {
     }
 
     /**
-     * Fügt der Mitarbeiterliste einen Mitarbeiter hinzu.
+     * Fügt der Mitarbeiterliste einen Mitarbeiter hinzu und erstellt und speicher ihn.
      * @param employee Mitarbeiter der hinzugefügt wird.
-     * @author Elias Glauert
+     * @author Elias Glauert, Dorian Gläske
      */
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
+    public void addEmployee(Employee employee, String password, String permissionString, String firstName,
+                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
+                            char gender, Date hireDate, String employmentStatus, String departmentId,
+                            String teamId, String roleId, String qualifications, String completedTrainings,
+                            Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
+
+                employee.setUsername(firstName.toLowerCase() + "." + lastName.toLowerCase());
+                employee.setPassword("123456");
+                employee.setPermissionString(permissionString);
+                employee.setFirstName(firstName);
+                employee.setLastName(lastName);
+                employee.setEmail(email);
+                employee.setPhoneNumber(phoneNumber);
+                employee.setDateOfBirth(dateOfBirth);
+                employee.setAddress(address);
+                employee.setGender(gender);
+                Date today = new Date(); employee.setHireDate(today);
+                employee.setEmploymentStatus(employmentStatus);
+                employee.setDepartmentId(departmentId);
+                employee.setTeamId(teamId);
+                employee.setRoleId(roleId);
+                employee.setQualifications(qualifications);
+                employee.setCompletedTrainings(completedTrainings);
+                employee.setManagerId(managerId);
+                employee.setItAdmin(itAdmin);
+                employee.setHr(hr);
+                employee.setHrHead(hrHead);
+                employee.setIsManager(isManager);
+                employeeDao.addEmployeeToDb(employee);
+
+                employees.add(employee);
     }
 
     /**
