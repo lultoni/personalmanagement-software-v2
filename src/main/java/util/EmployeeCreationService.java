@@ -12,7 +12,9 @@ import util.EmployeeGenerator; // Importiere deinen EmployeeGenerator
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service-Klasse zur Generierung einer bestimmten Anzahl von Mitarbeiter-Objekten.
@@ -39,7 +41,7 @@ public class EmployeeCreationService {
      * @throws IllegalStateException Wenn die Unternehmensstruktur unvollständig geladen wurde.
      */
     public EmployeeCreationService(DatabaseManager databaseManager, EmployeeManager employeeManager, EmployeeDao employeeDao) throws IOException, IllegalStateException {
-        this.employeeGenerator = new EmployeeGenerator();
+        this.employeeGenerator = new EmployeeGenerator(employeeDao);
         this.databaseManager = databaseManager;
         this.employeeDao = employeeDao;
         System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert.");
@@ -58,19 +60,36 @@ public class EmployeeCreationService {
             throw new IllegalArgumentException("Anzahl der Mitarbeiter darf nicht negativ sein.");
         }
 
-        List<Employee> generatedEmployees = new ArrayList<>(numberOfEmployees); // Vorbelegung der Kapazität
+        List<Employee> generatedEmployees = new ArrayList<>(numberOfEmployees);
         System.out.println("\nEmployeeCreationService: Starte Generierung von " + numberOfEmployees + " Mitarbeitern...");
 
+        Set<String> usedUsernames = new HashSet<>(); // Set zur effizienten Speicherung und Überprüfung von Benutzernamen
+
         for (int i = 0; i < numberOfEmployees; i++) {
-            // Rufe die generateSingleEmployee Methode des EmployeeGenerators auf.
-            // Diese Methode enthält jetzt die Logik für 'isManager'.
-            Employee employee = employeeGenerator.generateSingleEmployee(i);
+            Employee employee;
+            String username;
+
+            // Schleife, um einen eindeutigen Benutzernamen zu generieren
+            do {
+                // Generiere einen neuen Mitarbeiter. Der Index wird hier nur für die Schleife verwendet.
+                employee = employeeGenerator.generateSingleEmployee(i);
+                username = employee.getUsername();
+            } while (usedUsernames.contains(username)); // Führe die Schleife erneut aus, wenn der Benutzername bereits existiert
+
+            // Füge den neuen, eindeutigen Benutzernamen zum Set hinzu
+            usedUsernames.add(username);
+
+            // Setze eine eindeutige ID (beispielhaft)
+            employee.setId(1000000 + i);
+
+            // Füge den Mitarbeiter der Liste hinzu
             generatedEmployees.add(employee);
-            // Optional: Fortschrittsanzeige
+
             if ((i + 1) % 10 == 0 || (i + 1) == numberOfEmployees) {
                 System.out.println("  " + (i + 1) + " Mitarbeiter generiert.");
             }
         }
+
         System.out.println("EmployeeCreationService: Generierung abgeschlossen.");
         return generatedEmployees;
     }

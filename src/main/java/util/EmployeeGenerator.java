@@ -33,6 +33,7 @@ public class EmployeeGenerator {
     private static final Random RANDOM = new Random();
     private final Faker faker;
     private final ObjectMapper objectMapper;
+    private EmployeeDao  employeeDao;
 
     // Private Referenzen für die Unternehmensstruktur, die nur einmalig geladen werden
     private final Company mainCompany;
@@ -48,8 +49,8 @@ public class EmployeeGenerator {
      *
      * @throws IOException Wenn beim Laden der Unternehmensstruktur ein Fehler auftritt.
      */
-    public EmployeeGenerator() throws IOException {
-        super(); // Calls the no-arg constructor of EmployeeDao
+    public EmployeeGenerator(EmployeeDao employeeDao) throws IOException {
+        this.employeeDao = employeeDao;
         // Initialisiere Faker und ObjectMapper direkt im Konstruktor
         this.faker = new Faker(new Locale("de", "DE")); // Faker mit deutscher Lokalisierung
         this.objectMapper = new ObjectMapper(); // Standard ObjectMapper
@@ -78,13 +79,23 @@ public class EmployeeGenerator {
         List<String> availableFirstNames = Arrays.asList(
                 "Lukas", "Emma", "Mia", "Noah", "Leon", "Lina", "Elias", "Paul", "Ben", "Anna",
                 "Luis", "Clara", "Felix", "Marie", "Jonas", "Laura", "Max", "Mila", "Tim", "Sophie",
-                "Julian", "Hannah", "David", "Lea", "Finn", "Emily", "Moritz", "Lilly", "Tom", "Nina"
+                "Julian", "Hannah", "David", "Lea", "Finn", "Emily", "Moritz", "Lilly", "Tom", "Nina",
+                "Alexander", "Amelie", "Anton", "Elisa", "Fabian", "Helena", "Jakob", "Julia", "Karl", "Karla",
+                "Kevin", "Lena", "Leo", "Leni", "Leonhard", "Magdalena", "Manuel", "Marlene", "Matteo", "Maya",
+                "Michael", "Nico", "Niklas", "Paula", "Philipp", "Pia", "Rafael", "Romy", "Samira", "Sandro",
+                "Sarah", "Sebastian", "Silas", "Simon", "Stella", "Stefan", "Theresa", "Valentin", "Victoria", "Vincent",
+                "Yannick", "Zoe", "Emil", "Greta", "Oskar", "Frieda", "Henri", "Ida", "Mathis", "Luisa"
         );
 
         List<String> availableLastNames = Arrays.asList(
                 "Müller", "Schmidt", "Schneider", "Fischer", "Weber", "Meyer", "Wagner", "Becker", "Hoffmann", "Schäfer",
                 "Koch", "Bauer", "Richter", "Klein", "Wolf", "Neumann", "Schwarz", "Zimmermann", "Braun", "Krüger",
-                "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung"
+                "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung",
+                "Baumann", "Baier", "Graf", "Winter", "Herrmann", "Pfeiffer", "Haas", "Simon", "Schulz", "Schuster",
+                "Huber", "Peters", "Thomas", "Keller", "Kuhn", "Seidel", "Walter", "Jäger", "Lenz", "Gärtner",
+                "Vogel", "Maier", "Winkler", "Engel", "Friedrich", "Thiel", "Kaiser", "Franke", "Scherer", "Brandt",
+                "Sommer", "Otto", "Wegner", "Groß", "Hahn", "Köhler", "Lehmann", "Albrecht", "Roth", "Schröder",
+                "Schmitz", "Ludwig", "Seifert", "Beck", "Eichhorn", "Sauer", "Brunner", "Götz", "Kolb", "Ebert"
         );
 
         String firstName = availableFirstNames.get(RANDOM.nextInt(availableFirstNames.size()));
@@ -122,9 +133,7 @@ public class EmployeeGenerator {
         }
 
         String username = firstName.toLowerCase() + "." + lastName.toLowerCase();
-        if (index > 0) {
-            username += index;
-        }
+
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -161,7 +170,7 @@ public class EmployeeGenerator {
 
         return new Employee(
                 username,
-                "password" + index,
+                "123456",
                 PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), departmentId),
                 firstName,
                 lastName,

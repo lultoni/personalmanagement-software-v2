@@ -1,11 +1,12 @@
 package core;
 
-import db.DatabaseManager;
 import db.dao.EmployeeDao;
 import model.db.Employee;
 import util.EmployeeCreationService;
+import util.EmployeeGenerator;
+import db.DatabaseManager;
 
-import javax.xml.crypto.Data;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,14 +27,15 @@ public class EmployeeManager {
     private EmployeeDao employeeDao;
     private DatabaseManager databaseManager;
 
+
     /**
      * Konstruktor für die EmployeeManager Klasse.
      * @author Elias Glauert
      */
     public EmployeeManager(EmployeeDao employeeDao, DatabaseManager databaseManager) {
-        this.employeeDao = employeeDao;
+        this. employeeDao = employeeDao;
         this.databaseManager = databaseManager;
-    }
+        }
 
     /**
      * Adds all Employees from the DB to the employees ArrayList.
@@ -47,7 +49,7 @@ public class EmployeeManager {
     }
 
     public void create100Employee() throws IOException {
-        EmployeeCreationService employeeCreationService = new EmployeeCreationService(databaseManager,this, employeeDao);
+        EmployeeCreationService employeeCreationService = new EmployeeCreationService(databaseManager,this,employeeDao);
         employeeCreationService.generate100Employees();
     }
 
