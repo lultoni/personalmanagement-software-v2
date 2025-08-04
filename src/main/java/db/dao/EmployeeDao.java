@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class EmployeeDao {
 
-    private DatabaseManager dbManager;
     private EmployeeManager employeeManager;
     private final DatabaseManager dbManager;
 

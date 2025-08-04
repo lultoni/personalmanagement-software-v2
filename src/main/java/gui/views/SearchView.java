@@ -24,13 +24,13 @@ public class SearchView extends View {
     private List<Employee> allEmployees;
     private Employee currentUser; // der eingeloggte Nutzer
 
-    public SearchView() {
+    public SearchView() throws IOException {
         this(null, new ArrayList<>());  //leerer Konstruktor, damit SearchView korrekt initialisiert wird, ohne das Daten sofort notwendig sind
     }
 
 
 
-    public SearchView(Employee currentUser, List<Employee> allEmployees) {
+    public SearchView(Employee currentUser, List<Employee> allEmployees) throws IOException {
         this.currentUser = currentUser;
         this.allEmployees = allEmployees != null ? allEmployees : new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class SearchView extends View {
         departmentDropdown.setMaximumSize(new Dimension(180, 30));
         departmentDropdown.addItem("Alle Abteilungen");
 
-        List<Department> departments = CompanyStructureManager.getInstance().getAllDepartments();
+        List<Department> departments = (List<Department>) CompanyStructureManager.getInstance().getAllDepartments();
         for (Department dep : departments) {
             departmentDropdown.addItem(dep.getName());
 

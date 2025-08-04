@@ -56,6 +56,32 @@ public class DatabaseManager {
         }
     }
 
+    public DatabaseManager(boolean isBackup) {
+        this.isBackup = isBackup;
+        this.objectMapper = new ObjectMapper();
+        try {
+            // Properties einstellen
+            String file_location_properties = fetchPropertyName();
+            System.out.println("Aufsetzen des DatabaseManagers für folgende Properties: " + file_location_properties);
+            Properties props = new Properties();
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream(file_location_properties)) {
+                if (input == null) {
+                    System.out.println("Fehler: konnte die " + file_location_properties + " nicht finden!");
+                } else {
+                    props.load(input);
+                    System.out.println("Properties erfolgreich geladen.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            dbFilePath = props.getProperty("db.url").replace("jdbc:h2:", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Gives back the name of the Properties File based on if this is the backup DatabaseManager or not.
      * @author Elias Glauert

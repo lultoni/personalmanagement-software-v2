@@ -80,7 +80,7 @@ public class EmployeeCreationService {
             usedUsernames.add(username);
 
             // Setze eine eindeutige ID (beispielhaft)
-            employee.setId(1000000 + i);
+            employee.setId(i);
 
             // Füge den Mitarbeiter der Liste hinzu
             generatedEmployees.add(employee);

@@ -14,6 +14,8 @@ import model.db.Employee;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -112,12 +114,18 @@ public class FeatureBar extends JPanel {
         searchFeatureButton.addActionListener(_ -> {
             Employee currentUser = loginManager.getLoggedInUser();
 
-            DatabaseManager dbManager = new DatabaseManager();
+            DatabaseManager dbManager = new DatabaseManager(false);
             EmployeeManager employeeManager = new EmployeeManager(dbManager);
-            EmployeeDao dao = new EmployeeDao(dbManager, employeeManager);
+            EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
+            employeeManager.setEmployeeDao(employeeDao);
             List<Employee> allEmployees = employeeManager.findAll();
 
-            SearchView searchView = new SearchView(currentUser, allEmployees);
+            SearchView searchView = null;
+            try {
+                searchView = new SearchView(currentUser, allEmployees);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             eventManager.callEvent("changeView", new Object[]{searchView});
 
             myProfile_button.setMaximumSize(standardButtonSize);
