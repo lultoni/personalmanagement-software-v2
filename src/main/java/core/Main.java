@@ -40,7 +40,7 @@ public class Main {
         backupManager = new DatabaseManager(true);
         backupManager.setupDatabase();
 
-        EmployeeManager employeeManager = new EmployeeManager(null,dbManager);
+        EmployeeManager employeeManager = new EmployeeManager(dbManager);
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
         employeeManager.setEmployeeDao(employeeDao);
         employeeManager.create100Employee();

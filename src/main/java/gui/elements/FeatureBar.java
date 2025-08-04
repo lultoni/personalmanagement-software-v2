@@ -1,10 +1,15 @@
 package gui.elements;
 
+import core.EmployeeManager;
 import core.EventManager;
 import core.LoginManager;
 import gui.views.*;
 import util.PermissionChecker;
 import util.PersistentInformationReader;
+import model.db.Employee;
+import db.dao.EmployeeDao;
+import db.DatabaseManager;
+import model.db.Employee;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +29,7 @@ public class FeatureBar extends JPanel {
     private JButton myProfile_button;
     private JPanel main_button_panel;
     private EventManager eventManager;
+    private LoginManager loginManager;
     private final Dimension standardButtonSize = new Dimension(140, 40);
 
     /**
@@ -33,6 +39,7 @@ public class FeatureBar extends JPanel {
     public FeatureBar(LoginManager loginManager, EventManager eventManager) {
 
         this.eventManager = eventManager;
+        this.loginManager = loginManager;
 
         setLayout(new BorderLayout());
 
@@ -100,14 +107,24 @@ public class FeatureBar extends JPanel {
         });
         featureButtonPanel.add(welcomeButton);
 
-
         JButton searchFeatureButton = new JButton("🔎 Suche");
+        searchFeatureButton.setPreferredSize(standardButtonSize);
         searchFeatureButton.addActionListener(_ -> {
-            eventManager.callEvent("changeView", new Object[]{new SearchView()});
+            Employee currentUser = loginManager.getLoggedInUser();
+
+            DatabaseManager dbManager = new DatabaseManager();
+            EmployeeManager employeeManager = new EmployeeManager(dbManager);
+            EmployeeDao dao = new EmployeeDao(dbManager, employeeManager);
+            List<Employee> allEmployees = employeeManager.findAll();
+
+            SearchView searchView = new SearchView(currentUser, allEmployees);
+            eventManager.callEvent("changeView", new Object[]{searchView});
+
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
-
         });
+        featureButtonPanel.add(searchFeatureButton);
+
         // if (PermissionChecker.hasPermission('B')) featureButtonPanel.add(searchFeatureButton); TODO dann nutzen wenn es die permission actually existiert
         featureButtonPanel.add(searchFeatureButton);
         // TODO nutze für die features PermissionChecker.hasPermission(char permission) ob es angezeigt werden soll

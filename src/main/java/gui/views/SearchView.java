@@ -1,100 +1,157 @@
 package gui.views;
 
+import model.db.Employee;
+import util.EmployeeFieldAccessEvaluator;
+
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import core.CompanyStructureManager;
+import model.json.Department;
 
 public class SearchView extends View {
 
+    private JTextField searchField;
+    private JComboBox<String> departmentDropdown;
+    private JCheckBox headOnlyCheckBox;
+    private JPanel resultsPanel;
+
+    private List<Employee> allEmployees;
+    private Employee currentUser; // der eingeloggte Nutzer
+
     public SearchView() {
+        this(null, new ArrayList<>());  //leerer Konstruktor, damit SearchView korrekt initialisiert wird, ohne das Daten sofort notwendig sind
+    }
+
+
+
+    public SearchView(Employee currentUser, List<Employee> allEmployees) {
+        this.currentUser = currentUser;
+        this.allEmployees = allEmployees != null ? allEmployees : new ArrayList<>();
+
         setLayout(new BorderLayout());
 
-        // Panel für obere Suchleiste
+        // --- Obere Suchleiste ---
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Suchfeld mit Platzhaltertext
-        JTextField searchField = new JTextField("Suche ...");
+        searchField = new JTextField("Suche nach Namen, Email ...");
         searchField.setForeground(Color.GRAY);
-        searchField.setMaximumSize(new Dimension(320, 30));
-
+        searchField.setMaximumSize(new Dimension(300, 30));
         searchField.addFocusListener(new FocusAdapter() {
-            @Override
             public void focusGained(FocusEvent e) {
-                if (searchField.getText().equals("Suche ...")) {
+                if (searchField.getText().equals("Suche nach Namen, Email ...")) {
                     searchField.setText("");
                     searchField.setForeground(Color.BLACK);
                 }
             }
 
-            @Override
             public void focusLost(FocusEvent e) {
                 if (searchField.getText().trim().isEmpty()) {
-                    searchField.setText("Suche ...");
+                    searchField.setText("Suche nach Namen, Email ...");
                     searchField.setForeground(Color.GRAY);
                 }
             }
         });
+
         searchPanel.add(searchField);
         searchPanel.add(Box.createHorizontalStrut(10));
 
-        // Abteilungs-Dropdown mit Platzhalter „Abteilung“
-        String[] departments = {
-                "Abteilung",  // Platzhalter
-                "Abteilung IT",
-                "Abteilung Bau",
-                "Abteilung Maschinen"
-        };
-        JComboBox<String> departmentDropdown = new JComboBox<>(departments);
+        departmentDropdown = new JComboBox<>();
         departmentDropdown.setMaximumSize(new Dimension(180, 30));
-        departmentDropdown.setSelectedIndex(0);
-        departmentDropdown.setForeground(Color.GRAY);
+        departmentDropdown.addItem("Alle Abteilungen");
 
-        // Reagiere auf Fokus (zum "Leeren" bei Klick)
-        departmentDropdown.addPopupMenuListener(new PopupMenuListener() {
-            boolean cleared = false;
+        List<Department> departments = CompanyStructureManager.getInstance().getAllDepartments();
+        for (Department dep : departments) {
+            departmentDropdown.addItem(dep.getName());
 
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                if (!cleared && departmentDropdown.getSelectedIndex() == 0) {
-                    cleared = true;
-                    departmentDropdown.setSelectedIndex(-1); // Auswahl entfernen
-                }
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                if (departmentDropdown.getSelectedIndex() == -1) {
-                    departmentDropdown.setSelectedIndex(0); // zurück zu "Abteilung"
-                    departmentDropdown.setForeground(Color.GRAY);
-                } else {
-                    departmentDropdown.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-                // nichts tun
-            }
-        });
-
+        };
+        departmentDropdown.setMaximumSize(new Dimension(180, 30));
         searchPanel.add(departmentDropdown);
+
         searchPanel.add(Box.createHorizontalStrut(10));
 
-        // Checkbox "Nur Abteilungsleiter"
-        JCheckBox headOnlyCheckBox = new JCheckBox("Nur Abteilungsleiter");
+        headOnlyCheckBox = new JCheckBox("Nur Abteilungsleiter");
         headOnlyCheckBox.setMaximumSize(new Dimension(160, 30));
         searchPanel.add(headOnlyCheckBox);
 
-        // Panel hinzufügen
+        JButton searchButton = new JButton("Suchen");
+        searchButton.addActionListener(e -> performSearch());
+        searchPanel.add(Box.createHorizontalStrut(10));
+        searchPanel.add(searchButton);
+
         add(searchPanel, BorderLayout.NORTH);
 
-        // Platzhalter für Suchergebnisse
-        JLabel placeholder = new JLabel("Suchergebnisse werden hier angezeigt.");
-        placeholder.setHorizontalAlignment(SwingConstants.CENTER);
-        add(placeholder, BorderLayout.CENTER);
+        // --- Ergebnisbereich ---
+        resultsPanel = new JPanel();
+        resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(resultsPanel);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void performSearch() {
+        String keyword = searchField.getText().trim().toLowerCase();
+        String department = (String) departmentDropdown.getSelectedItem();
+        boolean headOnly = headOnlyCheckBox.isSelected();
+
+        List<Employee> filtered = allEmployees.stream()
+                .filter(emp -> EmployeeFieldAccessEvaluator.canViewBasicData(currentUser, emp))
+                .filter(emp -> {
+                    if (!keyword.isEmpty() && !keyword.equals("suche nach namen, email ...")) {
+                        String fullName = (emp.getFirstName() + " " + emp.getLastName()).toLowerCase();
+                        String email = emp.getEmail().toLowerCase();
+                        if (!fullName.contains(keyword) && !email.contains(keyword)) return false;
+                    }
+
+
+
+                    if (headOnly && !emp.isManager()) {
+                        return false;
+                    }
+                    return true;
+                }).collect(Collectors.toList());
+
+        updateResultsPanel(filtered);
+    }
+
+    private void updateResultsPanel(List<Employee> results) {
+        resultsPanel.removeAll();
+
+        if (results.isEmpty()) {
+            JLabel noResults = new JLabel("Keine Ergebnisse gefunden.");
+            noResults.setAlignmentX(Component.CENTER_ALIGNMENT);
+            resultsPanel.add(noResults);
+        } else {
+            for (Employee emp : results) {
+                JPanel card = new JPanel(new BorderLayout());
+                card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+                String basic = emp.getFirstName() + " " + emp.getLastName() + " (" + emp.getEmail() + ")";
+                JLabel label = new JLabel(basic);
+                card.add(label, BorderLayout.CENTER);
+                resultsPanel.add(card);
+            }
+        }
+
+        resultsPanel.revalidate();
+        resultsPanel.repaint();
+    }
+    private String getDepartmentNameById(String deptId) {
+        try {
+            return CompanyStructureManager.getInstance()
+                    .getAllDepartments()
+                    .stream()
+                    .filter(d -> d.getDepartmentId().equals(deptId))
+                    .map(d -> d.getName())
+                    .findFirst()
+                    .orElse(deptId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

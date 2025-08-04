@@ -7,6 +7,12 @@ import java.util.Properties;
 import java.io.InputStream;
 import util.DatabaseGenerator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * Diese Klasse verwaltet die Haupt-Datenbank, auf welcher die persistenten Daten gespeichert sind.
  *
@@ -19,13 +25,15 @@ public class DatabaseManager {
     private Connection connection;
     private String dbFilePath;
     private boolean isBackup;
+    private final ObjectMapper objectMapper;
 
     /**
      * Konstruktor für den DatabaseManager.
      * @author Elias Glauert
      */
-    public DatabaseManager(boolean isBackup) {
+    public DatabaseManager(boolean isBackup, ObjectMapper objectMapper) {
         this.isBackup = isBackup;
+        this.objectMapper = objectMapper;
         try {
             // Properties einstellen
             String file_location_properties = fetchPropertyName();
@@ -337,4 +345,26 @@ public class DatabaseManager {
     public String getDbFilePath() {
         return dbFilePath;
     }
+
+    public <T> List<T> loadAll(Class<T> clazz) {
+        try {
+            String fileName = getFileNameForClass(clazz);
+            File file = new File("resources/json/" + fileName);
+            if (!file.exists()) return null;
+
+            return objectMapper.readValue(
+                    file,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, clazz)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String getFileNameForClass(Class<?> clazz) {
+        // z.B. Employee.class → "Employee.json"
+        return clazz.getSimpleName() + ".json";
+    }
 }
+

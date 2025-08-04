@@ -7,6 +7,7 @@ import util.SqlReader;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mitarbeiter-Datenbank-Zugriffsklasse.
@@ -20,6 +21,11 @@ public class EmployeeDao {
 
     private DatabaseManager dbManager;
     private EmployeeManager employeeManager;
+    private final DatabaseManager dbManager;
+
+    public EmployeeDao (DatabaseManager dbManager) {
+        this.dbManager = dbManager;
+    }
 
     /**
      * Konstruktor für EmployeeDao.
@@ -29,6 +35,8 @@ public class EmployeeDao {
         this.dbManager = dbManager;
         this.employeeManager = employeeManager;
     }
+
+
 
     /**
      * Fügt einen Mitarbeiter in die Datenbank des DbManagers hinzu.
@@ -184,5 +192,10 @@ public class EmployeeDao {
 
     public void setEmployeeManager(EmployeeManager employeeManager) {
         this.employeeManager = employeeManager;
+    }
+
+    public List<Employee> getAllEmployees() {
+        List<Employee> result = dbManager.loadAll(Employee.class);
+        return result != null ? result : new ArrayList<>();
     }
 }
