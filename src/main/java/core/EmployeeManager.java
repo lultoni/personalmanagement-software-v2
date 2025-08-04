@@ -266,4 +266,18 @@ public class EmployeeManager {
     public List<Employee> findAll() {
         return employeeDao.getAllEmployees(); //  die Methode muss in EmployeeDao existieren
     }
+    public void updateEmployee(Employee updatedEmployee) throws Exception {
+        if (employeeDao != null) {
+            employeeDao.updateEmployee(updatedEmployee);
+        } else {
+            // In-Memory Update
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getId() == updatedEmployee.getId()) {
+                    employees.set(i, updatedEmployee);
+                    return;
+                }
+            }
+            throw new Exception("Employee nicht gefunden");
+        }
+    }
 }

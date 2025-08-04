@@ -3,13 +3,8 @@ package util; // Dein gewähltes Paket
 import core.EmployeeManager;
 import db.DatabaseManager;
 import db.dao.EmployeeDao;
-import gui.views.EmployeeInfoView;
 import model.db.Employee;
-import org.h2.engine.Database;
-import org.h2.jmx.DatabaseInfoMBean;
-import util.EmployeeGenerator; // Importiere deinen EmployeeGenerator
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
