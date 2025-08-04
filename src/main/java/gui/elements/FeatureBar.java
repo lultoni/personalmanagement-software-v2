@@ -54,7 +54,12 @@ public class FeatureBar extends JPanel {
 
         myProfile_button = createButton("MyProfile", standardButtonSize, _ -> {
             System.out.println("MyProfile Button Pressed");
-            eventManager.callEvent("changeView", new Object[]{new EmployeeDataView(loginManager.getLoggedInUser(), loginManager.getLoggedInUser())});
+            Employee currentUser = loginManager.getLoggedInUser();
+            DatabaseManager dbManager = new DatabaseManager(false);
+            EmployeeManager employeeManager = new EmployeeManager(dbManager);
+            eventManager.callEvent("changeView", new Object[]{
+                    new EmployeeDataView(currentUser, currentUser, employeeManager, eventManager)
+            });
         });
 
         logout_button = createButton("Logout", new Dimension(100, 30), _ -> {
@@ -148,8 +153,6 @@ public class FeatureBar extends JPanel {
 
         });
 
-
-
         featureButtonPanel.add(trainingButton);
 
         JButton shutdownButton = new JButton("💣 Systemeinstellungen");
@@ -160,7 +163,6 @@ public class FeatureBar extends JPanel {
             logout_button.setMaximumSize(standardButtonSize);
 
         });
-        if (PermissionChecker.hasPermission('S') && PermissionChecker.hasPermission('B') ) featureButtonPanel.add(shutdownButton);
 
         return featureButtonPanel;
     }

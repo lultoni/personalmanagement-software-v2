@@ -1,6 +1,8 @@
 package gui.views;
 
 import model.db.Employee;
+import model.db.Department;
+import model.db.Role;
 import core.CompanyStructureManager;
 import core.EmployeeManager;
 import core.EventManager;
@@ -12,10 +14,6 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.List;
 
-/**
- * Ansicht für Mitarbeiterdaten mit Bearbeitungsfunktion und anzeige von Abteilungs-/Rollen-Namen
- * @version 3.0
- */
 public class EmployeeDataView extends View {
 
     private final Employee loggedInUser;
@@ -43,12 +41,34 @@ public class EmployeeDataView extends View {
     private void initializeCaches() {
         try {
             CompanyStructureManager csm = CompanyStructureManager.getInstance();
-            csm.getAllDepartments().forEach(dept ->
-                    departmentCache.put(dept.getId(), dept.getName()));
-            csm.getAllRoles().forEach(role ->
-                    roleCache.put(role.getId(), role.getName()));
+
+            // Abteilungscache
+            for (Department dept : csm.getAllDepartments()) {
+                try {
+                    departmentCache.put(dept.getId(), dept.getName());
+                } catch (Exception e) {
+                    try {
+                        departmentCache.put(dept.getDepartmentId(), dept.getName());
+                    } catch (Exception e2) {
+                        System.err.println("Could not extract department ID");
+                    }
+                }
+            }
+
+            // Rollencache
+            for (Role role : csm.getAllRoles()) {
+                try {
+                    roleCache.put(role.getId(), role.getName());
+                } catch (Exception e) {
+                    try {
+                        roleCache.put(role.getRoleId(), role.getName());
+                    } catch (Exception e2) {
+                        System.err.println("Could not extract role ID");
+                    }
+                }
+            }
         } catch (Exception e) {
-            System.err.println("Fehler beim Initialisieren der Caches: " + e.getMessage());
+            System.err.println("Cache Initialization Error: " + e.getMessage());
         }
     }
 
@@ -158,7 +178,9 @@ public class EmployeeDataView extends View {
 
     private void toggleEditMode(ActionEvent e) {
         if (editMode) {
-            saveChanges();
+            if (!saveChanges()) {
+                return;
+            }
         }
 
         editMode = !editMode;
@@ -167,47 +189,106 @@ public class EmployeeDataView extends View {
         refreshDataDisplay();
     }
 
-    private void saveChanges() {
+    private boolean saveChanges() {
         try {
             updateEmployeeFromFields();
-            employeeManager.updateEmployee(employee);
-            JOptionPane.showMessageDialog(this, "Änderungen gespeichert",
-                    "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+
+            // Update-Logik ohne employeeDao.updateEmployee()
+            if (employeeManager != null) {
+                // Erstelle aktualisierten Employee
+                Employee updatedEmployee = new Employee(
+                        employee.getId(),
+                        employee.getUsername(),
+                        employee.getPassword(),
+                        employee.getPermissionString(),
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getEmail(),
+                        employee.getPhoneNumber(),
+                        employee.getDateOfBirth(),
+                        employee.getAddress(),
+                        employee.getGender(),
+                        employee.getHireDate(),
+                        employee.getEmploymentStatus(),
+                        employee.getDepartmentId(),
+                        employee.getTeamId(),
+                        employee.getRoleId(),
+                        employee.getQualifications(),
+                        employee.getCompletedTrainings(),
+                        employee.getManagerId(),
+                        employee.isItAdmin(),
+                        employee.isHr(),
+                        employee.isHrHead(),
+                        employee.isManager()
+                );
+
+                // Entferne alten und füge neuen Employee hinzu
+                employeeManager.removeEmployee(employee.getId());
+                employeeManager.addEmployee(
+                        updatedEmployee,
+                        updatedEmployee.getPassword(),
+                        updatedEmployee.getPermissionString(),
+                        updatedEmployee.getFirstName(),
+                        updatedEmployee.getLastName(),
+                        updatedEmployee.getEmail(),
+                        updatedEmployee.getPhoneNumber(),
+                        updatedEmployee.getDateOfBirth(),
+                        updatedEmployee.getAddress(),
+                        updatedEmployee.getGender(),
+                        updatedEmployee.getHireDate(),
+                        updatedEmployee.getEmploymentStatus(),
+                        updatedEmployee.getDepartmentId(),
+                        updatedEmployee.getTeamId(),
+                        updatedEmployee.getRoleId(),
+                        updatedEmployee.getQualifications(),
+                        updatedEmployee.getCompletedTrainings(),
+                        updatedEmployee.getManagerId(),
+                        updatedEmployee.isItAdmin(),
+                        updatedEmployee.isHr(),
+                        updatedEmployee.isHrHead(),
+                        updatedEmployee.isManager()
+                );
+
+                JOptionPane.showMessageDialog(this,
+                        "Änderungen erfolgreich gespeichert",
+                        "Erfolg",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            }
+            throw new IllegalStateException("EmployeeManager nicht verfügbar");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Fehler beim Speichern: " + ex.getMessage(),
-                    "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Fehler beim Speichern: " + ex.getMessage(),
+                    "Fehler",
+                    JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            return false;
         }
     }
 
     private void updateEmployeeFromFields() {
         editFields.forEach((field, component) -> {
             if (component instanceof JTextField) {
-                updateTextField(field, (JTextField) component);
+                String value = ((JTextField) component).getText();
+                updateEmployeeField(field, value);
             } else if (component instanceof JComboBox) {
-                updateComboBox(field, (JComboBox<?>) component);
+                String value = (String) ((JComboBox<?>) component).getSelectedItem();
+                updateEmployeeField(field, value);
             }
         });
     }
 
-    private void updateTextField(String field, JTextField textField) {
-        String value = textField.getText();
+    private void updateEmployeeField(String field, String value) {
         switch (field) {
             case "firstName" -> employee.setFirstName(value);
             case "lastName" -> employee.setLastName(value);
             case "email" -> employee.setEmail(value);
             case "phoneNumber" -> employee.setPhoneNumber(value);
             case "address" -> employee.setAddress(value);
-            // Weitere bearbeitbare Felder...
+            case "gender" -> employee.setGender(value.charAt(0));
         }
     }
 
-    private void updateComboBox(String field, JComboBox<?> comboBox) {
-        if (field.equals("gender")) {
-            employee.setGender(((String) comboBox.getSelectedItem()).charAt(0));
-        }
-    }
-
-    // Hilfsmethoden für Datenanzeige
     private String getFullName(Employee emp) {
         return emp.getFirstName() + " " + emp.getLastName();
     }
@@ -255,22 +336,16 @@ public class EmployeeDataView extends View {
             case "lastName": return employee.getLastName();
             case "email": return employee.getEmail();
             case "phoneNumber": return employee.getPhoneNumber();
-            case "dateOfBirth": return formatDate(employee.getDateOfBirth());
+            case "dateOfBirth": return employee.getDateOfBirth() != null ? employee.getDateOfBirth().toString() : "";
             case "address": return employee.getAddress();
             case "gender": return String.valueOf(employee.getGender());
             case "departmentId": return departmentCache.getOrDefault(employee.getDepartmentId(), employee.getDepartmentId());
             case "roleId": return roleCache.getOrDefault(employee.getRoleId(), employee.getRoleId());
             case "username": return employee.getUsername();
-            case "hireDate": return formatDate(employee.getHireDate());
+            case "hireDate": return employee.getHireDate() != null ? employee.getHireDate().toString() : "";
             case "employmentStatus": return employee.getEmploymentStatus();
             default: return "";
         }
-    }
-
-    private String formatDate(Date date) {
-        if (date == null) return "";
-        // Hier könnte ein besserer Datumsformatierer eingefügt werden
-        return date.toString();
     }
 
     private boolean canEditData() {
