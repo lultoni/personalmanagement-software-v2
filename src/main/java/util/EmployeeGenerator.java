@@ -42,6 +42,8 @@ public class EmployeeGenerator {
     private final List<Qualification> allQualificationsIDs;
     private final List<Team> allTeamsIDs;
 
+    CompanyStructureManager manager = CompanyStructureManager.getInstance();
+
     /**
      * Konstruktor des EmployeeDataGenerators.
      * Beim Erstellen einer Instanz werden die benötigten Daten aus dem CompanyStructureManager geladen.
@@ -56,7 +58,6 @@ public class EmployeeGenerator {
         this.objectMapper = new ObjectMapper(); // Standard ObjectMapper
 
         // Lade Unternehmensstruktur
-        CompanyStructureManager manager = CompanyStructureManager.getInstance();
         this.mainCompany = manager.getCompany();
         this.allDepartmentsIDs = new ArrayList<>(manager.getAllDepartments());
         this.allRolesIDs = new ArrayList<>(manager.getAllRoles());
@@ -118,19 +119,11 @@ public class EmployeeGenerator {
             randomTeam = allTeamsIDs.get(RANDOM.nextInt(allTeamsIDs.size()));
         }
 
-        List<String> employeeQualificationIds = new ArrayList<>();
-        int numQualsForEmployee = RANDOM.nextInt(4);
-        for (int q = 0; q < numQualsForEmployee; q++) {
-            if (!allQualificationsIDs.isEmpty()) {
-                employeeQualificationIds.add(allQualificationsIDs.get(RANDOM.nextInt(allQualificationsIDs.size())).getRoleId());
-            }
-        }
+        String RoleId = randomRole.getroleId();
+
         String qualificationsJson = "[]";
-        try {
-            qualificationsJson = objectMapper.writeValueAsString(employeeQualificationIds);
-        } catch (JsonProcessingException e) {
-            System.err.println("Fehler beim Konvertieren von Qualifikationen zu JSON: " + e.getMessage());
-        }
+        String employeeQualificationId = RoleId;
+        qualificationsJson = String.valueOf(manager.getRequiredSkillsForQualification(employeeQualificationId));
 
         String username = firstName.toLowerCase() + "." + lastName.toLowerCase();
 
@@ -171,7 +164,7 @@ public class EmployeeGenerator {
         return new Employee(
                 username,
                 "123456",
-                PermissionChecker.getEmployeePermissionString(randomRole.getroleId(), departmentId),
+                PermissionChecker.getEmployeePermissionString(RoleId, departmentId),
                 firstName,
                 lastName,
                 email,
@@ -183,7 +176,7 @@ public class EmployeeGenerator {
                 employmentStatus,
                 departmentId,
                 teamId,
-                randomRole.getroleId(),
+                RoleId,
                 qualificationsJson,
                 "[]",
                 managerId,

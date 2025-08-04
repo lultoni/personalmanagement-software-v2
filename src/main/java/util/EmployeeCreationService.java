@@ -22,9 +22,9 @@ import java.util.Set;
  * um mehrere Mitarbeiter auf einmal zu erstellen.
  * Diese Klasse ist NICHT für die Persistenz in der Datenbank zuständig.
  *
- * @author Elias Glauert (basierend auf vorherigen Diskussionen)
- * @version 1.0
- * @since 2025-07-31
+ * @author Dorian Gläske, Elias Glauert
+ * @version 1.4
+ * @since 2025-08-04
  */
 public class EmployeeCreationService {
 
@@ -94,10 +94,9 @@ public class EmployeeCreationService {
         return generatedEmployees;
     }
 
-    // TODO wandel diese methode dazu um, dass einfach nur die andere methode aufgerufen wird mit dem parameter 100
-    public void generate100Employees() {
+    public void generate_x_Employees(int x) {
         try {
-            int employeesToCreate = 100; // Oder jede andere gewünschte Menge
+            int employeesToCreate = x; // Oder jede andere gewünschte Menge
             List<Employee> employees = generateEmployees(employeesToCreate);
 
             System.out.println("\n--- Zusammenfassung ---");

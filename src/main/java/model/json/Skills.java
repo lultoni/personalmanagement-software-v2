@@ -11,9 +11,6 @@ import java.util.List;
  * @version 1.0
  * @since 2025-07-28
  */
-// TODO soll das wirklich "skills" und nicht "skill" heißen?
-//  Was ist die funktionalität der klasse?
-    // GUTE FRAGE HERR GLAUERT ICH HABE KEIN PLAN
 public class Skills {
     private List<String> Skills;
 

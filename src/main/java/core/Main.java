@@ -11,8 +11,8 @@ import java.io.IOException;
  * Hauptklasse der HR-Management-Software.
  * Diese Klasse ist der Startpunkt für die gesamte Anwendung.
  *
- * @author Elias Glauert
- * @version 1.7
+ * @author Dorian Gläske, Elias Glauert
+ * @version 1.8
  * @since 2025-07-05
  */
 public class Main {
