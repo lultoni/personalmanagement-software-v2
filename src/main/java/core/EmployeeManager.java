@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * Mitarbeiter Verwaltung Klasse.
  *
- * @author Elias Glauert
- * @version 1.2
- * @since 2025-07-11
+ * @author Dorian Gläske, Elias Glauert
+ * @version 1.3
+ * @since 2025-08-04
  */
 public class EmployeeManager {
 
@@ -53,7 +53,7 @@ public class EmployeeManager {
 
     public void create100Employee() throws IOException {
         EmployeeCreationService employeeCreationService = new EmployeeCreationService(databaseManager,this,employeeDao);
-        employeeCreationService.generate100Employees();
+        employeeCreationService.generate_x_Employees(100);
     }
 
     /**

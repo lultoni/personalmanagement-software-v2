@@ -19,8 +19,8 @@ import java.util.Optional; // Für sicherere Rückgaben bei find-Methoden
  * Diese Klasse lädt die Daten einmalig über den JsonParser und bietet Methoden zum Zugriff und zur einfachen Verwaltung.
  *
  * @author Dorian Gläske
- * @version 1.0
- * @since 2025-07-29
+ * @version 1.1
+ * @since 2025-08-04
  */
 public class CompanyStructureManager {
 
@@ -107,6 +107,17 @@ public class CompanyStructureManager {
     public Optional<Qualification> findQualificationByRoleId(String roleId) {
         return Optional.ofNullable(qualificationMap.get(roleId));
     }
+
+    public Optional<List<String>> getRequiredSkillsForQualification(String roleId) {
+        return findQualificationByRoleId(roleId) // Nutze die bestehende find-Methode
+                .map(Qualification::getRequiredSkills); // Extrahiere die requiredSkills, falls die Qualifikation existiert
+    }
+
+    public Optional<List<String>> getFollowUpSkillsForQualification(String roleId) {
+        return findQualificationByRoleId(roleId) // Nutze die bestehende find-Methode
+                .map(Qualification::getFollowupSkills); // Extrahiere die requiredSkills, falls die Qualifikation existiert
+    }
+
 
     /**
      * Gibt eine unveränderliche Sammlung aller geladenen Qualifikationen zurück.

@@ -17,5 +17,9 @@ CREATE TABLE IF NOT EXISTS Employees (
     role_id VARCHAR(255),
     qualifications TEXT, -- IDs der vorhandenen Qualifikationen
     completed_trainings TEXT, -- IDs der abgeschlossenen Schulungen
-    manager_id INT
+    manager_id INT,
+    it_admin boolean,
+    hr boolean,
+    hr_head boolean,
+    is_manager boolean
 );

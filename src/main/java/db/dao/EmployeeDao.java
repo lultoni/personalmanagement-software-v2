@@ -13,9 +13,9 @@ import java.util.List;
  * Mitarbeiter-Datenbank-Zugriffsklasse.
  * Zwischenschicht zwischen Mitarbeiter und Datenbank.
  *
- * @author Elias Glauert
- * @version 1.3 (Hinzufügung von isManager)
- * @since 2025-07-09
+ * @author Elias Glauert, Dorian Gläske
+ * @version 1.4
+ * @since 2025-08-04
  */
 public class EmployeeDao {
 
