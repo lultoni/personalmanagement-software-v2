@@ -16,6 +16,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+
+
 /**
  * Mit dieser Klasse werden die Unternehmensstrukturen eingelesen in das Programm.
  * Klasse wird statisch verwendet.
@@ -34,6 +41,7 @@ public class JsonParser {
     private static HashMap<String, Qualification> qualificationMap;
     private static HashMap<String, Role> roleMap;
     private static HashMap<String, Team> teamMap;
+    private static final Gson gson = new Gson();
 
     public static Company getCompany() throws IOException {
         if (company == null) {
@@ -174,4 +182,9 @@ public class JsonParser {
         }
         return teamMap;
     }
+    public static List<Map<String, Object>> parseJsonArray(String json) {
+        Type type = new TypeToken<List<Map<String, Object>>>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+}
 }

@@ -4,47 +4,75 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- GRUNDLEGENDE PROJEKTINFORMATIONEN -->
+    <!-- Grundlegende Projektinformationen -->
     <groupId>de.euerprojekt</groupId>
     <artifactId>pm-software</artifactId>
     <version>1.4-SNAPSHOT</version>
 
-    <!-- PROJEKTEIGENSCHAFTEN -->
+    <!-- Projekteigenschaften -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <maven.compiler.preview>true</maven.compiler.preview>
+        <!-- Versionsnummern -->
+        <h2.version>2.2.224</h2.version>
+        <jackson.version>2.17.0</jackson.version>
+        <javafaker.version>2.0.2</javafaker.version>
+        <gson.version>2.10.1</gson.version>
     </properties>
 
-    <!-- ABHÄNGIGKEITEN (EXTERNE BIBLIOTHEKEN) -->
+    <!-- Abhängigkeiten -->
     <dependencies>
-        <!-- H2-Datenbank: Eine in Java geschriebene, einbettbare SQL-Datenbank -->
+        <!-- H2-Datenbank -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
         </dependency>
 
-        <!-- fasterxml: Eine einfache Bibliothek zum Lesen und Schreiben von JSON-Dateien -->
+        <!-- Jackson für JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
+            <version>${jackson.version}</version>
         </dependency>
+    </dependencies>
+        <!-- Andere Dependencies... -->
 
-        <!--javafraker:  Eine Bibleothek zur einfache zufälligen gewinnung von Java Objektdaten-->
+        <!-- JavaFaker (korrigierte Version) -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.2</version> </dependency>
-    </dependencies>
+            <version>2.0.2</version> <!-- Direkte Version statt Variable -->
+        </dependency>
 
-    <!-- BUILD-KONFIGURATION -->
+        <!-- Google Gson (vollständig korrigiert) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+    </project>
+
+    <!-- Build-Konfiguration -->
     <build>
         <plugins>
-            <!-- Maven Assembly Plugin: Bündelt das Projekt und alle seine -->
-            <!-- Abhängigkeiten in eine einzige, ausführbare "fat JAR". -->
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Assembly Plugin für Fat-JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -58,9 +86,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>
-                                        core.Main
-                                    </mainClass>
+                                    <mainClass>core.Main</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -71,17 +97,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>24</source>
-                    <target>24</target>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
-                </configuration>
             </plugin>
         </plugins>
     </build>

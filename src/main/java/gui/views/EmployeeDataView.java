@@ -1,11 +1,10 @@
 package gui.views;
 
 import model.db.Employee;
-import model.db.Department;
-import model.db.Role;
 import core.CompanyStructureManager;
 import core.EmployeeManager;
 import core.EventManager;
+import util.JsonParser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -40,32 +39,20 @@ public class EmployeeDataView extends View {
 
     private void initializeCaches() {
         try {
-            CompanyStructureManager csm = CompanyStructureManager.getInstance();
-
-            // Abteilungscache
-            for (Department dept : csm.getAllDepartments()) {
-                try {
-                    departmentCache.put(dept.getId(), dept.getName());
-                } catch (Exception e) {
-                    try {
-                        departmentCache.put(dept.getDepartmentId(), dept.getName());
-                    } catch (Exception e2) {
-                        System.err.println("Could not extract department ID");
-                    }
-                }
+            // Lade Department-Daten aus JSON
+            List<Map<String, Object>> departments = JsonParser.parseJsonArray(Department.json);
+            for (Map<String, Object> dept : departments) {
+                String id = (String) dept.get("departmentId");
+                String name = (String) dept.get("name");
+                departmentCache.put(id, name);
             }
 
-            // Rollencache
-            for (Role role : csm.getAllRoles()) {
-                try {
-                    roleCache.put(role.getId(), role.getName());
-                } catch (Exception e) {
-                    try {
-                        roleCache.put(role.getRoleId(), role.getName());
-                    } catch (Exception e2) {
-                        System.err.println("Could not extract role ID");
-                    }
-                }
+            // Lade Role-Daten aus JSON
+            List<Map<String, Object>> roles = JsonParser.parseJsonArray(Role.json);
+            for (Map<String, Object> role : roles) {
+                String id = (String) role.get("roleId");
+                String name = (String) role.get("name");
+                roleCache.put(id, name);
             }
         } catch (Exception e) {
             System.err.println("Cache Initialization Error: " + e.getMessage());
@@ -193,69 +180,38 @@ public class EmployeeDataView extends View {
         try {
             updateEmployeeFromFields();
 
-            // Update-Logik ohne employeeDao.updateEmployee()
-            if (employeeManager != null) {
-                // Erstelle aktualisierten Employee
-                Employee updatedEmployee = new Employee(
-                        employee.getId(),
-                        employee.getUsername(),
-                        employee.getPassword(),
-                        employee.getPermissionString(),
-                        employee.getFirstName(),
-                        employee.getLastName(),
-                        employee.getEmail(),
-                        employee.getPhoneNumber(),
-                        employee.getDateOfBirth(),
-                        employee.getAddress(),
-                        employee.getGender(),
-                        employee.getHireDate(),
-                        employee.getEmploymentStatus(),
-                        employee.getDepartmentId(),
-                        employee.getTeamId(),
-                        employee.getRoleId(),
-                        employee.getQualifications(),
-                        employee.getCompletedTrainings(),
-                        employee.getManagerId(),
-                        employee.isItAdmin(),
-                        employee.isHr(),
-                        employee.isHrHead(),
-                        employee.isManager()
-                );
+            // Update-Logik mit remove und add
+            employeeManager.removeEmployee(employee.getId());
+            employeeManager.addEmployee(
+                    employee,
+                    employee.getPassword(),
+                    employee.getPermissionString(),
+                    employee.getFirstName(),
+                    employee.getLastName(),
+                    employee.getEmail(),
+                    employee.getPhoneNumber(),
+                    employee.getDateOfBirth(),
+                    employee.getAddress(),
+                    employee.getGender(),
+                    employee.getHireDate(),
+                    employee.getEmploymentStatus(),
+                    employee.getDepartmentId(),
+                    employee.getTeamId(),
+                    employee.getRoleId(),
+                    employee.getQualifications(),
+                    employee.getCompletedTrainings(),
+                    employee.getManagerId(),
+                    employee.isItAdmin(),
+                    employee.isHr(),
+                    employee.isHrHead(),
+                    employee.isManager()
+            );
 
-                // Entferne alten und füge neuen Employee hinzu
-                employeeManager.removeEmployee(employee.getId());
-                employeeManager.addEmployee(
-                        updatedEmployee,
-                        updatedEmployee.getPassword(),
-                        updatedEmployee.getPermissionString(),
-                        updatedEmployee.getFirstName(),
-                        updatedEmployee.getLastName(),
-                        updatedEmployee.getEmail(),
-                        updatedEmployee.getPhoneNumber(),
-                        updatedEmployee.getDateOfBirth(),
-                        updatedEmployee.getAddress(),
-                        updatedEmployee.getGender(),
-                        updatedEmployee.getHireDate(),
-                        updatedEmployee.getEmploymentStatus(),
-                        updatedEmployee.getDepartmentId(),
-                        updatedEmployee.getTeamId(),
-                        updatedEmployee.getRoleId(),
-                        updatedEmployee.getQualifications(),
-                        updatedEmployee.getCompletedTrainings(),
-                        updatedEmployee.getManagerId(),
-                        updatedEmployee.isItAdmin(),
-                        updatedEmployee.isHr(),
-                        updatedEmployee.isHrHead(),
-                        updatedEmployee.isManager()
-                );
-
-                JOptionPane.showMessageDialog(this,
-                        "Änderungen erfolgreich gespeichert",
-                        "Erfolg",
-                        JOptionPane.INFORMATION_MESSAGE);
-                return true;
-            }
-            throw new IllegalStateException("EmployeeManager nicht verfügbar");
+            JOptionPane.showMessageDialog(this,
+                    "Änderungen erfolgreich gespeichert",
+                    "Erfolg",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
                     "Fehler beim Speichern: " + ex.getMessage(),
