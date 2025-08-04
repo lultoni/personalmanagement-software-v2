@@ -46,6 +46,7 @@ public class Main {
         employeeManager.create100Employee();
         employeeManager.setEmployeeDao(employeeDao);
         employeeManager.setUpEmployees();
+        employeeManager.saveEmployeesToTxt("Employee_Info");
 
         EventManager eventManager = new EventManager(null, null, dbManager, backupManager,employeeManager);
         NotificationManager notificationManager = new NotificationManager(eventManager);

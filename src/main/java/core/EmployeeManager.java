@@ -6,6 +6,8 @@ import util.EmployeeCreationService;
 import db.DatabaseManager;
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,6 +53,23 @@ public class EmployeeManager {
         employees.addAll(employeeDao.getAllEmployeesFromDb());
         System.out.println(" ~ db ~ all employees in EmployeeManager:");
         for (Employee employee : employees) System.out.println("   | " + employee.toString());
+    }
+
+    public void saveEmployeesToTxt(String fileName) {
+        if (employees == null || employees.isEmpty()) {
+            System.out.println("Keine Mitarbeiter zum Speichern vorhanden.");
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (Employee employee : employees) {
+                writer.write(employee.toString());
+                writer.newLine(); // Fügt einen Zeilenumbruch nach jedem Eintrag hinzu
+            }
+            System.out.println("Mitarbeiterdaten erfolgreich in '" + fileName + "' gespeichert.");
+        } catch (IOException e) {
+            System.err.println("Fehler beim Speichern der Mitarbeiterdaten in Datei '" + fileName + "': " + e.getMessage());
+        }
     }
 
     public void create100Employee() throws IOException {

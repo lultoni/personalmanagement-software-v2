@@ -121,13 +121,13 @@ public class EmployeeDataView extends View {
             case "departmentId" -> "Abteilungs-ID: " + employee.getDepartmentId();
             case "roleId" -> "Rollen-ID: " + employee.getRoleId();
             case "fullAccess" -> "Vollzugriff gewährt";
-            case "username" -> "asdf: " + employee.getUsername();
-            case "hireDate" -> "asdf: " + employee.getHireDate();
+            case "username" -> "username: " + employee.getUsername();
+            case "hireDate" -> "Einstelungsdatum: " + employee.getHireDate();
             case "employmentStatus" -> "asdf: " + employee.getEmploymentStatus();
-            case "teamId" -> "asdf: " + employee.getTeamId();
-            case "qualifications" -> "asdf: " + employee.getQualifications();
-            case "completedTrainings" -> "asdf: " + employee.getCompletedTrainings();
-            case "managerId" -> "asdf: " + employee.getManagerId();
+            case "teamId" -> "Team-Id: " + employee.getTeamId();
+            case "qualifications" -> "Qualifikationen: " + employee.getQualifications();
+            case "completedTrainings" -> "Abgeschlossene Trainings: " + employee.getCompletedTrainings();
+            case "managerId" -> "Manager-Id: " + employee.getManagerId();
             default -> fieldName; // Fallback, falls kein Text definiert ist
         };
     }
