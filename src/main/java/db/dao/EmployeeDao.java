@@ -197,4 +197,89 @@ public class EmployeeDao {
         List<Employee> result = dbManager.loadAll(Employee.class);
         return result != null ? result : new ArrayList<>();
     }
+
+    /**
+     * Aktualisiert einen Mitarbeiter in der Datenbank.
+     * @param updatedEmployee Der aktualisierte Mitarbeiter
+     * @throws Exception Falls ein Fehler bei der Aktualisierung auftritt
+     * @author [Ihr Name]
+     */
+    public void updateEmployee(Employee updatedEmployee) throws Exception {
+        try {
+            // SQL-Update-Statement mit PreparedStatement für Sicherheit
+            String sql = "UPDATE Employees SET " +
+                    "username = ?, " +
+                    "password = ?, " +
+                    "permission_string = ?, " +
+                    "first_name = ?, " +
+                    "last_name = ?, " +
+                    "email = ?, " +
+                    "phone_number = ?, " +
+                    "date_of_birth = ?, " +
+                    "address = ?, " +
+                    "gender = ?, " +
+                    "hire_date = ?, " +
+                    "employment_status = ?, " +
+                    "department_id = ?, " +
+                    "team_id = ?, " +
+                    "role_id = ?, " +
+                    "qualifications = ?, " +
+                    "completed_trainings = ?, " +
+                    "manager_id = ?, " +
+                    "it_admin = ?, " +
+                    "hr = ?, " +
+                    "hr_head = ?, " +
+                    "is_manager = ? " +
+                    "WHERE id = ?";
+
+            try (Connection conn = dbManager.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                // Parameter setzen
+                stmt.setString(1, updatedEmployee.getUsername());
+                stmt.setString(2, updatedEmployee.getPassword());
+                stmt.setString(3, updatedEmployee.getPermissionString());
+                stmt.setString(4, updatedEmployee.getFirstName());
+                stmt.setString(5, updatedEmployee.getLastName());
+                stmt.setString(6, updatedEmployee.getEmail());
+                stmt.setString(7, updatedEmployee.getPhoneNumber());
+                stmt.setDate(8, new java.sql.Date(updatedEmployee.getDateOfBirth().getTime()));
+                stmt.setString(9, updatedEmployee.getAddress());
+                stmt.setString(10, String.valueOf(updatedEmployee.getGender()));
+                stmt.setDate(11, new java.sql.Date(updatedEmployee.getHireDate().getTime()));
+                stmt.setString(12, updatedEmployee.getEmploymentStatus());
+                stmt.setString(13, updatedEmployee.getDepartmentId());
+                stmt.setString(14, updatedEmployee.getTeamId());
+                stmt.setString(15, updatedEmployee.getRoleId());
+                stmt.setString(16, updatedEmployee.getQualifications());
+                stmt.setString(17, updatedEmployee.getCompletedTrainings());
+
+                // ManagerId kann null sein
+                if (updatedEmployee.getManagerId() != null) {
+                    stmt.setInt(18, updatedEmployee.getManagerId());
+                } else {
+                    stmt.setNull(18, Types.INTEGER);
+                }
+
+                // Boolean-Werte
+                stmt.setBoolean(19, updatedEmployee.isItAdmin());
+                stmt.setBoolean(20, updatedEmployee.isHr());
+                stmt.setBoolean(21, updatedEmployee.isHrHead());
+                stmt.setBoolean(22, updatedEmployee.isManager());
+
+                // ID für WHERE-Klausel
+                stmt.setInt(23, updatedEmployee.getId());
+
+                // Update ausführen
+                int affectedRows = stmt.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Update fehlgeschlagen, kein Datensatz wurde aktualisiert.");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Fehler beim Aktualisieren des Mitarbeiters " + updatedEmployee.getUsername());
+            throw new Exception("Datenbankfehler beim Aktualisieren: " + e.getMessage(), e);
+        }
+    }
 }
