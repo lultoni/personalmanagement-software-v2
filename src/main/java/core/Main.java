@@ -4,6 +4,7 @@ import db.DatabaseManager;
 import db.dao.EmployeeDao;
 import gui.GuiManager;
 import gui.views.LoginView;
+import util.EmployeeCreationService;
 
 import java.io.IOException;
 
@@ -35,41 +36,42 @@ public class Main {
 
         System.out.println("Initialisiere Kernkomponenten...");
 
+        //  DatabaseManager initialisieren
         dbManager = new DatabaseManager(false);
         dbManager.setupDatabase();
         backupManager = new DatabaseManager(true);
         backupManager.setupDatabase();
 
-        EmployeeManager employeeManager = new EmployeeManager(dbManager);
+        // EmployeeManager UND EmployeeDao initialisieren, die sich gegenseitig benötigen
+        // Beachte: Der EmployeeManager-Konstruktor benötigt den EmployeeDao
+        EmployeeManager employeeManager = new EmployeeManager(null, dbManager); // Temporäre Initialisierung ohne DAO
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
-        employeeManager.setEmployeeDao(employeeDao);
-        employeeManager.create100Employee();
-        employeeManager.setEmployeeDao(employeeDao);
-        employeeManager.setUpEmployees();
-        employeeManager.saveEmployeesToTxt("Employee_Info");
+        employeeManager.setEmployeeDao(employeeDao); // Jetzt den DAO setzen
 
-        EventManager eventManager = new EventManager(null, null, dbManager, backupManager,employeeManager);
+        // Mitarbeiter erstellen und laden
+        // Der EmployeeCreationService benötigt den EmployeeManager und den EmployeeDao
+        EmployeeCreationService employeeCreationService = new EmployeeCreationService(dbManager, employeeManager, employeeDao);
+        employeeCreationService.generate_x_Employees(100);
+
+        // Mitarbeiter aus der DB in den EmployeeManager laden
+        employeeManager.setUpEmployees();
+        employeeManager.saveEmployeesToTxt("Employee_Info.txt"); // Dateiendung hinzugefügt
+
+        // Andere Manager und GUI initialisieren
+        EventManager eventManager = new EventManager(null, null, dbManager, backupManager, employeeManager);
         NotificationManager notificationManager = new NotificationManager(eventManager);
         eventManager.setNotificationManager(notificationManager);
-
-//        if (!employeeManager.hasEmployeesGenerated()) {
-//            EmployeeGenerator.generateEmployees(dbManager, employeeManager, employeeDao);
-//            eventManager.callEvent("createBackup", null);
-//            dbManager.printTable("EMPLOYEES");
-//            backupManager.printTable("EMPLOYEES");
-//        }
 
         loginManager = new LoginManager(employeeManager, eventManager);
 
         System.out.println("Starte grafische Benutzeroberfläche...");
-        GuiManager guiManager = new GuiManager(eventManager, loginManager,employeeManager);
+        GuiManager guiManager = new GuiManager(eventManager, loginManager, employeeManager);
         GuiManager.setInstance(guiManager);
         eventManager.setGuiManager(guiManager);
 
         eventManager.callEvent("changeView", new Object[]{new LoginView(loginManager)});
 
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
-
     }
 
     /**

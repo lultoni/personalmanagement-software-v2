@@ -192,7 +192,7 @@ public class EmployeeDataView extends View {
             // Update-Logik mit remove und add
             employeeManager.removeEmployee(employee.getId());
             employeeManager.addEmployee(
-                    employee,
+                    employee.getUsername(),
                     employee.getPassword(),
                     employee.getPermissionString(),
                     employee.getFirstName(),

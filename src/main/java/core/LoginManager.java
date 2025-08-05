@@ -5,6 +5,7 @@ import model.db.Employee;
 import util.PersistentInformationReader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * LoginManager der den Login-Prozess verwaltet.
@@ -46,13 +47,15 @@ public class LoginManager {
         System.out.println("Anmeldeversuch mit Daten:");
         System.out.println(" |  - username='" + username + "'");
 
-        ArrayList<String> fields = new ArrayList<>();
-        ArrayList<String> contents = new ArrayList<>();
+        // Verwende die List-Schnittstelle, um flexibler zu sein
+        List<String> fields = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         fields.add("username");
         contents.add(username);
 
         // Findet den Mitarbeiter basierend auf dem Benutzernamen
-        ArrayList<Employee> employees = employeeManager.findEmployees(fields, contents);
+        // Weist die zurückgegebene List<Employee> der Variablen zu
+        List<Employee> employees = employeeManager.findEmployees(fields, contents);
 
         // Geht zurück, wenn der Benutzername nicht vergeben ist
         if (employees.isEmpty()) {

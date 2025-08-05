@@ -15,33 +15,29 @@
         <maven.compiler.preview>true</maven.compiler.preview>
         <h2.version>2.2.224</h2.version>
         <jackson.version>2.17.0</jackson.version>
-        <javafaker.version>1.0.2</javafaker.version> <!-- Auf 1.0.2 geändert oder auf 2.0.2 updaten -->
+        <javafaker.version>1.0.2</javafaker.version>
         <gson.version>2.10.1</gson.version>
     </properties>
 
     <dependencies>
-        <!-- H2-Datenbank -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
         </dependency>
 
-        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- JavaFaker -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>${javafaker.version}</version> <!-- Property verwendet -->
+            <version>${javafaker.version}</version>
         </dependency>
 
-        <!-- Gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -51,7 +47,6 @@
 
     <build>
         <plugins>
-            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -65,7 +60,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Assembly Plugin für Fat-JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

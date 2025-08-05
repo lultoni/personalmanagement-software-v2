@@ -5,11 +5,9 @@ import gui.elements.FeatureBar;
 import gui.elements.NotificationHub;
 import gui.elements.TitleBar;
 import gui.views.DefaultView;
-import gui.views.WelcomeView;
 import gui.views.View;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -75,6 +73,8 @@ public class MainFrame extends JFrame {
      */
     private LoginManager loginManager;
 
+    private EmployeeManager employeeManager;
+
     private boolean isFeatureBarHidden; // TODO idk ob wir die hier brauchen, ich dachte wir brauchen die aber hat keinen nutzen gerade
 
     /**
@@ -86,10 +86,11 @@ public class MainFrame extends JFrame {
         this.eventManager = eventManager;
         this.guiManager = guiManager;
         this.loginManager = loginManager;
+        this.employeeManager = employeeManager;
         isFeatureBarHidden = false;
 
         initFrameSettings();
-        initComponents(loginManager, guiManager, employeeManager);
+        initComponents();
         setVisible(true);
     }
 
@@ -121,9 +122,10 @@ public class MainFrame extends JFrame {
      * Initialisiert die Komponenten, welche in die JFrame kommen.
      * @author Elias Glauert
      */
-    private void initComponents(LoginManager loginManager, GuiManager guiManager, EmployeeManager employeeManager) {
+    private void initComponents() {
         currentView = new DefaultView();
-        featureBar = new FeatureBar(loginManager, eventManager);
+        // HIER IST DIE KORREKTUR: Den EmployeeManager übergeben!
+        featureBar = new FeatureBar(loginManager, eventManager, employeeManager);
         titleBar = new TitleBar(guiManager);
         notificationHub = new NotificationHub(notifications, eventManager, guiManager);
 
@@ -144,9 +146,6 @@ public class MainFrame extends JFrame {
         southBar.add(viewChangeButtonPanel, BorderLayout.WEST);
         southBar.add(titleBar, BorderLayout.CENTER);
         southBar.add(notificationHub, BorderLayout.EAST);
-        // JPanel colorBorderPanel = new JPanel();
-        // colorBorderPanel.setBackground(new Color(89, 88, 88));
-        // southBar.add(colorBorderPanel, BorderLayout.NORTH);
 
         viewChangeButtonPanel.setOpaque(false);
         southBar.setOpaque(true);

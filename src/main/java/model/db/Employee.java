@@ -1,5 +1,10 @@
 package model.db;
 
+import core.EmployeeManager;
+import util.JsonParser;
+
+import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +20,7 @@ import java.util.Objects;
  */
 public class Employee {
 
-    private int id; // ID wird initial von der DB vergeben, wenn hinzugefügt
+    private int id;
     private String username;
     private String password;
     private String permissionString;
@@ -37,7 +42,7 @@ public class Employee {
     private boolean itAdmin;
     private boolean hr;
     private boolean hrHead;
-    private boolean isManager; // NEUE VARIABLE
+    private boolean isManager;
 
     /**
      * Konstruktor für die Erstellung eines NEUEN Employee-Objekts,
@@ -65,13 +70,12 @@ public class Employee {
      * @param hr                 Ist der Mitarbeiter in der HR-Abteilung?
      * @param hrHead             Ist der Mitarbeiter HR-Leiter?
      * @param isManager          Ist der Mitarbeiter ein Manager?
-     * @author Elias Glauert
      */
     public Employee(String username, String password, String permissionString, String firstName,
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) { // NEUE PARAMETER
+                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
         this.username = username;
         this.password = password;
         this.permissionString = permissionString;
@@ -93,7 +97,7 @@ public class Employee {
         this.itAdmin = itAdmin;
         this.hr = hr;
         this.hrHead = hrHead;
-        this.isManager = isManager; // NEUES FELD INITIALISIEREN
+        this.isManager = isManager;
     }
 
     /**
@@ -128,103 +132,96 @@ public class Employee {
                     String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                     char gender, Date hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
-                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) { // NEUE PARAMETER
+                    Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
         this(username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
                 gender, hireDate, employmentStatus, departmentId, teamId, roleId, qualifications, completedTrainings, managerId,
-                itAdmin, hr, hrHead, isManager); // WEITERGABE DER NEUEN PARAMETER
-        this.id = id; // Setze die ID, die aus der DB kam
+                itAdmin, hr, hrHead, isManager);
+        this.id = id;
     }
 
 
-    // --- Getter und Setter ---
+    // --- Getter und Setter für alle Felder ---
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
-
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
-
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
-
     public String getPermissionString() { return permissionString; }
     public void setPermissionString(String permissionString) { this.permissionString = permissionString; }
-
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
-
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-
     public Date getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
-
     public char getGender() { return gender; }
     public void setGender(char gender) { this.gender = gender; }
-
     public Date getHireDate() { return hireDate; }
     public void setHireDate(Date hireDate) { this.hireDate = hireDate; }
-
     public String getEmploymentStatus() { return employmentStatus; }
     public void setEmploymentStatus(String employmentStatus) { this.employmentStatus = employmentStatus; }
-
     public String getDepartmentId() { return departmentId; }
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
-
     public String getTeamId() { return teamId; }
     public void setTeamId(String teamId) { this.teamId = teamId; }
-
     public String getRoleId() { return roleId; }
     public void setRoleId(String roleId) { this.roleId = roleId; }
-
     public String getQualifications() { return qualifications; }
     public void setQualifications(String qualifications) { this.qualifications = qualifications; }
-
     public String getCompletedTrainings() { return completedTrainings; }
     public void setCompletedTrainings(String completedTrainings) { this.completedTrainings = completedTrainings; }
-
     public Integer getManagerId() { return managerId; }
     public void setManagerId(Integer managerId) { this.managerId = managerId; }
+    public boolean isItAdmin() { return itAdmin; }
+    public void setItAdmin(boolean itAdmin) { this.itAdmin = itAdmin; }
+    public boolean isHr() { return hr; }
+    public void setHr(boolean hr) { this.hr = hr; }
+    public boolean isHrHead() { return hrHead; }
+    public void setHrHead(boolean hrHead) { this.hrHead = hrHead; }
+    public boolean isManager() { return isManager; }
+    public void setIsManager(boolean manager) { isManager = manager; }
 
-    // GETTER UND SETTER FÜR NEUE BOOLEAN-FELDER
-    public boolean isItAdmin() {
-        return itAdmin;
+    /**
+     * Gibt eine Liste der Qualifikations-IDs des Mitarbeiters zurück.
+     * Wenn der JSON-String null oder leer ist, wird eine leere Liste zurückgegeben.
+     *
+     * @return Eine Liste von Qualifikations-IDs.
+     */
+    public List<String> getQualificationsAsList() {
+        if (this.qualifications == null || this.qualifications.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        try {
+            return JsonParser.parseStringList(this.qualifications);
+        } catch (IOException e) {
+            System.err.println("Fehler beim Parsen der Qualifikationen für Mitarbeiter " + this.id + ": " + e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
-    public void setItAdmin(boolean itAdmin) {
-        this.itAdmin = itAdmin;
-    }
-
-    public boolean isHr() {
-        return hr;
-    }
-
-    public void setHr(boolean hr) {
-        this.hr = hr;
-    }
-
-    public boolean isHrHead() {
-        return hrHead;
-    }
-
-    public void setHrHead(boolean hrHead) {
-        this.hrHead = hrHead;
-    }
-
-    public boolean isManager() { // NEUER GETTER
-        return isManager;
-    }
-
-    public void setIsManager(boolean manager) { // NEUER SETTER
-        isManager = manager;
+    /**
+     * Gibt eine Liste der IDs der abgeschlossenen Trainings des Mitarbeiters zurück.
+     * Wenn der JSON-String null oder leer ist, wird eine leere Liste zurückgegeben.
+     *
+     * @return Eine Liste von Training-IDs.
+     */
+    public List<String> getCompletedTrainingIdsAsList() {
+        if (this.completedTrainings == null || this.completedTrainings.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        try {
+            return JsonParser.parseStringList(this.completedTrainings);
+        } catch (IOException e) {
+            System.err.println("Fehler beim Parsen der abgeschlossenen Trainings für Mitarbeiter " + this.id + ": " + e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
     // --- Standard Java Methoden (equals, hashCode, toString) ---
@@ -243,7 +240,7 @@ public class Employee {
                 ", itAdmin=" + itAdmin +
                 ", hr=" + hr +
                 ", hrHead=" + hrHead +
-                ", isManager=" + isManager + // Hinzufügen
+                ", isManager=" + isManager +
                 ")";
     }
 
@@ -252,56 +249,28 @@ public class Employee {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Employee employee = (Employee) object;
-        // Primärschlüssel-Gleichheit ist oft am wichtigsten für Datenbankobjekte
         return id == employee.id;
-        /*
-        // Für einen strengeren Vergleich aller relevanten Felder (wenn ID allein nicht reicht):
-        return id == employee.id &&
-               Objects.equals(username, employee.username) &&
-               Objects.equals(password, employee.password) &&
-               Objects.equals(permissionString, employee.permissionString) &&
-               Objects.equals(firstName, employee.firstName) &&
-               Objects.equals(lastName, employee.lastName) &&
-               Objects.equals(email, employee.email) &&
-               Objects.equals(phoneNumber, employee.phoneNumber) &&
-               Objects.equals(dateOfBirth, employee.dateOfBirth) &&
-               Objects.equals(address, employee.address) &&
-               gender == employee.gender &&
-               Objects.equals(hireDate, employee.hireDate) &&
-               Objects.equals(employmentStatus, employee.employmentStatus) &&
-               Objects.equals(departmentId, employee.departmentId) &&
-               Objects.equals(teamId, employee.teamId) &&
-               Objects.equals(roleId, employee.roleId) &&
-               Objects.equals(qualifications, employee.qualifications) &&
-               Objects.equals(completedTrainings, employee.completedTrainings) &&
-               Objects.equals(managerId, employee.managerId) &&
-               itAdmin == employee.itAdmin &&
-               hr == employee.hr &&
-               hrHead == employee.hrHead &&
-               isManager == employee.isManager; // Hinzufügen
-        */
     }
 
     @Override
     public int hashCode() {
-        // Hinzufügen der neuen Felder zum hashCode
         return Objects.hash(id, username, password, permissionString, firstName, lastName, email, phoneNumber,
                 dateOfBirth, address, gender, hireDate, employmentStatus, departmentId, teamId,
                 roleId, qualifications, completedTrainings, managerId, itAdmin, hr, hrHead, isManager);
     }
 
-    public Employee getManager(core.EmployeeManager employeeManager) {
+    public Employee getManager(EmployeeManager employeeManager) {
         if (employeeManager == null) {
             System.err.println("Fehler: EmployeeManager für getManager() ist null.");
             return null;
         }
         if (this.managerId != null && this.managerId > 0) {
             List<model.db.Employee> results = employeeManager.findEmployees(
-                    new java.util.ArrayList<>(List.of("id")), // Feldname
-                    new java.util.ArrayList<>(List.of(String.valueOf(this.managerId))) // Wert als String
+                    new java.util.ArrayList<>(List.of("id")),
+                    new java.util.ArrayList<>(List.of(String.valueOf(this.managerId)))
             );
             return results.isEmpty() ? null : results.getFirst();
         }
-        return null; // Kein Manager zugewiesen
+        return null;
     }
 }

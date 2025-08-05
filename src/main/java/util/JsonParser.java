@@ -21,6 +21,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -48,6 +51,11 @@ public class JsonParser {
             ladeCompany();
         }
         return company;
+    }
+
+    public static List<String> parseStringList(String jsonString) throws IOException {
+        // ObjectMapper kann Listen aus JSON-Arrays parsen
+        return mapper.readValue(jsonString, List.class);
     }
 
     public static Department findeDepartment(String id) throws IOException {

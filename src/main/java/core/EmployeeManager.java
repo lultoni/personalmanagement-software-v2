@@ -5,11 +5,9 @@ import model.db.Employee;
 import util.EmployeeCreationService;
 import db.DatabaseManager;
 
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -24,7 +22,6 @@ import java.util.List;
  */
 public class EmployeeManager {
 
-
     /**
      * Liste aller Mitarbeiter, welche existieren
      */
@@ -32,15 +29,15 @@ public class EmployeeManager {
     private EmployeeDao employeeDao;
     private DatabaseManager databaseManager;
 
-
     /**
      * Konstruktor für die EmployeeManager Klasse.
      *
      * @author Elias Glauert
      */
-    public EmployeeManager(DatabaseManager databaseManager) {
+    public EmployeeManager(EmployeeDao employeeDao, DatabaseManager dbManager) {
         this.employeeDao = employeeDao;
-        this.databaseManager = databaseManager;
+        this.databaseManager = dbManager;
+        this.employees = new ArrayList<>();
     }
 
     /**
@@ -49,7 +46,7 @@ public class EmployeeManager {
      * @author Elias Glauert
      */
     public void setUpEmployees() {
-        employees = new ArrayList<>();
+        employees.clear(); // Sicherstellen, dass die Liste leer ist, bevor wir sie füllen
         employees.addAll(employeeDao.getAllEmployeesFromDb());
         System.out.println(" ~ db ~ all employees in EmployeeManager:");
         for (Employee employee : employees) System.out.println("   | " + employee.toString());
@@ -64,7 +61,7 @@ public class EmployeeManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (Employee employee : employees) {
                 writer.write(employee.toString());
-                writer.newLine(); // Fügt einen Zeilenumbruch nach jedem Eintrag hinzu
+                writer.newLine();
             }
             System.out.println("Mitarbeiterdaten erfolgreich in '" + fileName + "' gespeichert.");
         } catch (IOException e) {
@@ -78,43 +75,44 @@ public class EmployeeManager {
     }
 
     /**
-     * Fügt der Mitarbeiterliste einen Mitarbeiter hinzu und erstellt und speicher ihn.
+     * Erstellt einen neuen Mitarbeiter, fügt ihn der Datenbank und der lokalen Liste hinzu.
      *
-     * @param employee Mitarbeiter der hinzugefügt wird.
+     * @param username           Benutzername des Mitarbeiters.
+     * @param password           Passwort des Mitarbeiters.
+     * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
+     * @param firstName          Vorname.
+     * @param lastName           Nachname.
+     * @param email              E-Mail-Adresse.
+     * @param phoneNumber        Telefonnummer.
+     * @param dateOfBirth        Geburtsdatum.
+     * @param address            Adresse.
+     * @param gender             Geschlecht ('M' oder 'F').
+     * @param hireDate           Einstellungsdatum.
+     * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
+     * @param departmentId       ID der Abteilung.
+     * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
+     * @param roleId             ID der Rolle.
+     * @param qualifications     Qualifikationen als JSON-String.
+     * @param completedTrainings Abgeschlossene Trainings als JSON-String.
+     * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
+     * @param itAdmin            Ist der Mitarbeiter IT-Admin?
+     * @param hr                 Ist der Mitarbeiter in der HR-Abteilung?
+     * @param hrHead             Ist der Mitarbeiter HR-Leiter?
+     * @param isManager          Ist der Mitarbeiter ein Manager?
      * @author Elias Glauert, Dorian Gläske
      */
-    public void addEmployee(Employee employee, String password, String permissionString, String firstName,
+    public void addEmployee(String username, String password, String permissionString, String firstName,
                             String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
                             char gender, Date hireDate, String employmentStatus, String departmentId,
                             String teamId, String roleId, String qualifications, String completedTrainings,
                             Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
 
-        employee.setUsername(firstName.toLowerCase() + "." + lastName.toLowerCase());
-        employee.setPassword("123456");
-        employee.setPermissionString(permissionString);
-        employee.setFirstName(firstName);
-        employee.setLastName(lastName);
-        employee.setEmail(email);
-        employee.setPhoneNumber(phoneNumber);
-        employee.setDateOfBirth(dateOfBirth);
-        employee.setAddress(address);
-        employee.setGender(gender);
-        Date today = new Date();
-        employee.setHireDate(today);
-        employee.setEmploymentStatus(employmentStatus);
-        employee.setDepartmentId(departmentId);
-        employee.setTeamId(teamId);
-        employee.setRoleId(roleId);
-        employee.setQualifications(qualifications);
-        employee.setCompletedTrainings(completedTrainings);
-        employee.setManagerId(managerId);
-        employee.setItAdmin(itAdmin);
-        employee.setHr(hr);
-        employee.setHrHead(hrHead);
-        employee.setIsManager(isManager);
-        employeeDao.addEmployeeToDb(employee);
+        Employee newEmployee = new Employee(username, password, permissionString, firstName, lastName, email, phoneNumber,
+                dateOfBirth, address, gender, hireDate, employmentStatus, departmentId, teamId, roleId,
+                qualifications, completedTrainings, managerId, itAdmin, hr, hrHead, isManager);
 
-        employees.add(employee);
+        employeeDao.addEmployeeToDb(newEmployee);
+        employees.add(newEmployee);
     }
 
     /**
@@ -124,12 +122,7 @@ public class EmployeeManager {
      * @author Elias Glauert
      */
     public void removeEmployee(int id) {
-        for (Employee employee : employees) {
-            if (employee.getId() == id) {
-                employees.remove(employee);
-                return;
-            }
-        }
+        employees.removeIf(employee -> employee.getId() == id);
     }
 
     /**
@@ -141,35 +134,28 @@ public class EmployeeManager {
      * @return Gibt eine Liste von gefundenen Mitarbeitern zurück.
      * @author Elias Glauert
      */
-    public ArrayList<Employee> findEmployees(ArrayList<String> fields, ArrayList<String> contents) {
-        ArrayList<Employee> matchingEmployees = new ArrayList<>();
+    public List<Employee> findEmployees(List<String> fields, List<String> contents) {
+        List<Employee> matchingEmployees = new ArrayList<>();
 
-        // fields und contents müssen natürlich die gleiche Größe haben
         if (fields.size() != contents.size()) {
             throw new IllegalArgumentException("Fields and contents lists must be of the same size.");
         }
 
-        // geht jeden mitarbeiter durch
         for (Employee employee : employees) {
             boolean match = true;
-
-            // überprüft jedes einzelne feld und den wert
             for (int i = 0; i < fields.size(); i++) {
                 String field = fields.get(i);
                 String content = contents.get(i);
 
                 if (!Objects.equals(getValueOfField(employee, field), content)) {
                     match = false;
-                    break; // es wurde ein feld gefunden was nicht übereinstimmt
+                    break;
                 }
             }
-
-            // wenn immer noch ein match besteht, wird der mitarbeiter in die return liste hinzugefügt
             if (match) {
                 matchingEmployees.add(employee);
             }
         }
-
         return matchingEmployees;
     }
 
@@ -245,8 +231,10 @@ public class EmployeeManager {
             case "completedTrainings" -> {
                 return employee.getCompletedTrainings();
             }
+            default -> {
+                return null;
+            }
         }
-        return "UNEXPECTED_FIELD_VALUE";
     }
 
     public void setEmployeeDao(EmployeeDao employeeDao) {
@@ -254,23 +242,17 @@ public class EmployeeManager {
     }
 
     public boolean hasEmployeesGenerated() {
-        return !employees.isEmpty();
-    }
-
-
-    public EmployeeManager(EmployeeDao employeeDao, DatabaseManager dbManager) {
-        this.employeeDao = employeeDao;
-        this.databaseManager = dbManager;
+        return employees != null && !employees.isEmpty();
     }
 
     public List<Employee> findAll() {
-        return employeeDao.getAllEmployees(); //  die Methode muss in EmployeeDao existieren
+        return employeeDao.getAllEmployees();
     }
+
     public void updateEmployee(Employee updatedEmployee) throws Exception {
         if (employeeDao != null) {
             employeeDao.updateEmployee(updatedEmployee);
         } else {
-            // In-Memory Update
             for (int i = 0; i < employees.size(); i++) {
                 if (employees.get(i).getId() == updatedEmployee.getId()) {
                     employees.set(i, updatedEmployee);

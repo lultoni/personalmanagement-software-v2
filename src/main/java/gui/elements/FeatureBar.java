@@ -3,13 +3,11 @@ package gui.elements;
 import core.EmployeeManager;
 import core.EventManager;
 import core.LoginManager;
+import db.DatabaseManager;
 import gui.views.*;
+import model.db.Employee;
 import util.PermissionChecker;
 import util.PersistentInformationReader;
-import model.db.Employee;
-import db.dao.EmployeeDao;
-import db.DatabaseManager;
-import model.db.Employee;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,9 +18,10 @@ import java.util.List;
 
 /**
  * Die FeatureBar beinhaltet alle Features, die dem User zur verfügung stehen.
+ * Sie verwendet die zentralen Manager-Instanzen, die ihr übergeben werden.
  *
- * @author Elias Glauert
- * @version 1.3
+ * @author Elias Glauert, Joshua Sperber
+ * @version 1.4 (angepasst an korrekte Abhängigkeiten)
  * @since 2025-07-07
  */
 public class FeatureBar extends JPanel {
@@ -32,16 +31,21 @@ public class FeatureBar extends JPanel {
     private JPanel main_button_panel;
     private EventManager eventManager;
     private LoginManager loginManager;
+    private EmployeeManager employeeManager; // NEU: Referenz zum EmployeeManager
     private final Dimension standardButtonSize = new Dimension(140, 40);
 
     /**
      * Konstruktor für die FeatureBar.
+     * Erwartet alle notwendigen Manager als Parameter.
+     * @param loginManager Die Instanz des LoginManager.
+     * @param eventManager Die Instanz des EventManager.
+     * @param employeeManager Die Instanz des EmployeeManager.
      * @author Elias Glauert, Joshua Sperber
      */
-    public FeatureBar(LoginManager loginManager, EventManager eventManager) {
-
+    public FeatureBar(LoginManager loginManager, EventManager eventManager, EmployeeManager employeeManager) {
         this.eventManager = eventManager;
         this.loginManager = loginManager;
+        this.employeeManager = employeeManager; // NEU: Initialisierung des EmployeeManager
 
         setLayout(new BorderLayout());
 
@@ -55,10 +59,9 @@ public class FeatureBar extends JPanel {
         myProfile_button = createButton("MyProfile", standardButtonSize, _ -> {
             System.out.println("MyProfile Button Pressed");
             Employee currentUser = loginManager.getLoggedInUser();
-            DatabaseManager dbManager = new DatabaseManager(false);
-            EmployeeManager employeeManager = new EmployeeManager(dbManager);
+            // NUTZE DEN BESTEHENDEN EmployeeManager, KEINE NEUE INSTANZ
             eventManager.callEvent("changeView", new Object[]{
-                    new EmployeeDataView(currentUser, currentUser, employeeManager, eventManager)
+                    new EmployeeDataView(currentUser, currentUser, this.employeeManager, eventManager)
             });
         });
 
@@ -68,7 +71,7 @@ public class FeatureBar extends JPanel {
         });
 
         footerPanel.add(myProfile_button);
-        footerPanel.add(Box.createVerticalStrut(30));  // zusätzlicher Abstand
+        footerPanel.add(Box.createVerticalStrut(30));
         footerPanel.add(logout_button);
 
         add(main_button_panel, BorderLayout.CENTER);
@@ -98,19 +101,16 @@ public class FeatureBar extends JPanel {
      * @author Elias Glauert, Joshua Sperber
      */
     private JPanel getFeatureButtonPanel() {
-
-        JPanel featureButtonPanel = new JPanel(new GridLayout(0, 1)); // TODO maybe passt ein box oder flow layout besser
-
+        JPanel featureButtonPanel = new JPanel(new GridLayout(0, 1));
         if (!PersistentInformationReader.isUserLoggedIn()) {
-            // featureButtonPanel.add(new JLabel("Vor Login sind keine Funktionen auswählbar."));
             return featureButtonPanel;
         }
+
         JButton welcomeButton = new JButton("🏠 Startseite");
         welcomeButton.addActionListener(_ -> {
             eventManager.callEvent("moveToHomeScreen", null);
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
-
         });
         featureButtonPanel.add(welcomeButton);
 
@@ -118,12 +118,8 @@ public class FeatureBar extends JPanel {
         searchFeatureButton.setPreferredSize(standardButtonSize);
         searchFeatureButton.addActionListener(_ -> {
             Employee currentUser = loginManager.getLoggedInUser();
-
-            DatabaseManager dbManager = new DatabaseManager(false);
-            EmployeeManager employeeManager = new EmployeeManager(dbManager);
-            EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
-            employeeManager.setEmployeeDao(employeeDao);
-            List<Employee> allEmployees = employeeManager.findAll();
+            // NUTZE DEN BEREITS VORHANDENEN EmployeeManager
+            List<Employee> allEmployees = this.employeeManager.findAll();
 
             SearchView searchView = null;
             try {
@@ -138,11 +134,9 @@ public class FeatureBar extends JPanel {
         });
         featureButtonPanel.add(searchFeatureButton);
 
-        // if (PermissionChecker.hasPermission('B')) featureButtonPanel.add(searchFeatureButton); TODO dann nutzen wenn es die permission actually existiert
-        featureButtonPanel.add(searchFeatureButton);
         // TODO nutze für die features PermissionChecker.hasPermission(char permission) ob es angezeigt werden soll
         //  also muss nicht ausgeblendet werden, aber es geht darum, dass die function genutzt werden soll
-
+        // Beispiel: if (PermissionChecker.hasPermission('B')) featureButtonPanel.add(searchFeatureButton);
 
         JButton trainingButton = new JButton("📚 Schulungen");
         trainingButton.setPreferredSize(standardButtonSize);
@@ -150,9 +144,7 @@ public class FeatureBar extends JPanel {
             eventManager.callEvent("changeView", new Object[]{new SchulungView()});
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
-
         });
-
         featureButtonPanel.add(trainingButton);
 
         JButton shutdownButton = new JButton("💣 Systemeinstellungen");
@@ -161,8 +153,8 @@ public class FeatureBar extends JPanel {
             eventManager.callEvent("changeView", new Object[]{new gui.views.ShutdownView()});
             myProfile_button.setMaximumSize(standardButtonSize);
             logout_button.setMaximumSize(standardButtonSize);
-
         });
+        featureButtonPanel.add(shutdownButton);
 
         return featureButtonPanel;
     }
@@ -189,5 +181,4 @@ public class FeatureBar extends JPanel {
         revalidate();
         repaint();
     }
-
 }
