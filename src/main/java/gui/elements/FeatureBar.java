@@ -21,17 +21,17 @@ import java.util.List;
  * Sie verwendet die zentralen Manager-Instanzen, die ihr übergeben werden.
  *
  * @author Elias Glauert, Joshua Sperber
- * @version 1.4 (angepasst an korrekte Abhängigkeiten)
+ * @version 1.5 (Problem mit Buttons behoben)
  * @since 2025-07-07
  */
 public class FeatureBar extends JPanel {
 
     private JButton logout_button;
     private JButton myProfile_button;
-    private JPanel main_button_panel;
+    private JPanel main_button_panel; // Dieses Panel wird jetzt wiederverwendet
     private EventManager eventManager;
     private LoginManager loginManager;
-    private EmployeeManager employeeManager; // NEU: Referenz zum EmployeeManager
+    private EmployeeManager employeeManager;
     private final Dimension standardButtonSize = new Dimension(140, 40);
 
     /**
@@ -45,11 +45,12 @@ public class FeatureBar extends JPanel {
     public FeatureBar(LoginManager loginManager, EventManager eventManager, EmployeeManager employeeManager) {
         this.eventManager = eventManager;
         this.loginManager = loginManager;
-        this.employeeManager = employeeManager; // NEU: Initialisierung des EmployeeManager
+        this.employeeManager = employeeManager;
 
         setLayout(new BorderLayout());
 
-        main_button_panel = getFeatureButtonPanel();
+        // Das Panel wird einmal erstellt und danach nur der Inhalt geändert
+        main_button_panel = new JPanel(new GridLayout(0, 1));
 
         // Logout Button und MyProfile Button (Immer sichtbar)
         JPanel footerPanel = new JPanel();
@@ -59,7 +60,6 @@ public class FeatureBar extends JPanel {
         myProfile_button = createButton("MyProfile", standardButtonSize, _ -> {
             System.out.println("MyProfile Button Pressed");
             Employee currentUser = loginManager.getLoggedInUser();
-            // NUTZE DEN BESTEHENDEN EmployeeManager, KEINE NEUE INSTANZ
             eventManager.callEvent("changeView", new Object[]{
                     new EmployeeDataView(currentUser, currentUser, this.employeeManager, eventManager)
             });
@@ -97,28 +97,32 @@ public class FeatureBar extends JPanel {
     }
 
     /**
-     * Gibt alle Feature Knöpfe in einem JPanel zurück.
+     * Erstellt und gibt alle Feature Knöpfe zurück.
+     * @return Eine Liste von Buttons, die auf dem Feature-Panel angezeigt werden sollen.
      * @author Elias Glauert, Joshua Sperber
      */
-    private JPanel getFeatureButtonPanel() {
-        JPanel featureButtonPanel = new JPanel(new GridLayout(0, 1));
+    private void createFeatureButtons() {
+        // Zuerst den alten Inhalt löschen
+        main_button_panel.removeAll();
+
+        // Nur Buttons hinzufügen, wenn der Benutzer eingeloggt ist
         if (!PersistentInformationReader.isUserLoggedIn()) {
-            return featureButtonPanel;
+            // Optional: Hier eine Nachricht oder ein leeres Panel anzeigen
+            main_button_panel.revalidate();
+            main_button_panel.repaint();
+            return;
         }
 
         JButton welcomeButton = new JButton("🏠 Startseite");
         welcomeButton.addActionListener(_ -> {
             eventManager.callEvent("moveToHomeScreen", null);
-            myProfile_button.setMaximumSize(standardButtonSize);
-            logout_button.setMaximumSize(standardButtonSize);
         });
-        featureButtonPanel.add(welcomeButton);
+        main_button_panel.add(welcomeButton);
 
         JButton searchFeatureButton = new JButton("🔎 Suche");
         searchFeatureButton.setPreferredSize(standardButtonSize);
         searchFeatureButton.addActionListener(_ -> {
             Employee currentUser = loginManager.getLoggedInUser();
-            // NUTZE DEN BEREITS VORHANDENEN EmployeeManager
             List<Employee> allEmployees = this.employeeManager.findAll();
 
             SearchView searchView = null;
@@ -128,11 +132,8 @@ public class FeatureBar extends JPanel {
                 throw new RuntimeException(e);
             }
             eventManager.callEvent("changeView", new Object[]{searchView});
-
-            myProfile_button.setMaximumSize(standardButtonSize);
-            logout_button.setMaximumSize(standardButtonSize);
         });
-        featureButtonPanel.add(searchFeatureButton);
+        main_button_panel.add(searchFeatureButton);
 
         // TODO nutze für die features PermissionChecker.hasPermission(char permission) ob es angezeigt werden soll
         //  also muss nicht ausgeblendet werden, aber es geht darum, dass die function genutzt werden soll
@@ -142,26 +143,23 @@ public class FeatureBar extends JPanel {
         trainingButton.setPreferredSize(standardButtonSize);
         trainingButton.addActionListener(_ -> {
             eventManager.callEvent("changeView", new Object[]{new SchulungView()});
-            myProfile_button.setMaximumSize(standardButtonSize);
-            logout_button.setMaximumSize(standardButtonSize);
         });
-        featureButtonPanel.add(trainingButton);
+        main_button_panel.add(trainingButton);
 
         JButton shutdownButton = new JButton("💣 Systemeinstellungen");
         shutdownButton.setPreferredSize(standardButtonSize);
         shutdownButton.addActionListener(_ -> {
             eventManager.callEvent("changeView", new Object[]{new gui.views.ShutdownView()});
-            myProfile_button.setMaximumSize(standardButtonSize);
-            logout_button.setMaximumSize(standardButtonSize);
         });
-        featureButtonPanel.add(shutdownButton);
+        main_button_panel.add(shutdownButton);
 
-        return featureButtonPanel;
+        main_button_panel.revalidate();
+        main_button_panel.repaint();
     }
 
 
     /**
-     * Aktualisiert, ob die Knöpfe en- oder disabled sind.
+     * Aktualisiert, ob die Knöpfe en- oder disabled sind und erneuert das Panel mit den Feature-Buttons.
      * @author Elias Glauert
      */
     public void updateContent() {
@@ -170,15 +168,8 @@ public class FeatureBar extends JPanel {
         logout_button.setEnabled(isUserLoggedIn);
         myProfile_button.setEnabled(isUserLoggedIn);
 
-        Component activeViewComponent = ((BorderLayout) getLayout()).getLayoutComponent(BorderLayout.CENTER);
-        if (activeViewComponent != null) {
-            remove(activeViewComponent);
-        }
-
-        main_button_panel = getFeatureButtonPanel();
-        add(main_button_panel, BorderLayout.CENTER);
-
-        revalidate();
-        repaint();
+        // Die Methode zum Erstellen und Hinzufügen der Buttons aufrufen
+        createFeatureButtons();
     }
+
 }
