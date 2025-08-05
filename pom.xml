@@ -4,61 +4,54 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Grundlegende Projektinformationen -->
     <groupId>de.euerprojekt</groupId>
     <artifactId>pm-software</artifactId>
     <version>1.4-SNAPSHOT</version>
 
-    <!-- Projekteigenschaften -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <maven.compiler.preview>true</maven.compiler.preview>
-        <!-- Versionsnummern -->
         <h2.version>2.2.224</h2.version>
         <jackson.version>2.17.0</jackson.version>
         <javafaker.version>2.0.2</javafaker.version>
         <gson.version>2.10.1</gson.version>
     </properties>
 
-    <!-- Abhängigkeiten -->
     <dependencies>
         <!-- H2-Datenbank -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.2.224</version>
+            <version>${h2.version}</version>
         </dependency>
 
-        <!-- Jackson für JSON -->
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-    </dependencies>
-        <!-- Andere Dependencies... -->
 
-        <!-- JavaFaker (korrigierte Version) -->
+        <!-- JavaFaker -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>2.0.2</version> <!-- Direkte Version statt Variable -->
+            <version>1.0.2</version>
         </dependency>
 
-        <!-- Google Gson (vollständig korrigiert) -->
+        <!-- Gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.10.1</version>
+            <version>${gson.version}</version>
         </dependency>
-    </project>
+    </dependencies>
 
-    <!-- Build-Konfiguration -->
     <build>
         <plugins>
-            <!-- Maven Compiler Plugin -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -72,7 +65,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven Assembly Plugin für Fat-JAR -->
+            <!-- Assembly Plugin für Fat-JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
