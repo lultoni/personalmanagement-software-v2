@@ -121,7 +121,7 @@ public class FeatureBar extends JPanel {
 
         JButton searchFeatureButton = new JButton("🔎 Suche");
         searchFeatureButton.addActionListener(_ -> {
-            if (PermissionChecker.hasPermission('S')) { // oder was auch immer die必要な Berechtigung ist
+            // if (PermissionChecker.hasPermission('S')) { // oder was auch immer die必要な Berechtigung ist
                 Employee currentUser = loginManager.getLoggedInUser();
                 List<Employee> allEmployees = this.employeeManager.findAll();
 
@@ -132,10 +132,6 @@ public class FeatureBar extends JPanel {
                     throw new RuntimeException(e);
                 }
                 eventManager.callEvent("changeView", new Object[]{searchView});
-            } else {
-                // Hier kann man eine Fehlermeldung anzeigen oder sonstwas machen
-                System.out.println("Keine Berechtigung für die Suche");
-            }
         });
         main_button_panel.add(searchFeatureButton);
 
@@ -169,10 +165,12 @@ public class FeatureBar extends JPanel {
     public void updateContent() {
         System.out.println(" ~ db ~ FeatureBar.updateContent()");
         boolean isUserLoggedIn = PersistentInformationReader.isUserLoggedIn();
+        System.out.println("Benutzer eingeloggt? " + isUserLoggedIn);
         logout_button.setEnabled(isUserLoggedIn);
         myProfile_button.setEnabled(isUserLoggedIn);
 
         // Die Methode zum Erstellen und Hinzufügen der Buttons aufrufen
+        System.out.println("Erstelle Feature Buttons jetzt...");
         createFeatureButtons();
     }
 

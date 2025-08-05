@@ -28,11 +28,9 @@ public class SearchView extends View {
         this(null, new ArrayList<>());  //leerer Konstruktor, damit SearchView korrekt initialisiert wird, ohne das Daten sofort notwendig sind
     }
 
-
-
     public SearchView(Employee currentUser, List<Employee> allEmployees) throws IOException {
         this.currentUser = currentUser;
-        this.allEmployees = allEmployees != null ? allEmployees : new ArrayList<>();
+        this.allEmployees = allEmployees != null ? new ArrayList<>(allEmployees) : new ArrayList<>();
 
         setLayout(new BorderLayout());
 
@@ -67,11 +65,15 @@ public class SearchView extends View {
         departmentDropdown.setMaximumSize(new Dimension(180, 30));
         departmentDropdown.addItem("Alle Abteilungen");
 
-        List<Department> departments = (List<Department>) CompanyStructureManager.getInstance().getAllDepartments();
+        // ********************************************************************
+        // KORREKTUR: Erstelle eine neue ArrayList aus der zurückgegebenen Collection
+        // Der Fehler trat auf, weil CompanyStructureManager.getInstance().getAllDepartments()
+        // eine UnmodifiableCollection zurückgibt, die nicht direkt in List gecastet werden kann.
+        // ********************************************************************
+        List<Department> departments = new ArrayList<>(CompanyStructureManager.getInstance().getAllDepartments());
         for (Department dep : departments) {
             departmentDropdown.addItem(dep.getName());
-
-        };
+        }
         departmentDropdown.setMaximumSize(new Dimension(180, 30));
         searchPanel.add(departmentDropdown);
 
@@ -109,7 +111,16 @@ public class SearchView extends View {
                         if (!fullName.contains(keyword) && !email.contains(keyword)) return false;
                     }
 
-
+                    // Filter nach Abteilung, falls ausgewählt (außer "Alle Abteilungen")
+                    if (department != null && !department.equals("Alle Abteilungen")) {
+                        // Annahme: Employee hat eine Methode getDepartmentId()
+                        // und getDepartmentNameById(String deptId) liefert den Namen
+                        // Stelle sicher, dass diese Logik korrekt ist, basierend auf deiner Datenstruktur
+                        String empDepartmentName = getDepartmentNameById(emp.getDepartmentId());
+                        if (!empDepartmentName.equalsIgnoreCase(department)) {
+                            return false;
+                        }
+                    }
 
                     if (headOnly && !emp.isManager()) {
                         return false;
@@ -141,6 +152,8 @@ public class SearchView extends View {
         resultsPanel.revalidate();
         resultsPanel.repaint();
     }
+
+    // Hilfsmethode, um den Abteilungsnamen anhand der ID zu erhalten
     private String getDepartmentNameById(String deptId) {
         try {
             return CompanyStructureManager.getInstance()
@@ -149,9 +162,12 @@ public class SearchView extends View {
                     .filter(d -> d.getDepartmentId().equals(deptId))
                     .map(d -> d.getName())
                     .findFirst()
-                    .orElse(deptId);
+                    .orElse(deptId); // Falls nicht gefunden, gib die ID zurück
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // Behandle die IOException angemessen, z.B. durch Loggen oder Anzeigen einer Fehlermeldung
+            System.err.println("Fehler beim Abrufen des Abteilungsnamens: " + e.getMessage());
+            // Wirf eine RuntimeException, da der Konstruktor IOException wirft
+            throw new RuntimeException("Konnte Abteilungsnamen nicht abrufen: " + e.getMessage(), e);
         }
     }
 }
