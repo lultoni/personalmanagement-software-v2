@@ -187,4 +187,4 @@ public class JsonParser {
         return gson.fromJson(json, type);
     }
 }
-}
+

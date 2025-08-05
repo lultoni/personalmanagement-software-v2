@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.List;
 
+
 public class EmployeeDataView extends View {
 
     private final Employee loggedInUser;
@@ -39,23 +40,31 @@ public class EmployeeDataView extends View {
 
     private void initializeCaches() {
         try {
-            // Lade Department-Daten aus JSON
-            List<Map<String, Object>> departments = JsonParser.parseJsonArray(Department.json);
+            // Lade Department-Daten aus JSON (mit korrigiertem Pfad)
+            List<Map<String, Object>> departments = JsonParser.parseJsonArray(
+                    getClass().getResourceAsStream("/json/Department.json").toString());  // Geändert von "/data/" zu "/json/"
+
+            // Lade Role-Daten aus JSON (mit korrigiertem Pfad)
+            List<Map<String, Object>> roles = JsonParser.parseJsonArray(
+                    getClass().getResourceAsStream("/json/Role.json").toString());  // Geändert von "/data/" zu "/json/"
+
+            // Füge Daten zu den Caches hinzu
             for (Map<String, Object> dept : departments) {
                 String id = (String) dept.get("departmentId");
                 String name = (String) dept.get("name");
                 departmentCache.put(id, name);
             }
 
-            // Lade Role-Daten aus JSON
-            List<Map<String, Object>> roles = JsonParser.parseJsonArray(Role.json);
             for (Map<String, Object> role : roles) {
                 String id = (String) role.get("roleId");
                 String name = (String) role.get("name");
                 roleCache.put(id, name);
             }
         } catch (Exception e) {
-            System.err.println("Cache Initialization Error: " + e.getMessage());
+            System.err.println("Fehler beim Initialisieren der Caches: " + e.getMessage());
+            // Fallback-Werte setzen
+            departmentCache.put("default", "Allgemein");
+            roleCache.put("default", "Mitarbeiter");
         }
     }
 
