@@ -120,18 +120,22 @@ public class FeatureBar extends JPanel {
         main_button_panel.add(welcomeButton);
 
         JButton searchFeatureButton = new JButton("🔎 Suche");
-        searchFeatureButton.setPreferredSize(standardButtonSize);
         searchFeatureButton.addActionListener(_ -> {
-            Employee currentUser = loginManager.getLoggedInUser();
-            List<Employee> allEmployees = this.employeeManager.findAll();
+            if (PermissionChecker.hasPermission('S')) { // oder was auch immer die必要な Berechtigung ist
+                Employee currentUser = loginManager.getLoggedInUser();
+                List<Employee> allEmployees = this.employeeManager.findAll();
 
-            SearchView searchView = null;
-            try {
-                searchView = new SearchView(currentUser, allEmployees);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                SearchView searchView = null;
+                try {
+                    searchView = new SearchView(currentUser, allEmployees);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                eventManager.callEvent("changeView", new Object[]{searchView});
+            } else {
+                // Hier kann man eine Fehlermeldung anzeigen oder sonstwas machen
+                System.out.println("Keine Berechtigung für die Suche");
             }
-            eventManager.callEvent("changeView", new Object[]{searchView});
         });
         main_button_panel.add(searchFeatureButton);
 
