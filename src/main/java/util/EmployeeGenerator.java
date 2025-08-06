@@ -1,119 +1,189 @@
-package util; // Passe dies an dein tatsächliches Paket an, z.B. util oder core
+package util;
 
-import model.db.Employee; // Importiere deine Employee-Klasse
-import java.time.LocalDate; // Für LocalDate
-import java.util.Random; // Für Zufallszahlen
-// import java.util.Calendar; // Nicht mehr benötigt, kann entfernt werden
-// import java.util.Date; // Nicht mehr benötigt, kann entfernt werden
+import core.CompanyStructureManager;
+import db.dao.EmployeeDao;
+import model.db.Employee;
+import model.json.Company;
+import model.json.Department;
+import model.json.Qualification;
+import model.json.Role;
+import model.json.Team;
 
-// Annahme: Du hast eine Methode, um die nächste verfügbare ID zu erhalten
-// Annahme: Du hast Zugriff auf EmployeeManager oder eine ähnliche Logik zum Hinzufügen von Mitarbeitern
+import com.github.javafaker.Faker;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+
+/*
+ * Diese Klasse generiert vollständig befüllte Employee-Objekte
+ * basierend auf dynamischen Daten (mittels Faker) und der geladenen Unternehmensstruktur.
+ * Sie kümmert sich NICHT um die Persistenz in der Datenbank.
+ * Die erzeugten Employee-Objekte müssen anschließend über einen DAO gespeichert werden.
+ *
+ * @author Dorian Gläske, Elias Glauert
+ * @version 2.3 (Hinzufügung von hr- und hrHead-Logik basierend auf DepartmentId und TeamId)
+ * @since 2025-07-30
+ */
 public class EmployeeGenerator {
 
     private static final Random RANDOM = new Random();
+    private final Faker faker;
+    private final ObjectMapper objectMapper;
+    private EmployeeDao  employeeDao;
 
-    // Beispielmethode zum Generieren eines einzelnen Mitarbeiters
-    public static Employee generateRandomEmployee(int currentMaxId) {
-        String username = "user" + (currentMaxId + 1);
-        String password = "pass" + (currentMaxId + 1);
-        String permissionString = "A"; // Beispiel
-        String firstName = "Max";
-        String lastName = "Mustermann";
-        String email = username + "@example.com";
-        String phoneNumber = "0123456789";
-        String address = "Musterstr. " + RANDOM.nextInt(100);
-        char gender = RANDOM.nextBoolean() ? 'M' : 'F'; // Zufälliges Geschlecht
+    // Private Referenzen für die Unternehmensstruktur, die nur einmalig geladen werden
+    private final Company mainCompany;
+    private final List<Department> allDepartmentsIDs;
+    private final List<Role> allRolesIDs;
+    private final List<Qualification> allQualificationsIDs;
+    private final List<Team> allTeamsIDs;
 
-        // ********************************************************************
-        // KORREKTUR: Datumsgenerierung mit LocalDate
-        // ********************************************************************
-        // Generiere ein zufälliges Geburtsdatum (z.B. 20-60 Jahre in der Vergangenheit)
-        LocalDate dateOfBirth = LocalDate.now().minusYears(20 + RANDOM.nextInt(41)); // 20 bis 60 Jahre alt
+    CompanyStructureManager manager = CompanyStructureManager.getInstance();
 
-        // Generiere ein zufälliges Einstellungsdatum (z.B. 0-5 Jahre in der Vergangenheit)
-        LocalDate hireDate = LocalDate.now().minusYears(RANDOM.nextInt(6)); // 0 bis 5 Jahre eingestellt
-        // Sicherstellen, dass hireDate nicht vor dateOfBirth liegt (rudimentär)
-        if (hireDate.isBefore(dateOfBirth.plusYears(18))) { // Angenommen, man wird nicht vor 18 eingestellt
-            hireDate = dateOfBirth.plusYears(18).plusMonths(RANDOM.nextInt(12));
+    /**
+     * Konstruktor des EmployeeDataGenerators.
+     * Beim Erstellen einer Instanz werden die benötigten Daten aus dem CompanyStructureManager geladen.
+     * Initialisiert Faker (mit deutschem Locale) und ObjectMapper.
+     *
+     * @throws IOException Wenn beim Laden der Unternehmensstruktur ein Fehler auftritt.
+     */
+    public EmployeeGenerator(EmployeeDao employeeDao) throws IOException {
+        this.employeeDao = employeeDao;
+        // Initialisiere Faker und ObjectMapper direkt im Konstruktor
+        this.faker = new Faker(new Locale("de", "DE")); // Faker mit deutscher Lokalisierung
+        this.objectMapper = new ObjectMapper(); // Standard ObjectMapper
+
+        // Lade Unternehmensstruktur
+        this.mainCompany = manager.getCompany();
+        this.allDepartmentsIDs = new ArrayList<>(manager.getAllDepartments());
+        this.allRolesIDs = new ArrayList<>(manager.getAllRoles());
+        this.allQualificationsIDs = new ArrayList<>(manager.getAllQualifications());
+        this.allTeamsIDs = new ArrayList<>(manager.getAllTeams());
+
+        if (mainCompany == null || allDepartmentsIDs.isEmpty() || allRolesIDs.isEmpty()) {
+            throw new IllegalStateException("Unternehmensstruktur unvollständig geladen. Kann keine Mitarbeiter generieren.");
         }
-        // ********************************************************************
+    }
 
-        String employmentStatus = "Active";
-        String departmentId = "DEP" + (RANDOM.nextInt(5) + 1); // Beispiel: DEP1-DEP5
-        String teamId = "TEAM" + (RANDOM.nextInt(10) + 1); // Beispiel: TEAM1-TEAM10
-        String roleId = "ROLE" + (RANDOM.nextInt(3) + 1); // Beispiel: ROLE1-ROLE3
-        String qualifications = "Java, SQL";
-        String completedTrainings = "Onboarding";
-        Integer managerId = null; // Kann null sein
-        boolean isItAdmin = RANDOM.nextBoolean();
-        boolean isHr = RANDOM.nextBoolean();
-        boolean isHrHead = RANDOM.nextBoolean();
-        boolean isManager = RANDOM.nextBoolean();
+    /**
+     * Generiert ein einzelnes Employee-Objekt mit dynamischen Daten.
+     * Die generierte ID für den Mitarbeiter ist 0, da diese von der Datenbank vergeben wird.
+     *
+     * @param index Ein optionaler Index, der für die Generierung von eindeutigen Benutzernamen verwendet werden kann.
+     * @return Ein fertig befülltes Employee-Objekt.
+     */
+    public Employee generateSingleEmployee(int index) {
+        List<String> availableFirstNames = Arrays.asList(
+                "Lukas", "Emma", "Mia", "Noah", "Leon", "Lina", "Elias", "Paul", "Ben", "Anna",
+                "Luis", "Clara", "Felix", "Marie", "Jonas", "Laura", "Max", "Mila", "Tim", "Sophie",
+                "Julian", "Hannah", "David", "Lea", "Finn", "Emily", "Moritz", "Lilly", "Tom", "Nina",
+                "Alexander", "Amelie", "Anton", "Elisa", "Fabian", "Helena", "Jakob", "Julia", "Karl", "Karla",
+                "Kevin", "Lena", "Leo", "Leni", "Leonhard", "Magdalena", "Manuel", "Marlene", "Matteo", "Maya",
+                "Michael", "Nico", "Niklas", "Paula", "Philipp", "Pia", "Rafael", "Romy", "Samira", "Sandro",
+                "Sarah", "Sebastian", "Silas", "Simon", "Stella", "Stefan", "Theresa", "Valentin", "Victoria", "Vincent",
+                "Yannick", "Zoe", "Emil", "Greta", "Oskar", "Frieda", "Henri", "Ida", "Mathis", "Luisa"
+        );
+
+        List<String> availableLastNames = Arrays.asList(
+                "Müller", "Schmidt", "Schneider", "Fischer", "Weber", "Meyer", "Wagner", "Becker", "Hoffmann", "Schäfer",
+                "Koch", "Bauer", "Richter", "Klein", "Wolf", "Neumann", "Schwarz", "Zimmermann", "Braun", "Krüger",
+                "Hofmann", "Hartmann", "Lange", "Scholz", "Krause", "Frank", "Berger", "Meier", "Fuchs", "Jung",
+                "Baumann", "Baier", "Graf", "Winter", "Herrmann", "Pfeiffer", "Haas", "Simon", "Schulz", "Schuster",
+                "Huber", "Peters", "Thomas", "Keller", "Kuhn", "Seidel", "Walter", "Jäger", "Lenz", "Gärtner",
+                "Vogel", "Maier", "Winkler", "Engel", "Friedrich", "Thiel", "Kaiser", "Franke", "Scherer", "Brandt",
+                "Sommer", "Otto", "Wegner", "Groß", "Hahn", "Köhler", "Lehmann", "Albrecht", "Roth", "Schröder",
+                "Schmitz", "Ludwig", "Seifert", "Beck", "Eichhorn", "Sauer", "Brunner", "Götz", "Kolb", "Ebert"
+        );
+
+        String firstName = availableFirstNames.get(RANDOM.nextInt(availableFirstNames.size()));
+        String lastName = availableLastNames.get(RANDOM.nextInt(availableLastNames.size()));
+
+        String email = faker.internet().emailAddress(firstName.toLowerCase() + "." + lastName.toLowerCase());
+        String phoneNumber = faker.phoneNumber().phoneNumber();
+
+        Date dobAsFakerDate = faker.date().birthday(18, 65);
+        LocalDate dateOfBirthAsLocalDate = dobAsFakerDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Date dateOfBirth = Date.from(dateOfBirthAsLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        String address = faker.address().streetAddress() + ", " + faker.address().zipCode() + " " + faker.address().city() + ", " + faker.address().country();
+        char gender = faker.options().option('M', 'F');
+
+        Department randomDepartment = allDepartmentsIDs.get(RANDOM.nextInt(allDepartmentsIDs.size()));
+        Role randomRole = allRolesIDs.get(RANDOM.nextInt(allRolesIDs.size()));
+        Team randomTeam = null;
+        if (!allTeamsIDs.isEmpty()) {
+            randomTeam = allTeamsIDs.get(RANDOM.nextInt(allTeamsIDs.size()));
+        }
+
+        String RoleId = randomRole.getroleId();
+
+        String qualificationsJson = "[]";
+        String employeeQualificationId = RoleId;
+        qualificationsJson = String.valueOf(manager.getRequiredSkillsForQualification(employeeQualificationId));
+
+        String username = firstName.toLowerCase() + "." + lastName.toLowerCase();
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.YEAR, -RANDOM.nextInt(5));
+        Date hireDate = cal.getTime();
+
+        String employmentStatus = RANDOM.nextBoolean() ? "Active" : "On Leave";
+        Integer managerId = null;
+
+        // Bestimme die Booleans itAdmin, hr, hrHead, isManager
+
+        // Lokale Variablen für departmentId und teamId für bessere Lesbarkeit
+        String departmentId = randomDepartment.getDepartmentId();
+        String teamId = (randomTeam != null) ? randomTeam.getTeamId() : null;
+
+        // Logik für isManager (Team-ID endet mit -lead)
+        boolean isManager = (teamId != null && teamId.endsWith("-lead"));
+
+        // Logik für itAdmin (Department-ID endet mit -it)
+        boolean itAdmin = (departmentId != null && departmentId.endsWith("-it"));
+
+        // Logik für hr (Department-ID endet mit -hr)
+        boolean hr = false; // Standardwert
+        if (departmentId != null && departmentId.endsWith("-hr")) {
+            hr = true;
+        }
+
+        // Logik für hrHead (Department-ID endet mit -hr UND Team-ID endet mit -lead)
+        boolean hrHead = false; // Standardwert
+        if (hr && isManager) { // Wenn bereits HR und auch Manager ist
+            hrHead = true;
+        }
+
 
         return new Employee(
-                currentMaxId + 1, // ID
                 username,
-                password,
-                permissionString,
+                "123456",
+                PermissionChecker.getEmployeePermissionString(RoleId, departmentId),
                 firstName,
                 lastName,
                 email,
                 phoneNumber,
-                dateOfBirth, // LocalDate
+                dateOfBirth,
                 address,
                 gender,
-                hireDate, // LocalDate
+                hireDate,
                 employmentStatus,
                 departmentId,
                 teamId,
-                roleId,
-                qualifications,
-                completedTrainings,
+                RoleId,
+                qualificationsJson,
+                "[]",
                 managerId,
-                isItAdmin,
-                isHr,
-                isHrHead,
+                itAdmin,
+                hr,       // Der neu berechnete Wert für hr
+                hrHead,   // Der neu berechnete Wert für hrHead
                 isManager
         );
     }
-
-    // Beispiel für eine Methode, die mehrere Mitarbeiter generiert und hinzufügt
-    // Annahme: Du hast eine Instanz von EmployeeManager
-    /*
-    public static void generateAndAddEmployees(int numberOfEmployees, EmployeeManager employeeManager) {
-        for (int i = 0; i < numberOfEmployees; i++) {
-            // Annahme: employeeManager.getNextAvailableId() gibt die nächste ID zurück
-            // oder du musst die ID-Generierung hier selbst verwalten
-            int nextId = employeeManager.getEmployees().size() + 1; // Vereinfacht
-            Employee newEmployee = generateRandomEmployee(nextId - 1); // generateRandomEmployee erwartet die Basis-ID
-
-            employeeManager.addEmployee(
-                newEmployee.getUsername(),
-                newEmployee.getPassword(),
-                newEmployee.getPermissionString(),
-                newEmployee.getFirstName(),
-                newEmployee.getLastName(),
-                newEmployee.getEmail(),
-                newEmployee.getPhoneNumber(),
-                newEmployee.getDateOfBirth(),
-                newEmployee.getAddress(),
-                newEmployee.getGender(),
-                newEmployee.getHireDate(),
-                newEmployee.getEmploymentStatus(),
-                newEmployee.getDepartmentId(),
-                newEmployee.getTeamId(),
-                newEmployee.getRoleId(),
-                newEmployee.getQualifications(),
-                newEmployee.getCompletedTrainings(),
-                newEmployee.getManagerId(),
-                newEmployee.isItAdmin(),
-                newEmployee.isHr(),
-                newEmployee.isHrHead(),
-                newEmployee.isManager()
-            );
-        }
-        System.out.println(numberOfEmployees + " zufällige Mitarbeiter generiert und hinzugefügt.");
-    }
-    */
 }

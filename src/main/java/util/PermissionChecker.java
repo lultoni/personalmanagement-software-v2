@@ -40,17 +40,28 @@ public class PermissionChecker {
      * @author Elias Glauert
      */
     public static String getEmployeePermissionString(String department_id, String role_id) {
-        // TODO later on change this to work correctly (params can be changed!)
-        return admin_permissions_string;
+        if(department_id.endsWith("-it")) {
+            return admin_permissions_string;
+        }
+        else if(department_id.endsWith("-hr")&&role_id.endsWith("-head")) {
+            return hr_permission_head_string;
+        }
+        else if(department_id.endsWith("-hr")) {
+            return hr_permissions_string;
+        }
+        else if(role_id.endsWith("-head")) {
+            return head_permission_string;
+        }
+        else {
+            return empty_permissions_string;
+        }
     }
 
     public static void setCurrent_permissions(String permissions) {
-
         current_permissions = permissions;
     }
 
     public static String getCurrent_permissions() {
-
         return current_permissions;
     }
 
@@ -123,4 +134,3 @@ public class PermissionChecker {
 
 }
 // TOdO - nach einem erfolgreichen Login-attempot soll vom current persission checker die Permissiion auf den aktuell nutzenden Permission setzen
-// ToDo - employee generator/ employee generator service soll beim Erstellen des Mitarbeiters, soll gleich der passende Permission Sting gegeben werden

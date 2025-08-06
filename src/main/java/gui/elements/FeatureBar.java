@@ -149,7 +149,12 @@ public class FeatureBar extends JPanel {
         JButton trainingButton = new JButton("📚 Schulungen");
         trainingButton.setPreferredSize(standardButtonSize);
         trainingButton.addActionListener(_ -> {
-            eventManager.callEvent("changeView", new Object[]{new SchulungView()});
+            Employee currentUser = loginManager.getLoggedInUser();
+            try {
+                eventManager.callEvent("changeView", new Object[]{new SchulungView(currentUser, currentUser, this.employeeManager, eventManager)});
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         main_button_panel.add(trainingButton);
 
