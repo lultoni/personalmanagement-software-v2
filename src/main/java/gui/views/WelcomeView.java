@@ -1,7 +1,7 @@
 package gui.views;
 
 import core.EmployeeManager;
-import db.dao.EmployeeDao;
+import db.dao.EmployeeDao; // Nicht direkt verwendet, kann entfernt werden wenn unnötig
 import model.db.Employee;
 import util.PersistentInformationReader;
 
@@ -14,6 +14,7 @@ import java.io.IOException;
 /**
  * Die Startseite / Willkommensansicht für das IT-Admin-System.
  * @author Joshua Sperber
+ * @version 1.1 (Personalisierte Begrüßung hinzugefügt)
  */
 public class WelcomeView extends View {
 
@@ -21,6 +22,9 @@ public class WelcomeView extends View {
         setView_id("view-welcome");
         setView_name("Willkommensansicht");
 
+        // ********************************************************************
+        // HINTERGRUNDDESIGN-INTEGRATION START (wie in anderen Views)
+        // ********************************************************************
         BufferedImage backgroundImage;
         try {
             backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
@@ -40,20 +44,34 @@ public class WelcomeView extends View {
         };
         backgroundPanel.setLayout(new BorderLayout());
         backgroundPanel.setOpaque(false);
+        //
 
-        JLabel titleLabel = new JLabel("Willkommen im System", SwingConstants.CENTER);
+        Employee loggedInEmployee = employeeManager.getEmployeeById(PersistentInformationReader.getLoggedInUserId());
+        String userName = "";
+        if (loggedInEmployee != null) {
+            userName = loggedInEmployee.getFirstName() + " " + loggedInEmployee.getLastName();
+        }
+
+        JLabel titleLabel = new JLabel("Willkommen, " + userName + "!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 26));
+        titleLabel.setForeground(Color.BLACK); // Textfarbe für bessere Lesbarkeit auf transparentem Hintergrund
 
         JLabel subtitleLabel = new JLabel("BOB the Builder Company – " + getRoleString(employeeManager), SwingConstants.CENTER);
         subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        subtitleLabel.setForeground(Color.DARK_GRAY); // Textfarbe für bessere Lesbarkeit
 
-        JPanel centerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-        centerPanel.setOpaque(false);
-        centerPanel.add(titleLabel);
-        centerPanel.add(subtitleLabel);
+        // Haupt-Content-Panel, das alle spezifischen UI-Elemente enthält
+        JPanel mainContentPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        mainContentPanel.setOpaque(false); // Wichtig: Macht das Panel transparent
+        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20)); // Optional: Abstand zum Rand
 
-        backgroundPanel.add(centerPanel, BorderLayout.CENTER);
+        mainContentPanel.add(titleLabel);
+        mainContentPanel.add(subtitleLabel);
 
+        // Füge das mainContentPanel zum backgroundPanel hinzu
+        backgroundPanel.add(mainContentPanel, BorderLayout.CENTER);
+
+        // Setze das Layout der Haupt-View und füge das Hintergrundpanel hinzu
         setLayout(new BorderLayout());
         add(backgroundPanel, BorderLayout.CENTER);
     }
@@ -61,10 +79,13 @@ public class WelcomeView extends View {
     private String getRoleString(EmployeeManager employeeManager) {
         String roleString = "Mitarbeiter";
         Employee loggedInEmployee = employeeManager.getEmployeeById(PersistentInformationReader.getLoggedInUserId());
-        if (loggedInEmployee.isItAdmin()) return "IT-Admin";
-        if (loggedInEmployee.isHrHead()) return "HR-Head";
-        if (loggedInEmployee.isHr()) return "HR-Mitarbeiter";
-        if (loggedInEmployee.isManager()) return "Manager";
+        // Sicherstellen, dass loggedInEmployee nicht null ist
+        if (loggedInEmployee != null) {
+            if (loggedInEmployee.isItAdmin()) return "IT-Admin";
+            if (loggedInEmployee.isHrHead()) return "HR-Head";
+            if (loggedInEmployee.isHr()) return "HR-Mitarbeiter";
+            if (loggedInEmployee.isManager()) return "Manager";
+        }
         return roleString;
     }
 
