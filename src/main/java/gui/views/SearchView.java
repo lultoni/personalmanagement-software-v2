@@ -1,5 +1,6 @@
 package gui.views;
 
+import core.EventManager;
 import model.db.Employee;
 import util.EmployeeFieldAccessEvaluator;
 import core.EmployeeManager; // NEU: Importiere den EmployeeManager
@@ -28,7 +29,7 @@ public class SearchView extends View {
     private Employee currentUser;
     private EmployeeManager employeeManager; // NEU: Referenz zum EmployeeManager
 
-    public SearchView() throws IOException {
+    public SearchView(Employee currentUser, EmployeeManager employeeManager, EventManager eventManager) throws IOException {
         // Dieser Konstruktor sollte idealerweise den EmployeeManager erhalten,
         // aber für die Kompatibilität lassen wir ihn und rufen den Hauptkonstruktor auf.
         // Die allEmployees-Liste muss dann über den EmployeeManager geholt werden.

@@ -1,5 +1,9 @@
 package gui.views;
 
+import core.EventManager;
+import core.LoginManager;
+import model.db.Employee;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +26,7 @@ public class ShutdownView extends View {
     private JLabel countdownLabel;
     private JButton cancelButton;
 
-    public ShutdownView() {
+    public ShutdownView(LoginManager loginManager, EventManager eventManager, Employee currentUser) {
         setView_id("view-shutdown");
         setView_name("Systemabschaltung");
 
