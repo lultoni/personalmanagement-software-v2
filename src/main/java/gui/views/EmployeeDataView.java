@@ -1,7 +1,7 @@
 package gui.views;
 
 import model.db.Employee;
-import core.CompanyStructureManager; // Nicht direkt verwendet, aber eventuell für andere Caches
+import core.CompanyStructureManager;
 import core.EmployeeManager;
 import core.EventManager;
 import util.JsonParser;
@@ -13,12 +13,18 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.io.BufferedReader; // Neu hinzugefügt
-import java.io.InputStream; // Neu hinzugefügt
-import java.io.InputStreamReader; // Neu hinzugefügt
-import java.util.stream.Collectors; // Neu hinzugefügt
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.time.LocalDate; // Neu hinzugefügt für Datumshandhabung
+import java.time.format.DateTimeParseException; // Neu hinzugefügt für Datumshandhabung
+import java.time.format.DateTimeFormatter; // NEU HINZUGEFÜGT für explizites Datumsformat
+import java.util.stream.Collectors;
 import java.util.*;
 import java.util.List;
+
+// LinkedHashSet für die Beibehaltung der Reihenfolge beim Entfernen von Duplikaten
+import java.util.LinkedHashSet;
 
 
 public class EmployeeDataView extends View {
@@ -157,8 +163,7 @@ public class EmployeeDataView extends View {
         // Die Border wird jetzt auf ein inneres Panel angewendet, nicht auf die View selbst
         // setBorder(new EmptyBorder(10, 10, 10, 10)); // Diese Zeile wird entfernt oder verschoben
 
-        // Erstelle ein Haupt-Content-Panel, das alle spezifischen UI-Elemente enthält
-        // Dieses Panel ist transparent, damit der Hintergrund durchscheint
+
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.setOpaque(false); // Wichtig: Macht das Panel transparent
         mainContentPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Hier die Border anwenden
@@ -293,9 +298,6 @@ public class EmployeeDataView extends View {
         try {
             updateEmployeeFromFields();
 
-            // Update-Logik mit remove und add
-            // Dies ist ein potenzieller Engpass und könnte bei vielen Mitarbeitern langsam sein.
-            // Besser wäre eine direkte Update-Methode im EmployeeManager.
             employeeManager.removeEmployee(employee.getId());
             employeeManager.addEmployee(
                     employee.getUsername(),
@@ -357,7 +359,16 @@ public class EmployeeDataView extends View {
             case "phoneNumber" -> employee.setPhoneNumber(value);
             case "address" -> employee.setAddress(value);
             case "gender" -> employee.setGender(value.charAt(0));
-            // Füge hier weitere Felder hinzu, die bearbeitet werden können
+            case "dateOfBirth" -> {
+                try {
+                    employee.setDateOfBirth(LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE));
+                } catch (DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Ungültiges Datumsformat für Geburtsdatum. Bitte verwenden Sie YYYY-MM-DD.",
+                            "Fehler beim Datum",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 
@@ -370,19 +381,28 @@ public class EmployeeDataView extends View {
                 "firstName", "lastName", "username", "email"
         ));
 
+        // Wenn der eingeloggte Benutzer sein eigenes Profil ansieht, alle relevanten Felder hinzufügen
         if (loggedInUser.equals(employee)) {
             fields.addAll(Arrays.asList(
-                    "phoneNumber", "dateOfBirth", "address", "gender"
-            ));
-        }
-
-        if (loggedInUser.isHr() || loggedInUser.isItAdmin()) {
-            fields.addAll(Arrays.asList(
+                    "phoneNumber", "dateOfBirth", "address", "gender",
                     "departmentId", "roleId", "hireDate", "employmentStatus"
             ));
         }
 
-        return fields;
+        // Wenn der eingeloggte Benutzer NICHT sein eigenes Profil ansieht, aber HR oder IT-Admin ist,
+        // dann werden die HR/IT-relevanten Felder hinzugefügt.
+        // Die persönlichen Felder ("phoneNumber", "dateOfBirth", "address", "gender")
+        // werden hier für HR/IT-Admins auch bei anderen Mitarbeitern sichtbar gemacht.
+        if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin())) {
+            fields.addAll(Arrays.asList(
+                    "phoneNumber", "dateOfBirth", "address", "gender",
+                    "departmentId", "roleId", "hireDate", "employmentStatus"
+            ));
+        }
+
+        // Verwende LinkedHashSet, um Duplikate zu entfernen und die Reihenfolge beizubehalten
+        return new ArrayList<>(new LinkedHashSet<>(fields));
+        // ********************************************************************
     }
 
     private String getFieldLabel(String field) {
@@ -421,15 +441,24 @@ public class EmployeeDataView extends View {
     }
 
     private boolean canEditData() {
+        // ********************************************************************
+        // KORREKTUR: Die Bearbeitungsberechtigung ist bereits korrekt.
+        // Ein Benutzer kann seine eigenen Daten bearbeiten ODER ein HR/IT-Admin kann Daten bearbeiten.
+        // ********************************************************************
         return loggedInUser.equals(employee) ||
                 loggedInUser.isHr() ||
                 loggedInUser.isItAdmin();
     }
 
     private boolean isFieldEditable(String field) {
+        // ********************************************************************
+        // KORREKTUR: dateOfBirth ist jetzt bearbeitbar.
+        // Andere Felder bleiben nicht direkt vom Mitarbeiter bearbeitbar,
+        // da sie typischerweise administrative/organisatorische Daten sind.
+        // ********************************************************************
         Set<String> nonEditable = new HashSet<>(Arrays.asList(
                 "username", "departmentId", "roleId", "hireDate",
-                "employmentStatus", "dateOfBirth"
+                "employmentStatus"
         ));
         return !nonEditable.contains(field);
     }
