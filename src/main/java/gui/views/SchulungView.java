@@ -41,7 +41,7 @@ public class SchulungView extends View {
         // Titel
         JLabel titleLabel = new JLabel("Schulungsübersicht", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setForeground(Color.BLACK);
         backgroundPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Button Panel

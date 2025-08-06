@@ -5,8 +5,11 @@ import db.dao.EmployeeDao;
 import model.db.Employee;
 import util.PersistentInformationReader;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-        import java.awt.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Die Startseite / Willkommensansicht für das IT-Admin-System.
@@ -18,7 +21,25 @@ public class WelcomeView extends View {
         setView_id("view-welcome");
         setView_name("Willkommensansicht");
 
-        setLayout(new BorderLayout());
+        BufferedImage backgroundImage;
+        try {
+            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
+        } catch (IOException e) {
+            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
+        }
+
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                g2d.dispose();
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setOpaque(false);
 
         JLabel titleLabel = new JLabel("Willkommen im System", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 26));
@@ -27,10 +48,14 @@ public class WelcomeView extends View {
         subtitleLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         JPanel centerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        centerPanel.setOpaque(false);
         centerPanel.add(titleLabel);
         centerPanel.add(subtitleLabel);
 
-        add(centerPanel, BorderLayout.CENTER);
+        backgroundPanel.add(centerPanel, BorderLayout.CENTER);
+
+        setLayout(new BorderLayout());
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
     private String getRoleString(EmployeeManager employeeManager) {
@@ -45,13 +70,11 @@ public class WelcomeView extends View {
 
     @Override
     public String toString() {
-        // TODO write this function
         return super.toString();
     }
 
     @Override
     public boolean equals(Object obj) {
-        // TODO write this function
         return super.equals(obj);
     }
 }

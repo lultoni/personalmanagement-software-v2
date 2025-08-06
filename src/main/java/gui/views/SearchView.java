@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import core.CompanyStructureManager;
 import model.json.Department;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.AlphaComposite;
 
 public class SearchView extends View {
 
@@ -22,22 +25,43 @@ public class SearchView extends View {
     private JPanel resultsPanel;
 
     private List<Employee> allEmployees;
-    private Employee currentUser; // der eingeloggte Nutzer
+    private Employee currentUser;
 
     public SearchView() throws IOException {
-        this(null, new ArrayList<>());  //leerer Konstruktor, damit SearchView korrekt initialisiert wird, ohne das Daten sofort notwendig sind
+        this(null, new ArrayList<>());
     }
 
     public SearchView(Employee currentUser, List<Employee> allEmployees) throws IOException {
         this.currentUser = currentUser;
         this.allEmployees = allEmployees != null ? new ArrayList<>(allEmployees) : new ArrayList<>();
 
-        setLayout(new BorderLayout());
+        // Hintergrundbild laden
+        BufferedImage backgroundImage;
+        try {
+            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
+        } catch (IOException e) {
+            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
+        }
 
-        // --- Obere Suchleiste ---
+        // Hintergrundpanel
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                g2d.dispose();
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setOpaque(false);
+
+        // --- Suchleiste ---
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        searchPanel.setOpaque(false);
 
         searchField = new JTextField("Suche nach Namen, Email ...");
         searchField.setForeground(Color.GRAY);
@@ -65,18 +89,11 @@ public class SearchView extends View {
         departmentDropdown.setMaximumSize(new Dimension(180, 30));
         departmentDropdown.addItem("Alle Abteilungen");
 
-        // ********************************************************************
-        // KORREKTUR: Erstelle eine neue ArrayList aus der zurückgegebenen Collection
-        // Der Fehler trat auf, weil CompanyStructureManager.getInstance().getAllDepartments()
-        // eine UnmodifiableCollection zurückgibt, die nicht direkt in List gecastet werden kann.
-        // ********************************************************************
         List<Department> departments = new ArrayList<>(CompanyStructureManager.getInstance().getAllDepartments());
         for (Department dep : departments) {
             departmentDropdown.addItem(dep.getName());
         }
-        departmentDropdown.setMaximumSize(new Dimension(180, 30));
         searchPanel.add(departmentDropdown);
-
         searchPanel.add(Box.createHorizontalStrut(10));
 
         headOnlyCheckBox = new JCheckBox("Nur Abteilungsleiter");
@@ -88,13 +105,22 @@ public class SearchView extends View {
         searchPanel.add(Box.createHorizontalStrut(10));
         searchPanel.add(searchButton);
 
-        add(searchPanel, BorderLayout.NORTH);
-
         // --- Ergebnisbereich ---
         resultsPanel = new JPanel();
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsPanel.setOpaque(false);
+
         JScrollPane scrollPane = new JScrollPane(resultsPanel);
-        add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+
+        // In Hintergrundpanel einfügen
+        backgroundPanel.add(searchPanel, BorderLayout.NORTH);
+        backgroundPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // In Hauptansicht einfügen
+        setLayout(new BorderLayout());
+        add(backgroundPanel, BorderLayout.CENTER);
     }
 
     private void performSearch() {
@@ -110,23 +136,13 @@ public class SearchView extends View {
                         String email = emp.getEmail().toLowerCase();
                         if (!fullName.contains(keyword) && !email.contains(keyword)) return false;
                     }
-
-                    // Filter nach Abteilung, falls ausgewählt (außer "Alle Abteilungen")
                     if (department != null && !department.equals("Alle Abteilungen")) {
-                        // Annahme: Employee hat eine Methode getDepartmentId()
-                        // und getDepartmentNameById(String deptId) liefert den Namen
-                        // Stelle sicher, dass diese Logik korrekt ist, basierend auf deiner Datenstruktur
                         String empDepartmentName = getDepartmentNameById(emp.getDepartmentId());
-                        if (!empDepartmentName.equalsIgnoreCase(department)) {
-                            return false;
-                        }
+                        if (!empDepartmentName.equalsIgnoreCase(department)) return false;
                     }
-
-                    if (headOnly && !emp.isManager()) {
-                        return false;
-                    }
-                    return true;
-                }).collect(Collectors.toList());
+                    return !headOnly || emp.isManager();
+                })
+                .collect(Collectors.toList());
 
         updateResultsPanel(filtered);
     }
@@ -153,7 +169,6 @@ public class SearchView extends View {
         resultsPanel.repaint();
     }
 
-    // Hilfsmethode, um den Abteilungsnamen anhand der ID zu erhalten
     private String getDepartmentNameById(String deptId) {
         try {
             return CompanyStructureManager.getInstance()
@@ -162,11 +177,9 @@ public class SearchView extends View {
                     .filter(d -> d.getDepartmentId().equals(deptId))
                     .map(d -> d.getName())
                     .findFirst()
-                    .orElse(deptId); // Falls nicht gefunden, gib die ID zurück
+                    .orElse(deptId);
         } catch (IOException e) {
-            // Behandle die IOException angemessen, z.B. durch Loggen oder Anzeigen einer Fehlermeldung
             System.err.println("Fehler beim Abrufen des Abteilungsnamens: " + e.getMessage());
-            // Wirf eine RuntimeException, da der Konstruktor IOException wirft
             throw new RuntimeException("Konnte Abteilungsnamen nicht abrufen: " + e.getMessage(), e);
         }
     }
