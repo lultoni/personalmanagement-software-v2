@@ -1,7 +1,7 @@
 package gui.views;
 
 import model.db.Employee;
-import core.CompanyStructureManager;
+import core.CompanyStructureManager; // Nicht direkt verwendet, aber eventuell für andere Caches
 import core.EmployeeManager;
 import core.EventManager;
 import util.JsonParser;
@@ -163,7 +163,8 @@ public class EmployeeDataView extends View {
         // Die Border wird jetzt auf ein inneres Panel angewendet, nicht auf die View selbst
         // setBorder(new EmptyBorder(10, 10, 10, 10)); // Diese Zeile wird entfernt oder verschoben
 
-
+        // Erstelle ein Haupt-Content-Panel, das alle spezifischen UI-Elemente enthält
+        // Dieses Panel ist transparent, damit der Hintergrund durchscheint
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.setOpaque(false); // Wichtig: Macht das Panel transparent
         mainContentPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Hier die Border anwenden
@@ -298,6 +299,9 @@ public class EmployeeDataView extends View {
         try {
             updateEmployeeFromFields();
 
+            // Update-Logik mit remove und add
+            // Dies ist ein potenzieller Engpass und könnte bei vielen Mitarbeitern langsam sein.
+            // Besser wäre eine direkte Update-Methode im EmployeeManager.
             employeeManager.removeEmployee(employee.getId());
             employeeManager.addEmployee(
                     employee.getUsername(),
@@ -359,16 +363,25 @@ public class EmployeeDataView extends View {
             case "phoneNumber" -> employee.setPhoneNumber(value);
             case "address" -> employee.setAddress(value);
             case "gender" -> employee.setGender(value.charAt(0));
+            // ********************************************************************
+            // KORREKTUR: Datumshandhabung für dateOfBirth
+            // ********************************************************************
             case "dateOfBirth" -> {
                 try {
+                    // Annahme: Datum wird im Format YYYY-MM-DD eingegeben
+                    // Verwende DateTimeFormatter.ISO_LOCAL_DATE für konsistentes Parsing
                     employee.setDateOfBirth(LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE));
                 } catch (DateTimeParseException ex) {
                     JOptionPane.showMessageDialog(this,
                             "Ungültiges Datumsformat für Geburtsdatum. Bitte verwenden Sie YYYY-MM-DD.",
                             "Fehler beim Datum",
                             JOptionPane.ERROR_MESSAGE);
+                    // Hier könntest du auch das Feld im UI zurücksetzen oder den alten Wert beibehalten
+                    // Für jetzt: Einfach Fehlermeldung anzeigen und den Wert nicht aktualisieren
                 }
             }
+            // ********************************************************************
+            // Füge hier weitere Felder hinzu, die bearbeitet werden können
         }
     }
 
@@ -377,6 +390,9 @@ public class EmployeeDataView extends View {
     }
 
     private List<String> getVisibleFieldsForUser() {
+        // ********************************************************************
+        // KORREKTUR: Alle Felder für den eingeloggten Benutzer sichtbar machen
+        // ********************************************************************
         List<String> fields = new ArrayList<>(Arrays.asList(
                 "firstName", "lastName", "username", "email"
         ));
@@ -458,7 +474,7 @@ public class EmployeeDataView extends View {
         // ********************************************************************
         Set<String> nonEditable = new HashSet<>(Arrays.asList(
                 "username", "departmentId", "roleId", "hireDate",
-                "employmentStatus"
+                "employmentStatus" // "dateOfBirth" wurde entfernt, da es jetzt bearbeitbar ist
         ));
         return !nonEditable.contains(field);
     }
