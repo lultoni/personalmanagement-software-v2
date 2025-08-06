@@ -1,7 +1,9 @@
 package core;
 
 import db.dao.EmployeeDao;
+import db.dao.RoleDao;
 import model.db.Employee;
+import model.json.Role;
 import util.EmployeeCreationService;
 import db.DatabaseManager;
 
@@ -9,16 +11,17 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date; // Geändert von java.time.LocalDate
+import java.util.Date;
 import java.util.Objects;
 import java.util.List;
-// import java.time.LocalDate; // Entfernt
+import java.util.Map;
+import java.util.HashMap;
 
 /**
- * Mitarbeiter Verwaltung Klasse.
+ * Employee Management class.
  *
  * @author Dorian Gläske, Elias Glauert
- * @version 1.6 (Datumstypen von LocalDate zu Date geändert)
+ * @version 1.7 (Added getRoleById and findById)
  * @since 2025-08-04
  */
 public class EmployeeManager {
@@ -27,10 +30,15 @@ public class EmployeeManager {
     private EmployeeDao employeeDao;
     private DatabaseManager databaseManager;
 
+    private RoleDao roleDao;
+    private Map<String, Role> roleMap;
+
     public EmployeeManager(EmployeeDao employeeDao, DatabaseManager dbManager) {
         this.employeeDao = employeeDao;
+        this.roleDao = roleDao;
         this.databaseManager = dbManager;
         this.employees = new ArrayList<>();
+        this.roleMap = new HashMap<>();
     }
 
     public void setUpEmployees() {
@@ -40,9 +48,20 @@ public class EmployeeManager {
         for (Employee employee : employees) System.out.println("   | " + employee.toString());
     }
 
+    /**
+     * Loads all roles from the database into the local map.
+     */
+    public void setUpRoles() {
+        roleMap.clear();
+        List<Role> rolesFromDb = roleDao.getAllRolesFromDb();
+        for (Role role : rolesFromDb) {
+            roleMap.put(role.getroleId(), role);
+        }
+    }
+
     public void saveEmployeesToTxt(String fileName) {
         if (employees == null || employees.isEmpty()) {
-            System.out.println("Keine Mitarbeiter zum Speichern vorhanden.");
+            System.out.println("No employees available to save.");
             return;
         }
 
@@ -51,9 +70,9 @@ public class EmployeeManager {
                 writer.write(employee.toString());
                 writer.newLine();
             }
-            System.out.println("Mitarbeiterdaten erfolgreich in '" + fileName + "' gespeichert.");
+            System.out.println("Employee data successfully saved to '" + fileName + "'.");
         } catch (IOException e) {
-            System.err.println("Fehler beim Speichern der Mitarbeiterdaten in Datei '" + fileName + "': " + e.getMessage());
+            System.err.println("Error saving employee data to file '" + fileName + "': " + e.getMessage());
         }
     }
 
@@ -64,35 +83,34 @@ public class EmployeeManager {
     }
 
     /**
-     * Erstellt einen neuen Mitarbeiter, fügt ihn der Datenbank und der lokalen Liste hinzu.
+     * Creates a new employee, adds them to the database and the local list.
      *
-     * @param username           Benutzername des Mitarbeiters.
-     * @param password           Passwort des Mitarbeiters.
-     * @param permissionString   Berechtigungs-String (z.B. "admin,hr").
-     * @param firstName          Vorname.
-     * @param lastName           Nachname.
-     * @param email              E-Mail-Adresse.
-     * @param phoneNumber        Telefonnummer.
-     * @param dateOfBirth        Geburtsdatum. // Geändert von LocalDate
-     * @param address            Adresse.
-     * @param gender             Geschlecht ('M' oder 'F').
-     * @param hireDate           Einstellungsdatum. // Geändert von LocalDate
-     * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
-     * @param departmentId       ID der Abteilung.
-     * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
-     * @param roleId             ID der Rolle.
-     * @param qualifications     Qualifikationen als JSON-String.
-     * @param completedTrainings Abgeschlossene Trainings als JSON-String.
-     * @param managerId          ID des Managers (kann null sein, wenn kein Manager zugewiesen).
-     * @param itAdmin            Ist der Mitarbeiter IT-Admin?
-     * @param hr                 Ist der Mitarbeiter in der HR-Abteilung?
-     * @param hrHead             Ist der Mitarbeiter HR-Leiter?
-     * @param isManager          Ist der Mitarbeiter ein Manager?
-     * @author Elias Glauert, Dorian Gläske
+     * @param username           Username of the employee.
+     * @param password           Password of the employee.
+     * @param permissionString   Permission string (e.g., "admin,hr").
+     * @param firstName          First name.
+     * @param lastName           Last name.
+     * @param email              Email address.
+     * @param phoneNumber        Phone number.
+     * @param dateOfBirth        Date of birth.
+     * @param address            Address.
+     * @param gender             Gender ('M' or 'F').
+     * @param hireDate           Hire date.
+     * @param employmentStatus   Employment status (e.g., "Active", "On Leave").
+     * @param departmentId       ID of the department.
+     * @param teamId             ID of the team (can be null if no team is assigned).
+     * @param roleId             ID of the role.
+     * @param qualifications     Qualifications as a JSON string.
+     * @param completedTrainings Completed trainings as a JSON string.
+     * @param managerId          ID of the manager (can be null if no manager is assigned).
+     * @param itAdmin            Is the employee an IT admin?
+     * @param hr                 Is the employee in the HR department?
+     * @param hrHead             Is the employee the HR head?
+     * @param isManager          Is the employee a manager?
      */
     public void addEmployee(String username, String password, String permissionString, String firstName,
-                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address, // Geändert
-                            char gender, Date hireDate, String employmentStatus, String departmentId, // Geändert
+                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
+                            char gender, Date hireDate, String employmentStatus, String departmentId,
                             String teamId, String roleId, String qualifications, String completedTrainings,
                             Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
 
@@ -137,6 +155,32 @@ public class EmployeeManager {
         return matchingEmployees;
     }
 
+    /**
+     * Searches for an employee by their String ID.
+     * Converts the String ID to an int and calls the existing method.
+     * @param id The ID of the employee to search for as a String.
+     * @return The Employee object or null if no employee with this ID is found.
+     */
+    public Employee findById(String id) {
+        try {
+            int intId = Integer.parseInt(id);
+            return getEmployeeById(intId);
+        } catch (NumberFormatException e) {
+            return null; // ID is not a valid number
+        }
+    }
+
+    /**
+     * Searches for a role by its ID.
+     * This is the method required by the EmployeeFieldAccessEvaluator.
+     *
+     * @param roleId The ID of the role to search for.
+     * @return The Role object or null if no role with this ID is found.
+     */
+    public Role getRoleById(String roleId) {
+        return roleMap.get(roleId);
+    }
+
     public Employee getEmployeeById(int id) {
         setUpEmployees();
 
@@ -176,13 +220,7 @@ public class EmployeeManager {
                 return employee.getPhoneNumber();
             }
             case "dateOfBirth" -> {
-                // ********************************************************************
-                // KORREKTUR: Formatierung von Date zu String
-                // ********************************************************************
                 return employee.getDateOfBirth() != null ? employee.getDateOfBirth().toString() : null;
-                // Oder mit SimpleDateFormat für spezifisches Format:
-                // return employee.getDateOfBirth() != null ? new SimpleDateFormat("yyyy-MM-dd").format(employee.getDateOfBirth()) : null;
-                // ********************************************************************
             }
             case "address" -> {
                 return employee.getAddress();
@@ -191,13 +229,7 @@ public class EmployeeManager {
                 return String.valueOf(employee.getGender());
             }
             case "hireDate" -> {
-                // ********************************************************************
-                // KORREKTUR: Formatierung von Date zu String
-                // ********************************************************************
                 return employee.getHireDate() != null ? employee.getHireDate().toString() : null;
-                // Oder mit SimpleDateFormat für spezifisches Format:
-                // return employee.getHireDate() != null ? new SimpleDateFormat("yyyy-MM-dd").format(employee.getHireDate()) : null;
-                // ********************************************************************
             }
             case "employmentStatus" -> {
                 return employee.getEmploymentStatus();
@@ -230,6 +262,10 @@ public class EmployeeManager {
         this.employeeDao = employeeDao;
     }
 
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
+
     public boolean hasEmployeesGenerated() {
         setUpEmployees();
         return employees != null && !employees.isEmpty();
@@ -251,7 +287,7 @@ public class EmployeeManager {
                     return;
                 }
             }
-            throw new Exception("Employee nicht gefunden");
+            throw new Exception("Employee not found");
         }
     }
 }
