@@ -9,44 +9,33 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Date; // Geändert von java.time.LocalDate
 import java.util.Objects;
 import java.util.List;
+// import java.time.LocalDate; // Entfernt
 
 /**
  * Mitarbeiter Verwaltung Klasse.
  *
  * @author Dorian Gläske, Elias Glauert
- * @version 1.3
+ * @version 1.6 (Datumstypen von LocalDate zu Date geändert)
  * @since 2025-08-04
  */
 public class EmployeeManager {
 
-    /**
-     * Liste aller Mitarbeiter, welche existieren
-     */
     private ArrayList<Employee> employees;
     private EmployeeDao employeeDao;
     private DatabaseManager databaseManager;
 
-    /**
-     * Konstruktor für die EmployeeManager Klasse.
-     *
-     * @author Elias Glauert
-     */
     public EmployeeManager(EmployeeDao employeeDao, DatabaseManager dbManager) {
         this.employeeDao = employeeDao;
         this.databaseManager = dbManager;
         this.employees = new ArrayList<>();
+        setUpEmployees();
     }
 
-    /**
-     * Adds all Employees from the DB to the employees ArrayList.
-     *
-     * @author Elias Glauert
-     */
     public void setUpEmployees() {
-        employees.clear(); // Sicherstellen, dass die Liste leer ist, bevor wir sie füllen
+        employees.clear();
         employees.addAll(employeeDao.getAllEmployeesFromDb());
         System.out.println(" ~ db ~ all employees in EmployeeManager:");
         for (Employee employee : employees) System.out.println("   | " + employee.toString());
@@ -72,6 +61,7 @@ public class EmployeeManager {
     public void create100Employee() throws IOException {
         EmployeeCreationService employeeCreationService = new EmployeeCreationService(databaseManager, this, employeeDao);
         employeeCreationService.generate_x_Employees(100);
+        setUpEmployees();
     }
 
     /**
@@ -84,10 +74,10 @@ public class EmployeeManager {
      * @param lastName           Nachname.
      * @param email              E-Mail-Adresse.
      * @param phoneNumber        Telefonnummer.
-     * @param dateOfBirth        Geburtsdatum.
+     * @param dateOfBirth        Geburtsdatum. // Geändert von LocalDate
      * @param address            Adresse.
      * @param gender             Geschlecht ('M' oder 'F').
-     * @param hireDate           Einstellungsdatum.
+     * @param hireDate           Einstellungsdatum. // Geändert von LocalDate
      * @param employmentStatus   Beschäftigungsstatus (z.B. "Active", "On Leave").
      * @param departmentId       ID der Abteilung.
      * @param teamId             ID des Teams (kann null sein, wenn kein Team zugewiesen).
@@ -102,8 +92,8 @@ public class EmployeeManager {
      * @author Elias Glauert, Dorian Gläske
      */
     public void addEmployee(String username, String password, String permissionString, String firstName,
-                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
-                            char gender, Date hireDate, String employmentStatus, String departmentId,
+                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address, // Geändert
+                            char gender, Date hireDate, String employmentStatus, String departmentId, // Geändert
                             String teamId, String roleId, String qualifications, String completedTrainings,
                             Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
 
@@ -112,29 +102,17 @@ public class EmployeeManager {
                 qualifications, completedTrainings, managerId, itAdmin, hr, hrHead, isManager);
 
         employeeDao.addEmployeeToDb(newEmployee);
-        employees.add(newEmployee);
+        setUpEmployees();
     }
 
-    /**
-     * Löscht einen Mitarbeiter aus der Mitarbeiterliste.
-     *
-     * @param id Mitarbeiter der gelöscht wird.
-     * @author Elias Glauert
-     */
     public void removeEmployee(int id) {
-        employees.removeIf(employee -> employee.getId() == id);
+        employeeDao.removeEmployee(id);
+        setUpEmployees();
     }
 
-    /**
-     * Findet alle Mitarbeiter in der Datenbank mit den passenden Daten in den Feldern.
-     * Kann gleich gesehen werden wie ein SELECT Command bei SQL.
-     *
-     * @param fields   Eine Liste von Feldnamen, die geprüft werden sollen.
-     * @param contents Eine Liste von Inhalten, die mit den Feldern verglichen werden sollen.
-     * @return Gibt eine Liste von gefundenen Mitarbeitern zurück.
-     * @author Elias Glauert
-     */
     public List<Employee> findEmployees(List<String> fields, List<String> contents) {
+        setUpEmployees();
+
         List<Employee> matchingEmployees = new ArrayList<>();
 
         if (fields.size() != contents.size()) {
@@ -147,7 +125,8 @@ public class EmployeeManager {
                 String field = fields.get(i);
                 String content = contents.get(i);
 
-                if (!Objects.equals(getValueOfField(employee, field), content)) {
+                String fieldValue = getValueOfField(employee, field);
+                if (!Objects.equals(fieldValue, content)) {
                     match = false;
                     break;
                 }
@@ -160,6 +139,8 @@ public class EmployeeManager {
     }
 
     public Employee getEmployeeById(int id) {
+        setUpEmployees();
+
         System.out.println("EmployeeManager.employees.size() = " + employees.size());
         for (Employee employee : employees) {
             if (employee.getId() == id) {
@@ -169,12 +150,6 @@ public class EmployeeManager {
         return null;
     }
 
-    /**
-     * Gibt den Wert eines Feldes zurück anhand des namens des Feldes.
-     *
-     * @return Wert wird als String zurückgegeben.
-     * @author Elias Glauert
-     */
     private String getValueOfField(Employee employee, String fieldName) {
         switch (fieldName) {
             case "id" -> {
@@ -202,7 +177,13 @@ public class EmployeeManager {
                 return employee.getPhoneNumber();
             }
             case "dateOfBirth" -> {
-                return employee.getDateOfBirth().toString();
+                // ********************************************************************
+                // KORREKTUR: Formatierung von Date zu String
+                // ********************************************************************
+                return employee.getDateOfBirth() != null ? employee.getDateOfBirth().toString() : null;
+                // Oder mit SimpleDateFormat für spezifisches Format:
+                // return employee.getDateOfBirth() != null ? new SimpleDateFormat("yyyy-MM-dd").format(employee.getDateOfBirth()) : null;
+                // ********************************************************************
             }
             case "address" -> {
                 return employee.getAddress();
@@ -211,7 +192,13 @@ public class EmployeeManager {
                 return String.valueOf(employee.getGender());
             }
             case "hireDate" -> {
-                return employee.getHireDate().toString();
+                // ********************************************************************
+                // KORREKTUR: Formatierung von Date zu String
+                // ********************************************************************
+                return employee.getHireDate() != null ? employee.getHireDate().toString() : null;
+                // Oder mit SimpleDateFormat für spezifisches Format:
+                // return employee.getHireDate() != null ? new SimpleDateFormat("yyyy-MM-dd").format(employee.getHireDate()) : null;
+                // ********************************************************************
             }
             case "employmentStatus" -> {
                 return employee.getEmploymentStatus();
@@ -231,6 +218,9 @@ public class EmployeeManager {
             case "completedTrainings" -> {
                 return employee.getCompletedTrainings();
             }
+            case "managerId" -> {
+                return employee.getManagerId() != null ? String.valueOf(employee.getManagerId()) : null;
+            }
             default -> {
                 return null;
             }
@@ -242,16 +232,19 @@ public class EmployeeManager {
     }
 
     public boolean hasEmployeesGenerated() {
+        setUpEmployees();
         return employees != null && !employees.isEmpty();
     }
 
     public List<Employee> findAll() {
-        return employeeDao.getAllEmployees();
+        setUpEmployees();
+        return new ArrayList<>(this.employees);
     }
 
     public void updateEmployee(Employee updatedEmployee) throws Exception {
         if (employeeDao != null) {
             employeeDao.updateEmployee(updatedEmployee);
+            setUpEmployees();
         } else {
             for (int i = 0; i < employees.size(); i++) {
                 if (employees.get(i).getId() == updatedEmployee.getId()) {

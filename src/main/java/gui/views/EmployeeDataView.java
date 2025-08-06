@@ -1,7 +1,7 @@
 package gui.views;
 
 import model.db.Employee;
-import core.CompanyStructureManager; // Nicht direkt verwendet, aber eventuell für andere Caches
+import core.CompanyStructureManager;
 import core.EmployeeManager;
 import core.EventManager;
 import util.JsonParser;
@@ -16,14 +16,12 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.time.LocalDate; // Neu hinzugefügt für Datumshandhabung
-import java.time.format.DateTimeParseException; // Neu hinzugefügt für Datumshandhabung
-import java.time.format.DateTimeFormatter; // NEU HINZUGEFÜGT für explizites Datumsformat
+import java.util.Date; // Geändert von java.time.LocalDate
+import java.text.SimpleDateFormat; // Neu hinzugefügt für Datumshandhabung
+import java.text.ParseException; // Neu hinzugefügt für Datumshandhabung
 import java.util.stream.Collectors;
 import java.util.*;
 import java.util.List;
-
-// LinkedHashSet für die Beibehaltung der Reihenfolge beim Entfernen von Duplikaten
 import java.util.LinkedHashSet;
 
 
@@ -42,6 +40,7 @@ public class EmployeeDataView extends View {
 
     // Hintergrundbild-Variable
     private BufferedImage backgroundImage;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Datumformat
 
     public EmployeeDataView(Employee loggedInUser, Employee employee,
                             EmployeeManager employeeManager, EventManager eventManager) {
@@ -50,57 +49,32 @@ public class EmployeeDataView extends View {
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
 
-        // ********************************************************************
-        // HINTERGRUNDDESIGN-INTEGRATION START
-        // ********************************************************************
         try {
-            // Lade das Hintergrundbild. Stelle sicher, dass der Pfad korrekt ist.
-            // "icons/Hintergrundbild.png" ist der Pfad innerhalb deines Ressourcenordners.
             backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
         } catch (IOException e) {
-            // Fehlerbehandlung: Wenn das Bild nicht geladen werden kann, wirf eine RuntimeException
-            // oder setze ein Fallback (z.B. einfarbiger Hintergrund).
             throw new RuntimeException("Hintergrundbild konnte nicht geladen werden für EmployeeDataView.", e);
         }
 
-        // Erstelle das spezielle JPanel, das das Hintergrundbild zeichnet
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g.create();
-                // Setze die Transparenz (hier 0.2f für 20% Deckkraft, wie in LoginView)
                 g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                // Zeichne das Bild, skaliert auf die Größe des Panels
                 g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 g2d.dispose();
             }
         };
         backgroundPanel.setLayout(new BorderLayout());
-        backgroundPanel.setOpaque(false); // Wichtig: Macht das Panel transparent, damit paintComponent greift
+        backgroundPanel.setOpaque(false);
 
-        // Setze das Layout der Haupt-View und füge das Hintergrundpanel hinzu
-        // Alle anderen Komponenten werden ZUM backgroundPanel hinzugefügt, NICHT direkt zur View
         setLayout(new BorderLayout());
         add(backgroundPanel, BorderLayout.CENTER);
-        // ********************************************************************
-        // HINTERGRUNDDESIGN-INTEGRATION ENDE
-        // ********************************************************************
-
 
         initializeCaches();
-        // setupUI wird jetzt das backgroundPanel als Container nutzen
-        setupUI(backgroundPanel); // Übergabe des backgroundPanel an setupUI
+        setupUI(backgroundPanel);
     }
 
-    /**
-     * Hilfsmethode zum Lesen eines InputStream in einen String.
-     * Dies wird benötigt, da JsonParser.parseJsonArray wahrscheinlich einen String erwartet,
-     * der den JSON-Inhalt enthält, und nicht direkt einen InputStream.
-     * @param is Der InputStream, der gelesen werden soll.
-     * @return Der Inhalt des InputStream als String.
-     * @throws IOException Wenn ein Fehler beim Lesen des Streams auftritt.
-     */
     private String readInputStreamToString(InputStream is) throws IOException {
         if (is == null) {
             return null;
@@ -112,9 +86,6 @@ public class EmployeeDataView extends View {
 
     private void initializeCaches() {
         try {
-            // ********************************************************************
-            // KORREKTUR: Lese den InputStream in einen String, bevor er an den JsonParser übergeben wird.
-            // ********************************************************************
             InputStream departmentStream = getClass().getResourceAsStream("/json/Department.json");
             if (departmentStream == null) {
                 throw new IOException("Department.json konnte nicht im Ressourcenpfad gefunden werden.");
@@ -130,7 +101,6 @@ public class EmployeeDataView extends View {
             String roleJsonString = readInputStreamToString(roleStream);
             List<Map<String, Object>> roles = JsonParser.parseJsonArray(roleJsonString);
 
-            // Füge Daten zu den Caches hinzu
             for (Map<String, Object> dept : departments) {
                 String id = (String) dept.get("departmentId");
                 String name = (String) dept.get("name");
@@ -144,64 +114,52 @@ public class EmployeeDataView extends View {
             }
         } catch (Exception e) {
             System.err.println("Fehler beim Initialisieren der Caches: " + e.getMessage());
-            // Fallback-Werte setzen
             departmentCache.put("default", "Allgemein");
             roleCache.put("default", "Mitarbeiter");
-            // Zeige eine Fehlermeldung an, falls Caches nicht geladen werden konnten
             JOptionPane.showMessageDialog(this,
                     "Fehler beim Laden der Abteilungs- oder Rollendaten: " + e.getMessage(),
                     "Datenfehler",
                     JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Wichtig für detailliertes Debugging
+            e.printStackTrace();
         }
     }
 
-    // setupUI Methode wurde angepasst, um das übergebene Container-Panel zu nutzen
     private void setupUI(JPanel parentContainer) {
         setView_id("view-employee");
         setView_name("Mitarbeiter: " + getFullName(employee));
-        // Die Border wird jetzt auf ein inneres Panel angewendet, nicht auf die View selbst
-        // setBorder(new EmptyBorder(10, 10, 10, 10)); // Diese Zeile wird entfernt oder verschoben
 
-        // Erstelle ein Haupt-Content-Panel, das alle spezifischen UI-Elemente enthält
-        // Dieses Panel ist transparent, damit der Hintergrund durchscheint
         JPanel mainContentPanel = new JPanel(new BorderLayout());
-        mainContentPanel.setOpaque(false); // Wichtig: Macht das Panel transparent
-        mainContentPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Hier die Border anwenden
+        mainContentPanel.setOpaque(false);
+        mainContentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Header
         JLabel titleLabel = new JLabel(getFullName(employee), SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titleLabel.setForeground(Color.BLACK); // Textfarbe für bessere Lesbarkeit auf transparentem Hintergrund
-        mainContentPanel.add(titleLabel, BorderLayout.NORTH); // Zum mainContentPanel hinzufügen
+        titleLabel.setForeground(Color.BLACK);
+        mainContentPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Hauptinhalt
         dataPanel = new JPanel();
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         dataPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        dataPanel.setOpaque(false); // Auch das dataPanel transparent machen
+        dataPanel.setOpaque(false);
 
         JScrollPane scrollPane = new JScrollPane(dataPanel);
         scrollPane.setBorder(null);
-        scrollPane.setOpaque(false); // ScrollPane transparent machen
-        scrollPane.getViewport().setOpaque(false); // Viewport des ScrollPanes transparent machen
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
 
-        mainContentPanel.add(scrollPane, BorderLayout.CENTER); // Zum mainContentPanel hinzufügen
+        mainContentPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Button Panel
-        JPanel buttonPanel = setupButtonPanel(); // Methode aufrufen
-        mainContentPanel.add(buttonPanel, BorderLayout.SOUTH); // Zum mainContentPanel hinzufügen
+        JPanel buttonPanel = setupButtonPanel();
+        mainContentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Füge das gesamte mainContentPanel zum übergebenen Hintergrund-Container hinzu
         parentContainer.add(mainContentPanel, BorderLayout.CENTER);
 
         refreshDataDisplay();
     }
 
-    // setupButtonPanel gibt jetzt das Panel zurück, anstatt es direkt hinzuzufügen
     private JPanel setupButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setOpaque(false); // Auch das ButtonPanel transparent machen
+        buttonPanel.setOpaque(false);
 
         if (canEditData()) {
             JButton editButton = new JButton("Bearbeiten");
@@ -213,7 +171,7 @@ public class EmployeeDataView extends View {
         backButton.addActionListener(e -> eventManager.callEvent("moveBackView", null));
         buttonPanel.add(backButton);
 
-        return buttonPanel; // Panel zurückgeben
+        return buttonPanel;
     }
 
     private void refreshDataDisplay() {
@@ -230,7 +188,7 @@ public class EmployeeDataView extends View {
 
     private JPanel createDataGrid(List<String> fields) {
         JPanel gridPanel = new JPanel(new GridBagLayout());
-        gridPanel.setOpaque(false); // Wichtig: GridPanel transparent machen
+        gridPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 15);
@@ -251,7 +209,7 @@ public class EmployeeDataView extends View {
     private JLabel createFieldLabel(String field) {
         JLabel label = new JLabel(getFieldLabel(field));
         label.setFont(new Font("SansSerif", Font.BOLD, 13));
-        label.setForeground(Color.BLACK); // Optional: Textfarbe anpassen, falls Hintergrund dunkler ist
+        label.setForeground(Color.BLACK);
         return label;
     }
 
@@ -278,7 +236,7 @@ public class EmployeeDataView extends View {
     private JComponent createDisplayField(String field) {
         JLabel label = new JLabel(getFieldValue(field));
         label.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        label.setForeground(Color.DARK_GRAY); // Optional: Textfarbe anpassen
+        label.setForeground(Color.DARK_GRAY);
         return label;
     }
 
@@ -302,31 +260,8 @@ public class EmployeeDataView extends View {
             // Update-Logik mit remove und add
             // Dies ist ein potenzieller Engpass und könnte bei vielen Mitarbeitern langsam sein.
             // Besser wäre eine direkte Update-Methode im EmployeeManager.
-            employeeManager.removeEmployee(employee.getId());
-            employeeManager.addEmployee(
-                    employee.getUsername(),
-                    employee.getPassword(),
-                    employee.getPermissionString(),
-                    employee.getFirstName(),
-                    employee.getLastName(),
-                    employee.getEmail(),
-                    employee.getPhoneNumber(),
-                    employee.getDateOfBirth(),
-                    employee.getAddress(),
-                    employee.getGender(),
-                    employee.getHireDate(),
-                    employee.getEmploymentStatus(),
-                    employee.getDepartmentId(),
-                    employee.getTeamId(),
-                    employee.getRoleId(),
-                    employee.getQualifications(),
-                    employee.getCompletedTrainings(),
-                    employee.getManagerId(),
-                    employee.isItAdmin(),
-                    employee.isHr(),
-                    employee.isHrHead(),
-                    employee.isManager()
-            );
+            // employeeManager.removeEmployee(employee.getId()); // Entfernen nicht mehr nötig, updateEmployee macht das
+            employeeManager.updateEmployee(employee); // Direkter Aufruf der updateEmployee Methode
 
             JOptionPane.showMessageDialog(this,
                     "Änderungen erfolgreich gespeichert",
@@ -364,20 +299,26 @@ public class EmployeeDataView extends View {
             case "address" -> employee.setAddress(value);
             case "gender" -> employee.setGender(value.charAt(0));
             // ********************************************************************
-            // KORREKTUR: Datumshandhabung für dateOfBirth
+            // KORREKTUR: Datumshandhabung für dateOfBirth (String zu Date)
             // ********************************************************************
             case "dateOfBirth" -> {
                 try {
-                    // Annahme: Datum wird im Format YYYY-MM-DD eingegeben
-                    // Verwende DateTimeFormatter.ISO_LOCAL_DATE für konsistentes Parsing
-                    employee.setDateOfBirth(LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE));
-                } catch (DateTimeParseException ex) {
+                    employee.setDateOfBirth(dateFormat.parse(value));
+                } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(this,
                             "Ungültiges Datumsformat für Geburtsdatum. Bitte verwenden Sie YYYY-MM-DD.",
                             "Fehler beim Datum",
                             JOptionPane.ERROR_MESSAGE);
-                    // Hier könntest du auch das Feld im UI zurücksetzen oder den alten Wert beibehalten
-                    // Für jetzt: Einfach Fehlermeldung anzeigen und den Wert nicht aktualisieren
+                }
+            }
+            case "hireDate" -> {
+                try {
+                    employee.setHireDate(dateFormat.parse(value));
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Ungültiges Datumsformat für Einstellungsdatum. Bitte verwenden Sie YYYY-MM-DD.",
+                            "Fehler beim Datum",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
             // ********************************************************************
@@ -390,14 +331,10 @@ public class EmployeeDataView extends View {
     }
 
     private List<String> getVisibleFieldsForUser() {
-        // ********************************************************************
-        // KORREKTUR: Alle Felder für den eingeloggten Benutzer sichtbar machen
-        // ********************************************************************
         List<String> fields = new ArrayList<>(Arrays.asList(
                 "firstName", "lastName", "username", "email"
         ));
 
-        // Wenn der eingeloggte Benutzer sein eigenes Profil ansieht, alle relevanten Felder hinzufügen
         if (loggedInUser.equals(employee)) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
@@ -405,10 +342,6 @@ public class EmployeeDataView extends View {
             ));
         }
 
-        // Wenn der eingeloggte Benutzer NICHT sein eigenes Profil ansieht, aber HR oder IT-Admin ist,
-        // dann werden die HR/IT-relevanten Felder hinzugefügt.
-        // Die persönlichen Felder ("phoneNumber", "dateOfBirth", "address", "gender")
-        // werden hier für HR/IT-Admins auch bei anderen Mitarbeitern sichtbar gemacht.
         if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin())) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
@@ -416,9 +349,7 @@ public class EmployeeDataView extends View {
             ));
         }
 
-        // Verwende LinkedHashSet, um Duplikate zu entfernen und die Reihenfolge beizubehalten
         return new ArrayList<>(new LinkedHashSet<>(fields));
-        // ********************************************************************
     }
 
     private String getFieldLabel(String field) {
@@ -444,39 +375,42 @@ public class EmployeeDataView extends View {
             case "lastName": return employee.getLastName();
             case "email": return employee.getEmail();
             case "phoneNumber": return employee.getPhoneNumber();
-            case "dateOfBirth": return employee.getDateOfBirth() != null ? employee.getDateOfBirth().toString() : "";
+            // ********************************************************************
+            // KORREKTUR: Datum zu String formatieren
+            // ********************************************************************
+            case "dateOfBirth": return employee.getDateOfBirth() != null ? dateFormat.format(employee.getDateOfBirth()) : "";
             case "address": return employee.getAddress();
             case "gender": return String.valueOf(employee.getGender());
             case "departmentId": return departmentCache.getOrDefault(employee.getDepartmentId(), employee.getDepartmentId());
             case "roleId": return roleCache.getOrDefault(employee.getRoleId(), employee.getRoleId());
             case "username": return employee.getUsername();
-            case "hireDate": return employee.getHireDate() != null ? employee.getHireDate().toString() : "";
+            case "hireDate": return employee.getHireDate() != null ? dateFormat.format(employee.getHireDate()) : "";
+            // ********************************************************************
             case "employmentStatus": return employee.getEmploymentStatus();
             default: return "";
         }
     }
 
     private boolean canEditData() {
-        // ********************************************************************
-        // KORREKTUR: Die Bearbeitungsberechtigung ist bereits korrekt.
-        // Ein Benutzer kann seine eigenen Daten bearbeiten ODER ein HR/IT-Admin kann Daten bearbeiten.
-        // ********************************************************************
         return loggedInUser.equals(employee) ||
                 loggedInUser.isHr() ||
-                loggedInUser.isItAdmin();
+                loggedInUser.isItAdmin() ||
+                loggedInUser.isHrHead(); // HR-Heads können auch bearbeiten
     }
 
     private boolean isFieldEditable(String field) {
-        // ********************************************************************
-        // KORREKTUR: dateOfBirth ist jetzt bearbeitbar.
-        // Andere Felder bleiben nicht direkt vom Mitarbeiter bearbeitbar,
-        // da sie typischerweise administrative/organisatorische Daten sind.
-        // ********************************************************************
         Set<String> nonEditable = new HashSet<>(Arrays.asList(
-                "username", "departmentId", "roleId", "hireDate",
-                "employmentStatus" // "dateOfBirth" wurde entfernt, da es jetzt bearbeitbar ist
+                "username", "departmentId", "roleId", "hireDate", // hireDate bleibt nicht bearbeitbar
+                "employmentStatus"
         ));
-        return !nonEditable.contains(field);
+        // dateOfBirth ist jetzt bearbeitbar
+        // Wenn der eingeloggte Benutzer nicht HR/IT-Admin/HR-Head ist, aber sein eigenes Profil bearbeitet,
+        // und das Feld nicht in der nonEditable-Liste ist, dann ist es bearbeitbar.
+        // Wenn der eingeloggte Benutzer HR/IT-Admin/HR-Head ist, kann er alle nicht-nonEditable-Felder bearbeiten.
+        if (field.equals("hireDate") && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
+            return true; // HR/IT-Admins/HR-Heads können hireDate bearbeiten
+        }
+        return !nonEditable.contains(field) || loggedInUser.isItAdmin() || loggedInUser.isHr() || loggedInUser.isHrHead();
     }
 
     @Override

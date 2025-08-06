@@ -5,7 +5,7 @@ import core.EventManager;
 import model.db.Employee;
 import model.json.Department;
 import model.json.Role;
-import model.json.Team; // NEU: Import fuer die Team-Klasse
+import model.json.Team;
 import core.CompanyStructureManager;
 
 import javax.swing.*;
@@ -15,13 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.util.Date; // Geändert von java.time.LocalDate
+import java.text.SimpleDateFormat; // Neu hinzugefügt für Datumshandhabung
+import java.text.ParseException; // Neu hinzugefügt für Datumshandhabung
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Arrays; // Fuer Arrays.sort
+import java.util.Arrays;
 
 public class AddingEmployeesView extends View {
 
@@ -59,6 +60,7 @@ public class AddingEmployeesView extends View {
     private Map<String, String> teamNameCache = new HashMap<>();
     private Map<String, String> teamIdCache = new HashMap<>();
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Datumformat
 
     public AddingEmployeesView(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
@@ -67,7 +69,6 @@ public class AddingEmployeesView extends View {
         setView_id("view-add-employee");
         setView_name("Mitarbeiter hinzufuegen");
 
-        // Hintergrundbild laden
         BufferedImage backgroundImage;
         try {
             backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
@@ -88,14 +89,12 @@ public class AddingEmployeesView extends View {
         backgroundPanel.setLayout(new BorderLayout());
         backgroundPanel.setOpaque(false);
 
-        // Titel
         JLabel titleLabel = new JLabel("Neuen Mitarbeiter hinzufuegen", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         titleLabel.setForeground(Color.BLACK);
         backgroundPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Formular-Panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setOpaque(false);
         formPanel.setBorder(new EmptyBorder(20, 50, 20, 50));
@@ -110,86 +109,64 @@ public class AddingEmployeesView extends View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        // ********************************************************************
-        // KORREKTUR: Caches initialisieren VOR der Initialisierung der Dropdowns
-        // ********************************************************************
         initializeCaches();
-        // ********************************************************************
 
-        // Zeilen fuer Eingabefelder
         int row = 0;
 
-        // Benutzername
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Benutzername:"), gbc);
         gbc.gridx = 1; usernameField = new JTextField(20); formPanel.add(usernameField, gbc);
         row++;
 
-        // Passwort
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Passwort:"), gbc);
         gbc.gridx = 1; passwordField = new JPasswordField(20); formPanel.add(passwordField, gbc);
         row++;
 
-        // Vorname
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Vorname:"), gbc);
         gbc.gridx = 1; firstNameField = new JTextField(20); formPanel.add(firstNameField, gbc);
         row++;
 
-        // Nachname
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Nachname:"), gbc);
         gbc.gridx = 1; lastNameField = new JTextField(20); formPanel.add(lastNameField, gbc);
         row++;
 
-        // E-Mail
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("E-Mail:"), gbc);
         gbc.gridx = 1; emailField = new JTextField(20); formPanel.add(emailField, gbc);
         row++;
 
-        // Telefonnummer
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Telefonnummer:"), gbc);
         gbc.gridx = 1; phoneNumberField = new JTextField(20); formPanel.add(phoneNumberField, gbc);
         row++;
 
-        // Geburtsdatum (YYYY-MM-DD)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Geburtsdatum (YYYY-MM-DD):"), gbc);
         gbc.gridx = 1; dateOfBirthField = new JTextField(20); formPanel.add(dateOfBirthField, gbc);
         row++;
 
-        // Adresse
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Adresse:"), gbc);
         gbc.gridx = 1; addressField = new JTextField(20); formPanel.add(addressField, gbc);
         row++;
 
-        // Geschlecht
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Geschlecht:"), gbc);
         gbc.gridx = 1; genderDropdown = new JComboBox<>(new String[]{"M", "F", "D"}); formPanel.add(genderDropdown, gbc);
         row++;
 
-        // Einstellungsdatum (YYYY-MM-DD)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Einstellungsdatum (YYYY-MM-DD):"), gbc);
         gbc.gridx = 1; hireDateField = new JTextField(20); formPanel.add(hireDateField, gbc);
         row++;
 
-        // Beschäftigungsstatus
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Beschaeftigungsstatus:"), gbc);
         gbc.gridx = 1; employmentStatusDropdown = new JComboBox<>(new String[]{"Active", "On Leave", "Terminated", "Probation", "Retired"}); formPanel.add(employmentStatusDropdown, gbc);
         row++;
 
-        // Abteilung
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Abteilung:"), gbc);
-        // ********************************************************************
-        // KORREKTUR: Dropdowns NACH initializeCaches() initialisieren
-        // ********************************************************************
         departmentDropdown = new JComboBox<>(departmentNameCache.keySet().toArray(new String[0]));
         formPanel.add(departmentDropdown, gbc);
         row++;
 
-        // Rolle
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Rolle:"), gbc);
         roleDropdown = new JComboBox<>(roleNameCache.keySet().toArray(new String[0]));
         gbc.gridx = 1; formPanel.add(roleDropdown, gbc);
         row++;
 
-        // Team (Optional)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Team (Optional):"), gbc);
         String[] teamNames = teamNameCache.keySet().toArray(new String[0]);
         Arrays.sort(teamNames, (s1, s2) -> {
@@ -198,27 +175,22 @@ public class AddingEmployeesView extends View {
             return s1.compareTo(s2);
         });
         teamDropdown = new JComboBox<>(teamNames);
-        teamDropdown.setSelectedItem("Kein Team"); // Standardauswahl
+        teamDropdown.setSelectedItem("Kein Team");
         gbc.gridx = 1; formPanel.add(teamDropdown, gbc);
         row++;
-        // ********************************************************************
 
-        // Qualifikationen (JSON-String)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Qualifikationen (JSON):"), gbc);
         gbc.gridx = 1; qualificationsField = new JTextField(20); formPanel.add(qualificationsField, gbc);
         row++;
 
-        // Abgeschlossene Trainings (JSON-String)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Abgeschlossene Trainings (JSON):"), gbc);
         gbc.gridx = 1; completedTrainingsField = new JTextField(20); formPanel.add(completedTrainingsField, gbc);
         row++;
 
-        // Manager ID (Optional)
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Manager ID (Optional):"), gbc);
         gbc.gridx = 1; managerIdField = new JTextField(20); formPanel.add(managerIdField, gbc);
         row++;
 
-        // Checkboxen
         gbc.gridx = 0; gbc.gridy = row; gbc.gridwidth = 2;
         JPanel checkBoxPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         checkBoxPanel.setOpaque(false);
@@ -233,7 +205,6 @@ public class AddingEmployeesView extends View {
         formPanel.add(checkBoxPanel, gbc);
         row++;
 
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setOpaque(false);
 
@@ -255,24 +226,84 @@ public class AddingEmployeesView extends View {
     private void initializeCaches() {
         try {
             // Abteilungen
-            List<Department> departments = (List<Department>) CompanyStructureManager.getInstance().getAllDepartments();
-            for (Department dept : departments) {
-                departmentNameCache.put(dept.getName(), dept.getDepartmentId());
-                departmentIdCache.put(dept.getDepartmentId(), dept.getName());
+            try {
+                List<Department> departments = CompanyStructureManager.getInstance().getAllDepartments();
+                if (departments != null && !departments.isEmpty()) {
+                    for (Department dept : departments) {
+                        departmentNameCache.put(dept.getName(), dept.getDepartmentId());
+                        departmentIdCache.put(dept.getDepartmentId(), dept.getName());
+                    }
+                } else {
+                    System.err.println("Warnung: CompanyStructureManager.getAllDepartments() gab eine leere Liste zurueck. Verwende Fallback-Abteilungen.");
+                    addFallbackDepartments();
+                }
+            } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
+                System.err.println("Warnung: CompanyStructureManager.getAllDepartments() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
+                try {
+                    List<?> genericDepartments = CompanyStructureManager.getInstance().getAllDepartments();
+                    if (genericDepartments != null && !genericDepartments.isEmpty()) {
+                        for (Object obj : genericDepartments) {
+                            if (obj instanceof Map) {
+                                Map<String, Object> dept = (Map<String, Object>) obj;
+                                String id = (String) dept.get("departmentId");
+                                String name = (String) dept.get("name");
+                                if (id != null && name != null) {
+                                    departmentNameCache.put(name, id);
+                                    departmentIdCache.put(id, name);
+                                }
+                            }
+                        }
+                    } else {
+                        addFallbackDepartments();
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Fehler beim Laden der Abteilungen als Map: " + ex.getMessage());
+                    addFallbackDepartments();
+                }
             }
 
+
             // Rollen
-           /**List<Role> roles = (List<Role>) CompanyStructureManager.getInstance().getAllRoles();
-            for (Role role : roles) {
-                roleNameCache.put(role.getName(), role.getRoleId());
-                roleIdCache.put(role.getRoleId(), role.getName());
-            }*/
+            try {
+                List<Role> roles = CompanyStructureManager.getInstance().getAllRoles();
+                if (roles != null && !roles.isEmpty()) {
+                    for (Role role : roles) {
+                        roleNameCache.put(role.getName(), role.getRoleId());
+                        roleIdCache.put(role.getRoleId(), role.getName());
+                    }
+                } else {
+                    System.err.println("Warnung: CompanyStructureManager.getAllRoles() gab eine leere Liste zurueck. Verwende Fallback-Rollen.");
+                    addFallbackRoles();
+                }
+            } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
+                System.err.println("Warnung: CompanyStructureManager.getAllRoles() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
+                try {
+                    List<?> genericRoles = CompanyStructureManager.getInstance().getAllRoles();
+                    if (genericRoles != null && !genericRoles.isEmpty()) {
+                        for (Object obj : genericRoles) {
+                            if (obj instanceof Map) {
+                                Map<String, Object> role = (Map<String, Object>) obj;
+                                String id = (String) role.get("roleId");
+                                String name = (String) role.get("name");
+                                if (id != null && name != null) {
+                                    roleNameCache.put(name, id);
+                                    roleIdCache.put(id, name);
+                                }
+                            }
+                        }
+                    } else {
+                        addFallbackRoles();
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Fehler beim Laden der Rollen als Map: " + ex.getMessage());
+                    addFallbackRoles();
+                }
+            }
 
             // Teams aus CompanyStructureManager laden
             try {
-                // Annahme: CompanyStructureManager.getAllTeams() gibt List<Team> zurueck
-                List<Team> teams = (List<Team>) CompanyStructureManager.getInstance().getAllTeams();
-                if (teams != null && !teams.isEmpty()) { // Auch auf leere Liste pruefen
+                List<Team> teams = CompanyStructureManager.getInstance().getAllTeams();
+                if (teams != null && !teams.isEmpty()) {
                     for (Team team : teams) {
                         teamNameCache.put(team.getName(), team.getTeamId());
                         teamIdCache.put(team.getTeamId(), team.getName());
@@ -281,13 +312,33 @@ public class AddingEmployeesView extends View {
                     System.err.println("Warnung: CompanyStructureManager.getAllTeams() gab eine leere Liste zurueck. Verwende Fallback-Teams.");
                     addFallbackTeams();
                 }
-            } catch (NoSuchMethodError | NullPointerException e) {
-                System.err.println("Warnung: CompanyStructureManager.getAllTeams() nicht gefunden oder fehlerhaft. Verwende Fallback-Teams.");
-                addFallbackTeams();
+            } catch (NoSuchMethodError | NullPointerException | ClassCastException e) {
+                System.err.println("Warnung: CompanyStructureManager.getAllTeams() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Verwende Fallback-Teams.");
+                try {
+                    List<?> genericTeams = CompanyStructureManager.getInstance().getAllTeams();
+                    if (genericTeams != null && !genericTeams.isEmpty()) {
+                        for (Object obj : genericTeams) {
+                            if (obj instanceof Map) {
+                                Map<String, Object> team = (Map<String, Object>) obj;
+                                String id = (String) team.get("teamId");
+                                String name = (String) team.get("name");
+                                if (id != null && name != null) {
+                                    teamNameCache.put(name, id);
+                                    teamIdCache.put(id, name);
+                                }
+                            }
+                        }
+                    } else {
+                        addFallbackTeams();
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Fehler beim Laden der Teams als Map: " + ex.getMessage());
+                    addFallbackTeams();
+                }
             }
 
         } catch (IOException e) {
-            System.err.println("Fehler beim Initialisieren der Caches fuer Abteilungen/Rollen: " + e.getMessage());
+            System.err.println("Fehler beim Initialisieren der Caches fuer Abteilungen/Rollen/Teams: " + e.getMessage());
             JOptionPane.showMessageDialog(this,
                     "Fehler beim Laden der Strukturdaten: " + e.getMessage(),
                     "Datenfehler",
@@ -296,8 +347,18 @@ public class AddingEmployeesView extends View {
         }
     }
 
+    private void addFallbackDepartments() {
+        departmentNameCache.put("Unbekannt", "UNKNOWN_DEP");
+        departmentIdCache.put("UNKNOWN_DEP", "Unbekannt");
+    }
+
+    private void addFallbackRoles() {
+        roleNameCache.put("Mitarbeiter", "EMPLOYEE_ROLE");
+        roleIdCache.put("EMPLOYEE_ROLE", "Mitarbeiter");
+    }
+
     private void addFallbackTeams() {
-        teamNameCache.put("Kein Team", null); // Explizit "Kein Team" mit null ID
+        teamNameCache.put("Kein Team", null);
         teamNameCache.put("Development Team", "DEV_TEAM");
         teamNameCache.put("Marketing Team", "MKT_TEAM");
         teamNameCache.put("Sales Team", "SAL_TEAM");
@@ -325,29 +386,33 @@ public class AddingEmployeesView extends View {
             if (teamDropdown.getSelectedItem() != null && !"Kein Team".equals(teamDropdown.getSelectedItem())) {
                 teamId = teamNameCache.get(teamDropdown.getSelectedItem());
             } else if (teamDropdown.getSelectedItem() != null && "Kein Team".equals(teamDropdown.getSelectedItem())) {
-                teamId = null; // Setze teamId explizit auf null, wenn "Kein Team" ausgewählt ist
+                teamId = null;
             }
 
 
-            LocalDate dateOfBirth = null;
+            // ********************************************************************
+            // KORREKTUR: Datumsparser (String zu Date)
+            // ********************************************************************
+            Date dateOfBirth = null;
             if (!dateOfBirthField.getText().trim().isEmpty()) {
                 try {
-                    dateOfBirth = LocalDate.parse(dateOfBirthField.getText().trim());
-                } catch (DateTimeParseException ex) {
+                    dateOfBirth = dateFormat.parse(dateOfBirthField.getText().trim());
+                } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(this, "Ungueltiges Geburtsdatum-Format. Bitte YYYY-MM-DD verwenden.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
 
-            LocalDate hireDate = null;
+            Date hireDate = null;
             if (!hireDateField.getText().trim().isEmpty()) {
                 try {
-                    hireDate = LocalDate.parse(hireDateField.getText().trim());
-                } catch (DateTimeParseException ex) {
+                    hireDate = dateFormat.parse(hireDateField.getText().trim());
+                } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(this, "Ungueltiges Einstellungsdatum-Format. Bitte YYYY-MM-DD verwenden.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
+            // ********************************************************************
 
             String qualifications = qualificationsField.getText().trim();
             String completedTrainings = completedTrainingsField.getText().trim();

@@ -1,90 +1,107 @@
 package db.dao;
 
-import core.EmployeeManager;
-import db.DatabaseManager;
 import model.db.Employee;
-import util.SqlReader;
-
+import db.DatabaseManager;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date; // Geändert von java.time.LocalDate
 import java.util.List;
+import java.util.Map;
+import util.SqlReader;
 
 /**
  * Mitarbeiter-Datenbank-Zugriffsklasse.
  * Zwischenschicht zwischen Mitarbeiter und Datenbank.
  *
  * @author Elias Glauert, Dorian Gläske
- * @version 1.4
+ * @version 1.7 (Datumstypen von LocalDate zu Date geändert)
  * @since 2025-08-04
  */
 public class EmployeeDao {
 
-    private EmployeeManager employeeManager;
+    private core.EmployeeManager employeeManager;
     private final DatabaseManager dbManager;
 
     public EmployeeDao (DatabaseManager dbManager) {
         this.dbManager = dbManager;
     }
 
-    /**
-     * Konstruktor für EmployeeDao.
-     * @author Elias Glauert
-     */
-    public EmployeeDao(DatabaseManager dbManager, EmployeeManager employeeManager) {
+    public EmployeeDao(DatabaseManager dbManager, core.EmployeeManager employeeManager) {
         this.dbManager = dbManager;
         this.employeeManager = employeeManager;
     }
 
-
-
     /**
      * Fügt einen Mitarbeiter in die Datenbank des DbManagers hinzu.
+     * Verwendet PreparedStatement für Sicherheit und korrekte Typenbehandlung.
      * @param employee Mitarbeiter-Objekt, wessen Daten in die Datenbank eingefügt werden.
      * @author Elias Glauert, Dorian Gläske
      */
     public void addEmployeeToDb(Employee employee) {
-        try {
-            String sqlCommand = SqlReader.giveCommand("addEmployee");
+        String sqlCommand = SqlReader.giveCommand("addEmployee");
 
-            sqlCommand = sqlCommand
-                    .replace("{username}", employee.getUsername())
-                    .replace("{password}", employee.getPassword())
-                    .replace("{permissionString}", employee.getPermissionString())
-                    .replace("{firstName}", employee.getFirstName())
-                    .replace("{lastName}", employee.getLastName())
-                    .replace("{email}", employee.getEmail())
-                    .replace("{phoneNumber}", employee.getPhoneNumber())
-                    .replace("{dateOfBirth}", new java.sql.Date(employee.getDateOfBirth().getTime()).toString())
-                    .replace("{address}", employee.getAddress())
-                    .replace("{gender}", String.valueOf(employee.getGender()))
-                    .replace("{hireDate}", new java.sql.Date(employee.getHireDate().getTime()).toString())
-                    .replace("{employmentStatus}", employee.getEmploymentStatus())
-                    .replace("{departmentId}", employee.getDepartmentId())
-                    .replace("{teamId}", employee.getTeamId())
-                    .replace("{roleId}", employee.getRoleId())
-                    .replace("{qualifications}", employee.getQualifications())
-                    .replace("{completedTrainings}", employee.getCompletedTrainings());
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlCommand)) {
 
-            // ManagerId can be null, handled as NULL in SQL
-            sqlCommand = sqlCommand.replace("{managerId}",
-                    (employee.getManagerId() != null) ? String.valueOf(employee.getManagerId()) : "NULL");
+            pstmt.setString(1, employee.getUsername());
+            pstmt.setString(2, employee.getPassword());
+            pstmt.setString(3, employee.getPermissionString());
+            pstmt.setString(4, employee.getFirstName());
+            pstmt.setString(5, employee.getLastName());
+            pstmt.setString(6, employee.getEmail());
+            pstmt.setString(7, employee.getPhoneNumber());
 
-            // Update to ensure Boolean values are formatted correctly in SQL
-            sqlCommand = sqlCommand.replace("{itAdmin}", employee.isItAdmin() ? "TRUE" : "FALSE");
-            sqlCommand = sqlCommand.replace("{hr}", employee.isHr() ? "TRUE" : "FALSE");
-            sqlCommand = sqlCommand.replace("{hrHead}", employee.isHrHead() ? "TRUE" : "FALSE");
-            sqlCommand = sqlCommand.replace("{isManager}", employee.isManager() ? "TRUE" : "FALSE");
+            // ********************************************************************
+            // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
+            // ********************************************************************
+            if (employee.getDateOfBirth() != null) {
+                pstmt.setDate(8, new java.sql.Date(employee.getDateOfBirth().getTime()));
+            } else {
+                pstmt.setNull(8, Types.DATE);
+            }
+            // ********************************************************************
 
-            dbManager.executeUpdate(sqlCommand);
-        } catch (Exception e) {
-            System.err.println("Fehler beim Hinzufügen des Mitarbeiters " + employee.getUsername() + " zur DB.");
+            pstmt.setString(9, employee.getAddress());
+            pstmt.setString(10, String.valueOf(employee.getGender()));
+
+            // ********************************************************************
+            // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
+            // ********************************************************************
+            if (employee.getHireDate() != null) {
+                pstmt.setDate(11, new java.sql.Date(employee.getHireDate().getTime()));
+            } else {
+                pstmt.setNull(11, Types.DATE);
+            }
+            // ********************************************************************
+
+            pstmt.setString(12, employee.getEmploymentStatus());
+            pstmt.setString(13, employee.getDepartmentId());
+            pstmt.setString(14, employee.getTeamId());
+            pstmt.setString(15, employee.getRoleId());
+            pstmt.setString(16, employee.getQualifications());
+            pstmt.setString(17, employee.getCompletedTrainings());
+
+            if (employee.getManagerId() != null) {
+                pstmt.setInt(18, employee.getManagerId());
+            } else {
+                pstmt.setNull(18, Types.INTEGER);
+            }
+
+            pstmt.setBoolean(19, employee.isItAdmin());
+            pstmt.setBoolean(20, employee.isHr());
+            pstmt.setBoolean(21, employee.isHrHead());
+            pstmt.setBoolean(22, employee.isManager());
+
+            pstmt.executeUpdate();
+            System.out.println("Employee added to DB: " + employee.getUsername());
+
+        } catch (SQLException e) {
+            System.err.println("Fehler beim Hinzufügen des Mitarbeiters " + employee.getUsername() + " zur DB: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private boolean doesEmployeeExistInDb(Employee employee) {
-        // Diese Methode ist wie zuvor erwähnt ineffizient und sollte für Produktivumgebungen
-        // durch eine direkte DB-Abfrage ersetzt werden.
         for (Employee list_emp: getAllEmployeesFromDb()) {
             if (employee.equals(list_emp)) return true;
         }
@@ -133,11 +150,10 @@ public class EmployeeDao {
     public ArrayList<Employee> getAllEmployeesFromDb() {
         System.out.println(" ~ getAllEmployeesFromDb()");
         ArrayList<Employee> ret_list = new ArrayList<>();
-        // Sicherstellen, dass alle neuen Spalten im SELECT-Statement enthalten sind
         String query = "SELECT id, username, password, permission_string, first_name, last_name, " +
                 "email, phone_number, date_of_birth, address, gender, hire_date, employment_status, " +
                 "department_id, team_id, role_id, qualifications, completed_trainings, manager_id, " +
-                "it_admin, hr, hr_head, is_manager FROM Employees"; // Hinzugefügte Spalten
+                "it_admin, hr, hr_head, is_manager FROM Employees";
 
         try (Connection conn = dbManager.getConnection()) {
             if (conn == null || conn.isClosed()) {
@@ -149,6 +165,16 @@ public class EmployeeDao {
                  ResultSet rs = stmt.executeQuery(query)) {
                 try {
                     while (rs.next()) {
+                        // ********************************************************************
+                        // KORREKTUR: java.sql.Date zu java.util.Date konvertieren
+                        // ********************************************************************
+                        java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
+                        Date dateOfBirth = (sqlDateOfBirth != null) ? new Date(sqlDateOfBirth.getTime()) : null;
+
+                        java.sql.Date sqlHireDate = rs.getDate("hire_date");
+                        Date hireDate = (sqlHireDate != null) ? new Date(sqlHireDate.getTime()) : null;
+                        // ********************************************************************
+
                         Employee employee = new Employee(
                                 rs.getInt("id"),
                                 rs.getString("username"),
@@ -158,10 +184,10 @@ public class EmployeeDao {
                                 rs.getString("last_name"),
                                 rs.getString("email"),
                                 rs.getString("phone_number"),
-                                rs.getDate("date_of_birth"),
+                                dateOfBirth,
                                 rs.getString("address"),
                                 rs.getString("gender").charAt(0),
-                                rs.getDate("hire_date"),
+                                hireDate,
                                 rs.getString("employment_status"),
                                 rs.getString("department_id"),
                                 rs.getString("team_id"),
@@ -169,11 +195,10 @@ public class EmployeeDao {
                                 rs.getString("qualifications"),
                                 rs.getString("completed_trainings"),
                                 rs.getObject("manager_id", Integer.class),
-                                // NEUE FELDER HIER LESEN
                                 rs.getBoolean("it_admin"),
                                 rs.getBoolean("hr"),
                                 rs.getBoolean("hr_head"),
-                                rs.getBoolean("is_manager") // NEUES FELD
+                                rs.getBoolean("is_manager")
                         );
                         ret_list.add(employee);
                     }
@@ -189,24 +214,26 @@ public class EmployeeDao {
         return ret_list;
     }
 
-    public void setEmployeeManager(EmployeeManager employeeManager) {
+    public void setEmployeeManager(core.EmployeeManager employeeManager) {
         this.employeeManager = employeeManager;
     }
 
     public List<Employee> getAllEmployees() {
+        // Diese Methode lädt Daten aus JSON-Dateien, nicht aus der H2-Datenbank.
+        // Wenn du nur aus der DB laden möchtest, sollte diese Methode getAllEmployeesFromDb() aufrufen.
         List<Employee> result = dbManager.loadAll(Employee.class);
         return result != null ? result : new ArrayList<>();
     }
 
     /**
      * Aktualisiert einen Mitarbeiter in der Datenbank.
+     * Verwendet PreparedStatement für Sicherheit und korrekte Typenbehandlung.
      * @param updatedEmployee Der aktualisierte Mitarbeiter
      * @throws Exception Falls ein Fehler bei der Aktualisierung auftritt
      * @author [Ihr Name]
      */
     public void updateEmployee(Employee updatedEmployee) throws Exception {
         try {
-            // SQL-Update-Statement mit PreparedStatement für Sicherheit
             String sql = "UPDATE Employees SET " +
                     "username = ?, " +
                     "password = ?, " +
@@ -235,7 +262,6 @@ public class EmployeeDao {
             try (Connection conn = dbManager.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                // Parameter setzen
                 stmt.setString(1, updatedEmployee.getUsername());
                 stmt.setString(2, updatedEmployee.getPassword());
                 stmt.setString(3, updatedEmployee.getPermissionString());
@@ -243,10 +269,30 @@ public class EmployeeDao {
                 stmt.setString(5, updatedEmployee.getLastName());
                 stmt.setString(6, updatedEmployee.getEmail());
                 stmt.setString(7, updatedEmployee.getPhoneNumber());
-                stmt.setDate(8, new java.sql.Date(updatedEmployee.getDateOfBirth().getTime()));
+
+                // ********************************************************************
+                // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
+                // ********************************************************************
+                if (updatedEmployee.getDateOfBirth() != null) {
+                    stmt.setDate(8, new java.sql.Date(updatedEmployee.getDateOfBirth().getTime()));
+                } else {
+                    stmt.setNull(8, Types.DATE);
+                }
+                // ********************************************************************
+
                 stmt.setString(9, updatedEmployee.getAddress());
                 stmt.setString(10, String.valueOf(updatedEmployee.getGender()));
-                stmt.setDate(11, new java.sql.Date(updatedEmployee.getHireDate().getTime()));
+
+                // ********************************************************************
+                // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
+                // ********************************************************************
+                if (updatedEmployee.getHireDate() != null) {
+                    stmt.setDate(11, new java.sql.Date(updatedEmployee.getHireDate().getTime()));
+                } else {
+                    stmt.setNull(11, Types.DATE);
+                }
+                // ********************************************************************
+
                 stmt.setString(12, updatedEmployee.getEmploymentStatus());
                 stmt.setString(13, updatedEmployee.getDepartmentId());
                 stmt.setString(14, updatedEmployee.getTeamId());
@@ -254,23 +300,19 @@ public class EmployeeDao {
                 stmt.setString(16, updatedEmployee.getQualifications());
                 stmt.setString(17, updatedEmployee.getCompletedTrainings());
 
-                // ManagerId kann null sein
                 if (updatedEmployee.getManagerId() != null) {
                     stmt.setInt(18, updatedEmployee.getManagerId());
                 } else {
                     stmt.setNull(18, Types.INTEGER);
                 }
 
-                // Boolean-Werte
                 stmt.setBoolean(19, updatedEmployee.isItAdmin());
                 stmt.setBoolean(20, updatedEmployee.isHr());
                 stmt.setBoolean(21, updatedEmployee.isHrHead());
                 stmt.setBoolean(22, updatedEmployee.isManager());
 
-                // ID für WHERE-Klausel
                 stmt.setInt(23, updatedEmployee.getId());
 
-                // Update ausführen
                 int affectedRows = stmt.executeUpdate();
 
                 if (affectedRows == 0) {
@@ -278,8 +320,29 @@ public class EmployeeDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Fehler beim Aktualisieren des Mitarbeiters " + updatedEmployee.getUsername());
+            System.err.println("Fehler beim Aktualisieren des Mitarbeiters " + updatedEmployee.getUsername() + ": " + e.getMessage());
             throw new Exception("Datenbankfehler beim Aktualisieren: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Löscht einen Mitarbeiter aus der Datenbank anhand seiner ID.
+     * @param id Die ID des zu löschenden Mitarbeiters.
+     * @author Elias Glauert
+     */
+    public void removeEmployee(int id) {
+        String sqlCommand = SqlReader.giveCommand("removeEmployee");
+
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlCommand)) {
+
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+            System.out.println("Employee removed from DB: " + id);
+
+        } catch (SQLException e) {
+            System.err.println("Error removing employee from DB: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
