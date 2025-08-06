@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.List;
+import java.time.LocalDate;
 
 /**
  * Mitarbeiter Verwaltung Klasse.
@@ -102,8 +103,8 @@ public class EmployeeManager {
      * @author Elias Glauert, Dorian Gläske
      */
     public void addEmployee(String username, String password, String permissionString, String firstName,
-                            String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
-                            char gender, Date hireDate, String employmentStatus, String departmentId,
+                            String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String address,
+                            char gender, LocalDate hireDate, String employmentStatus, String departmentId,
                             String teamId, String roleId, String qualifications, String completedTrainings,
                             Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
 

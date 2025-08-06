@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * Mitarbeiter Klasse.
@@ -28,10 +29,10 @@ public class Employee {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String address;
     private char gender;
-    private Date hireDate;
+    private LocalDate hireDate;
     private String employmentStatus;
     private String departmentId;
     private String teamId;
@@ -72,8 +73,8 @@ public class Employee {
      * @param isManager          Ist der Mitarbeiter ein Manager?
      */
     public Employee(String username, String password, String permissionString, String firstName,
-                    String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
-                    char gender, Date hireDate, String employmentStatus, String departmentId,
+                    String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String address,
+                    char gender, LocalDate hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
                     Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
         this.username = username;
@@ -129,8 +130,8 @@ public class Employee {
      * @param isManager        Ist der Mitarbeiter ein Manager?
      */
     public Employee(int id, String username, String password, String permissionString, String firstName,
-                    String lastName, String email, String phoneNumber, Date dateOfBirth, String address,
-                    char gender, Date hireDate, String employmentStatus, String departmentId,
+                    String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String address,
+                    char gender, LocalDate hireDate, String employmentStatus, String departmentId,
                     String teamId, String roleId, String qualifications, String completedTrainings,
                     Integer managerId, boolean itAdmin, boolean hr, boolean hrHead, boolean isManager) {
         this(username, password, permissionString, firstName, lastName, email, phoneNumber, dateOfBirth, address,
@@ -157,14 +158,14 @@ public class Employee {
     public void setEmail(String email) { this.email = email; }
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-    public Date getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     public char getGender() { return gender; }
     public void setGender(char gender) { this.gender = gender; }
-    public Date getHireDate() { return hireDate; }
-    public void setHireDate(Date hireDate) { this.hireDate = hireDate; }
+    public LocalDate getHireDate() { return hireDate; }
+    public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
     public String getEmploymentStatus() { return employmentStatus; }
     public void setEmploymentStatus(String employmentStatus) { this.employmentStatus = employmentStatus; }
     public String getDepartmentId() { return departmentId; }
