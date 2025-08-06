@@ -2,7 +2,7 @@ package util; // Dein gewähltes Paket
 
 import core.EmployeeManager;
 import db.DatabaseManager;
-import db.dao.EmployeeDao;
+import db.dao.EmployeeDao; // Sicherstellen, dass dies importiert ist
 import model.db.Employee;
 
 import java.io.IOException;
@@ -18,28 +18,38 @@ import java.util.Set;
  * Diese Klasse ist NICHT für die Persistenz in der Datenbank zuständig.
  *
  * @author Dorian Gläske, Elias Glauert
- * @version 1.4
+ * @version 1.5 (Anpassung an EmployeeGenerator-API)
  * @since 2025-08-04
  */
 public class EmployeeCreationService {
 
-    private final EmployeeGenerator employeeGenerator;
-    private DatabaseManager databaseManager;
-    private EmployeeManager employeeManager;
+    // EmployeeGenerator ist jetzt statisch und benötigt keine Instanz.
+    // Wir rufen seine statischen Methoden direkt auf.
+    // private final EmployeeGenerator employeeGenerator; // Diese Zeile kann entfernt werden
+
+    private DatabaseManager databaseManager; // Nicht direkt verwendet, kann entfernt werden wenn unnötig
+    private EmployeeManager employeeManager; // Nicht direkt verwendet, kann entfernt werden wenn unnötig
     private EmployeeDao employeeDao;
 
     /**
      * Konstruktor für EmployeeCreationService.
      * Initialisiert eine Instanz des EmployeeGenerators, der die Unternehmensstruktur lädt.
      *
+     * @param databaseManager Instanz des DatabaseManager.
+     * @param employeeManager Instanz des EmployeeManager.
+     * @param employeeDao Instanz des EmployeeDao.
      * @throws IOException Wenn beim Initialisieren des EmployeeGenerators ein Fehler auftritt (z.B. beim Laden der JSON-Dateien).
      * @throws IllegalStateException Wenn die Unternehmensstruktur unvollständig geladen wurde.
      */
     public EmployeeCreationService(DatabaseManager databaseManager, EmployeeManager employeeManager, EmployeeDao employeeDao) throws IOException, IllegalStateException {
-        this.employeeGenerator = new EmployeeGenerator(employeeDao);
-        this.databaseManager = databaseManager;
+        // ********************************************************************
+        // KORREKTUR: EmployeeGenerator ist jetzt statisch und wird nicht instanziiert.
+        // Die Zeile 'this.employeeGenerator = new EmployeeGenerator(employeeDao);' wird entfernt.
+        // ********************************************************************
+        this.databaseManager = databaseManager; // Kann entfernt werden, wenn nicht benötigt
+        this.employeeManager = employeeManager; // Kann entfernt werden, wenn nicht benötigt
         this.employeeDao = employeeDao;
-        System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert.");
+        System.out.println("EmployeeCreationService: EmployeeGenerator erfolgreich initialisiert. (Hinweis: Generator ist jetzt statisch)");
     }
 
     /**
@@ -60,22 +70,33 @@ public class EmployeeCreationService {
 
         Set<String> usedUsernames = new HashSet<>(); // Set zur effizienten Speicherung und Überprüfung von Benutzernamen
 
+        // Annahme: Die IDs werden sequenziell vergeben, beginnend nach der höchsten existierenden ID.
+        // Eine robustere Lösung würde die höchste ID aus der Datenbank abfragen.
+        int currentMaxId = employeeDao.getAllEmployeesFromDb().stream()
+                .mapToInt(Employee::getId)
+                .max()
+                .orElse(0); // Start bei 0, wenn keine Mitarbeiter vorhanden sind
+
         for (int i = 0; i < numberOfEmployees; i++) {
             Employee employee;
             String username;
+            int employeeId = currentMaxId + 1 + i; // Eindeutige ID für jeden neuen Mitarbeiter
 
             // Schleife, um einen eindeutigen Benutzernamen zu generieren
             do {
-                // Generiere einen neuen Mitarbeiter. Der Index wird hier nur für die Schleife verwendet.
-                employee = employeeGenerator.generateSingleEmployee(i);
+                // ********************************************************************
+                // KORREKTUR: Aufruf der statischen Methode generateRandomEmployee
+                // und Übergabe der aktuellen ID
+                // ********************************************************************
+                employee = EmployeeGenerator.generateRandomEmployee(employeeId);
                 username = employee.getUsername();
             } while (usedUsernames.contains(username)); // Führe die Schleife erneut aus, wenn der Benutzername bereits existiert
 
             // Füge den neuen, eindeutigen Benutzernamen zum Set hinzu
             usedUsernames.add(username);
 
-            // Setze eine eindeutige ID (beispielhaft)
-            employee.setId(i);
+            // Die ID wird bereits im EmployeeGenerator gesetzt, hier nur zur Klarheit
+            // employee.setId(employeeId); // Diese Zeile ist redundant, da ID im Generator gesetzt wird
 
             // Füge den Mitarbeiter der Liste hinzu
             generatedEmployees.add(employee);
