@@ -1,11 +1,15 @@
+-- Korrigierter INSERT-Befehl für PreparedStatement
+-- Stelle sicher, dass die Reihenfolge der ? genau der Reihenfolge der Parameter
+-- in EmployeeDao.addEmployeeToDb entspricht.
+
 INSERT INTO Employees (
     username, password, permission_string, first_name, last_name,
     email, phone_number, date_of_birth, address, gender, hire_date,
     employment_status, department_id, team_id, role_id, qualifications,
     completed_trainings, manager_id, it_Admin, hr, hr_Head, is_manager
 ) VALUES (
-    '{username}', '{password}', '{permissionString}', '{firstName}', '{lastName}',
-    '{email}', '{phoneNumber}', '{dateOfBirth}', '{address}', '{gender}', '{hireDate}',
-    '{employmentStatus}', '{departmentId}', '{teamId}', '{roleId}', '{qualifications}',
-    '{completedTrainings}', {managerId}, {itAdmin},{hr},{hrHead},{isManager}
+    ?, ?, ?, ?, ?, -- 1: username, 2: password, 3: permission_string, 4: first_name, 5: last_name
+    ?, ?, ?, ?, ?, ?, -- 6: email, 7: phone_number, 8: date_of_birth, 9: address, 10: gender, 11: hire_date
+    ?, ?, ?, ?, ?, ?, -- 12: employment_status, 13: department_id, 14: team_id, 15: role_id, 16: qualifications, 17: completed_trainings
+    ?, ?, ?, ?, ? -- 18: manager_id, 19: it_Admin, 20: hr, 21: hr_Head, 22: is_manager
 );
