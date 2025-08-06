@@ -146,7 +146,10 @@ public class EmployeeGenerator {
         boolean isManager = (teamId != null && teamId.endsWith("-lead"));
 
         // Logik für itAdmin (Department-ID endet mit -it)
-        boolean itAdmin = (departmentId != null && departmentId.endsWith("-it"));
+        boolean itAdmin = false;
+        if(departmentId.endsWith("-it")){
+            itAdmin = true;
+        };
 
         // Logik für hr (Department-ID endet mit -hr)
         boolean hr = false; // Standardwert
