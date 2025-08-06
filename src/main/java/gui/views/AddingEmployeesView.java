@@ -227,7 +227,7 @@ public class AddingEmployeesView extends View {
         try {
             // Abteilungen
             try {
-                List<Department> departments = CompanyStructureManager.getInstance().getAllDepartments();
+                List<Department> departments = (List<Department>) CompanyStructureManager.getInstance().getAllDepartments();
                 if (departments != null && !departments.isEmpty()) {
                     for (Department dept : departments) {
                         departmentNameCache.put(dept.getName(), dept.getDepartmentId());
@@ -240,7 +240,7 @@ public class AddingEmployeesView extends View {
             } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
                 System.err.println("Warnung: CompanyStructureManager.getAllDepartments() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
                 try {
-                    List<?> genericDepartments = CompanyStructureManager.getInstance().getAllDepartments();
+                    List<?> genericDepartments = (List<?>) CompanyStructureManager.getInstance().getAllDepartments();
                     if (genericDepartments != null && !genericDepartments.isEmpty()) {
                         for (Object obj : genericDepartments) {
                             if (obj instanceof Map) {
@@ -265,11 +265,11 @@ public class AddingEmployeesView extends View {
 
             // Rollen
             try {
-                List<Role> roles = CompanyStructureManager.getInstance().getAllRoles();
+                List<Role> roles = (List<Role>) CompanyStructureManager.getInstance().getAllRoles();
                 if (roles != null && !roles.isEmpty()) {
                     for (Role role : roles) {
-                        roleNameCache.put(role.getName(), role.getRoleId());
-                        roleIdCache.put(role.getRoleId(), role.getName());
+                        roleNameCache.put(role.getName(), role.getroleId());
+                        roleIdCache.put(role.getroleId(), role.getName());
                     }
                 } else {
                     System.err.println("Warnung: CompanyStructureManager.getAllRoles() gab eine leere Liste zurueck. Verwende Fallback-Rollen.");
@@ -278,7 +278,7 @@ public class AddingEmployeesView extends View {
             } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
                 System.err.println("Warnung: CompanyStructureManager.getAllRoles() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
                 try {
-                    List<?> genericRoles = CompanyStructureManager.getInstance().getAllRoles();
+                    List<?> genericRoles = (List<?>) CompanyStructureManager.getInstance().getAllRoles();
                     if (genericRoles != null && !genericRoles.isEmpty()) {
                         for (Object obj : genericRoles) {
                             if (obj instanceof Map) {
@@ -302,7 +302,7 @@ public class AddingEmployeesView extends View {
 
             // Teams aus CompanyStructureManager laden
             try {
-                List<Team> teams = CompanyStructureManager.getInstance().getAllTeams();
+                List<Team> teams = (List<Team>) CompanyStructureManager.getInstance().getAllTeams();
                 if (teams != null && !teams.isEmpty()) {
                     for (Team team : teams) {
                         teamNameCache.put(team.getName(), team.getTeamId());
@@ -315,7 +315,7 @@ public class AddingEmployeesView extends View {
             } catch (NoSuchMethodError | NullPointerException | ClassCastException e) {
                 System.err.println("Warnung: CompanyStructureManager.getAllTeams() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Verwende Fallback-Teams.");
                 try {
-                    List<?> genericTeams = CompanyStructureManager.getInstance().getAllTeams();
+                    List<?> genericTeams = (List<?>) CompanyStructureManager.getInstance().getAllTeams();
                     if (genericTeams != null && !genericTeams.isEmpty()) {
                         for (Object obj : genericTeams) {
                             if (obj instanceof Map) {
