@@ -47,7 +47,6 @@ public class SearchView extends View {
         // Für den Moment setzen wir ihn auf null und nehmen an, dass er über einen Setter gesetzt wird
         // oder der Konstruktor in FeatureBar angepasst wird.
         // Wenn dieser Konstruktor von FeatureBar aufgerufen wird, muss er den EmployeeManager übergeben.
-        // Beispiel: new SearchView(currentUser, employeeManager)
         this.employeeManager = null; // Muss später gesetzt werden!
         // ********************************************************************
 
