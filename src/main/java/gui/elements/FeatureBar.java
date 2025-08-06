@@ -160,24 +160,16 @@ public class FeatureBar extends JPanel {
 
 
         Employee currentUser = loginManager.getLoggedInUser();
+        // Der Button 'Mitarbeiter bearbeiten' wird nur für HR, IT-Admins oder HR-Leiter angezeigt.
         if (currentUser != null && (currentUser.isHr() || currentUser.isItAdmin() || currentUser.isHrHead())) {
-            JButton editEmployeeButton = new JButton("✏️ Mitarbeiter bearbeiten"); // Text geaendert
+            JButton editEmployeeButton = new JButton("✏️ Mitarbeiter bearbeiten");
             editEmployeeButton.setPreferredSize(standardButtonSize);
             editEmployeeButton.addActionListener(_ -> {
-                // Navigiert zur Suchansicht, wo Mitarbeiter zur Bearbeitung ausgewaehlt werden koennen
-                try {
-                    SearchView searchViewForEdit = new SearchView(currentUser, this.employeeManager, eventManager); // EventManager uebergeben
-                    // Optional: Einen Modus an die SearchView uebergeben, um anzuzeigen, dass sie im Bearbeitungsmodus ist
-                    // searchViewForEdit.setMode(SearchView.Mode.EDIT);
-                    eventManager.callEvent("changeView", new Object[]{searchViewForEdit});
-                } catch (IOException e) {
-                    System.err.println("Fehler beim Laden der Suchansicht fuer Bearbeitung: " + e.getMessage());
-                    JOptionPane.showMessageDialog(this,
-                            "Ein Fehler ist aufgetreten: " + e.getMessage() + "\nBitte ueberpruefen Sie die Konsolenausgabe fuer Details.",
-                            "Fehler beim Laden der Bearbeitungssuche",
-                            JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
-                }
+                System.out.println("Button 'Mitarbeiter bearbeiten' geklickt.");
+                // Ruft jetzt die SystemSettingView auf, die die Bearbeitung/Löschung steuert.
+                eventManager.callEvent("changeView", new Object[]{
+                        new SystemSettingsView(eventManager, employeeManager, currentUser)
+                });
             });
             main_button_panel.add(editEmployeeButton);
         }
@@ -215,5 +207,4 @@ public class FeatureBar extends JPanel {
         System.out.println("Erstelle Feature Buttons jetzt...");
         createFeatureButtons();
     }
-
 }

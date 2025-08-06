@@ -1,6 +1,8 @@
 package gui.views;
 
+import core.EmployeeManager;
 import core.EventManager;
+import model.db.Employee;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,11 +14,11 @@ import java.awt.event.ActionEvent;
  * Sie enthält Buttons, um neue Mitarbeiter hinzuzufügen oder bestehende Mitarbeiter zu bearbeiten.
  * Die Navigation zu den entsprechenden Ansichten wird über den EventManager gesteuert.
  */
-public class SystemSettingsView extends JPanel {
+public class SystemSettingsView extends View {
 
     private final EventManager eventManager;
 
-    public SystemSettingsView(EventManager eventManager) {
+    public SystemSettingsView(EventManager eventManager, EmployeeManager employeeManager, Employee currentUser) {
         this.eventManager = eventManager;
 
         // Setze das Layout für diese Ansicht
