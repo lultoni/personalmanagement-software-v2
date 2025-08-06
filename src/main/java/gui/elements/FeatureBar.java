@@ -158,10 +158,7 @@ public class FeatureBar extends JPanel {
         });
         main_button_panel.add(trainingButton);
 
-        // ********************************************************************
-        // NEU: Button zum Bearbeiten von Mitarbeitern (ersetzt 'Hinzufuegen')
-        // Nur fuer HR, HR-Heads oder IT-Admins sichtbar
-        // ********************************************************************
+
         Employee currentUser = loginManager.getLoggedInUser();
         if (currentUser != null && (currentUser.isHr() || currentUser.isItAdmin() || currentUser.isHrHead())) {
             JButton editEmployeeButton = new JButton("✏️ Mitarbeiter bearbeiten"); // Text geaendert

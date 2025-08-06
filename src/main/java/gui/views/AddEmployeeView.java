@@ -2,7 +2,6 @@ package gui.views;
 
 import core.EmployeeManager;
 import core.EventManager;
-import model.db.Employee;
 import model.json.Department;
 import model.json.Role;
 import model.json.Team;
@@ -18,13 +17,12 @@ import java.io.IOException;
 import java.util.Date; // Geändert von java.time.LocalDate
 import java.text.SimpleDateFormat; // Neu hinzugefügt für Datumshandhabung
 import java.text.ParseException; // Neu hinzugefügt für Datumshandhabung
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
 
-public class AddingEmployeesView extends View {
+public class AddEmployeeView extends View {
 
     private final EmployeeManager employeeManager;
     private final EventManager eventManager;
@@ -62,7 +60,7 @@ public class AddingEmployeesView extends View {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Datumformat
 
-    public AddingEmployeesView(EmployeeManager employeeManager, EventManager eventManager) {
+    public AddEmployeeView(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
 
