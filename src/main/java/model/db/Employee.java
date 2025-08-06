@@ -140,7 +140,7 @@ public class Employee {
         this.id = id;
     }
 
-
+// funktioniert es jetzt?
     // --- Getter und Setter für alle Felder ---
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
