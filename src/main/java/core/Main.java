@@ -46,7 +46,8 @@ public class Main {
         // Beachte: Der EmployeeManager-Konstruktor benötigt den EmployeeDao
         EmployeeManager employeeManager = new EmployeeManager(null, dbManager); // Temporäre Initialisierung ohne DAO
         EmployeeDao employeeDao = new EmployeeDao(dbManager, employeeManager);
-        employeeManager.setEmployeeDao(employeeDao); // Jetzt den DAO setzen
+        employeeManager.setEmployeeDao(employeeDao);// Jetzt den DAO setzen
+        System.out.println("Dao gestzt"+employeeDao);
 
         // Mitarbeiter erstellen und laden
         // Der EmployeeCreationService benötigt den EmployeeManager und den EmployeeDao

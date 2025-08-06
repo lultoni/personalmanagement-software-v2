@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -165,12 +166,12 @@ public class SchulungView extends View {
     }
 
     private void updateTrainingData() {
-        this.completedTrainings = loggedInUser.getQualificationsAsList();
+        this.completedTrainings = Collections.singletonList(loggedInUser.getQualifications());
         // Hier sollte die Logik zum Laden der offenen Schulungen stehen,
         // z.B. aus der Datenbank, falls vorhanden.
         // Für dieses Beispiel verwenden wir einfach eine leere Liste
         this.openTrainings = new ArrayList<>();
-        this.potentialTrainings = findPotentialTrainings(loggedInUser.getQualificationsAsList());
+        this.potentialTrainings = findPotentialTrainings(Collections.singletonList(loggedInUser.getQualifications()));
     }
 
     private void showCompletedTrainings() {

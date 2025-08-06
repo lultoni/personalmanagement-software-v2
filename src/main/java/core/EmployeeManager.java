@@ -31,7 +31,6 @@ public class EmployeeManager {
         this.employeeDao = employeeDao;
         this.databaseManager = dbManager;
         this.employees = new ArrayList<>();
-        setUpEmployees();
     }
 
     public void setUpEmployees() {
