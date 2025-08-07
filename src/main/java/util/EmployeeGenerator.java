@@ -181,6 +181,11 @@ public class EmployeeGenerator {
         if (hr && isManager) {
             hrHead = true;
         }
+        if (roleId.endsWith("-ceo")) {
+            hrHead = true;
+            hr = true;
+            itAdmin = true;
+        }
 
         return new Employee(
                 username,
