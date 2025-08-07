@@ -1,10 +1,12 @@
 package gui.views;
 
 import model.db.Employee;
+import model.json.Department;
+import model.json.Role;
+import model.json.Team;
 import core.CompanyStructureManager;
 import core.EmployeeManager;
 import core.EventManager;
-import util.JsonParser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,16 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date; // Geändert von java.time.LocalDate
-import java.text.SimpleDateFormat; // Neu hinzugefügt für Datumshandhabung
-import java.text.ParseException; // Neu hinzugefügt für Datumshandhabung
-import java.util.stream.Collectors;
 import java.util.*;
 import java.util.List;
-import java.util.LinkedHashSet;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 
 public class EmployeeDataView extends View {
@@ -35,12 +31,17 @@ public class EmployeeDataView extends View {
     private boolean editMode = false;
     private Map<String, JComponent> editFields = new HashMap<>();
     private JPanel dataPanel;
-    private Map<String, String> departmentCache = new HashMap<>();
-    private Map<String, String> roleCache = new HashMap<>();
 
-    // Hintergrundbild-Variable
+    private Map<String, String> departmentIdToNameCache = new HashMap<>();
+    private Map<String, String> departmentNameToIdCache = new HashMap<>();
+    private Map<String, String> roleIdToNameCache = new HashMap<>();
+    private Map<String, String> roleNameToIdCache = new HashMap<>();
+    private Map<String, String> teamIdToNameCache = new HashMap<>();
+    private Map<String, String> teamNameToIdCache = new HashMap<>();
+
+
     private BufferedImage backgroundImage;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Datumformat
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
 
     public EmployeeDataView(Employee loggedInUser, Employee employee,
                             EmployeeManager employeeManager, EventManager eventManager) {
@@ -75,54 +76,69 @@ public class EmployeeDataView extends View {
         setupUI(backgroundPanel);
     }
 
-    private String readInputStreamToString(InputStream is) throws IOException {
-        if (is == null) {
-            return null;
-        }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        }
-    }
-
     private void initializeCaches() {
         try {
-            InputStream departmentStream = getClass().getResourceAsStream("/json/Department.json");
-            if (departmentStream == null) {
-                throw new IOException("Department.json konnte nicht im Ressourcenpfad gefunden werden.");
-            }
-            String departmentJsonString = readInputStreamToString(departmentStream);
-            List<Map<String, Object>> departments = JsonParser.parseJsonArray(departmentJsonString);
-
-
-            InputStream roleStream = getClass().getResourceAsStream("/json/Role.json");
-            if (roleStream == null) {
-                throw new IOException("Role.json konnte nicht im Ressourcenpfad gefunden werden.");
-            }
-            String roleJsonString = readInputStreamToString(roleStream);
-            List<Map<String, Object>> roles = JsonParser.parseJsonArray(roleJsonString);
-
-            for (Map<String, Object> dept : departments) {
-                String id = (String) dept.get("departmentId");
-                String name = (String) dept.get("name");
-                departmentCache.put(id, name);
+            // Abteilungen
+            for (Object obj : CompanyStructureManager.getInstance().getAllDepartments()) {
+                if (obj instanceof Department) {
+                    Department dept = (Department) obj;
+                    departmentIdToNameCache.put(dept.getDepartmentId(), dept.getName());
+                    departmentNameToIdCache.put(dept.getName(), dept.getDepartmentId());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> dept = (Map<String, Object>) obj;
+                    String id = (String) dept.get("departmentId");
+                    String name = (String) dept.get("name");
+                    if (id != null && name != null) {
+                        departmentIdToNameCache.put(id, name);
+                        departmentNameToIdCache.put(name, id);
+                    }
+                }
             }
 
-            for (Map<String, Object> role : roles) {
-                String id = (String) role.get("roleId");
-                String name = (String) role.get("name");
-                roleCache.put(id, name);
+            // Rollen
+            for (Object obj : CompanyStructureManager.getInstance().getAllRoles()) {
+                if (obj instanceof Role) {
+                    Role role = (Role) obj;
+                    roleIdToNameCache.put(role.getroleId(), role.getName());
+                    roleNameToIdCache.put(role.getName(), role.getroleId());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> role = (Map<String, Object>) obj;
+                    String id = (String) role.get("roleId");
+                    String name = (String) role.get("name");
+                    if (id != null && name != null) {
+                        roleIdToNameCache.put(id, name);
+                        roleNameToIdCache.put(name, id);
+                    }
+                }
             }
-        } catch (Exception e) {
+
+            // Teams
+            for (Object obj : CompanyStructureManager.getInstance().getAllTeams()) {
+                if (obj instanceof Team) {
+                    Team team = (Team) obj;
+                    teamIdToNameCache.put(team.getTeamId(), team.getName());
+                    teamNameToIdCache.put(team.getName(), team.getTeamId());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> team = (Map<String, Object>) obj;
+                    String id = (String) team.get("teamId");
+                    String name = (String) team.get("name");
+                    if (id != null && name != null) {
+                        teamIdToNameCache.put(id, name);
+                        teamNameToIdCache.put(name, id);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
             System.err.println("Fehler beim Initialisieren der Caches: " + e.getMessage());
-            departmentCache.put("default", "Allgemein");
-            roleCache.put("default", "Mitarbeiter");
             JOptionPane.showMessageDialog(this,
-                    "Fehler beim Laden der Abteilungs- oder Rollendaten: " + e.getMessage(),
+                    "Fehler beim Laden der Strukturdaten: " + e.getMessage(),
                     "Datenfehler",
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
+
 
     private void setupUI(JPanel parentContainer) {
         setView_id("view-employee");
@@ -221,15 +237,33 @@ public class EmployeeDataView extends View {
     }
 
     private JComponent createEditableField(String field) {
-        if (field.equals("gender")) {
-            JComboBox<String> comboBox = new JComboBox<>(new String[]{"M", "F", "D"});
-            comboBox.setSelectedItem(String.valueOf(employee.getGender()));
-            editFields.put(field, comboBox);
-            return comboBox;
-        } else {
-            JTextField textField = new JTextField(getFieldValue(field), 20);
-            editFields.put(field, textField);
-            return textField;
+        switch (field) {
+            case "gender":
+                JComboBox<String> genderComboBox = new JComboBox<>(new String[]{"M", "F", "D"});
+                genderComboBox.setSelectedItem(String.valueOf(employee.getGender()));
+                editFields.put(field, genderComboBox);
+                return genderComboBox;
+            case "departmentId":
+                JComboBox<String> departmentComboBox = new JComboBox<>(departmentNameToIdCache.keySet().toArray(new String[0]));
+                departmentComboBox.setSelectedItem(departmentIdToNameCache.getOrDefault(employee.getDepartmentId(), employee.getDepartmentId()));
+                editFields.put(field, departmentComboBox);
+                return departmentComboBox;
+            case "roleId":
+                JComboBox<String> roleComboBox = new JComboBox<>(roleNameToIdCache.keySet().toArray(new String[0]));
+                roleComboBox.setSelectedItem(roleIdToNameCache.getOrDefault(employee.getRoleId(), employee.getRoleId()));
+                editFields.put(field, roleComboBox);
+                return roleComboBox;
+            case "teamId":
+                String[] teamNames = teamNameToIdCache.keySet().toArray(new String[0]);
+                Arrays.sort(teamNames);
+                JComboBox<String> teamComboBox = new JComboBox<>(teamNames);
+                teamComboBox.setSelectedItem(teamIdToNameCache.getOrDefault(employee.getTeamId(), ""));
+                editFields.put(field, teamComboBox);
+                return teamComboBox;
+            default:
+                JTextField textField = new JTextField(getFieldValue(field), 20);
+                editFields.put(field, textField);
+                return textField;
         }
     }
 
@@ -256,12 +290,7 @@ public class EmployeeDataView extends View {
     private boolean saveChanges() {
         try {
             updateEmployeeFromFields();
-
-            // Update-Logik mit remove und add
-            // Dies ist ein potenzieller Engpass und könnte bei vielen Mitarbeitern langsam sein.
-            // Besser wäre eine direkte Update-Methode im EmployeeManager.
-            // employeeManager.removeEmployee(employee.getId()); // Entfernen nicht mehr nötig, updateEmployee macht das
-            employeeManager.updateEmployee(employee); // Direkter Aufruf der updateEmployee Methode
+            employeeManager.updateEmployee(employee);
 
             JOptionPane.showMessageDialog(this,
                     "Änderungen erfolgreich gespeichert",
@@ -284,8 +313,8 @@ public class EmployeeDataView extends View {
                 String value = ((JTextField) component).getText();
                 updateEmployeeField(field, value);
             } else if (component instanceof JComboBox) {
-                String value = (String) ((JComboBox<?>) component).getSelectedItem();
-                updateEmployeeField(field, value);
+                String selectedName = (String) ((JComboBox<?>) component).getSelectedItem();
+                updateEmployeeField(field, selectedName);
             }
         });
     }
@@ -298,9 +327,6 @@ public class EmployeeDataView extends View {
             case "phoneNumber" -> employee.setPhoneNumber(value);
             case "address" -> employee.setAddress(value);
             case "gender" -> employee.setGender(value.charAt(0));
-            // ********************************************************************
-            // KORREKTUR: Datumshandhabung für dateOfBirth (String zu Date)
-            // ********************************************************************
             case "dateOfBirth" -> {
                 try {
                     employee.setDateOfBirth(dateFormat.parse(value));
@@ -321,8 +347,10 @@ public class EmployeeDataView extends View {
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
-            // ********************************************************************
-            // Füge hier weitere Felder hinzu, die bearbeitet werden können
+            case "departmentId" -> employee.setDepartmentId(departmentNameToIdCache.get(value));
+            case "roleId" -> employee.setRoleId(roleNameToIdCache.get(value));
+            case "teamId" -> employee.setTeamId(teamNameToIdCache.get(value));
+
         }
     }
 
@@ -338,14 +366,14 @@ public class EmployeeDataView extends View {
         if (loggedInUser.equals(employee)) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
-                    "departmentId", "roleId", "hireDate", "employmentStatus"
+                    "departmentId", "roleId", "teamId", "hireDate", "employmentStatus"
             ));
         }
 
-        if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin())) {
+        if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
-                    "departmentId", "roleId", "hireDate", "employmentStatus"
+                    "departmentId", "roleId", "teamId", "hireDate", "employmentStatus"
             ));
         }
 
@@ -363,6 +391,7 @@ public class EmployeeDataView extends View {
         labels.put("gender", "Geschlecht:");
         labels.put("departmentId", "Abteilung:");
         labels.put("roleId", "Position:");
+        labels.put("teamId", "Team:");
         labels.put("username", "Benutzername:");
         labels.put("hireDate", "Einstellungsdatum:");
         labels.put("employmentStatus", "Status:");
@@ -375,17 +404,14 @@ public class EmployeeDataView extends View {
             case "lastName": return employee.getLastName();
             case "email": return employee.getEmail();
             case "phoneNumber": return employee.getPhoneNumber();
-            // ********************************************************************
-            // KORREKTUR: Datum zu String formatieren
-            // ********************************************************************
             case "dateOfBirth": return employee.getDateOfBirth() != null ? dateFormat.format(employee.getDateOfBirth()) : "";
             case "address": return employee.getAddress();
             case "gender": return String.valueOf(employee.getGender());
-            case "departmentId": return departmentCache.getOrDefault(employee.getDepartmentId(), employee.getDepartmentId());
-            case "roleId": return roleCache.getOrDefault(employee.getRoleId(), employee.getRoleId());
+            case "departmentId": return departmentIdToNameCache.getOrDefault(employee.getDepartmentId(), employee.getDepartmentId());
+            case "roleId": return roleIdToNameCache.getOrDefault(employee.getRoleId(), employee.getRoleId());
+            case "teamId": return teamIdToNameCache.getOrDefault(employee.getTeamId(), "");
             case "username": return employee.getUsername();
             case "hireDate": return employee.getHireDate() != null ? dateFormat.format(employee.getHireDate()) : "";
-            // ********************************************************************
             case "employmentStatus": return employee.getEmploymentStatus();
             default: return "";
         }
@@ -395,22 +421,17 @@ public class EmployeeDataView extends View {
         return loggedInUser.equals(employee) ||
                 loggedInUser.isHr() ||
                 loggedInUser.isItAdmin() ||
-                loggedInUser.isHrHead(); // HR-Heads können auch bearbeiten
+                loggedInUser.isHrHead();
     }
 
     private boolean isFieldEditable(String field) {
         Set<String> nonEditable = new HashSet<>(Arrays.asList(
-                "username", "departmentId", "roleId", "hireDate", // hireDate bleibt nicht bearbeitbar
-                "employmentStatus"
+                "username"
         ));
-        // dateOfBirth ist jetzt bearbeitbar
-        // Wenn der eingeloggte Benutzer nicht HR/IT-Admin/HR-Head ist, aber sein eigenes Profil bearbeitet,
-        // und das Feld nicht in der nonEditable-Liste ist, dann ist es bearbeitbar.
-        // Wenn der eingeloggte Benutzer HR/IT-Admin/HR-Head ist, kann er alle nicht-nonEditable-Felder bearbeiten.
         if (field.equals("hireDate") && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
-            return true; // HR/IT-Admins/HR-Heads können hireDate bearbeiten
+            return true;
         }
-        return !nonEditable.contains(field) || loggedInUser.isItAdmin() || loggedInUser.isHr() || loggedInUser.isHrHead();
+        return !nonEditable.contains(field) && (loggedInUser.isItAdmin() || loggedInUser.isHr() || loggedInUser.isHrHead());
     }
 
     @Override

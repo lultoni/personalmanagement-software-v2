@@ -58,7 +58,7 @@ public class AddEmployeeView extends View {
     private Map<String, String> teamNameCache = new HashMap<>();
     private Map<String, String> teamIdCache = new HashMap<>();
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Datumformat
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public AddEmployeeView(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
@@ -107,6 +107,7 @@ public class AddEmployeeView extends View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
+        // Caches zuerst initialisieren, damit die Dropdowns danach gefüllt werden können
         initializeCaches();
 
         int row = 0;
@@ -155,9 +156,10 @@ public class AddEmployeeView extends View {
         gbc.gridx = 1; employmentStatusDropdown = new JComboBox<>(new String[]{"Active", "On Leave", "Terminated", "Probation", "Retired"}); formPanel.add(employmentStatusDropdown, gbc);
         row++;
 
+        // Drop-down Menüs nach dem Laden der Daten initialisieren
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Abteilung:"), gbc);
         departmentDropdown = new JComboBox<>(departmentNameCache.keySet().toArray(new String[0]));
-        formPanel.add(departmentDropdown, gbc);
+        gbc.gridx = 1; formPanel.add(departmentDropdown, gbc);
         row++;
 
         gbc.gridx = 0; gbc.gridy = row; formPanel.add(new JLabel("Rolle:"), gbc);
@@ -222,128 +224,90 @@ public class AddEmployeeView extends View {
     }
 
     private void initializeCaches() {
+        // Abteilungen
         try {
-            // Abteilungen
-            try {
-                List<Department> departments = (List<Department>) CompanyStructureManager.getInstance().getAllDepartments();
-                if (departments != null && !departments.isEmpty()) {
-                    for (Department dept : departments) {
-                        departmentNameCache.put(dept.getName(), dept.getDepartmentId());
-                        departmentIdCache.put(dept.getDepartmentId(), dept.getName());
+            // Nicht direkt zu List casten, sondern über das Iterable-Interface iterieren
+            for (Object obj : CompanyStructureManager.getInstance().getAllDepartments()) {
+                if (obj instanceof Department) {
+                    Department dept = (Department) obj;
+                    departmentNameCache.put(dept.getName(), dept.getDepartmentId());
+                    departmentIdCache.put(dept.getDepartmentId(), dept.getName());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> dept = (Map<String, Object>) obj;
+                    String id = (String) dept.get("departmentId");
+                    String name = (String) dept.get("name");
+                    if (id != null && name != null) {
+                        departmentNameCache.put(name, id);
+                        departmentIdCache.put(id, name);
                     }
-                } else {
-                    System.err.println("Warnung: CompanyStructureManager.getAllDepartments() gab eine leere Liste zurueck. Verwende Fallback-Abteilungen.");
-                    addFallbackDepartments();
-                }
-            } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
-                System.err.println("Warnung: CompanyStructureManager.getAllDepartments() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
-                try {
-                    List<?> genericDepartments = (List<?>) CompanyStructureManager.getInstance().getAllDepartments();
-                    if (genericDepartments != null && !genericDepartments.isEmpty()) {
-                        for (Object obj : genericDepartments) {
-                            if (obj instanceof Map) {
-                                Map<String, Object> dept = (Map<String, Object>) obj;
-                                String id = (String) dept.get("departmentId");
-                                String name = (String) dept.get("name");
-                                if (id != null && name != null) {
-                                    departmentNameCache.put(name, id);
-                                    departmentIdCache.put(id, name);
-                                }
-                            }
-                        }
-                    } else {
-                        addFallbackDepartments();
-                    }
-                } catch (Exception ex) {
-                    System.err.println("Fehler beim Laden der Abteilungen als Map: " + ex.getMessage());
-                    addFallbackDepartments();
                 }
             }
-
-
-            // Rollen
-            try {
-                List<Role> roles = (List<Role>) CompanyStructureManager.getInstance().getAllRoles();
-                if (roles != null && !roles.isEmpty()) {
-                    for (Role role : roles) {
-                        roleNameCache.put(role.getName(), role.getroleId());
-                        roleIdCache.put(role.getroleId(), role.getName());
-                    }
-                } else {
-                    System.err.println("Warnung: CompanyStructureManager.getAllRoles() gab eine leere Liste zurueck. Verwende Fallback-Rollen.");
-                    addFallbackRoles();
-                }
-            } catch (ClassCastException | NoSuchMethodError | NullPointerException e) {
-                System.err.println("Warnung: CompanyStructureManager.getAllRoles() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Versuche, als Map zu laden.");
-                try {
-                    List<?> genericRoles = (List<?>) CompanyStructureManager.getInstance().getAllRoles();
-                    if (genericRoles != null && !genericRoles.isEmpty()) {
-                        for (Object obj : genericRoles) {
-                            if (obj instanceof Map) {
-                                Map<String, Object> role = (Map<String, Object>) obj;
-                                String id = (String) role.get("roleId");
-                                String name = (String) role.get("name");
-                                if (id != null && name != null) {
-                                    roleNameCache.put(name, id);
-                                    roleIdCache.put(id, name);
-                                }
-                            }
-                        }
-                    } else {
-                        addFallbackRoles();
-                    }
-                } catch (Exception ex) {
-                    System.err.println("Fehler beim Laden der Rollen als Map: " + ex.getMessage());
-                    addFallbackRoles();
-                }
+            if (departmentNameCache.isEmpty()) {
+                System.err.println("Warnung: CompanyStructureManager.getAllDepartments() gab eine leere Liste zurueck. Verwende Fallback-Abteilungen.");
+                addFallbackDepartments();
             }
-
-            // Teams aus CompanyStructureManager laden
-            try {
-                List<Team> teams = (List<Team>) CompanyStructureManager.getInstance().getAllTeams();
-                if (teams != null && !teams.isEmpty()) {
-                    for (Team team : teams) {
-                        teamNameCache.put(team.getName(), team.getTeamId());
-                        teamIdCache.put(team.getTeamId(), team.getName());
-                    }
-                } else {
-                    System.err.println("Warnung: CompanyStructureManager.getAllTeams() gab eine leere Liste zurueck. Verwende Fallback-Teams.");
-                    addFallbackTeams();
-                }
-            } catch (NoSuchMethodError | NullPointerException | ClassCastException e) {
-                System.err.println("Warnung: CompanyStructureManager.getAllTeams() nicht gefunden oder fehlerhaft (moeglicherweise falscher Rueckgabetyp). Verwende Fallback-Teams.");
-                try {
-                    List<?> genericTeams = (List<?>) CompanyStructureManager.getInstance().getAllTeams();
-                    if (genericTeams != null && !genericTeams.isEmpty()) {
-                        for (Object obj : genericTeams) {
-                            if (obj instanceof Map) {
-                                Map<String, Object> team = (Map<String, Object>) obj;
-                                String id = (String) team.get("teamId");
-                                String name = (String) team.get("name");
-                                if (id != null && name != null) {
-                                    teamNameCache.put(name, id);
-                                    teamIdCache.put(id, name);
-                                }
-                            }
-                        }
-                    } else {
-                        addFallbackTeams();
-                    }
-                } catch (Exception ex) {
-                    System.err.println("Fehler beim Laden der Teams als Map: " + ex.getMessage());
-                    addFallbackTeams();
-                }
-            }
-
-        } catch (IOException e) {
-            System.err.println("Fehler beim Initialisieren der Caches fuer Abteilungen/Rollen/Teams: " + e.getMessage());
-            JOptionPane.showMessageDialog(this,
-                    "Fehler beim Laden der Strukturdaten: " + e.getMessage(),
-                    "Datenfehler",
-                    JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Fehler beim Laden der Abteilungen: " + e.getMessage());
+            addFallbackDepartments();
         }
+
+
+        // Rollen
+        try {
+            // Nicht direkt zu List casten, sondern über das Iterable-Interface iterieren
+            for (Object obj : CompanyStructureManager.getInstance().getAllRoles()) {
+                if (obj instanceof Role) {
+                    Role role = (Role) obj;
+                    roleNameCache.put(role.getName(), role.getroleId());
+                    roleIdCache.put(role.getroleId(), role.getName());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> role = (Map<String, Object>) obj;
+                    String id = (String) role.get("roleId");
+                    String name = (String) role.get("name");
+                    if (id != null && name != null) {
+                        roleNameCache.put(name, id);
+                        roleIdCache.put(id, name);
+                    }
+                }
+            }
+            if (roleNameCache.isEmpty()) {
+                System.err.println("Warnung: CompanyStructureManager.getAllRoles() gab eine leere Liste zurueck. Verwende Fallback-Rollen.");
+                addFallbackRoles();
+            }
+        } catch (Exception e) {
+            System.err.println("Fehler beim Laden der Rollen: " + e.getMessage());
+            addFallbackRoles();
+        }
+
+        // Teams
+        try {
+            // Nicht direkt zu List casten, sondern über das Iterable-Interface iterieren
+            for (Object obj : CompanyStructureManager.getInstance().getAllTeams()) {
+                if (obj instanceof Team) {
+                    Team team = (Team) obj;
+                    teamNameCache.put(team.getName(), team.getTeamId());
+                    teamIdCache.put(team.getTeamId(), team.getName());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> team = (Map<String, Object>) obj;
+                    String id = (String) team.get("teamId");
+                    String name = (String) team.get("name");
+                    if (id != null && name != null) {
+                        teamNameCache.put(name, id);
+                        teamIdCache.put(id, name);
+                    }
+                }
+            }
+            if (teamNameCache.isEmpty()) {
+                System.err.println("Warnung: CompanyStructureManager.getAllTeams() gab eine leere Liste zurueck. Verwende Fallback-Teams.");
+                addFallbackTeams();
+            }
+        } catch (Exception e) {
+            System.err.println("Fehler beim Laden der Teams: " + e.getMessage());
+            addFallbackTeams();
+        }
+
     }
+    // ... (restliche Methoden bleiben gleich)
 
     private void addFallbackDepartments() {
         departmentNameCache.put("Unbekannt", "UNKNOWN_DEP");
@@ -388,9 +352,6 @@ public class AddEmployeeView extends View {
             }
 
 
-            // ********************************************************************
-            // KORREKTUR: Datumsparser (String zu Date)
-            // ********************************************************************
             Date dateOfBirth = null;
             if (!dateOfBirthField.getText().trim().isEmpty()) {
                 try {
@@ -410,7 +371,6 @@ public class AddEmployeeView extends View {
                     return;
                 }
             }
-            // ********************************************************************
 
             String qualifications = qualificationsField.getText().trim();
             String completedTrainings = completedTrainingsField.getText().trim();

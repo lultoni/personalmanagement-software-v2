@@ -17,9 +17,11 @@ import java.awt.event.ActionEvent;
 public class SystemSettingsView extends View {
 
     private final EventManager eventManager;
+    private final EmployeeManager employeeManager; // Hinzugefügt, da für AddEmployeeView benötigt
 
     public SystemSettingsView(EventManager eventManager, EmployeeManager employeeManager, Employee currentUser) {
         this.eventManager = eventManager;
+        this.employeeManager = employeeManager; // Instanz speichern
 
         // Setze das Layout für diese Ansicht
         setLayout(new GridBagLayout());
@@ -48,12 +50,14 @@ public class SystemSettingsView extends View {
     }
 
     private void onAddEmployeeButtonClicked(ActionEvent e) {
-        // Rufe ein Event auf, das die AddEmployeeView anzeigt
-        eventManager.callEvent("showAddEmployeeView", null);
+        System.out.println("Button 'Mitarbeiter hinzufügen' geklickt.");
+        // Eine neue Instanz von AddEmployeeView erstellen und über den EventManager anzeigen
+        eventManager.callEvent("changeView", new Object[]{new AddEmployeeView(this.employeeManager, this.eventManager)});
     }
 
     private void onEditEmployeeButtonClicked(ActionEvent e) {
-        // Rufe ein Event auf, das die EditEmployeeView anzeigt
+        // Rufe ein Event auf, das die EditEmployeeView anzeigt (oder SearchView im Bearbeitungsmodus)
+        // Hier muss deine Logik für die Bearbeitung rein
         eventManager.callEvent("showEditEmployeeView", null);
     }
 }
