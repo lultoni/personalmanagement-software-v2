@@ -52,7 +52,7 @@ public class Main {
         // Mitarbeiter erstellen und laden
         // Der EmployeeCreationService benötigt den EmployeeManager und den EmployeeDao
         EmployeeCreationService employeeCreationService = new EmployeeCreationService(dbManager, employeeManager, employeeDao);
-        employeeCreationService.generate_x_Employees(100);
+        employeeCreationService.generate_x_Employees(250);
 
         // Mitarbeiter aus der DB in den EmployeeManager laden
         employeeManager.setUpEmployees();

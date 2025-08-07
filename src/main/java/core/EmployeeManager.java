@@ -290,4 +290,7 @@ public class EmployeeManager {
             throw new Exception("Employee not found");
         }
     }
+    public void getEmployeeQualifikation(Employee employee) {
+        employee.getQualifications();
+    }
 }

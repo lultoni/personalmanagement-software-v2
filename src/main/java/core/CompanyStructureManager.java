@@ -9,10 +9,10 @@ import util.JsonParser; // Dein JsonParser
 import java.io.IOException;
 import java.util.Collection; // Für das Abrufen aller Objekte
 import java.util.Collections; // Für Collections.unmodifiableCollection
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional; // Für sicherere Rückgaben bei find-Methoden
+import java.util.stream.Collectors;
 
 /**
  * Verwaltet die eingelesenen Unternehmensstrukturdaten (Company, Departments, Roles, Teams, Qualifications).
@@ -72,7 +72,7 @@ public class CompanyStructureManager {
      * @param qualificationId Die ID der Qualifikation.
      * @return Ein Optional, das die Qualifikation enthält, falls gefunden, ansonsten leer.
      */
-    public Optional<Qualification> findQualificationById(String qualificationId) {
+    public Optional<Qualification> findQualificationById(Object qualificationId) {
         return Optional.ofNullable(qualificationMap.get(qualificationId));
     }
 
@@ -80,9 +80,34 @@ public class CompanyStructureManager {
     // damit sie klarer ist und direkt auf die qualificationMap zugreift.
     // Die Methoden "getRequiredSkillsForQualification" und "getFollowUpSkillsForQualification"
     // bleiben gleich, wurden aber zur neuen Methode umgeleitet.
-    public Optional<List<String>> getRequiredSkillsForQualification(String qualificationId) {
-        return findQualificationById(qualificationId)
-                .map(Qualification::getRequiredSkills);
+    public Optional<List<String>> getRequiredSkillsForQualification(String id) {
+        // 1. Suche nach der Qualifikation anhand der übergebenen ID (könnte eine Qualifikations-ID sein)
+        Optional<Qualification> optionalQualification = findQualificationById(id);
+
+        // 2. Wenn keine Qualifikation gefunden wurde, versuche, eine Rolle mit dieser ID zu finden
+        //    und rufe dann die zugehörigen Qualifikationen ab.
+        if (optionalQualification.isEmpty()) {
+            Optional<Role> optionalRole = findRoleById(id);
+            if (optionalRole.isPresent()) {
+                Role role = optionalRole.get();
+                // Die RoleId entspricht der Qualifikations-ID der Rolle
+                optionalQualification = findQualificationById(role.getroleId());
+            }
+        }
+
+        // 3. Wenn jetzt eine Qualifikation gefunden wurde, gib ihre RequiredSkills zurück
+        if (optionalQualification.isPresent()) {
+            Qualification qualification = optionalQualification.get();
+            List<String> requiredSkills = qualification.getRequiredSkills();
+
+            // Sicherstellen, dass die Liste existiert und nicht null ist
+            if (requiredSkills != null) {
+                return Optional.of(requiredSkills);
+            }
+        }
+
+        // Wenn am Ende nichts gefunden wurde oder die Liste null ist, gib ein leeres Optional zurück
+        return Optional.empty();
     }
 
     public Optional<List<String>> getFollowUpSkillsForQualification(String qualificationId) {
@@ -100,6 +125,12 @@ public class CompanyStructureManager {
 
     public Collection<Role> getAllRoles() {
         return Collections.unmodifiableCollection(roleMap.values());
+    }
+
+    public List<String> getAllRoleIds() {
+        return this.getAllRoles().stream()
+                .map(Role::getroleId)
+                .collect(Collectors.toList());
     }
 
     public Optional<Team> findTeamById(String teamId) {
