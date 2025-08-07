@@ -370,7 +370,7 @@ public class EmployeeDataView extends View {
             ));
         }
 
-        if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
+        if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead() || loggedInUser.equals(loggedInUser))) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
                     "departmentId", "roleId", "teamId", "hireDate", "employmentStatus"
@@ -390,8 +390,8 @@ public class EmployeeDataView extends View {
         labels.put("address", "Adresse:");
         labels.put("gender", "Geschlecht:");
         labels.put("departmentId", "Abteilung:");
-        labels.put("roleId", "Position:");
         labels.put("teamId", "Team:");
+        labels.put("roleId", "Position:");
         labels.put("username", "Benutzername:");
         labels.put("hireDate", "Einstellungsdatum:");
         labels.put("employmentStatus", "Status:");
@@ -428,10 +428,10 @@ public class EmployeeDataView extends View {
         Set<String> nonEditable = new HashSet<>(Arrays.asList(
                 "username"
         ));
-        if (field.equals("hireDate") && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
+        if (field.equals("hireDate") && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead() || loggedInUser.equals(loggedInUser))) {
             return true;
         }
-        return !nonEditable.contains(field) && (loggedInUser.isItAdmin() || loggedInUser.isHr() || loggedInUser.isHrHead());
+        return !nonEditable.contains(field) && (loggedInUser.isItAdmin() || loggedInUser.isHr() || loggedInUser.isHrHead() || loggedInUser.equals(loggedInUser));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package gui.views;
 
+import core.EventManager;
 import core.LoginManager;
 import util.PersistentInformationReader;
 
@@ -24,11 +25,13 @@ public class LoginView extends View {
 
     /**
      * Konstruktor für die LoginView Klasse.
+     *
+     * @param eventManager
      * @param loginManager LoginManager für das erzeugte Objekt.
      * @author Elias Glauert
      */
     // TODO rewrite this constructor, so that it does not look like it was written by chatgpt
-    public LoginView(LoginManager loginManager) {
+    public LoginView(EventManager eventManager, LoginManager loginManager) {
         this.loginManager = loginManager;
         BufferedImage backgroundImage;
         try {
@@ -174,6 +177,10 @@ public class LoginView extends View {
         backgroundPanel.add(mainPanel, BorderLayout.CENTER);
         setLayout(new BorderLayout());
         add(backgroundPanel, BorderLayout.CENTER);
+    }
+
+    public LoginView(EventManager eventManager, LoginManager loginManager, LoginManager loginManager1) {
+        this.loginManager = loginManager1;
     }
 
     /**

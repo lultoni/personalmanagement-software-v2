@@ -70,7 +70,7 @@ public class Main {
         GuiManager.setInstance(guiManager);
         eventManager.setGuiManager(guiManager);
 
-        eventManager.callEvent("changeView", new Object[]{new LoginView(loginManager)});
+        eventManager.callEvent("changeView", new Object[]{new LoginView(eventManager, loginManager)});
 
         System.out.println("Anwendung erfolgreich gestartet.\n\n");
     }
