@@ -151,7 +151,7 @@ public class ShutdownView extends View {
     }
 
     private void performShutdown() {
-        countdownLabel.setText("System wird jetzt heruntergefahren...");
+        countdownLabel.setText("System ist offline");
         cancelButton.setVisible(false);
 
         Timer shutdownTimer = new Timer();
@@ -159,7 +159,8 @@ public class ShutdownView extends View {
             @Override
             public void run() {
                 SwingUtilities.invokeLater(() -> {
-                    countdownLabel.setText("System ist offline");
+                    // Der tatsächliche Befehl zum Beenden der Anwendung
+                    System.exit(0);
                 });
             }
         }, 2000);

@@ -162,7 +162,7 @@ public class FeatureBar extends JPanel {
         Employee currentUser = loginManager.getLoggedInUser();
         // Der Button 'Mitarbeiter bearbeiten' wird nur für HR, IT-Admins oder HR-Leiter angezeigt.
         if (currentUser != null && (currentUser.isHr() || currentUser.isItAdmin() || currentUser.isHrHead())) {
-            JButton editEmployeeButton = new JButton("✏Mitarbeiter bearbeiten");
+            JButton editEmployeeButton = new JButton("Mitarbeiter bearbeiten");
             editEmployeeButton.setPreferredSize(standardButtonSize);
             editEmployeeButton.addActionListener(_ -> {
                 System.out.println("Button 'Mitarbeiter bearbeiten' geklickt.");
