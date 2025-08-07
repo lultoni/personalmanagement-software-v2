@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 /**
  * Die SystemSettingsView dient als Hauptmenü für HR-Verwaltungsaufgaben.
@@ -17,11 +18,13 @@ import java.awt.event.ActionEvent;
 public class SystemSettingsView extends View {
 
     private final EventManager eventManager;
-    private final EmployeeManager employeeManager; // Hinzugefügt, da für AddEmployeeView benötigt
+    private final EmployeeManager employeeManager;
+    private final Employee currentUser; // Hinzugefügt: Das Attribut für den aktuellen Benutzer
 
     public SystemSettingsView(EventManager eventManager, EmployeeManager employeeManager, Employee currentUser) {
         this.eventManager = eventManager;
-        this.employeeManager = employeeManager; // Instanz speichern
+        this.employeeManager = employeeManager;
+        this.currentUser = currentUser; // Hinzugefügt: Initialisierung des Attributs
 
         // Setze das Layout für diese Ansicht
         setLayout(new GridBagLayout());
@@ -51,13 +54,19 @@ public class SystemSettingsView extends View {
 
     private void onAddEmployeeButtonClicked(ActionEvent e) {
         System.out.println("Button 'Mitarbeiter hinzufügen' geklickt.");
-        // Eine neue Instanz von AddEmployeeView erstellen und über den EventManager anzeigen
         eventManager.callEvent("changeView", new Object[]{new AddEmployeeView(this.employeeManager, this.eventManager)});
     }
 
     private void onEditEmployeeButtonClicked(ActionEvent e) {
-        // Rufe ein Event auf, das die EditEmployeeView anzeigt (oder SearchView im Bearbeitungsmodus)
-        // Hier muss deine Logik für die Bearbeitung rein
-        eventManager.callEvent("showEditEmployeeView", null);
+        System.out.println("Button 'Mitarbeiter bearbeiten' geklickt.");
+        try {
+            // Navigiere zur SearchView im Bearbeitungsmodus
+            eventManager.callEvent("changeView", new Object[]{
+                    new SearchView(currentUser, employeeManager, eventManager, "edit_mode")
+            });
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Fehler beim Laden der Suchansicht für die Bearbeitung.", "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

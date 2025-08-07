@@ -4,6 +4,8 @@ import model.db.Employee;
 import util.EmployeeFieldAccessEvaluator;
 import core.EmployeeManager;
 import core.EventManager;
+import model.json.Department;
+import core.CompanyStructureManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +15,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import core.CompanyStructureManager;
-import model.json.Department;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.AlphaComposite;
+import java.util.Map;
+
 
 public class SearchView extends View {
 
@@ -31,14 +34,22 @@ public class SearchView extends View {
     private EmployeeManager employeeManager;
     private EventManager eventManager;
 
+    private String mode; // Neues Attribut für den Modus
+    private Map<String, String> departmentIdToNameCache = new HashMap<>();
+
     public SearchView() throws IOException {
-        this(null, null, null);
+        this(null, null, null, "view");
     }
 
     public SearchView(Employee currentUser, EmployeeManager employeeManager, EventManager eventManager) throws IOException {
+        this(currentUser, employeeManager, eventManager, "view");
+    }
+
+    public SearchView(Employee currentUser, EmployeeManager employeeManager, EventManager eventManager, String mode) throws IOException {
         this.currentUser = currentUser;
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
+        this.mode = mode != null ? mode : "view";
 
         BufferedImage backgroundImage;
         try {
@@ -94,9 +105,21 @@ public class SearchView extends View {
         departmentDropdown.addItem("Alle Abteilungen");
 
         try {
-            List<Department> departments = new ArrayList<>(CompanyStructureManager.getInstance().getAllDepartments());
-            for (Department dep : departments) {
-                departmentDropdown.addItem(dep.getName());
+            // Behebt den ClassCastException
+            for (Object obj : CompanyStructureManager.getInstance().getAllDepartments()) {
+                if (obj instanceof Department) {
+                    Department dep = (Department) obj;
+                    departmentDropdown.addItem(dep.getName());
+                    departmentIdToNameCache.put(dep.getDepartmentId(), dep.getName());
+                } else if (obj instanceof Map) {
+                    Map<String, Object> depMap = (Map<String, Object>) obj;
+                    String id = (String) depMap.get("departmentId");
+                    String name = (String) depMap.get("name");
+                    if (id != null && name != null) {
+                        departmentDropdown.addItem(name);
+                        departmentIdToNameCache.put(id, name);
+                    }
+                }
             }
         } catch (IOException e) {
             System.err.println("Fehler beim Laden der Abteilungen für die Suche: " + e.getMessage());
@@ -173,7 +196,7 @@ public class SearchView extends View {
                 .filter(emp -> {
                     boolean departmentMatch = true;
                     if (department != null && !department.equals("Alle Abteilungen")) {
-                        String empDepartmentName = getDepartmentNameById(emp.getDepartmentId());
+                        String empDepartmentName = departmentIdToNameCache.getOrDefault(emp.getDepartmentId(), "");
                         departmentMatch = empDepartmentName.equalsIgnoreCase(department);
                     }
                     return departmentMatch;
@@ -198,12 +221,10 @@ public class SearchView extends View {
                 card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
                 card.setBackground(new Color(255, 255, 255, 180));
 
-                // Wir legen eine feste Größe fest und verhindern, dass das Panel streckt
-                Dimension cardSize = new Dimension(600, 50); // Beispielgröße
+                Dimension cardSize = new Dimension(600, 50);
                 card.setPreferredSize(cardSize);
-                card.setMaximumSize(cardSize); // Das ist entscheidend für das BoxLayout!
+                card.setMaximumSize(cardSize);
 
-                // Leerer Border für Innenabstand
                 card.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true),
                         BorderFactory.createEmptyBorder(10, 10, 10, 10)
@@ -218,11 +239,17 @@ public class SearchView extends View {
                 card.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.out.println("Mitarbeiterkarte geklickt: " + emp.getFirstName() + " " + emp.getLastName());
+                        System.out.println("Mitarbeiterkarte geklickt im Modus: " + mode);
                         if (eventManager != null) {
-                            eventManager.callEvent("changeView", new Object[]{
-                                    new EmployeeDataView(currentUser, emp, employeeManager, eventManager)
-                            });
+                            if ("edit_mode".equals(mode)) {
+                                eventManager.callEvent("changeView", new Object[]{
+                                        new EditEmployeeView(currentUser, emp, employeeManager, eventManager)
+                                });
+                            } else {
+                                eventManager.callEvent("changeView", new Object[]{
+                                        new EmployeeDataView(currentUser, emp, employeeManager, eventManager)
+                                });
+                            }
                         } else {
                             System.err.println("Fehler: EventManager ist in SearchView nicht gesetzt!");
                             JOptionPane.showMessageDialog(card,
@@ -233,7 +260,6 @@ public class SearchView extends View {
                     }
                 });
 
-                // Füge die Karte und einen kleinen vertikalen Abstand hinzu
                 this.resultsPanel.add(card);
                 this.resultsPanel.add(Box.createVerticalStrut(5));
             }
@@ -241,20 +267,5 @@ public class SearchView extends View {
 
         this.resultsPanel.revalidate();
         this.resultsPanel.repaint();
-    }
-
-    private String getDepartmentNameById(String deptId) {
-        try {
-            return CompanyStructureManager.getInstance()
-                    .getAllDepartments()
-                    .stream()
-                    .filter(d -> d.getDepartmentId().equals(deptId))
-                    .map(d -> d.getName())
-                    .findFirst()
-                    .orElse(deptId);
-        } catch (IOException e) {
-            System.err.println("Fehler beim Abrufen des Abteilungsnamens für ID " + deptId + ": " + e.getMessage());
-            return "Unbekannte Abteilung (" + deptId + ")";
-        }
     }
 }
