@@ -333,7 +333,7 @@ public class EditEmployeeView extends View {
     private List<String> getVisibleFieldsForUser() {
         return new ArrayList<>(new LinkedHashSet<>(Arrays.asList(
                 "firstName", "lastName", "email", "phoneNumber", "dateOfBirth", "address", "gender",
-                "departmentId", "roleId", "teamId", "username", "hireDate", "employmentStatus"
+                "departmentId", "roleId", "teamId", "username", "hireDate"
         )));
     }
 
@@ -351,7 +351,6 @@ public class EditEmployeeView extends View {
         labels.put("teamId", "Team:");
         labels.put("username", "Benutzername:");
         labels.put("hireDate", "Einstellungsdatum:");
-        labels.put("employmentStatus", "Status:");
         return labels.getOrDefault(field, field + ":");
     }
 
@@ -381,8 +380,6 @@ public class EditEmployeeView extends View {
                 return employeeToEdit.getUsername();
             case "hireDate":
                 return employeeToEdit.getHireDate() != null ? dateFormat.format(employeeToEdit.getHireDate()) : "";
-            case "employmentStatus":
-                return employeeToEdit.getEmploymentStatus();
             default:
                 return "";
         }

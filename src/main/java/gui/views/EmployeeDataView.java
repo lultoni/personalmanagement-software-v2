@@ -366,14 +366,14 @@ public class EmployeeDataView extends View {
         if (loggedInUser.equals(employee)) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
-                    "departmentId", "roleId", "teamId", "hireDate", "employmentStatus"
+                    "departmentId", "roleId", "teamId", "hireDate"
             ));
         }
 
         if (!loggedInUser.equals(employee) && (loggedInUser.isHr() || loggedInUser.isItAdmin() || loggedInUser.isHrHead())) {
             fields.addAll(Arrays.asList(
                     "phoneNumber", "dateOfBirth", "address", "gender",
-                    "departmentId", "roleId", "teamId", "hireDate", "employmentStatus"
+                    "departmentId", "roleId", "teamId", "hireDate"
             ));
         }
 
@@ -394,7 +394,6 @@ public class EmployeeDataView extends View {
         labels.put("teamId", "Team:");
         labels.put("username", "Benutzername:");
         labels.put("hireDate", "Einstellungsdatum:");
-        labels.put("employmentStatus", "Status:");
         return labels.getOrDefault(field, field + ":");
     }
 
@@ -412,7 +411,6 @@ public class EmployeeDataView extends View {
             case "teamId": return teamIdToNameCache.getOrDefault(employee.getTeamId(), "");
             case "username": return employee.getUsername();
             case "hireDate": return employee.getHireDate() != null ? dateFormat.format(employee.getHireDate()) : "";
-            case "employmentStatus": return employee.getEmploymentStatus();
             default: return "";
         }
     }
