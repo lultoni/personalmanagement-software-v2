@@ -2,6 +2,7 @@ package gui.views;
 
 import core.EventManager;
 import core.LoginManager;
+import core.SystemStateManager;
 import model.db.Employee;
 
 import javax.imageio.ImageIO;
@@ -16,7 +17,7 @@ import java.util.TimerTask;
 /**
  * Ansicht zur Systemabschaltung für Admins.
  * @author Joshua Sperber
- * @version 2.0
+ * @version 3.0
  */
 public class ShutdownView extends View {
 
@@ -25,8 +26,15 @@ public class ShutdownView extends View {
     private int remainingTime = COUNTDOWN_DURATION;
     private JLabel countdownLabel;
     private JButton cancelButton;
+    private final EventManager eventManager;
+    private final LoginManager loginManager; // Hinzugefügt: Attribut für den LoginManager
+    private final Employee currentUser;
 
     public ShutdownView(LoginManager loginManager, EventManager eventManager, Employee currentUser) {
+        this.eventManager = eventManager;
+        this.loginManager = loginManager; // Hinzugefügt: Initialisierung des LoginManagers
+        this.currentUser = currentUser;
+
         setView_id("view-shutdown");
         setView_name("Systemabschaltung");
 
@@ -50,13 +58,11 @@ public class ShutdownView extends View {
         backgroundPanel.setLayout(new BorderLayout(10, 10));
         backgroundPanel.setOpaque(false);
 
-        // Header
         JLabel titleLabel = new JLabel("Systemabschaltung", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         backgroundPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Hauptinhalt
         JPanel contentPanel = new JPanel(new GridBagLayout());
         contentPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -64,7 +70,7 @@ public class ShutdownView extends View {
 
         JLabel warningLabel = new JLabel(
                 "<html><div style='text-align: center;'>" +
-                        "Diese Aktion wird das System sofort herunterfahren.<br>" +
+                        "Diese Aktion sperrt das System.<br>" +
                         "Alle nicht gespeicherten Daten gehen verloren!" +
                         "</div></html>");
         warningLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -80,7 +86,7 @@ public class ShutdownView extends View {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setOpaque(false);
 
-        JButton shutdownButton = new JButton("System abschalten");
+        JButton shutdownButton = new JButton("System sperren");
         shutdownButton.setFont(new Font("SansSerif", Font.PLAIN, 16));
         shutdownButton.setBackground(new Color(31, 32, 35));
         shutdownButton.setForeground(Color.WHITE);
@@ -104,7 +110,7 @@ public class ShutdownView extends View {
     }
 
     private void startShutdownCountdown(ActionEvent e) {
-        countdownLabel.setText("System wird heruntergefahren in " + remainingTime + "s...");
+        countdownLabel.setText("System wird gesperrt in " + remainingTime + "s...");
         countdownLabel.setVisible(true);
         ((JButton)e.getSource()).setEnabled(false);
         cancelButton.setVisible(true);
@@ -115,7 +121,7 @@ public class ShutdownView extends View {
             public void run() {
                 SwingUtilities.invokeLater(() -> {
                     remainingTime--;
-                    countdownLabel.setText("System wird heruntergefahren in " + remainingTime + "s...");
+                    countdownLabel.setText("System wird gesperrt in " + remainingTime + "s...");
 
                     if (remainingTime <= 0) {
                         countdownTimer.cancel();
@@ -143,7 +149,7 @@ public class ShutdownView extends View {
         cancelButton.setVisible(false);
 
         for (Component comp : cancelButton.getParent().getComponents()) {
-            if (comp instanceof JButton && "System abschalten".equals(((JButton)comp).getText())) {
+            if (comp instanceof JButton && "System sperren".equals(((JButton)comp).getText())) {
                 comp.setEnabled(true);
                 break;
             }
@@ -151,19 +157,15 @@ public class ShutdownView extends View {
     }
 
     private void performShutdown() {
-        countdownLabel.setText("System ist offline");
-        cancelButton.setVisible(false);
+        // System wird gesperrt und der Benutzer ausgeloggt
+        SystemStateManager.getInstance().setSystemLocked(true);
+        JOptionPane.showMessageDialog(this,
+                "Das System wurde gesperrt. Nur IT-Administratoren können sich jetzt anmelden.",
+                "System gesperrt",
+                JOptionPane.INFORMATION_MESSAGE);
 
-        Timer shutdownTimer = new Timer();
-        shutdownTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                SwingUtilities.invokeLater(() -> {
-                    // Der tatsächliche Befehl zum Beenden der Anwendung
-                    System.exit(0);
-                });
-            }
-        }, 2000);
+        // Der korrigierte Aufruf: Übergibt den eventManager und den loginManager an die LoginView
+        eventManager.callEvent("changeView", new Object[]{new LoginView(eventManager, loginManager)});
     }
 
     @Override

@@ -88,7 +88,7 @@ public class LoginManager {
     public void logout() {
         System.out.println("Logging the User out");
         PersistentInformationReader.clearLoggedInUser();
-        eventManager.callEvent("changeView", new Object[]{new LoginView(this)});
+        eventManager.callEvent("changeView", new Object[]{new LoginView(eventManager, this)});
     }
 
     /**

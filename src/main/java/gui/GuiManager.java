@@ -31,6 +31,7 @@ public class GuiManager {
     private MainFrame mainFrame;
 
     private static GuiManager instance;
+    private EventManager eventManager;
 
 
     public GuiManager(EventManager eventManager, LoginManager loginManager, EmployeeManager employeeManager) {
@@ -184,7 +185,7 @@ public class GuiManager {
     public void showLoginView() {
         resetViewHistory();
         System.out.println("   | Forced Move to Login Screen via showLoginView()");
-        mainFrame.changeView(new LoginView(mainFrame.getLoginManager()), false, false, true);
+        mainFrame.changeView(new LoginView(eventManager, mainFrame.getLoginManager()), false, false, true);
 
     }
     /**
