@@ -35,7 +35,7 @@ public class FeatureBar extends JPanel {
     private final Dimension standardButtonSize = new Dimension(140, 40);
 
     /**
-     * Konstruktor fuer die FeatureBar.
+     * Konstruktor für die FeatureBar.
      * Erwartet alle notwendigen Manager als Parameter.
      * @param loginManager Die Instanz des LoginManager.
      * @param eventManager Die Instanz des EventManager.
@@ -83,10 +83,10 @@ public class FeatureBar extends JPanel {
     }
 
     /**
-     * Helfer-Methode fuer das Erstellen von Buttons.
+     * Helfer-Methode füer das Erstellen von Buttons.
      * @param text Der Text des Buttons.
-     * @param size Die bevorzugte Groesse des Buttons.
-     * @param actionListener Der ActionListener fuer den Button.
+     * @param size Die bevorzugte Grösse des Buttons.
+     * @param actionListener Der ActionListener für den Button.
      * @return Der erstellte JButton.
      * @author Joshua Sperber
      */
@@ -101,7 +101,7 @@ public class FeatureBar extends JPanel {
     }
 
     /**
-     * Erstellt und gibt alle Feature Knoepfe zurueck.
+     * Erstellt und gibt alle Feature Knöpfe zurück.
      * @author Elias Glauert, Joshua Sperber
      */
     private void createFeatureButtons() {
@@ -115,12 +115,14 @@ public class FeatureBar extends JPanel {
             return;
         }
 
+        // Startseite wird nach der Anmaldung geöffnet
         JButton welcomeButton = new JButton("🏠 Startseite");
         welcomeButton.addActionListener(_ -> {
             eventManager.callEvent("moveToHomeScreen", null);
         });
         main_button_panel.add(welcomeButton);
 
+        // Suche kann von allen Mitarbeitern genutzt werden
         JButton searchFeatureButton = new JButton("🔎 Suche");
         searchFeatureButton.addActionListener(_ -> {
             Employee currentUser = loginManager.getLoggedInUser();
@@ -146,6 +148,8 @@ public class FeatureBar extends JPanel {
         });
         main_button_panel.add(searchFeatureButton);
 
+
+        // können von allen Mitarbeitern gesehen werden
         JButton trainingButton = new JButton("📚 Schulungen");
         trainingButton.setPreferredSize(standardButtonSize);
         trainingButton.addActionListener(_ -> {
@@ -158,9 +162,8 @@ public class FeatureBar extends JPanel {
         });
         main_button_panel.add(trainingButton);
 
-
+        // Mitarbeiter bearbeiten Button nur für HR - Mitarbeiter und IT-Admins anzeigen
         Employee currentUser = loginManager.getLoggedInUser();
-        // Der Button 'Mitarbeiter bearbeiten' wird nur für HR, IT-Admins oder HR-Leiter angezeigt.
         if (currentUser != null && (currentUser.isHr() || currentUser.isItAdmin() || currentUser.isHrHead())) {
             JButton editEmployeeButton = new JButton("Mitarbeiter bearbeiten");
             editEmployeeButton.setPreferredSize(standardButtonSize);
@@ -173,9 +176,8 @@ public class FeatureBar extends JPanel {
             });
             main_button_panel.add(editEmployeeButton);
         }
-        // ********************************************************************
 
-        // Shutdown Button nur fuer IT-Admins anzeigen
+        // Shutdown Button nur für IT-Admins sichtbar
         if (currentUser != null && currentUser.isItAdmin()) {
             JButton shutdownButton = new JButton("💣 Systemeinstellungen");
             shutdownButton.setPreferredSize(standardButtonSize);
@@ -193,7 +195,7 @@ public class FeatureBar extends JPanel {
 
 
     /**
-     * Aktualisiert, ob die Knoepfe en- oder disabled sind und erneuert das Panel mit den Feature-Buttons.
+     * Aktualisiert, ob die Knöpfe en- oder disabled sind und erneuert das Panel mit den Feature-Buttons.
      * @author Elias Glauert
      */
     public void updateContent() {

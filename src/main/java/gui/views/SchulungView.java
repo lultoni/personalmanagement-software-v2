@@ -15,11 +15,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Schulungsübersicht für Mitarbeiter.
+ * Die `SchulungView` ist eine Benutzeroberfläche, die dem Mitarbeiter eine Übersicht
+ * über seine absolvierten Schulungen sowie potenziell mögliche Schulungen bietet.
+ * Der Benutzer kann aus der Liste der potenziellen Schulungen eine auswählen und
+ * als absolviert markieren. Die View interagiert mit dem `EmployeeManager`,
+ * um Mitarbeiterdaten zu aktualisieren, und mit dem `CompanyStructureManager`,
+ * um Informationen über Schulungen und Qualifikationen abzurufen.
  *
- * @author Dorian Gläske
+ * @author Dorian Gläske, joshuasperber
  * @version 3.5 (Anzeige von RequiredSkills in absolvierten Schulungen)
- * @since 2025-08-07
+ * @since 2025-07-28
  */
 public class SchulungView extends View {
 
@@ -43,6 +48,18 @@ public class SchulungView extends View {
     }
 
     private TrainingView currentView = TrainingView.COMPLETED;
+
+    /**
+     * Konstruktor für die SchulungView.
+     * Initialisiert die View-Komponenten und lädt die Schulungsdaten.
+     *
+     * @param loggedInUser Der aktuell eingeloggte Benutzer.
+     * @param employee Der Mitarbeiter, dessen Schulungsdaten angezeigt werden.
+     * @param employeeManager Eine Instanz des EmployeeManager.
+     * @param eventManager Eine Instanz des EventManager.
+     * @throws IOException Wenn das Hintergrundbild nicht geladen werden kann.
+     * @author joshuasperber
+     */
 
     public SchulungView(Employee loggedInUser, Employee employee, EmployeeManager employeeManager, EventManager eventManager) throws IOException {
         this.loggedInUser = loggedInUser;

@@ -4,14 +4,15 @@ import model.json.Role;
 import java.util.List;
 
 /**
- * Data Access Object (DAO) interface for Role objects.
- * This interface defines the methods for interacting with role data.
- */
+ * dies ist eine Interface für Role Objekte
+ * hiermit sollen alle Rollen aus der Datenbank aufgelistet werden, sodass sie danach bearbeitbar werden
+ * @author joshuasperber
+*/
 public interface RoleDao {
 
     /**
-     * Retrieves a list of all roles from the database.
-     * @return A list of Role objects.
+     * @return eine Liste vom Objekt Role
      */
     List<Role> getAllRolesFromDb();
+    // Listet alle Rollen aus der erstellten Datenbank auf, damit diese bearbeitbar werden
 }

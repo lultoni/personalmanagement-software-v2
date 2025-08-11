@@ -75,7 +75,7 @@ public class MainFrame extends JFrame {
 
     private EmployeeManager employeeManager;
 
-    private boolean isFeatureBarHidden; // TODO idk ob wir die hier brauchen, ich dachte wir brauchen die aber hat keinen nutzen gerade
+    private boolean isFeatureBarHidden;
 
     /**
      * Konstruktor für die MainFrame.

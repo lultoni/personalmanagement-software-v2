@@ -51,28 +51,22 @@ public class EmployeeDao {
             pstmt.setString(6, employee.getEmail());
             pstmt.setString(7, employee.getPhoneNumber());
 
-            // ********************************************************************
-            // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
-            // ********************************************************************
+
             if (employee.getDateOfBirth() != null) {
                 pstmt.setDate(8, new java.sql.Date(employee.getDateOfBirth().getTime()));
             } else {
                 pstmt.setNull(8, Types.DATE);
             }
-            // ********************************************************************
 
             pstmt.setString(9, employee.getAddress());
             pstmt.setString(10, String.valueOf(employee.getGender()));
 
-            // ********************************************************************
-            // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
-            // ********************************************************************
+
             if (employee.getHireDate() != null) {
                 pstmt.setDate(11, new java.sql.Date(employee.getHireDate().getTime()));
             } else {
                 pstmt.setNull(11, Types.DATE);
             }
-            // ********************************************************************
 
             pstmt.setString(12, employee.getEmploymentStatus());
             pstmt.setString(13, employee.getDepartmentId());
@@ -165,15 +159,11 @@ public class EmployeeDao {
                  ResultSet rs = stmt.executeQuery(query)) {
                 try {
                     while (rs.next()) {
-                        // ********************************************************************
-                        // KORREKTUR: java.sql.Date zu java.util.Date konvertieren
-                        // ********************************************************************
                         java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
                         Date dateOfBirth = (sqlDateOfBirth != null) ? new Date(sqlDateOfBirth.getTime()) : null;
 
                         java.sql.Date sqlHireDate = rs.getDate("hire_date");
                         Date hireDate = (sqlHireDate != null) ? new Date(sqlHireDate.getTime()) : null;
-                        // ********************************************************************
 
                         Employee employee = new Employee(
                                 rs.getInt("id"),
@@ -219,8 +209,7 @@ public class EmployeeDao {
     }
 
     public List<Employee> getAllEmployees() {
-        // Diese Methode lädt Daten aus JSON-Dateien, nicht aus der H2-Datenbank.
-        // Wenn du nur aus der DB laden möchtest, sollte diese Methode getAllEmployeesFromDb() aufrufen.
+       //Diese Methode ruft alle Mitarbetier aus der Datenbank auf
         List<Employee> result = dbManager.loadAll(Employee.class);
         return result != null ? result : new ArrayList<>();
     }
@@ -230,7 +219,7 @@ public class EmployeeDao {
      * Verwendet PreparedStatement für Sicherheit und korrekte Typenbehandlung.
      * @param updatedEmployee Der aktualisierte Mitarbeiter
      * @throws Exception Falls ein Fehler bei der Aktualisierung auftritt
-     * @author [Ihr Name]
+     * @author Joshua Sperber
      */
     public void updateEmployee(Employee updatedEmployee) throws Exception {
         try {
@@ -270,28 +259,20 @@ public class EmployeeDao {
                 stmt.setString(6, updatedEmployee.getEmail());
                 stmt.setString(7, updatedEmployee.getPhoneNumber());
 
-                // ********************************************************************
-                // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
-                // ********************************************************************
                 if (updatedEmployee.getDateOfBirth() != null) {
                     stmt.setDate(8, new java.sql.Date(updatedEmployee.getDateOfBirth().getTime()));
                 } else {
                     stmt.setNull(8, Types.DATE);
                 }
-                // ********************************************************************
 
                 stmt.setString(9, updatedEmployee.getAddress());
                 stmt.setString(10, String.valueOf(updatedEmployee.getGender()));
 
-                // ********************************************************************
-                // KORREKTUR: java.util.Date zu java.sql.Date konvertieren
-                // ********************************************************************
                 if (updatedEmployee.getHireDate() != null) {
                     stmt.setDate(11, new java.sql.Date(updatedEmployee.getHireDate().getTime()));
                 } else {
                     stmt.setNull(11, Types.DATE);
                 }
-                // ********************************************************************
 
                 stmt.setString(12, updatedEmployee.getEmploymentStatus());
                 stmt.setString(13, updatedEmployee.getDepartmentId());

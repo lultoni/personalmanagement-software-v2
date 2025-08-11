@@ -7,7 +7,7 @@ import model.db.Employee;
  * Klasse wird statisch verwendet.
  * @version 1.0
  * @since 2025-07-13
- * @author Elias Glauert
+ * @author Elias Glauert, Joshua Sperber
  */
 public class PermissionChecker {
 

@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * View, die angezeigt wird, wenn das System durch einen Administrator blockiert wurde.
  *
- * @author Elias Glauert
+ * @author Elias Glauert, joshuasperber
  * @version 1.1
  * @since 2025-07-12
  */

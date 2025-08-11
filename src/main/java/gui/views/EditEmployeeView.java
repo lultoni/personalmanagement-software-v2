@@ -20,6 +20,21 @@ import java.util.List;
 import java.util.LinkedHashSet;
 
 
+/**
+ * Die `EditEmployeeView` bietet eine Benutzeroberfläche zum Anzeigen,
+ * Bearbeiten und Löschen von Mitarbeiterinformationen. Sie zeigt
+ * Details zu einem ausgewählten Mitarbeiter an und ermöglicht es
+ * autorisierten Nutzern (HR, HR-Leiter, IT-Admin), die Daten zu ändern
+ * oder den Mitarbeiter zu entfernen. Die Ansicht verwendet den
+ * `EmployeeManager`, um Änderungen zu speichern und Löschvorgänge
+ * durchzuführen.
+ *
+ * @author joshuasperber
+ * @version 1.0
+ * @since 2025-07-27
+ */
+
+
 public class EditEmployeeView extends View {
 
     private final EmployeeManager employeeManager;
@@ -40,6 +55,17 @@ public class EditEmployeeView extends View {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Konstruktor für die EditEmployeeView.
+     * Erstellt die Benutzeroberfläche zur Bearbeitung der Mitarbeiterdaten.
+     *
+     * @param currentUser       Der aktuell eingeloggte Benutzer, dessen Berechtigungen
+     * die Sichtbarkeit von Feldern beeinflussen könnten.
+     * @param employeeToEdit    Der `Employee`, dessen Daten bearbeitet werden sollen.
+     * @param employeeManager   Eine Instanz des `EmployeeManager` zur Verwaltung der Mitarbeiter.
+     * @param eventManager      Eine Instanz des `EventManager` zur Navigation zwischen den Views.
+     * @author joshuasperber
+     */
     public EditEmployeeView(Employee currentUser, Employee employeeToEdit, EmployeeManager employeeManager, EventManager eventManager) {
         this.currentUser = currentUser;
         this.employeeToEdit = employeeToEdit;
@@ -53,9 +79,16 @@ public class EditEmployeeView extends View {
         setupUI();
     }
 
+    /**
+     * Initialisiert die internen Caches für Abteilungen, Rollen und Teams,
+     * indem Daten aus dem `CompanyStructureManager` geladen werden.
+     * Dies dient dazu, Dropdown-Menüs mit den korrekten Namen und IDs zu befüllen.
+     * @author joshuasperber
+     */
     private void initializeCaches() {
         try {
             // Abteilungen
+            // Lade alle Abteilungen und speichere sie in zwei Maps (ID zu Name und Name zu ID).
             for (Object obj : CompanyStructureManager.getInstance().getAllDepartments()) {
                 if (obj instanceof Department) {
                     Department dept = (Department) obj;
@@ -73,6 +106,7 @@ public class EditEmployeeView extends View {
             }
 
             // Rollen
+            // Lade alle Rollen und speichere sie in zwei Maps.
             for (Object obj : CompanyStructureManager.getInstance().getAllRoles()) {
                 if (obj instanceof Role) {
                     Role role = (Role) obj;
@@ -90,6 +124,7 @@ public class EditEmployeeView extends View {
             }
 
             // Teams
+            // Lade alle Teams und speichere sie in zwei Maps.
             for (Object obj : CompanyStructureManager.getInstance().getAllTeams()) {
                 if (obj instanceof Team) {
                     Team team = (Team) obj;
@@ -115,6 +150,11 @@ public class EditEmployeeView extends View {
         }
     }
 
+    /**
+     * Erstellt das grundlegende Layout und die Komponenten der View,
+     * einschließlich des Titels, der Datentabelle und der Schaltflächen.
+     * @author Joshua Sperber
+     */
     private void setupUI() {
         setLayout(new BorderLayout(20, 20));
         setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -136,9 +176,16 @@ public class EditEmployeeView extends View {
         JPanel buttonPanel = setupButtonPanel();
         add(buttonPanel, BorderLayout.SOUTH);
 
+        // Zeige die Daten beim Start der View an
         refreshDataDisplay();
     }
 
+    /**
+     * Aktualisiert die Anzeige der Mitarbeiterdaten. Löscht alle
+     * alten Komponenten und erstellt sie neu, basierend auf dem
+     * aktuellen Bearbeitungsmodus.
+     * @author joshuasperber
+     */
     private void refreshDataDisplay() {
         dataPanel.removeAll();
         editFields.clear();
@@ -151,6 +198,14 @@ public class EditEmployeeView extends View {
         repaint();
     }
 
+    /**
+     * Erstellt ein `JPanel` mit einem `GridBagLayout`, um die
+     * Mitarbeiterdaten in einem übersichtlichen Raster anzuzeigen.
+     *
+     * @param fields Eine Liste von Feldnamen, die angezeigt werden sollen.
+     * @return Ein `JPanel`, das die Daten anzeigt.
+     * @author joshuasperber
+     */
     private JPanel createDataGrid(List<String> fields) {
         JPanel gridPanel = new JPanel(new GridBagLayout());
         gridPanel.setOpaque(false);
@@ -158,6 +213,7 @@ public class EditEmployeeView extends View {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 15);
 
+        // Erstelle für jedes Feld ein Label und eine Komponente
         for (int i = 0; i < fields.size(); i++) {
             String field = fields.get(i);
             gbc.gridx = 0;
@@ -171,6 +227,13 @@ public class EditEmployeeView extends View {
         return gridPanel;
     }
 
+    /**
+     * Erstellt und gibt ein `JLabel` für den Feldnamen zurück.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Ein formatiertes `JLabel`.
+     * @author joshuasperber
+     */
     private JLabel createFieldLabel(String field) {
         JLabel label = new JLabel(getFieldLabel(field));
         label.setFont(new Font("SansSerif", Font.BOLD, 13));
@@ -178,31 +241,53 @@ public class EditEmployeeView extends View {
         return label;
     }
 
+    /**
+     * Erstellt entweder ein bearbeitbares Eingabefeld (wenn im Bearbeitungsmodus)
+     * oder eine schreibgeschützte `JLabel`-Komponente für den Feldwert.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Eine `JComponent` (entweder `JTextField`, `JComboBox` oder `JLabel`).
+     * @author joshuasperber
+     */
     private JComponent createFieldComponent(String field) {
+        // Prüfe, ob die View im Bearbeitungsmodus ist und das Feld editierbar ist.
         if (editMode && isFieldEditable(field)) {
             return createEditableField(field);
         }
+        // Ansonsten erstelle eine schreibgeschützte Anzeige.
         return createDisplayField(field);
     }
 
+    /**
+     * Erstellt und gibt ein bearbeitbares Eingabefeld (z.B. `JTextField` oder `JComboBox`)
+     * für das angegebene Feld zurück.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Eine bearbeitbare `JComponent`.
+     * @author joshuasperber
+     */
     private JComponent createEditableField(String field) {
         switch (field) {
             case "gender":
+                // Dropdown für das Geschlecht
                 JComboBox<String> genderComboBox = new JComboBox<>(new String[]{"M", "F", "D"});
                 genderComboBox.setSelectedItem(String.valueOf(employeeToEdit.getGender()));
                 editFields.put(field, genderComboBox);
                 return genderComboBox;
             case "departmentId":
+                // Dropdown für die Abteilung, befüllt aus dem Cache
                 JComboBox<String> departmentComboBox = new JComboBox<>(departmentNameToIdCache.keySet().toArray(new String[0]));
                 departmentComboBox.setSelectedItem(departmentIdToNameCache.getOrDefault(employeeToEdit.getDepartmentId(), employeeToEdit.getDepartmentId()));
                 editFields.put(field, departmentComboBox);
                 return departmentComboBox;
             case "roleId":
+                // Dropdown für die Rolle, befüllt aus dem Cache
                 JComboBox<String> roleComboBox = new JComboBox<>(roleNameToIdCache.keySet().toArray(new String[0]));
                 roleComboBox.setSelectedItem(roleIdToNameCache.getOrDefault(employeeToEdit.getRoleId(), employeeToEdit.getRoleId()));
                 editFields.put(field, roleComboBox);
                 return roleComboBox;
             case "teamId":
+                // Dropdown für das Team, befüllt aus dem Cache und sortiert
                 String[] teamNames = teamNameToIdCache.keySet().toArray(new String[0]);
                 Arrays.sort(teamNames);
                 JComboBox<String> teamComboBox = new JComboBox<>(teamNames);
@@ -210,12 +295,21 @@ public class EditEmployeeView extends View {
                 editFields.put(field, teamComboBox);
                 return teamComboBox;
             default:
+                // Standard-Textfeld für alle anderen editierbaren Felder
                 JTextField textField = new JTextField(getFieldValue(field), 20);
                 editFields.put(field, textField);
                 return textField;
         }
     }
 
+    /**
+     * Erstellt und gibt eine nicht bearbeitbare `JLabel`-Komponente
+     * zurück, die den Wert eines Feldes anzeigt.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Eine schreibgeschützte `JLabel` für den Feldwert.
+     * @author joshuasperber
+     */
     private JComponent createDisplayField(String field) {
         JLabel label = new JLabel(getFieldValue(field));
         label.setFont(new Font("SansSerif", Font.PLAIN, 13));
@@ -223,6 +317,11 @@ public class EditEmployeeView extends View {
         return label;
     }
 
+    /**
+     * Erstellt das Panel, das die Schaltflächen "Bearbeiten", "Löschen" und "Zurück" enthält.
+     * @return Das Panel mit den Buttons.
+     * @author joshuasperber
+     */
     private JPanel setupButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -243,21 +342,39 @@ public class EditEmployeeView extends View {
         return buttonPanel;
     }
 
+    /**
+     * Schaltet zwischen dem Anzeige- und dem Bearbeitungsmodus um.
+     * Beim Umschalten in den Anzeigemodus werden die Änderungen gespeichert.
+     * @param e Das `ActionEvent`, ausgelöst durch den Klick auf den Button.
+     * @author joshuasperber
+     */
     private void toggleEditMode(ActionEvent e) {
+        // Wenn bereits im Bearbeitungsmodus, versuche die Änderungen zu speichern
         if (editMode) {
             if (!saveChanges()) {
                 return;
             }
         }
+        // Umschalten des Modus und Aktualisieren des Button-Textes
         editMode = !editMode;
         JButton button = (JButton) e.getSource();
         button.setText(editMode ? "Speichern" : "Bearbeiten");
+        // Aktualisiere die Anzeige der Felder
         refreshDataDisplay();
     }
 
+    /**
+     * Speichert die Änderungen, die im Bearbeitungsmodus vorgenommen wurden,
+     * indem die `updateEmployee`-Methode des `EmployeeManager` aufgerufen wird.
+     *
+     * @return `true`, wenn die Änderungen erfolgreich gespeichert wurden, sonst `false`.
+     * @author joshuasperber
+     */
     private boolean saveChanges() {
         try {
+            // Übertrage die Werte aus den Eingabefeldern in das Mitarbeiterobjekt
             updateEmployeeFromFields();
+            // Rufe den Manager auf, um die Daten zu aktualisieren
             employeeManager.updateEmployee(employeeToEdit);
             JOptionPane.showMessageDialog(this, "Änderungen erfolgreich gespeichert", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             return true;
@@ -268,6 +385,11 @@ public class EditEmployeeView extends View {
         }
     }
 
+    /**
+     * Aktualisiert die Mitarbeiterdaten des `employeeToEdit`-Objekts
+     * mit den Werten aus den Eingabefeldern.
+     * @author joshuasperber
+     */
     private void updateEmployeeFromFields() {
         editFields.forEach((field, component) -> {
             if (component instanceof JTextField) {
@@ -280,8 +402,16 @@ public class EditEmployeeView extends View {
         });
     }
 
+    /**
+     * Hilfsmethode zum Aktualisieren eines bestimmten Feldes des `Employee`-Objekts.
+     *
+     * @param field Der Name des zu aktualisierenden Feldes.
+     * @param value Der neue Wert für das Feld.
+     * @author joshuasperber
+     */
     private void updateEmployeeField(String field, String value) {
         switch (field) {
+            // Persönliche Daten
             case "firstName":
                 employeeToEdit.setFirstName(value);
                 break;
@@ -300,6 +430,7 @@ public class EditEmployeeView extends View {
             case "gender":
                 employeeToEdit.setGender(value.charAt(0));
                 break;
+            // Datumsfelder, die eine Parsen-Logik benötigen
             case "dateOfBirth":
                 try {
                     employeeToEdit.setDateOfBirth(dateFormat.parse(value));
@@ -314,6 +445,7 @@ public class EditEmployeeView extends View {
                     JOptionPane.showMessageDialog(this, "Ungültiges Datumsformat für Einstellungsdatum.", "Fehler", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
+            // Unternehmensstrukturfelder
             case "departmentId":
                 employeeToEdit.setDepartmentId(departmentNameToIdCache.get(value));
                 break;
@@ -326,10 +458,24 @@ public class EditEmployeeView extends View {
         }
     }
 
+    /**
+     * Gibt den vollständigen Namen eines Mitarbeiters zurück.
+     *
+     * @param emp Das `Employee`-Objekt.
+     * @return Der vollständige Name als `String`.
+     * @author joshuasperber
+     */
     private String getFullName(Employee emp) {
         return emp.getFirstName() + " " + emp.getLastName();
     }
 
+    /**
+     * Gibt eine Liste von Feldern zurück, die für den eingeloggten Benutzer
+     * in dieser View sichtbar sein sollen.
+     *
+     * @return Eine `List` von `String`-Feldnamen.
+     * @author joshuasperber
+     */
     private List<String> getVisibleFieldsForUser() {
         return new ArrayList<>(new LinkedHashSet<>(Arrays.asList(
                 "firstName", "lastName", "email", "phoneNumber", "dateOfBirth", "address", "gender",
@@ -337,6 +483,13 @@ public class EditEmployeeView extends View {
         )));
     }
 
+    /**
+     * Gibt die lokalisierte Beschriftung (Label) für ein bestimmtes Feld zurück.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Die zugehörige Beschriftung als `String`.
+     * @author joshuasperber
+     */
     private String getFieldLabel(String field) {
         Map<String, String> labels = new HashMap<>();
         labels.put("firstName", "Vorname:");
@@ -354,6 +507,13 @@ public class EditEmployeeView extends View {
         return labels.getOrDefault(field, field + ":");
     }
 
+    /**
+     * Gibt den Wert eines Feldes aus dem `employeeToEdit`-Objekt als `String` zurück.
+     *
+     * @param field Der interne Name des Feldes.
+     * @return Der Wert des Feldes als `String`.
+     * @author joshuasperber
+     */
     private String getFieldValue(String field) {
         switch (field) {
             case "firstName":
@@ -385,11 +545,25 @@ public class EditEmployeeView extends View {
         }
     }
 
+    /**
+     * Überprüft, ob ein bestimmtes Feld bearbeitet werden kann.
+     * @param field Der Name des Feldes.
+     * @return `true`, wenn das Feld bearbeitbar ist, sonst `false`.
+     * @author joshuasperber
+     */
     private boolean isFieldEditable(String field) {
         Set<String> nonEditable = new HashSet<>(Arrays.asList("username"));
         return !nonEditable.contains(field);
     }
 
+    /**
+     * Behandelt den Klick auf den "Mitarbeiter löschen"-Button.
+     * Zeigt eine Bestätigungsnachricht an und führt bei Zustimmung
+     * die Löschung des Mitarbeiters über den `EmployeeManager` durch.
+     *
+     * @param e Das `ActionEvent`, ausgelöst durch den Klick auf den Button.
+     * @author joshuasperber
+     */
     private void onDeleteButtonClicked(ActionEvent e) {
         int confirm = JOptionPane.showConfirmDialog(
                 this,
@@ -401,8 +575,10 @@ public class EditEmployeeView extends View {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
+                // Lösche den Mitarbeiter über den EmployeeManager
                 employeeManager.removeEmployee(employeeToEdit.getId());
                 JOptionPane.showMessageDialog(this, "Mitarbeiter wurde gelöscht.", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                // Navigiere zur vorherigen Ansicht zurück
                 eventManager.callEvent("moveBackView", null);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Fehler beim Löschen: " + ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);

@@ -18,9 +18,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Employee Management class.
- *
- * @author Dorian Gläske, Elias Glauert
+ * Der `EmployeeManager` ist die zentrale Klasse für die Verwaltung aller mitarbeiterbezogenen Vorgänge.
+ * Er kümmert sich um das Abrufen, Erstellen, Aktualisieren und Löschen von Mitarbeiterdaten
+ * und fungiert als Vermittler zwischen der Geschäftslogik der Anwendung und der Datenbank.
+ * @author Dorian Gläske, Elias Glauert, joshuasperber
  * @version 1.7 (Added getRoleById and findById)
  * @since 2025-08-04
  */
@@ -33,6 +34,14 @@ public class EmployeeManager {
     private RoleDao roleDao;
     private Map<String, Role> roleMap;
 
+    /**
+     * Konstruktor für den EmployeeManager.
+     * Initialisiert die Datenzugriffsobjekte und lokalen Datenstrukturen.
+     *
+     * @param employeeDao Das DAO für die Datenbankoperationen der Mitarbeiter.
+     * @param dbManager Die allgemeine DatabaseManager-Instanz.
+     * @author Elias Glauert, joshuasperber
+     */
     public EmployeeManager(EmployeeDao employeeDao, DatabaseManager dbManager) {
         this.employeeDao = employeeDao;
         this.roleDao = roleDao;
@@ -49,7 +58,8 @@ public class EmployeeManager {
     }
 
     /**
-     * Loads all roles from the database into the local map.
+     * lädt alle Rollen aus der Datenabnk in die letzte locale map für eine schnellere Suche
+     * hilft dabei, Rollen-ids schnell auf Role objekten abzubilden, das die datenbank wiederholt abgefrgt werden muss
      */
     public void setUpRoles() {
         roleMap.clear();
@@ -122,11 +132,22 @@ public class EmployeeManager {
         setUpEmployees();
     }
 
+    /**
+     * Entfert einen Mitarebiter aus der Datenabank und aktualisiert die loakle Map.
+     * @param id die ID des zu entfernenden Mitarbeiter
+     */
     public void removeEmployee(int id) {
         employeeDao.removeEmployee(id);
         setUpEmployees();
     }
 
+    /**
+     * Sucht nach Mitarbeitern, absierent auf einer Liste von Feldern und deren entsprechenden Inhalten
+     * @param fields eine Liste von Feldnamen ( Firstname, lastName..)
+     * @param contents Eine Liste von Inhalts-Strings, die mit den Feldern abgeglichen werden sollen
+     * @return Eine Liste von Employee-Objekten,
+     * @author joshuasperber
+     */
     public List<Employee> findEmployees(List<String> fields, List<String> contents) {
         setUpEmployees();
 
@@ -156,10 +177,12 @@ public class EmployeeManager {
     }
 
     /**
-     * Searches for an employee by their String ID.
-     * Converts the String ID to an int and calls the existing method.
-     * @param id The ID of the employee to search for as a String.
-     * @return The Employee object or null if no employee with this ID is found.
+     * Sucht nach einem Mitarbeiter anhand seiner String-ID.
+     * Dies ist eine Komfortmethode, die die String-ID in einen Integer umwandelt und die bestehende Methode aufruft.
+     *
+     * @param id Die ID des zu suchenden Mitarbeiters als String.
+     * @return Das Employee-Objekt oder null, wenn kein Mitarbeiter mit dieser ID gefunden wird oder die ID ungültig ist.
+     * @author joshuasperber
      */
     public Employee findById(String id) {
         try {
@@ -171,12 +194,14 @@ public class EmployeeManager {
     }
 
     /**
-     * Searches for a role by its ID.
-     * This is the method required by the EmployeeFieldAccessEvaluator.
+     * Sucht nach einer Rolle anhand ihrer ID.
+     * Diese Methode ruft ein Role-Objekt aus der lokalen roleMap ab.
      *
-     * @param roleId The ID of the role to search for.
-     * @return The Role object or null if no role with this ID is found.
+     * @param roleId Die ID der zu suchenden Rolle.
+     * @return Das Role-Objekt oder null, wenn keine Rolle mit dieser ID gefunden wird.
+     * @author joshuasperber
      */
+
     public Role getRoleById(String roleId) {
         return roleMap.get(roleId);
     }
@@ -193,6 +218,13 @@ public class EmployeeManager {
         return null;
     }
 
+    /**
+     * Sucht nach einem Mitarbeiter anhand seiner eindeutigen Integer-ID.
+     *
+     * @param fieldName Die Integer-ID des Mitarbeiters.
+     * @return Das Employee-Objekt oder null, wenn kein Mitarbeiter mit dieser ID gefunden wird.
+     * @author Elias Glauert
+     */
     private String getValueOfField(Employee employee, String fieldName) {
         switch (fieldName) {
             case "id" -> {
@@ -257,6 +289,13 @@ public class EmployeeManager {
             }
         }
     }
+
+    /**
+     * Setzt die Instanz des EmployeeDao.
+     *
+     * @param employeeDao Der neue EmployeeDao.
+     * @author joshuasperber
+     */
 
     public void setEmployeeDao(EmployeeDao employeeDao) {
         this.employeeDao = employeeDao;

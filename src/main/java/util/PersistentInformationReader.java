@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Statische Klasse, welche die Informationen aus der Datei 'persistent.information' liest und schreibt.
  * @version 1.4
- * @author Elias Glauert
+ * @author Elias Glauert, Joshua Sperber
  * @since 2025-07-12
  */
 public class PersistentInformationReader {

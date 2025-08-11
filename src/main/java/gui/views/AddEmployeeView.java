@@ -14,13 +14,23 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.Date; // Geändert von java.time.LocalDate
+import java.util.*;
 import java.text.SimpleDateFormat; // Neu hinzugefügt für Datumshandhabung
 import java.text.ParseException; // Neu hinzugefügt für Datumshandhabung
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
+
+/**
+ * Die `AddEmployeeView` ist eine grafische Benutzeroberfläche zur Erfassung und
+ * Speicherung neuer Mitarbeiterdatensätze. Sie bietet ein Formular mit
+ * verschiedenen Eingabefeldern wie persönlichen Daten, Kontaktdaten,
+ * Unternehmensstruktur-Informationen (Abteilung, Rolle, Team) und
+ * Berechtigungen. Die View interagiert mit dem `EmployeeManager`, um
+ * die Daten zu verarbeiten und an die Datenbank zu senden.
+ *
+ * @author joshuasperber
+ * @version 1.0
+ * @since 2025-07-28
+ */
 
 public class AddEmployeeView extends View {
 
@@ -28,38 +38,46 @@ public class AddEmployeeView extends View {
     private final EventManager eventManager;
 
     // UI-Komponenten
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JTextField firstNameField;
-    private JTextField lastNameField;
-    private JTextField emailField;
-    private JTextField phoneNumberField;
-    private JTextField dateOfBirthField; // Format YYYY-MM-DD
-    private JTextField addressField;
-    private JComboBox<String> genderDropdown;
-    private JTextField hireDateField; // Format YYYY-MM-DD
-    private JComboBox<String> employmentStatusDropdown;
-    private JComboBox<String> departmentDropdown;
-    private JComboBox<String> teamDropdown;
-    private JComboBox<String> roleDropdown;
-    private JTextField qualificationsField;
-    private JTextField completedTrainingsField;
-    private JTextField managerIdField;
-    private JCheckBox itAdminCheckBox;
-    private JCheckBox hrCheckBox;
-    private JCheckBox hrHeadCheckBox;
-    private JCheckBox isManagerCheckBox;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField;
+    private final JTextField firstNameField;
+    private final  JTextField lastNameField;
+    private final  JTextField emailField;
+    private final  JTextField phoneNumberField;
+    private final  JTextField dateOfBirthField; // Format YYYY-MM-DD
+    private final  JTextField addressField;
+    private final  JComboBox<String> genderDropdown;
+    private final  JTextField hireDateField; // Format YYYY-MM-DD
+    private final  JComboBox<String> employmentStatusDropdown;
+    private final  JComboBox<String> departmentDropdown;
+    private final  JComboBox<String> teamDropdown;
+    private final  JComboBox<String> roleDropdown;
+    private final  JTextField qualificationsField;
+    private final  JTextField completedTrainingsField;
+    private final  JTextField managerIdField;
+    private final  JCheckBox itAdminCheckBox;
+    private final  JCheckBox hrCheckBox;
+    private final  JCheckBox hrHeadCheckBox;
+    private final  JCheckBox isManagerCheckBox;
 
     // Caches fuer Dropdowns
-    private Map<String, String> departmentNameCache = new HashMap<>();
-    private Map<String, String> departmentIdCache = new HashMap<>();
-    private Map<String, String> roleNameCache = new HashMap<>();
-    private Map<String, String> roleIdCache = new HashMap<>();
-    private Map<String, String> teamNameCache = new HashMap<>();
-    private Map<String, String> teamIdCache = new HashMap<>();
+    private final Map<String, String> departmentNameCache = new HashMap<>();
+    private final  Map<String, String> departmentIdCache = new HashMap<>();
+    private final  Map<String, String> roleNameCache = new HashMap<>();
+    private final  Map<String, String> roleIdCache = new HashMap<>();
+    private final  Map<String, String> teamNameCache = new HashMap<>();
+    private final  Map<String, String> teamIdCache = new HashMap<>();
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Konstruktor für die AddEmployeeView.
+     * Erstellt die grafische Oberfläche und initialisiert alle Komponenten.
+     *
+     * @param employeeManager Eine Instanz des EmployeeManager zur Verwaltung der Mitarbeiterdaten.
+     * @param eventManager    Eine Instanz des EventManager zur Kommunikation mit anderen Views.
+     * @author Joshua Sperber
+     */
     public AddEmployeeView(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
@@ -69,7 +87,7 @@ public class AddEmployeeView extends View {
 
         BufferedImage backgroundImage;
         try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("icons/Hintergrundbild.png")));
         } catch (IOException e) {
             throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
         }
@@ -87,7 +105,7 @@ public class AddEmployeeView extends View {
         backgroundPanel.setLayout(new BorderLayout());
         backgroundPanel.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("Neuen Mitarbeiter hinzufuegen", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Neuen Mitarbeiter hinzufügen", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         titleLabel.setForeground(Color.BLACK);
@@ -212,7 +230,7 @@ public class AddEmployeeView extends View {
         saveButton.addActionListener(this::saveEmployee);
         buttonPanel.add(saveButton);
 
-        JButton backButton = new JButton("Zurueck");
+        JButton backButton = new JButton("Zurück");
         backButton.addActionListener(e -> eventManager.callEvent("moveBackView", null));
         buttonPanel.add(backButton);
 
@@ -223,6 +241,12 @@ public class AddEmployeeView extends View {
         add(backgroundPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Initialisiert die internen Caches für Abteilungen, Rollen und Teams, indem die
+     * Daten aus dem `CompanyStructureManager` geladen werden.
+     * Bei Fehlern werden Fallback-Daten verwendet, um die Dropdown-Menüs zu befüllen.
+     * @author Joshua Sperber
+     */
     private void initializeCaches() {
         // Abteilungen
         try {
@@ -308,17 +332,31 @@ public class AddEmployeeView extends View {
 
     }
     // ... (restliche Methoden bleiben gleich)
-
+    /**
+     * Fügt Fallback-Abteilungsdaten in den Cache ein, falls die Daten
+     * aus dem `CompanyStructureManager` nicht geladen werden können.
+     * @author Joshua Sperber
+     */
     private void addFallbackDepartments() {
         departmentNameCache.put("Unbekannt", "UNKNOWN_DEP");
         departmentIdCache.put("UNKNOWN_DEP", "Unbekannt");
     }
 
+    /**
+     * Fügt Fallback-Rollendaten in den Cache ein, falls die Daten
+     * aus dem `CompanyStructureManager` nicht geladen werden können.
+     * @author Joshua Sperber
+     */
     private void addFallbackRoles() {
         roleNameCache.put("Mitarbeiter", "EMPLOYEE_ROLE");
         roleIdCache.put("EMPLOYEE_ROLE", "Mitarbeiter");
     }
 
+    /**
+     * Fügt Fallback-Teamdaten in den Cache ein, falls die Daten
+     * aus dem `CompanyStructureManager` nicht geladen werden können.
+     * @author Joshua Sperber
+     */
     private void addFallbackTeams() {
         teamNameCache.put("Kein Team", null);
         teamNameCache.put("Development Team", "DEV_TEAM");
@@ -330,6 +368,17 @@ public class AddEmployeeView extends View {
     }
 
 
+    /**
+     * Behandelt den Klick auf den Speichern-Button.
+     * Sammelt die eingegebenen Daten, validiert sie und ruft die
+     * `addEmployee`-Methode des `EmployeeManager` auf, um den neuen
+     * Mitarbeiter in der Datenbank zu speichern.
+     * Bei Erfolg wird eine Bestätigungsmeldung angezeigt und das Formular zurückgesetzt.
+     * Bei Fehlern werden entsprechende Fehlermeldungen angezeigt.
+     *
+     * @param e Das `ActionEvent`, ausgelöst durch den Klick auf den Button.
+     * @author Joshua Sperber
+     */
     private void saveEmployee(ActionEvent e) {
         try {
             String username = usernameField.getText().trim();
@@ -411,6 +460,11 @@ public class AddEmployeeView extends View {
         }
     }
 
+    /**
+     * Setzt alle Eingabefelder und Dropdowns des Formulars auf ihre
+     * Standardwerte zurück.
+     * @author Joshua Sperber
+     */
     private void clearForm() {
         usernameField.setText("");
         passwordField.setText("");

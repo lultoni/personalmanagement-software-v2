@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Verwaltet die eingelesenen Unternehmensstrukturdaten (Company, Departments, Roles, Teams, Qualifications).
  * Diese Klasse lädt die Daten einmalig über den JsonParser und bietet Methoden zum Zugriff und zur einfachen Verwaltung.
  *
- * @author Dorian Gläske
+ * @author Dorian Gläske, joshuasperber
  * @version 1.1
  * @since 2025-08-04
  */
@@ -110,6 +110,15 @@ public class CompanyStructureManager {
         return Optional.empty();
     }
 
+    /**
+     * Sucht eine Qualifikation anhand ihrer ID und gibt ein Optional zurück.
+     * Falls die Qualifikation gefunden wird, extrahiert es mithilfe von .map()
+     * die Liste der Folgefähigkeiten (Followup Skills) aus dem Qualifikation-Objekt.
+     * Wenn die Qualifikation nicht existiert, wird ein leeres Optional zurückgegeben.
+     * @param qualificationId anhand der QualificationId wird der benutzer ausfindit geamcht..
+     * @return es werden alle Qualifications vorgeschlagen und dann nach Role und Team
+     * @author joshuasperber
+     */
     public Optional<List<String>> getFollowUpSkillsForQualification(String qualificationId) {
         return findQualificationById(qualificationId)
                 .map(Qualification::getFollowupSkills);

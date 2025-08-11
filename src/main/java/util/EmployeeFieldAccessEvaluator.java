@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Utility-Klasse zur Überprüfung der Zugriffsberechtigungen auf Mitarbeiterdaten.
  * Basierend auf der Rolle des aktuellen Benutzers und der Vorgesetzten-Hierarchie.
+ * @author Joshua Sperber
  */
 public class EmployeeFieldAccessEvaluator {
 
@@ -87,6 +88,7 @@ public class EmployeeFieldAccessEvaluator {
      * @param employee Der Mitarbeiter, von dem die Kette ausgeht.
      * @param employeeManager Eine Instanz des EmployeeManagers zur Suche von Mitarbeitern.
      * @return true, wenn der Manager Vorgesetzter ist, sonst false.
+     * @author joshuasperber
      */
     private static boolean isManagerOf(Employee manager, Employee employee, EmployeeManager employeeManager) {
         // Wenn der Mitarbeiter keinen Vorgesetzten hat, ist die Kette zu Ende

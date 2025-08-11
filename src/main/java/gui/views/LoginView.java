@@ -23,13 +23,7 @@ public class LoginView extends View {
     private final LoginManager loginManager;
     private JLabel feedbackLabel;
 
-    /**
-     * Konstruktor für die LoginView Klasse.
-     *
-     * @param eventManager
-     * @param loginManager LoginManager für das erzeugte Objekt.
-     * @author Elias Glauert
-     */
+
     // TODO rewrite this constructor, so that it does not look like it was written by chatgpt
     public LoginView(EventManager eventManager, LoginManager loginManager) {
         this.loginManager = loginManager;

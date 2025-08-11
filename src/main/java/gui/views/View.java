@@ -13,13 +13,11 @@ public class View extends JPanel {
 
     /**
      * Interne ID für den View. Sollte kurz gehalten werden.
-     * @author Elias Glauert
      */
     private String view_id;
 
     /**
      * Der Gui-Name für den View, welcher angezeigt wird, wenn der View offen ist.
-     * @author Elias Glauert
      */
     private String view_name;
 
