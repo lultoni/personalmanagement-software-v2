@@ -13,7 +13,7 @@ import java.awt.*;
  * @version 1.3
  * @since 2025-07-07
  */
-public class TestNotificationView extends View {
+public class Test_NotificationView extends View {
 
     private int counter;
 
@@ -22,7 +22,7 @@ public class TestNotificationView extends View {
      *
      * @author Elias Glauert
      */
-    public TestNotificationView(EventManager eventManager) {
+    public Test_NotificationView(EventManager eventManager) {
         counter = 0;
         setView_id("view-test_notifications");
         setView_name("Notifications Test");
@@ -59,7 +59,7 @@ public class TestNotificationView extends View {
     public boolean equals(Object obj) {
         if (!super.equals(obj)) return false;
         if (obj.getClass() != this.getClass()) return false;
-        TestNotificationView view = (TestNotificationView) obj;
+        Test_NotificationView view = (Test_NotificationView) obj;
         if (view.getCounter() != this.counter) return false;
         return true;
     }

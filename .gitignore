@@ -6,3 +6,4 @@
 /src/main/resources/backup.trace.db
 /src/main/resources/persistent.information
 Employee_Info.txt
+/src/main/resources/employees_db.mv.db

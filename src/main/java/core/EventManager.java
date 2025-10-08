@@ -3,7 +3,6 @@ package core;
 import core.events.*;
 import db.DatabaseManager;
 import gui.GuiManager;
-import gui.views.TestNotificationView;
 import gui.views.WelcomeView;
 
 import static core.Main.argsToString;

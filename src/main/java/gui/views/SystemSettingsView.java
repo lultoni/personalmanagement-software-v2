@@ -39,11 +39,15 @@ public class SystemSettingsView extends View {
         this.employeeManager = employeeManager;
         this.currentUser = currentUser;
 
+        setView_id("view-system-settings");
+        setView_name("Systemeinstellungen");
+
+
         // Setze das Hauptlayout für diese Ansicht auf BorderLayout.
         setLayout(new BorderLayout());
 
         // Erstelle das Panel, das das Hintergrundbild enthält.
-        JPanel backgroundPanel = createBackgroundPanel();
+        JPanel backgroundPanel = new JPanel();
 
         // Erstelle das Panel, das die Buttons enthält.
         JPanel buttonPanel = createButtonPanel();
@@ -54,38 +58,6 @@ public class SystemSettingsView extends View {
 
         // Füge das vorbereitete Hintergrund-Panel zur Hauptansicht hinzu.
         add(backgroundPanel, BorderLayout.CENTER);
-    }
-
-    /**
-     * Erstellt ein JPanel mit einem transparenten Hintergrundbild.
-     *
-     * @return Ein JPanel mit einem gezeichneten Hintergrundbild.
-     */
-    private JPanel createBackgroundPanel() {
-        BufferedImage backgroundImage;
-        try {
-            // Lade das Hintergrundbild aus dem Ressourcenordner.
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            // Wirft eine RuntimeException, wenn das Bild nicht gefunden oder geladen werden kann.
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
-
-        // Erstelle ein anonymes JPanel, das die paintComponent-Methode überschreibt.
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                // Setze die Transparenz (Alpha) für das Bild auf 20%.
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                // Zeichne das Bild, skaliert auf die Größe des Panels.
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        panel.setOpaque(false); // Mache den Panel-Hintergrund transparent, um das Bild zu zeigen.
-        return panel;
     }
 
     /**

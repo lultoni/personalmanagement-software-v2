@@ -85,24 +85,7 @@ public class AddEmployeeView extends View {
         setView_id("view-add-employee");
         setView_name("Mitarbeiter hinzufuegen");
 
-        BufferedImage backgroundImage;
-        try {
-            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("icons/Hintergrundbild.png")));
-        } catch (IOException e) {
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
-
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        backgroundPanel.setLayout(new BorderLayout());
+        JPanel backgroundPanel = new JPanel(new BorderLayout());
         backgroundPanel.setOpaque(false);
 
         JLabel titleLabel = new JLabel("Neuen Mitarbeiter hinzufügen", SwingConstants.CENTER);

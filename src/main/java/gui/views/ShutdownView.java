@@ -58,28 +58,8 @@ public class ShutdownView extends View {
         setView_id("view-shutdown");
         setView_name("Systemabschaltung");
 
-
-        // es wird ein Hintergrundbild aus den resources, icons geladen
-        BufferedImage backgroundImage;
-        try {
-            // Lade das Hintergrundbild aus den Ressourcen.
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            // Wirft eine RuntimeException, wenn das Bild nicht gefunden oder geladen werden kann.
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
-
         // Erstelle ein JPanel, das das Hintergrundbild mit einer Transparenz von 20% übermalt.
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
+        JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(new BorderLayout(10, 10));
         backgroundPanel.setOpaque(false);
 

@@ -81,28 +81,10 @@ public class SearchView extends View {
         this.eventManager = eventManager;
         this.mode = mode != null ? mode : "view";
 
-        // Laden des Hintergrundbildes
-        BufferedImage backgroundImage;
-        try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
+        setView_id("view-search");
+        setView_name("Mitarbeitersuche");
 
-        // Erstellen eines Panels, das das Bild mit Transparenz zeichnet
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                // Setzen der Transparenz
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        backgroundPanel.setLayout(new BorderLayout());
-        backgroundPanel.setOpaque(false);
+        JPanel backgroundPanel = new JPanel(new BorderLayout());
 
         // Erstellen des Suchfelds und der Dropdown-Menüs
         JPanel searchPanel = new JPanel();

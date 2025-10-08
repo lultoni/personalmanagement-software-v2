@@ -27,29 +27,13 @@ public class LoginView extends View {
     // TODO rewrite this constructor, so that it does not look like it was written by chatgpt
     public LoginView(EventManager eventManager, LoginManager loginManager) {
         this.loginManager = loginManager;
-        BufferedImage backgroundImage;
-        try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
 
 
         setView_id("view-login");
         setView_name("Login Fenster");
 
 
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); // Transparenz
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        backgroundPanel.setLayout(new BorderLayout());
+        JPanel backgroundPanel = new JPanel(new BorderLayout());
         backgroundPanel.setOpaque(false);
 
 

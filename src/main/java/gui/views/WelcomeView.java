@@ -33,31 +33,6 @@ public class WelcomeView extends View {
         setView_id("view-welcome");
         setView_name("Willkommensansicht");
 
-        BufferedImage backgroundImage;
-        try {
-            // Lade das Hintergrundbild aus den Ressourcen.
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            // Behandle den Fehler, falls das Hintergrundbild nicht geladen werden kann.
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden.", e);
-        }
-
-        // Erstelle ein JPanel, das das Hintergrundbild zeichnet und Transparenz hinzufügt.
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                // Setze die globale Alpha-Komponente für das Zeichnen (0.2f für 20% Deckkraft).
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                // Zeichne das Hintergrundbild, skaliert auf die Größe des Panels.
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        backgroundPanel.setLayout(new BorderLayout()); // Setze das Layout für das Hintergrundpanel.
-        backgroundPanel.setOpaque(false); // Mache den Hintergrund des Panels transparent.
-
         // Hole den aktuell eingeloggten Mitarbeiter über den EmployeeManager und die gespeicherte ID.
         Employee loggedInEmployee = employeeManager.getEmployeeById(PersistentInformationReader.getLoggedInUserId());
         String userName = "";
@@ -85,12 +60,9 @@ public class WelcomeView extends View {
         mainContentPanel.add(titleLabel);
         mainContentPanel.add(subtitleLabel);
 
-        // Füge das Haupt-Content-Panel zum Hintergrund-Panel hinzu, um es zu zentrieren.
-        backgroundPanel.add(mainContentPanel, BorderLayout.CENTER);
-
         // Setze das Layout der Haupt-View und füge das gesamte Hintergrundpanel hinzu.
         setLayout(new BorderLayout());
-        add(backgroundPanel, BorderLayout.CENTER);
+        add(mainContentPanel, BorderLayout.CENTER);
     }
 
     /**

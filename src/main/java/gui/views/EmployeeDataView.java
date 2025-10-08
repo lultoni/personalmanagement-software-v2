@@ -73,26 +73,7 @@ public class EmployeeDataView extends View {
         this.employeeManager = employeeManager;
         this.eventManager = eventManager;
 
-        // Lade das Hintergrundbild für die View
-        try {
-            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("icons/Hintergrundbild.png"));
-        } catch (IOException e) {
-            throw new RuntimeException("Hintergrundbild konnte nicht geladen werden für EmployeeDataView.", e);
-        }
-
-        // Erstelle ein Panel, das das Hintergrundbild zeichnet
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                // Setze die Transparenz des Bildes
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                g2d.dispose();
-            }
-        };
-        backgroundPanel.setLayout(new BorderLayout());
+        JPanel backgroundPanel = new JPanel(new BorderLayout());
         backgroundPanel.setOpaque(false);
 
         // Füge das Hintergrundpanel zur Haupt-View hinzu
